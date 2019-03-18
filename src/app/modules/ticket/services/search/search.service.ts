@@ -12,7 +12,7 @@ export class SearchService {
   search(searchValue: string): Observable<any> {
     const params = new HttpParams().set('search', searchValue).set('without_associations', 'true');
 
-    return this.http.get('https://dc-dev.iss-reshetnev.ru/api/v1/search', { params: params })
+    return this.http.get('https://dc-dev.iss-reshetnev.ru/api/v1/dashboard/search', { params: params })
       .pipe(map(service => {
         console.log(service);
         return service;
