@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { DashboardI } from '@models/dashboard.interface';
+import { AppLoadService } from './../../../../core/initializer/app-load.service';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -11,9 +12,10 @@ import { DashboardI } from '@models/dashboard.interface';
 export class DashboardPageComponent implements OnInit {
   public data: DashboardI;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private loadDataService: AppLoadService) { }
 
   ngOnInit() {
-    this.data = this.route.snapshot.data.data;
+    // this.data = this.route.snapshot.data.data;
+    this.data = this.loadDataService.getData();
   }
 }
