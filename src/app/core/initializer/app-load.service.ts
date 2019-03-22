@@ -16,7 +16,7 @@ export class AppLoadService {
   load(): Promise<DashboardI> {
     const params = new HttpParams().set('without_associations', 'true');
 
-    return this.http.get<DashboardI>('https://dc-dev.iss-reshetnev.ru/api/v1/dashboard', { params: params })
+    return this.http.get<DashboardI>('http://inv-dev/api/v1/dashboard', { params: params })
       .toPromise()
       .then(
         response => {

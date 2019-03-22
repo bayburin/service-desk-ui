@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { debounceTime, switchMap, finalize, takeWhile } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import { SearchService } from '@modules/ticket/services/search/search.service';
+import { DashboardService } from '@modules/ticket/services/dashboard/dashboard.service';
 import { ServiceTemplateI } from '@models/service_template.interface';
 
 @Component({
@@ -16,7 +16,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   public loading = false;
   private alive = true;
 
-  constructor(private searchService: SearchService) { }
+  constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
     this.serviceCtrl = new FormControl();
@@ -47,7 +47,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
         }
 
         this.loading = true;
-        return this.searchService.search(term).pipe(finalize(() => this.loading = false));
+        return this.dashboardService.search(term).pipe(finalize(() => this.loading = false));
       })
     );
   }
