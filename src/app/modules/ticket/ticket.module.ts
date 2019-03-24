@@ -9,7 +9,10 @@ import { DashboardPageComponent } from './pages/dashboard/dashboard.page';
 import { GlobalSearchComponent } from './components/global-search/global-search.component';
 
 @NgModule({
-  declarations: [DashboardPageComponent, GlobalSearchComponent],
+  declarations: [
+    DashboardPageComponent,
+    GlobalSearchComponent
+  ],
   imports: [
     CommonModule,
     TicketRoutingModule,

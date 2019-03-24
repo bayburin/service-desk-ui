@@ -12,12 +12,14 @@ import { CaseModule } from './modules/case/case.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './core/header/header.component';
 import { FooterComponent } from './core/footer/footer.component';
+import { BreadcrumbComponent } from './core/breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    BreadcrumbComponent
   ],
   imports: [
     BrowserModule,
