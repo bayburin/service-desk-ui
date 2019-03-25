@@ -15,7 +15,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(username: string, password: string): Observable<boolean> {
+  login(username: string, password: string): Observable<void> {
     const body = {
       grant_type: 'password',
       username: username,
@@ -25,11 +25,9 @@ export class AuthService {
     return this.http.post('http://inv-dev/oauth/token', body)
       .pipe(map((token: TokenI) => {
         if (token && token.access_token) {
-          localStorage.setItem('curerntToken', JSON.stringify(token));
+          localStorage.setItem('currentToken', JSON.stringify(token));
           this.isLoggedInSub.next(true);
         }
-
-        return true;
       }));
   }
 

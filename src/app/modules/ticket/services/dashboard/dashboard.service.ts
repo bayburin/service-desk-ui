@@ -4,10 +4,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { DashboardI } from '@models/dashboard.interface';
-import { CategoryI } from '@models/category.interface';
-import { ServiceI } from '@models/service.interface';
-import { TicketI } from '@models/ticket.interface';
-import { ServiceTemplateI } from '@models/service_template.interface';
 
 @Injectable({
   providedIn: 'root'
