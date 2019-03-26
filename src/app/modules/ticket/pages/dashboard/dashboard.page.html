@@ -1,20 +1,22 @@
 <app-global-search></app-global-search>
-<h4>Рекомендации для пользователя</h4>
-<div *ngFor="let service of (data | async)?.services; trackBy:service?.id">
-  <a [routerLink]="['/categories', service.category_id, 'services', service.id]" [innerHtml]="service.name"></a>
-</div>
-
-<h4>Популярные услуги на портале</h4>
-<div *ngFor="let category of (data | async)?.categories; trackBy:category?.id">
-  <a [routerLink]="['/categories', category.id]" [innerHtml]="category.name"></a>
-</div>
-<a routerLink="/categories">Все услуги</a>
-
-<h4>Часто задаваемые вопросы</h4>
-<div *ngFor="let service of (data | async)?.services; trackBy:service?.id">
-  <b [innerHtml]="service.name"></b>
-  <div *ngFor="let ticket of service.tickets; trackBy:ticket?.id">
-    <a [routerLink]="['/services', ticket.service_id, 'tickets', ticket.id]" [innerHtml]="ticket.name"></a>
+<div *ngIf="data">
+  <h4>Рекомендации для пользователя</h4>
+  <div *ngFor="let service of data.services; trackBy:service?.id">
+    <a [routerLink]="['/categories', service.category_id, 'services', service.id]" [innerHtml]="service.name"></a>
   </div>
+
+  <h4>Популярные услуги на портале</h4>
+  <div *ngFor="let category of data.categories; trackBy:category?.id">
+    <a [routerLink]="['/categories', category.id]" [innerHtml]="category.name"></a>
+  </div>
+  <a routerLink="/categories">Все услуги</a>
+
+  <h4>Часто задаваемые вопросы</h4>
+  <div *ngFor="let service of data.services; trackBy:service?.id">
+    <b [innerHtml]="service.name"></b>
+    <div *ngFor="let ticket of service.tickets; trackBy:ticket?.id">
+      <a [routerLink]="['/services', ticket.service_id, 'tickets', ticket.id]" [innerHtml]="ticket.name"></a>
+    </div>
+  </div>
+  <a routerLink="/tickets">Все вопросы</a>
 </div>
-<a routerLink="/tickets">Все вопросы</a>

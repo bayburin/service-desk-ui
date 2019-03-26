@@ -10,11 +10,11 @@ import { DashboardService } from '@modules/ticket/services/dashboard/dashboard.s
   styleUrls: ['./dashboard.page.scss']
 })
 export class DashboardPageComponent implements OnInit {
-  public data: Observable<DashboardI>;
+  public data: DashboardI;
 
   constructor(private dashboardDataService: DashboardService) { }
 
   ngOnInit() {
-    this.data = this.dashboardDataService.getAll();
+    this.dashboardDataService.getAll().subscribe((data: DashboardI) => this.data = data);
   }
 }
