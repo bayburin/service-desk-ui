@@ -20,7 +20,9 @@
     ],
     "paths": {
       "@models/*": ["app/core/models/*"],
-      "@modules/*": ["app/modules/*"]
+      "@auth/*": ["app/core/auth/*"],
+      "@modules/*": ["app/modules/*"],
+      "@shared/*": ["app/shared/*"]
     }
   }
 }
