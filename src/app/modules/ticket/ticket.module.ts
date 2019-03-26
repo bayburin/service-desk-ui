@@ -7,11 +7,13 @@ import { TicketRoutingModule } from './ticket-routing.module';
 
 import { DashboardPageComponent } from './pages/dashboard/dashboard.page';
 import { GlobalSearchComponent } from './components/global-search/global-search.component';
+import { CategoriesPageComponent } from './pages/categories/categories.page';
 
 @NgModule({
   declarations: [
     DashboardPageComponent,
-    GlobalSearchComponent
+    GlobalSearchComponent,
+    CategoriesPageComponent
   ],
   imports: [
     CommonModule,

@@ -5,11 +5,11 @@
     <a [routerLink]="['/categories', service.category_id, 'services', service.id]" [innerHtml]="service.name"></a>
   </div>
 
-  <h4>Популярные услуги на портале</h4>
+  <h4>Популярные категории на портале</h4>
   <div *ngFor="let category of data.categories; trackBy:category?.id">
     <a [routerLink]="['/categories', category.id]" [innerHtml]="category.name"></a>
   </div>
-  <a routerLink="/categories">Все услуги</a>
+  <a routerLink="/categories">Все категории</a>
 
   <h4>Часто задаваемые вопросы</h4>
   <div *ngFor="let service of data.services; trackBy:service?.id">
