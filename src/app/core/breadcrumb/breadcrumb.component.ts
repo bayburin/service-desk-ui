@@ -31,13 +31,13 @@ export class BreadcrumbComponent implements OnInit {
     const childRoute = router.firstChild;
 
     if (childRoute) {
-      if (!childRoute.snapshot.data.hasOwnProperty(routeParamName)) {
+      if (!(childRoute.routeConfig.data && childRoute.routeConfig.data.hasOwnProperty(routeParamName))) {
         return this.buildBreadcrumbs(childRoute, url, breadcrumbs);
       }
 
-      const path = `${url}${childRoute.snapshot.url}/`;
+      const path = `${url}${childRoute.routeConfig.path}/`;
       const breadcrumb = {
-        label: childRoute.snapshot.data[routeParamName],
+        label: childRoute.routeConfig.data[routeParamName],
         params: childRoute.snapshot.params,
         url: path
       };
