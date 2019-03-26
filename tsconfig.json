@@ -21,6 +21,7 @@
     "paths": {
       "@models/*": ["app/core/models/*"],
       "@auth/*": ["app/core/auth/*"],
+      "@config/*": ["app/config/*"],
       "@modules/*": ["app/modules/*"],
       "@shared/*": ["app/shared/*"]
     }
