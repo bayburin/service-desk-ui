@@ -11,6 +11,7 @@ import { LoginModule } from './modules/login/login.module';
 // import { AppLoadService } from './core/initializer/app-load.service';
 
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 // import { FakeBackendInterceptor } from './core/interceptors/fake-backend.interceptor';
 
 import { AppComponent } from './app.component';
@@ -35,6 +36,7 @@ import { BreadcrumbComponent } from './core/breadcrumb/breadcrumb.component';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
     // { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true }
     // AppLoadService
     // { provide: APP_INITIALIZER, useFactory: loadDataFactory, deps: [AppLoadService], multi: true }
