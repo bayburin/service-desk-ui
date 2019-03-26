@@ -2,9 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { DashboardI } from '@models/dashboard.interface';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class AppLoadService {
+  private loadUrl = `${environment.serverUrl}/api/v1/dashboard`;
   private dashboardData: DashboardI;
 
   constructor(private http: HttpClient) {}
@@ -16,7 +18,7 @@ export class AppLoadService {
   load(): Promise<DashboardI> {
     const params = new HttpParams().set('without_associations', 'true');
 
-    return this.http.get<DashboardI>('http://inv-dev/api/v1/dashboard', { params: params })
+    return this.http.get<DashboardI>(this.loadUrl, { params: params })
       .toPromise()
       .then(
         response => {

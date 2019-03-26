@@ -6,19 +6,19 @@ import { map } from 'rxjs/operators';
 import { APP_CONFIG } from '@config/app.config';
 import { UserI } from '@models/user.interface';
 import { AppConfigI } from '@models/app-config.interface';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  private loadDataUrl = `${environment.serverUrl}/api/v1/users/info`;
   private user: UserI = JSON.parse(localStorage.getItem(this.config.currentUserStorage));
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private config: AppConfigI) {}
 
   loadData(): Observable<UserI> {
-    return this.http.get('http://inv-dev/api/v1/users/info').pipe(
-      map((data: UserI) => this.user = data)
-    );
+    return this.http.get(this.loadDataUrl).pipe(map((data: UserI) => this.user = data));
   }
 
   getUser(): UserI {

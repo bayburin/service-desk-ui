@@ -7,14 +7,17 @@ import { APP_CONFIG } from '@config/app.config';
 import { AppConfigI } from '@models/app-config.interface';
 import { TokenI } from '@models/token.interface';
 import { UserService } from '@shared/services/user/user.service';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private loggedFlag: boolean = this.getToken() ? true : false;
-  private isLoggedInSub: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.loggedFlag);
-  public readonly isUserSignedIn: Observable<boolean> = this.isLoggedInSub.asObservable();
+  private loginUrl = `${environment.serverUrl}/oauth/token`;
+  private logoutUrl = `${environment.serverUrl}/oauth/revoke`;
+  private loggedFlag = this.getToken() ? true : false;
+  private isLoggedInSub = new BehaviorSubject<boolean>(this.loggedFlag);
+  public readonly isUserSignedIn = this.isLoggedInSub.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -29,7 +32,7 @@ export class AuthService {
       password: password
     };
 
-    return this.http.post('http://inv-dev/oauth/token', body)
+    return this.http.post(this.loginUrl, body)
       .pipe(map((token: TokenI) => {
         if (token && token.access_token) {
           this.setToken(token);
@@ -43,7 +46,7 @@ export class AuthService {
       token: this.getToken().access_token
     };
 
-    return this.http.post('http://inv-dev/oauth/revoke', body)
+    return this.http.post(this.logoutUrl, body)
       .pipe(map(() => this.unauthorize()));
   }
 
