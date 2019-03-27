@@ -5,6 +5,8 @@ import { DashboardPageComponent } from './pages/dashboard/dashboard.page';
 import { CategoriesPageComponent } from './pages/categories/categories.page';
 import { CategoriesOverviewPageComponent } from './pages/categories-overwiev/categories-overview.page';
 import { ServicesPageComponent } from './pages/services/services.page';
+import { TicketsPageComponent } from './pages/tickets/tickets.page';
+import { TicketService } from '@shared/services/ticket/ticket.service';
 
 const routes: Routes = [
   {
@@ -15,7 +17,7 @@ const routes: Routes = [
     path: 'categories',
     component: CategoriesPageComponent,
     data: {
-      breadcrumb: 'Категории'
+      breadcrumb: 'Категории услуг'
     },
     children: [
       {
@@ -25,9 +27,15 @@ const routes: Routes = [
       {
         path: ':id/services',
         component: ServicesPageComponent,
-        data: {
-          breadcrumb: 'Услуги'
-        }
+        children: [
+          {
+            path: ':id',
+            component: TicketsPageComponent,
+            data: {
+              breadcrumb: TicketService
+            }
+          }
+        ]
       }
     ]
   }

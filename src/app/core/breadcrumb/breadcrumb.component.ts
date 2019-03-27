@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { of, Observable } from 'rxjs';
 
+import { BreadcrumbServiceI } from '@models/breadcrumb-service.interface';
 import { BreadcrumbI } from '@models/breadcrumb.interface';
 
 @Component({
@@ -11,8 +13,9 @@ import { BreadcrumbI } from '@models/breadcrumb.interface';
 })
 export class BreadcrumbComponent implements OnInit {
   public breadcrumbs: BreadcrumbI[] = [];
+  private readonly routeParamName = 'breadcrumb';
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private injector: Injector) {}
 
   ngOnInit() {
     this.router.events
@@ -27,17 +30,17 @@ export class BreadcrumbComponent implements OnInit {
     url: string = '',
     breadcrumbs: BreadcrumbI[] = []
   ): BreadcrumbI[] {
-    const routeParamName = 'breadcrumb';
     const childRoute = router.firstChild;
 
     if (childRoute) {
-      if (!(childRoute.routeConfig.data && childRoute.routeConfig.data.hasOwnProperty(routeParamName))) {
+      if (!(childRoute.routeConfig.data && childRoute.routeConfig.data.hasOwnProperty(this.routeParamName))) {
         return this.buildBreadcrumbs(childRoute, url, breadcrumbs);
       }
 
       const path = `${url}${childRoute.routeConfig.path}/`;
+      const labelName = this.getLabel(childRoute);
       const breadcrumb = {
-        label: childRoute.routeConfig.data[routeParamName],
+        label: labelName,
         params: childRoute.snapshot.params,
         url: path
       };
@@ -47,5 +50,16 @@ export class BreadcrumbComponent implements OnInit {
     }
 
     return breadcrumbs;
+  }
+
+  private getLabel(childRoute: ActivatedRoute): Observable<string> {
+    const breadcrumb = childRoute.routeConfig.data[this.routeParamName];
+
+    if (typeof breadcrumb === 'string') {
+      return of(breadcrumb);
+    }
+
+    const service = this.injector.get<BreadcrumbServiceI>(breadcrumb);
+    return service.getParentNodeName();
   }
 }

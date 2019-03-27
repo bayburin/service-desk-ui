@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ServiceI } from '@models/service.interface';
@@ -11,7 +11,7 @@ import { environment } from 'environments/environment';
 })
 export class ServiceService {
   private loadServicesUrl: string;
-  private services: ServiceI[];
+  private services = new Subject<ServiceI[]>();
 
   constructor(private http: HttpClient) { }
 
@@ -19,10 +19,10 @@ export class ServiceService {
     this.loadServicesUrl = `${environment.serverUrl}/api/v1/categories/${categoryId}/services`;
 
     return this.http.get<ServiceI[]>(this.loadServicesUrl)
-      .pipe(map((services: ServiceI[]) => this.services = services));
-  }
+      .pipe(map((services: ServiceI[]) => {
+        this.services.next(services);
 
-  getServices(): ServiceI[] {
-    return this.services;
+        return services;
+      }));
   }
 }

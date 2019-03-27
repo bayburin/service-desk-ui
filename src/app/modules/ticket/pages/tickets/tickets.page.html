@@ -1,0 +1,5 @@
+<ul>
+  <li *ngFor="let ticket of tickets | async; trackBy:ticket?.id">
+    <a [routerLink]="['/services', ticket.service_id, 'tickets', ticket.id]" [innerHtml]="ticket.name"></a>
+  </li>
+</ul>

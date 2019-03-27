@@ -13,15 +13,11 @@ export class DashboardService {
   private searchUrl = `${environment.serverUrl}/api/v1/dashboard/search`;
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<DashboardI> {
-    const params = new HttpParams().set('without_associations', 'true');
-
-    return this.http.get<DashboardI>(this.getAllUrl, { params: params });
+  loadAll(): Observable<DashboardI> {
+    return this.http.get<DashboardI>(this.getAllUrl);
   }
 
   search(searchValue: string): Observable<any> {
-    const params = new HttpParams().set('search', searchValue).set('without_associations', 'true');
-
-    return this.http.get<any>(this.searchUrl, { params: params });
+    return this.http.get<any>(this.searchUrl);
   }
 }

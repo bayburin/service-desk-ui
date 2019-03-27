@@ -1,5 +1,1 @@
-<ul>
-  <li *ngFor="let service of services; trackBy:service?.id">
-    <a [routerLink]="['/services', service.id]" [innerHtml]="service.name"></a>
-  </li>
-</ul>
+<router-outlet></router-outlet>

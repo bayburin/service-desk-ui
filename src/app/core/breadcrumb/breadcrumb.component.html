@@ -1,9 +1,8 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <a routerLink="" class="breadcrumb-item">Главная</a>
-    <li *ngFor="let breadcrumb of breadcrumbs">
-      <a routerLink="" class="breadcrumb-item active"></a>
-      <a [routerLink]="[breadcrumb.url]" [queryParams]="breadcrumb.params" [innerHtml]="breadcrumb.label" class="breadcrumb-item"></a>
+    <li *ngFor="let breadcrumb of breadcrumbs; let last = last" class="breadcrumb-item">
+      <a [routerLink]="[breadcrumb.url]" [queryParams]="breadcrumb.params" [innerHtml]="breadcrumb.label | async" class="breadcrumb-item" [ngClass]="{ active: last }"></a>
     </li>
   </ol>
 </nav>

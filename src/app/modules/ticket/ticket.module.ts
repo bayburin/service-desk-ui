@@ -10,6 +10,7 @@ import { GlobalSearchComponent } from './components/global-search/global-search.
 import { CategoriesPageComponent } from './pages/categories/categories.page';
 import { ServicesPageComponent } from './pages/services/services.page';
 import { CategoriesOverviewPageComponent } from './pages/categories-overwiev/categories-overview.page';
+import { TicketsPageComponent } from './pages/tickets/tickets.page';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { CategoriesOverviewPageComponent } from './pages/categories-overwiev/cat
     GlobalSearchComponent,
     CategoriesPageComponent,
     ServicesPageComponent,
-    CategoriesOverviewPageComponent
+    CategoriesOverviewPageComponent,
+    TicketsPageComponent
   ],
   imports: [
     CommonModule,

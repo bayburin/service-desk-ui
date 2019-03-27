@@ -1,3 +1,4 @@
+import { CategoryI } from './category.interface';
 import { TicketI } from './ticket.interface';
 
 export interface ServiceI {
@@ -9,5 +10,6 @@ export interface ServiceI {
   is_sla: boolean;
   sla: string;
   popularity: number;
+  category?: CategoryI;
   tickets?: TicketI[];
 }

@@ -1,5 +1,11 @@
+<h3>Все категории на портале</h3>
 <ul>
   <li *ngFor="let category of categories | async; trackBy:category?.id">
-    <a [routerLink]="['/categories', category.id, 'services']" [innerHtml]="category.name"></a>
+    <h4 [innerHtml]="category.name"></h4>
+    <ul>
+      <li *ngFor="let service of category.services; trackBy:service?.id">
+        <a [routerLink]="[category.id, 'services', service.id]" [innerHtml]="service.name"></a>
+      </li>
+    </ul>
   </li>
 </ul>

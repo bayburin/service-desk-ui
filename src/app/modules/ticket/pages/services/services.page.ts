@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { CategoryService } from '@shared/services/category/category.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { ServiceI } from '@models/service.interface';
 
@@ -12,26 +11,12 @@ import { ServiceI } from '@models/service.interface';
 })
 export class ServicesPageComponent implements OnInit {
   public services: ServiceI[];
-  public categoryId: number;
 
-  constructor(
-    private route: ActivatedRoute,
-    private serviceService: ServiceService,
-    private categoryService: CategoryService
-  ) {}
+  constructor(private route: ActivatedRoute, private serviceService: ServiceService) {}
 
   ngOnInit() {
-    this.categoryId = this.route.snapshot.params.id;
-    this.getServices();
-  }
+    const categoryId = this.route.snapshot.params.id;
 
-  private getServices() {
-    const categories = this.categoryService.getCategories();
-
-    if (categories) {
-      this.services = categories.find((category) => category.id == this.categoryId).services;
-    } else {
-      this.serviceService.loadServices(this.categoryId).subscribe((services: ServiceI[]) => this.services = services);
-    }
+    this.serviceService.loadServices(categoryId).subscribe((services: ServiceI[]) => this.services = services);
   }
 }
