@@ -10,12 +10,16 @@ import { environment } from 'environments/environment';
   providedIn: 'root'
 })
 export class CategoryService {
-  categories: CategoryI[];
-  private loadAllUrl = `${environment.serverUrl}/api/v1/categories`;
+  private loadCategoriesUrl = `${environment.serverUrl}/api/v1/categories`;
+  private categories: CategoryI[];
 
   constructor(private http: HttpClient) {}
 
-  loadAll(): Observable<CategoryI[]> {
-    return this.http.get<CategoryI[]>(this.loadAllUrl).pipe(map((categories: CategoryI[]) => this.categories = categories));
+  loadCategories(): Observable<CategoryI[]> {
+    return this.http.get<CategoryI[]>(this.loadCategoriesUrl).pipe(map((categories: CategoryI[]) => this.categories = categories));
+  }
+
+  getCategories(): CategoryI[] {
+    return this.categories;
   }
 }

@@ -1,5 +1,1 @@
-<ul>
-  <li *ngFor="let category of categories | async; trackBy:category?.id">
-    <a [routerLink]="['/categories', category.id]" [innerHtml]="category.name"></a>
-  </li>
-</ul>
+<router-outlet></router-outlet>

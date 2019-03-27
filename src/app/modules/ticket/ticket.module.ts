@@ -8,12 +8,16 @@ import { TicketRoutingModule } from './ticket-routing.module';
 import { DashboardPageComponent } from './pages/dashboard/dashboard.page';
 import { GlobalSearchComponent } from './components/global-search/global-search.component';
 import { CategoriesPageComponent } from './pages/categories/categories.page';
+import { ServicesPageComponent } from './pages/services/services.page';
+import { CategoriesOverviewPageComponent } from './pages/categories-overwiev/categories-overview.page';
 
 @NgModule({
   declarations: [
     DashboardPageComponent,
     GlobalSearchComponent,
-    CategoriesPageComponent
+    CategoriesPageComponent,
+    ServicesPageComponent,
+    CategoriesOverviewPageComponent
   ],
   imports: [
     CommonModule,
