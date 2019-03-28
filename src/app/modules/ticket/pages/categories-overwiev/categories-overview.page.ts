@@ -5,7 +5,7 @@ import { CategoryService } from '@shared/services/category/category.service';
 import { CategoryI } from '@models/category.interface';
 
 @Component({
-  selector: 'app-categories-overview',
+  selector: 'app-categories-overview-page',
   templateUrl: './categories-overview.page.html',
   styleUrls: ['./categories-overview.page.scss']
 })

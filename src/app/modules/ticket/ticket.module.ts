@@ -11,6 +11,8 @@ import { CategoriesPageComponent } from './pages/categories/categories.page';
 import { ServicesPageComponent } from './pages/services/services.page';
 import { CategoriesOverviewPageComponent } from './pages/categories-overwiev/categories-overview.page';
 import { TicketsPageComponent } from './pages/tickets/tickets.page';
+import { AnswersPageComponent } from './pages/answers/answers.page';
+import { ServiceProxyComponent } from './components/service-proxy/service-proxy.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { TicketsPageComponent } from './pages/tickets/tickets.page';
     CategoriesPageComponent,
     ServicesPageComponent,
     CategoriesOverviewPageComponent,
-    TicketsPageComponent
+    TicketsPageComponent,
+    AnswersPageComponent,
+    ServiceProxyComponent
   ],
   imports: [
     CommonModule,

@@ -7,6 +7,9 @@ import { CategoriesOverviewPageComponent } from './pages/categories-overwiev/cat
 import { ServicesPageComponent } from './pages/services/services.page';
 import { TicketsPageComponent } from './pages/tickets/tickets.page';
 import { TicketService } from '@shared/services/ticket/ticket.service';
+import { AnswersPageComponent } from './pages/answers/answers.page';
+import { AnswerService } from '@shared/services/answer/answer.service';
+import { ServiceProxyComponent } from './components/service-proxy/service-proxy.component';
 
 const routes: Routes = [
   {
@@ -16,9 +19,7 @@ const routes: Routes = [
   {
     path: 'categories',
     component: CategoriesPageComponent,
-    data: {
-      breadcrumb: 'Категории услуг'
-    },
+    data: { breadcrumb: 'Категории услуг' },
     children: [
       {
         path: '',
@@ -31,11 +32,25 @@ const routes: Routes = [
           {
             path: ':id',
             component: TicketsPageComponent,
-            data: {
-              breadcrumb: TicketService
-            }
+            data: { breadcrumb: TicketService }
           }
         ]
+      }
+    ]
+  },
+  {
+    path: 'services/:id',
+    component: ServicesPageComponent,
+    data: { breadcrumb: [TicketService, AnswerService] },
+    children: [
+      {
+        path: '',
+        component: ServiceProxyComponent
+      },
+      {
+        path: 'tickets/:id',
+        component: AnswersPageComponent,
+        data: { breadcrumb: AnswerService }
       }
     ]
   }

@@ -18,6 +18,8 @@ export class DashboardService {
   }
 
   search(searchValue: string): Observable<any> {
-    return this.http.get<any>(this.searchUrl);
+    const params = new HttpParams().set('search', searchValue).set('without_associations', 'true');
+
+    return this.http.get<any>(this.searchUrl, { params: params });
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { of, Observable } from 'rxjs';
+import { of, Observable, race } from 'rxjs';
 
 import { BreadcrumbServiceI } from '@models/breadcrumb-service.interface';
 import { BreadcrumbI } from '@models/breadcrumb.interface';
@@ -33,20 +33,21 @@ export class BreadcrumbComponent implements OnInit {
     const childRoute = router.firstChild;
 
     if (childRoute) {
+      const path = `${url}${childRoute.snapshot.url.map(segment => segment.path).join('/')}/`;
+
       if (!(childRoute.routeConfig.data && childRoute.routeConfig.data.hasOwnProperty(this.routeParamName))) {
-        return this.buildBreadcrumbs(childRoute, url, breadcrumbs);
+        return this.buildBreadcrumbs(childRoute, path, breadcrumbs);
       }
 
-      const path = `${url}${childRoute.routeConfig.path}/`;
       const labelName = this.getLabel(childRoute);
       const breadcrumb = {
         label: labelName,
-        params: childRoute.snapshot.params,
+        params: childRoute.snapshot.queryParams,
         url: path
       };
       breadcrumbs.push(breadcrumb);
 
-      return this.buildBreadcrumbs(childRoute, url, breadcrumbs);
+      return this.buildBreadcrumbs(childRoute, path, breadcrumbs);
     }
 
     return breadcrumbs;
@@ -57,9 +58,18 @@ export class BreadcrumbComponent implements OnInit {
 
     if (typeof breadcrumb === 'string') {
       return of(breadcrumb);
+    } else if (Array.isArray(breadcrumb)) {
+      return race(
+        this.getBreadcrumbFromService(breadcrumb[0]),
+        this.getBreadcrumbFromService(breadcrumb[1], true)
+      );
+    } else {
+      return this.getBreadcrumbFromService(breadcrumb);
     }
+  }
 
-    const service = this.injector.get<BreadcrumbServiceI>(breadcrumb);
-    return service.getParentNodeName();
+  private getBreadcrumbFromService(serviceType, flag?: boolean): Observable<string> {
+    const service = this.injector.get<BreadcrumbServiceI>(serviceType);
+    return service.getParentNodeName(flag);
   }
 }

@@ -6,7 +6,7 @@ import { TicketService } from '@shared/services/ticket/ticket.service';
 import { TicketI } from '@models/ticket.interface';
 
 @Component({
-  selector: 'app-tickets',
+  selector: 'app-tickets-page',
   templateUrl: './tickets.page.html',
   styleUrls: ['./tickets.page.scss']
 })

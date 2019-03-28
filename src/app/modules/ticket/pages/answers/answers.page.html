@@ -1,0 +1,12 @@
+<ul>
+  <li *ngFor="let answer of answers | async; trackBy:answer?.id">
+    <p>
+      <b>Причина: </b>
+      <span [innerHtml]="answer.reason"></span>
+    </p>
+    <p>
+      <b>Решение: </b>
+      <span [innerHtml]="answer.answer"></span>
+    </p>
+  </li>
+</ul>

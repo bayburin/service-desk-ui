@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
 
 export interface BreadcrumbServiceI {
-  getParentNodeName(): Observable<string>;
+  getParentNodeName(highLevel?: boolean): Observable<string>;
 }

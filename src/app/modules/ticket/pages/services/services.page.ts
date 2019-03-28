@@ -15,8 +15,8 @@ export class ServicesPageComponent implements OnInit {
   constructor(private route: ActivatedRoute, private serviceService: ServiceService) {}
 
   ngOnInit() {
-    const categoryId = this.route.snapshot.params.id;
+    // const categoryId = this.route.snapshot.params.id;
 
-    this.serviceService.loadServices(categoryId).subscribe((services: ServiceI[]) => this.services = services);
+    // this.serviceService.loadServices(categoryId).subscribe((services: ServiceI[]) => this.services = services);
   }
 }
