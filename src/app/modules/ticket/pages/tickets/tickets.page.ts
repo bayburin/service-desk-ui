@@ -20,4 +20,8 @@ export class TicketsPageComponent implements OnInit {
 
     this.tickets = this.ticketService.loadTickets(serviceId);
   }
+
+  isNoAnswers(ticket): boolean {
+    return ticket.answers.length === 0;
+  }
 }
