@@ -16,9 +16,8 @@ export class AnswersPageComponent implements OnInit {
   constructor(private answerService: AnswerService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    const serviceId = this.route.parent.snapshot.params.id;
-    const id = this.route.snapshot.params.id;
+    const ticketId = this.route.snapshot.params.id;
 
-    this.answers = this.answerService.loadAnswers(serviceId, id);
+    this.answers = this.answerService.loadAnswers(ticketId);
   }
 }

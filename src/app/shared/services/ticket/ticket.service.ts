@@ -16,8 +16,8 @@ export class TicketService implements BreadcrumbServiceI {
 
   constructor(private http: HttpClient) {}
 
-  loadTickets(categoryId: number, id: number): Observable<TicketI[]> {
-    this.loadTicketsUrl = `${environment.serverUrl}/api/v1/categories/${categoryId}/services/${id}`;
+  loadTickets(serviceId: number): Observable<TicketI[]> {
+    this.loadTicketsUrl = `${environment.serverUrl}/api/v1/services/${serviceId}/tickets`;
 
     return this.http.get<TicketI[]>(this.loadTicketsUrl).pipe(map((tickets: TicketI[]) => {
       this.tickets.next(tickets);

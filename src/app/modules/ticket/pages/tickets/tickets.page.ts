@@ -16,9 +16,8 @@ export class TicketsPageComponent implements OnInit {
   constructor(private ticketService: TicketService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    const categoryId = this.route.parent.snapshot.params.id;
-    const id = this.route.snapshot.params.id;
+    const serviceId = this.route.snapshot.params.id;
 
-    this.tickets = this.ticketService.loadTickets(categoryId, id);
+    this.tickets = this.ticketService.loadTickets(serviceId);
   }
 }

@@ -16,8 +16,8 @@ export class AnswerService implements BreadcrumbServiceI {
 
   constructor(private http: HttpClient) { }
 
-  loadAnswers(serviceId: number, id: number): Observable<AnswerI[]> {
-    this.loadAnswersUrl = `${environment.serverUrl}/api/v1/services/${serviceId}/tickets/${id}`;
+  loadAnswers(ticketId: number): Observable<AnswerI[]> {
+    this.loadAnswersUrl = `${environment.serverUrl}/api/v1/tickets/${ticketId}/answers`;
 
     return this.http.get<AnswerI[]>(this.loadAnswersUrl).pipe(map((answers: AnswerI[]) => {
       this.answers.next(answers);
