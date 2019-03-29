@@ -5,7 +5,8 @@ export let APP_CONFIG = new InjectionToken<AppConfigI>('config of app');
 
 export const AppConfig: AppConfigI = {
   currentUserStorage: 'currentUser',
-  currentTokenStorage: 'currentToken'
+  currentTokenStorage: 'currentToken',
+  minLengthSearch: 3
 };
 
 

@@ -1,10 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounceTime, switchMap, finalize, takeWhile } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { debounceTime, switchMap, finalize, takeWhile } from 'rxjs/operators';
 
+import { APP_CONFIG } from '@config/app.config';
+import { AppConfigI } from '@models/app-config.interface';
 import { DashboardService } from '@modules/ticket/services/dashboard/dashboard.service';
-import { ServiceTemplateI } from '@models/service_template.interface';
+import { ServiceTemplateI } from '@models/service-template.interface';
+import { TemplateService } from '@shared/services/template/template.service';
 
 @Component({
   selector: 'app-global-search',
@@ -12,28 +16,31 @@ import { ServiceTemplateI } from '@models/service_template.interface';
   styleUrls: ['./global-search.component.scss']
 })
 export class GlobalSearchComponent implements OnInit, OnDestroy {
+  private alive = true;
   public serviceCtrl: FormControl;
   public loading = false;
-  private alive = true;
+  @Input() searchTerm: string;
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(
+    @Inject(APP_CONFIG) private config: AppConfigI,
+    private router: Router,
+    private dashboardService: DashboardService,
+    private templateService: TemplateService
+  ) { }
 
   ngOnInit() {
-    this.serviceCtrl = new FormControl();
+    this.serviceCtrl = new FormControl({ name: this.searchTerm });
     this.serviceCtrl.valueChanges
       .pipe(takeWhile(() => this.alive))
       .subscribe((res: string | ServiceTemplateI) => {
         if (typeof res === 'string') {
+          this.searchTerm = res;
           return;
         }
 
-        if (res.service_id) {
-          // Навигация на страницу конкретного вопроса и ответа
-        } else if (res.category_id) {
-          // Навигация на страницу вопросов выбранного сервиса
-        } else {
-          // Навигация на страницу сервисов выбранной категории
-        }
+        this.searchTerm = res.name;
+        const url = this.templateService.generateUrlBy(res);
+        this.router.navigateByUrl(url);
       });
   }
 
@@ -42,7 +49,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
       debounceTime(500),
       takeWhile(() => this.alive),
       switchMap(term => {
-        if (term.length < 3) {
+        if (!term || term.length < this.config.minLengthSearch) {
           return of([]);
         }
 
@@ -50,6 +57,14 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
         return this.dashboardService.search(term).pipe(finalize(() => this.loading = false));
       })
     );
+  }
+
+  onSearch(): void {
+    if (!this.searchTerm || this.searchTerm.length < this.config.minLengthSearch) {
+      return;
+    }
+
+    this.router.navigate(['search'], { queryParams: { search: this.searchTerm.trim() } });
   }
 
   formatter = (val: { name: string }) => val.name;

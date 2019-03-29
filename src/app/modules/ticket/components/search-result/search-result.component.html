@@ -1,0 +1,14 @@
+<h4>Результаты поиска</h4>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button" class="btn btn-outline-secondary" (click)="selectType('all')" [ngClass]="{ active: (selectedType | async) == 'all' }">Все</button>
+  <button type="button" class="btn btn-outline-secondary" (click)="selectType('category')" [ngClass]="{ active: (selectedType | async) == 'category' }">Категории</button>
+  <button type="button" class="btn btn-outline-secondary" (click)="selectType('service')" [ngClass]="{ active: (selectedType | async) == 'service' }">Услуги</button>
+  <button type="button" class="btn btn-outline-secondary" (click)="selectType('ticket')" [ngClass]="{ active: (selectedType | async) == 'ticket' }">Вопросы/заявки</button>
+</div>
+
+<ul>
+  <li *ngFor="let serviceTemplate of result">
+    <a [routerLink]="generateServiceLink(serviceTemplate)">{{ serviceTemplate.name }}</a>
+  </li>
+</ul>
