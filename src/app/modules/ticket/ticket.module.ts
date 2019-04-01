@@ -13,6 +13,8 @@ import { CategoriesOverviewPageComponent } from './pages/categories-overwiev/cat
 import { TicketsPageComponent } from './pages/tickets/tickets.page';
 import { AnswersPageComponent } from './pages/answers/answers.page';
 import { ServiceProxyComponent } from './components/service-proxy/service-proxy.component';
+import { SearchPageComponent } from './pages/search/search.page';
+import { SearchResultComponent } from './components/search-result/search-result.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { ServiceProxyComponent } from './components/service-proxy/service-proxy.
     CategoriesOverviewPageComponent,
     TicketsPageComponent,
     AnswersPageComponent,
-    ServiceProxyComponent
+    ServiceProxyComponent,
+    SearchPageComponent,
+    SearchResultComponent
   ],
   imports: [
     CommonModule,

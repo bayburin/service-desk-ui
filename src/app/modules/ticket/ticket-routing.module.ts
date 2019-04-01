@@ -10,6 +10,7 @@ import { TicketService } from '@shared/services/ticket/ticket.service';
 import { AnswersPageComponent } from './pages/answers/answers.page';
 import { AnswerService } from '@shared/services/answer/answer.service';
 import { ServiceProxyComponent } from './components/service-proxy/service-proxy.component';
+import { SearchPageComponent } from './pages/search/search.page';
 
 const routes: Routes = [
   {
@@ -53,6 +54,11 @@ const routes: Routes = [
         data: { breadcrumb: AnswerService }
       }
     ]
+  },
+  {
+    path: 'search',
+    component: SearchPageComponent,
+    data: { breadcrumb: 'Поиск' }
   }
 ];
 
