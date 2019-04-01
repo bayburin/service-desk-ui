@@ -18,7 +18,11 @@ export class UserService {
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private config: AppConfigI) {}
 
   loadData(): Observable<UserI> {
-    return this.http.get(this.loadDataUrl).pipe(map((data: UserI) => this.user = data));
+    return this.http.get(this.loadDataUrl).pipe(map((data: UserI) => {
+      this.setUser(data);
+
+      return this.user;
+    }));
   }
 
   getUser(): UserI {
@@ -27,6 +31,7 @@ export class UserService {
 
   setUser(data: UserI): void {
     localStorage.setItem(this.config.currentUserStorage, JSON.stringify(data));
+    this.user = data;
   }
 
   clearUser(): void {
