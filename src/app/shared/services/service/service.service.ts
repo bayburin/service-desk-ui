@@ -5,11 +5,13 @@ import { map } from 'rxjs/operators';
 
 import { ServiceI } from '@models/service.interface';
 import { environment } from 'environments/environment';
+import { CommonServiceI } from '@models/common-service.interface';
+import { ServiceTemplateI } from '@models/service-template.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ServiceService {
+export class ServiceService implements CommonServiceI {
   private loadServicesUrl: string;
   private services = new Subject<ServiceI[]>();
 
@@ -24,5 +26,9 @@ export class ServiceService {
 
         return services;
       }));
+  }
+
+  getListLink(template: ServiceTemplateI): string {
+    return `/categories/${template.category_id}/services`;
   }
 }

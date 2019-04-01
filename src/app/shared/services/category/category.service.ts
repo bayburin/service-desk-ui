@@ -5,11 +5,13 @@ import { map } from 'rxjs/operators';
 
 import { CategoryI } from '@models/category.interface';
 import { environment } from 'environments/environment';
+import { CommonServiceI } from '@models/common-service.interface';
+import { ServiceTemplateI } from '@models/service-template.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryService {
+export class CategoryService implements CommonServiceI {
   private loadCategoriesUrl = `${environment.serverUrl}/api/v1/categories`;
   private categories: CategoryI[];
 
@@ -21,5 +23,9 @@ export class CategoryService {
 
   getCategories(): CategoryI[] {
     return this.categories;
+  }
+
+  getListLink(template: ServiceTemplateI): string {
+    return `/categories/${template.id}`;
   }
 }

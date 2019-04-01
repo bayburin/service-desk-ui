@@ -6,11 +6,13 @@ import { map, filter, first, switchMap } from 'rxjs/operators';
 import { BreadcrumbServiceI } from '@models/breadcrumb-service.interface';
 import { TicketI } from '@models/ticket.interface';
 import { environment } from 'environments/environment';
+import { CommonServiceI } from '@models/common-service.interface';
+import { ServiceTemplateI } from '@models/service-template.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TicketService implements BreadcrumbServiceI {
+export class TicketService implements BreadcrumbServiceI, CommonServiceI {
   private loadTicketsUrl: string;
   private tickets = new Subject<TicketI[]>();
 
@@ -36,5 +38,9 @@ export class TicketService implements BreadcrumbServiceI {
         );
       })
     );
+  }
+
+  getListLink(template: ServiceTemplateI): string {
+    return `/services/${template.service_id}/tickets/${template.id}`;
   }
 }

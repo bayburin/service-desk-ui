@@ -24,7 +24,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
         takeWhile(() => this.alive),
         switchMap((arr: ServiceTemplateI[]) => {
           return this.selectedType.pipe(
-            map((type: 'all' | 'category' | 'service' | 'ticket') => this.filterTemplateArr(arr, type))
+            map((type: 'all' | 'Category' | 'Service' | 'Ticket') => this.filterTemplateArr(arr, type))
           );
         })
       )
@@ -35,7 +35,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
     return this.templateService.generateUrlBy(currentTemplate);
   }
 
-  selectType(type: 'all' | 'category' | 'service' | 'ticket'): void {
+  selectType(type: 'all' | 'Category' | 'Service' | 'Ticket'): void {
     this.selectedType.next(type);
   }
 
@@ -43,15 +43,11 @@ export class SearchResultComponent implements OnInit, OnDestroy {
     this.alive = false;
   }
 
-  private filterTemplateArr(arr: ServiceTemplateI[], filterType: 'all' | 'category' | 'service' | 'ticket'): ServiceTemplateI[] {
+  private filterTemplateArr(arr: ServiceTemplateI[], filterType: string): ServiceTemplateI[] {
     if (filterType === 'all') {
       return arr;
-    } else if (filterType === 'category') {
-      return arr.filter((val) => !(val.category_id || val.service_id));
-    } else if (filterType === 'service') {
-      return arr.filter((val) => val.category_id);
-    } else if (filterType === 'ticket') {
-      return arr.filter((val) => val.service_id);
     }
+
+    return this.templateService.filterTemplateArr(arr, filterType);
   }
 }
