@@ -3,7 +3,9 @@
   <input id="typeahead-basic" type="text" class="form-control" [formControl]="serviceCtrl" [ngbTypeahead]="search" [resultTemplate]="rt"
   [inputFormatter]="formatter" autocomplete="off" (keyup.enter)="onSearch()" placeholder="Введите название услуги или проблемный вопрос">
   <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="onSearch()">Поиск</button>
+    <button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="onSearch()">
+      <i class="mdi mdi-magnify"></i>
+    </button>
   </div>
 </div>
 <p *ngIf=loading>loading...</p>

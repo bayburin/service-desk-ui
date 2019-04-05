@@ -1,10 +1,31 @@
-<nav class="navbar navbar-dark bg-primary">
+<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
   <div class="container">
-    <img src="assets/images/logo_iss_rus.png" height="30" alt="">
-    <span *ngIf="user" class="navbar-text">
-      <i class="mdi mdi-account"></i>
-      {{ user.fio }}
+    <span class="navbar-brand">
+      <img src="assets/images/logo_iss_rus.png" height="30">
     </span>
+    <div class="navbar-collapse justify-content-end">
+      <div *ngIf="isUserSignedIn | async">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <span class="navbar-text">
+              <i class="mdi mdi-account"></i>
+              {{ user.fio }}
+            </span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="logout">
+              <i class="mdi mdi-logout"></i>
+              Выход
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="!(isUserSignedIn | async)">
+        <ul class="navbar-nav">
+          <a class="nav-link"routerLink="login">Вход</a>
+        </ul>
+      </div>
+    </div>
   </div>
 </nav>
 <nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -17,7 +38,7 @@
     <div id="navbarToggler" class="navbar-collapse justify-content-end" [ngClass]="{ collapse: collapsed }">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" routerLink="">Услуги</a>
+          <a class="nav-link" routerLink="categories">Категории</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="">Заявки</a>
