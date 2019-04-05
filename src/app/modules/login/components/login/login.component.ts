@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.authService.login(this.loginForm.controls.username.value, this.loginForm.controls.password.value)
       .pipe(
-        switchMap(() => this.userService.loadData()),
+        switchMap(() => this.userService.loadUserInfo()),
         finalize(() => this.loading = false)
       )
       .subscribe(
