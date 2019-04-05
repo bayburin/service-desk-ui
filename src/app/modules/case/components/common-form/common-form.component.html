@@ -48,31 +48,32 @@
     <div class="col-sm-10">
       <input id="service" name="service" type="text" class="form-control" formControlName="service" [ngbTypeahead]="search" [resultTemplate]="rt"
         [inputFormatter]="formatter" (click)="onService.next($event.target.value)" (focus)="onService.next($event.target.value)" #instance="ngbTypeahead"
-        autocomplete="off" placeholder="Выберите услугу">
-        <small *ngIf="(form.service.touched || submitted) && form.service.errors" class="form-text text-muted">
-          <span *ngIf="form.service.errors.required">Необходимо выбрать услугу или поставить галочку, если услуга отсутствует в списке</span>
-        </small>
-        <div class="form-check">
-          <input type="checkbox" id="without_service" name="without_service" (change)="onSelectCheckbox(form.service)" formControlName="without_service" class="form-check-input">
-          <label for="without_service" class="form-check-label">Обращение не связано ни с одним из перечисленных видов услуг</label>
-        </div>
+        [ngClass]="{ 'is-invalid': (form.service.touched || submitted) && form.service.errors }" autocomplete="off" placeholder="Выберите услугу">
+      <div *ngIf="(form.service.touched || submitted) && form.service.errors" class="invalid-feedback">
+        <span *ngIf="form.service.errors.required">Необходимо выбрать услугу или поставить галочку, если услуга отсутствует в списке</span>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" id="without_service" name="without_service" (change)="onSelectCheckbox(form.service)" formControlName="without_service" class="form-check-input">
+        <label for="without_service" class="form-check-label">Обращение не связано ни с одним из перечисленных видов услуг</label>
+      </div>
     </div>
   </div>
 
   <div class="form-group row">
     <label for="description" class="col-sm-2 col-form-label">Описание проблемы</label>
     <div class="col-sm-10">
-      <textarea id="description" name="description" rows="3" formControlName="description" class="form-control" placeholder="Введите описание"></textarea>
-      <small *ngIf="(form.description.touched || submitted) && form.description.errors" class="form-text text-muted">
+      <textarea id="description" name="description" rows="3" formControlName="description" class="form-control" placeholder="Введите описание"
+        [ngClass]="{ 'is-invalid': (form.description.touched || submitted) && form.description.errors }"></textarea>
+      <div *ngIf="(form.description.touched || submitted) && form.description.errors" class="invalid-feedback">
         <span *ngIf="form.description.errors.required">Не может быть пустым</span>
-      </small>
+      </div>
     </div>
   </div>
 
   <div class="form-group row">
     <label for="item" class="col-sm-2 col-form-label">Выбор устройства</label>
     <div class="col-sm-10">
-      <select id="item" name="item" formControlName="item" class="form-control">
+      <select id="item" name="item" formControlName="item" class="form-control" [ngClass]="{ 'is-invalid': (form.item.touched || submitted) && form.item.errors }">
         <option value="">Выберите устройство</option>
         <option *ngFor="let item of items; trackBy:item?.id" [ngValue]="item">
           <span>{{ item.type.short_description }}</span>
@@ -80,9 +81,9 @@
           <span *ngIf="item.invent_num">{{ ' инв. № ' + item.invent_num }}</span>
         </option>
       </select>
-      <small *ngIf="(form.item.touched || submitted) && form.item.errors" class="form-text text-muted">
+      <div *ngIf="(form.item.touched || submitted) && form.item.errors" class="invalid-feedback">
         <span *ngIf="form.item.errors.required">Необходимо выбрать технику или поставить галочку, если обращение не связано с техникой</span>
-      </small>
+      </div>
       <div class="form-check">
         <input type="checkbox" id="without_item" formControlName="without_item" (change)="onSelectCheckbox(form.item)" class="form-check-input">
         <label for="without_item" class="form-check-label">Обращение не связано ни с одним из перечисленных устройств</label>
