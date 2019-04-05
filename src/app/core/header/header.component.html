@@ -1,8 +1,9 @@
 <nav class="navbar navbar-dark bg-primary">
   <div class="container">
-      <img src="assets/images/logo_iss_rus.png" height="30" alt="">
-    <span class="navbar-text">
-      Байбурин Равиль Фаильевич
+    <img src="assets/images/logo_iss_rus.png" height="30" alt="">
+    <span *ngIf="user" class="navbar-text">
+      <i class="mdi mdi-account"></i>
+      {{ user.fio }}
     </span>
   </div>
 </nav>
