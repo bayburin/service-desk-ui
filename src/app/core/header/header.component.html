@@ -1,3 +1,36 @@
-<p>
-  header works!
-</p>
+<nav class="navbar navbar-dark bg-primary">
+  <div class="container">
+      <img src="assets/images/logo_iss_rus.png" height="30" alt="">
+    <span class="navbar-text">
+      Байбурин Равиль Фаильевич
+    </span>
+  </div>
+</nav>
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+  <div class="container">
+    <button class="navbar-toggler" type="button" (click)="toggleCollapsed()" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" routerLink="">ServiceDeskUI</a>
+    <div id="navbarToggler" class="navbar-collapse justify-content-end" [ngClass]="{ collapse: collapsed }">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="">Услуги</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="">Заявки</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="cases/new">Поддержка</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="search">Поиск</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://lk.iss-reshetnev.ru" target="_blank">Личный кабинет</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
