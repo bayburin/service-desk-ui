@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         () => this.router.navigate([this.returnUrl]),
         (error) => {
+          this.authService.logout();
           this.loginForm.controls.password.setErrors({ invalid_grant: true });
           this.error = error.error;
         }

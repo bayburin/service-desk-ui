@@ -13,14 +13,14 @@ import { UserI } from '@models/user.interface';
 })
 export class HeaderComponent implements OnInit {
   public collapsed = true;
-  public user: UserI;
+  public user: Observable<UserI>;
   public isUserSignedIn: Observable<boolean>;
   public loading = false;
 
   constructor(private userService: UserService, private authService: AuthService) {}
 
   ngOnInit() {
-    this.user = this.userService.getUser();
+    this.user = this.userService.user;
     this.isUserSignedIn = this.authService.isUserSignedIn;
   }
 

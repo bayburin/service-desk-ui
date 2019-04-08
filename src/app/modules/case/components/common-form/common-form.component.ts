@@ -46,7 +46,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadParameters();
-    this.user = this.userService.getUser();
+    this.userService.user.subscribe((data: UserI) => this.user = data);
     this.caseForm = this.formBuilder.group({
       id_tn: [this.user.id_tn],
       tn: [{ value: this.user.tn, disabled: true }],

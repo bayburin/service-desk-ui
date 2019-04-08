@@ -9,11 +9,11 @@
           <li class="nav-item">
             <span class="navbar-text">
               <i class="mdi mdi-account"></i>
-              {{ user.fio }}
+              {{ (user | async)?.fio }}
             </span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="logout">
+            <a class="nav-link" (click)="logout()">
               <i class="mdi mdi-logout"></i>
               Выход
             </a>
@@ -22,7 +22,7 @@
       </div>
       <div *ngIf="!(isUserSignedIn | async)">
         <ul class="navbar-nav">
-          <a class="nav-link"routerLink="login">Вход</a>
+          <a class="nav-link" routerLink="login">Вход</a>
         </ul>
       </div>
     </div>
