@@ -14,6 +14,6 @@ export class CaseService {
   constructor(private http: HttpClient) {}
 
   createCase(data: CaseI): Observable<any> {
-    return this.http.post(this.createCaseUrl, data);
+    return this.http.post(this.createCaseUrl, { case: data });
   }
 }

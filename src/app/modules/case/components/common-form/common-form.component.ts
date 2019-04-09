@@ -49,14 +49,14 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     this.userService.user.subscribe((data: UserI) => this.user = data);
     this.caseForm = this.formBuilder.group({
       id_tn: [this.user.id_tn],
-      tn: [{ value: this.user.tn, disabled: true }],
+      user_tn: [{ value: this.user.tn, disabled: true }],
       fio: [{ value: this.user.fio, disabled: true }],
       dept: [{ value: this.user.dept, disabled: true }],
       email: [this.user.email],
-      tel: [this.user.tel],
+      phone: [this.user.tel],
       mobile: [''],
       service: ['', Validators.required],
-      description: ['', Validators.required],
+      desc: ['', Validators.required],
       without_service: [false],
       item: ['', Validators.required],
       without_item: [false],
@@ -110,7 +110,10 @@ export class CommonFormComponent implements OnInit, OnDestroy {
       this.caseService.createCase(this.caseForm.getRawValue())
         .pipe(finalize(() => this.loading.form = false))
         .subscribe(
-          () => this.caseSaved.emit(),
+          (data) => {
+            console.log('created: ', data);
+            this.caseSaved.emit();
+          },
           error => console.log('Обработать ошибку: ', error)
         );
     } else {
