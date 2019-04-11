@@ -9,11 +9,23 @@ import { CaseI } from '@models/case.interface';
   providedIn: 'root'
 })
 export class CaseService {
-  private createCaseUrl = `${environment.serverUrl}/api/v1/cases`;
+  private casesUrl = `${environment.serverUrl}/api/v1/cases`;
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * Получить список кейсов.
+   */
+  getAllCases(): Observable<CaseI[]> {
+    return this.http.get<CaseI[]>(this.casesUrl);
+  }
+
+  /**
+   * Создать кейс.
+   *
+   * @param data - данные о кейсе.
+   */
   createCase(data: CaseI): Observable<any> {
-    return this.http.post(this.createCaseUrl, { case: data });
+    return this.http.post(this.casesUrl, { case: data });
   }
 }
