@@ -41,7 +41,7 @@ export class AuthService {
       }));
   }
 
-  logout(): Observable<boolean> {
+  logout(): Observable<any> {
     const body = {
       token: this.getToken().access_token
     };
@@ -50,12 +50,12 @@ export class AuthService {
       .pipe(map(() => this.unauthorize()));
   }
 
-  unauthorize(): boolean {
+  unauthorize(): void {
     this.removeToken();
     this.userService.clearUser();
     this.isLoggedInSub.next(false);
 
-    return true;
+    location.reload();
   }
 
   getToken(): TokenI {
