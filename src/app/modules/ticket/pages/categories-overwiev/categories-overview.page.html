@@ -1,4 +1,5 @@
-<h3>Все категории на портале</h3>
+<h1>Все категории на портале</h1>
+<app-loading [loading]="loading" size="48px"></app-loading>
 <ul>
   <li *ngFor="let category of categories | async; trackBy:category?.id">
     <h4 [innerHtml]="category.name"></h4>

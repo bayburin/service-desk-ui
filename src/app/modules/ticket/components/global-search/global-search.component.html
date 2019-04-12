@@ -3,10 +3,12 @@
     <input id="typeahead-basic" type="text" class="form-control border-0" [formControl]="serviceCtrl" [ngbTypeahead]="search" [resultTemplate]="rt"
     [inputFormatter]="formatter" autocomplete="off" (keyup.enter)="onSearch()" placeholder="Введите название услуги или проблемный вопрос">
     <div class="input-group-prepend">
-      <button type="button" (click)="onSearch()" class="btn btn-gray-white sd-btn-icon-24 border border-white"><i class="mdi mdi-magnify mdi-24px"></i></button>
+      <button type="button" (click)="onSearch()" class="btn btn-gray-white sd-btn-icon-24 border border-white">
+        <i *ngIf="!loading" class="mdi mdi-magnify mdi-24px"></i>
+        <app-loading [loading]="loading" size="24px"></app-loading>
+      </button>
     </div>
   </div>
-  <p *ngIf=loading>loading...</p>
 </div>
 
 <ng-template #rt let-r="result">{{r.name}}</ng-template>

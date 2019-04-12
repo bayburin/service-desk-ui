@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { SharedModule } from '@shared/shared.module';
+
 import { APP_CONFIG, AppConfig } from './config/app.config';
 import { AppRoutingModule } from './app-routing.module';
 import { TicketModule } from './modules/ticket/ticket.module';
@@ -29,6 +31,7 @@ import { BreadcrumbComponent } from './core/breadcrumb/breadcrumb.component';
   ],
   imports: [
     BrowserModule,
+    SharedModule,
     HttpClientModule,
     TicketModule,
     CaseModule,

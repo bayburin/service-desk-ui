@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 import { AnswerI } from '@models/answer.interface';
 import { AnswerService } from '@shared/services/answer/answer.service';
@@ -11,6 +12,7 @@ import { AnswerService } from '@shared/services/answer/answer.service';
   styleUrls: ['./answers.page.scss']
 })
 export class AnswersPageComponent implements OnInit {
+  public loading = false;
   public answers: Observable<AnswerI[]>;
 
   constructor(private answerService: AnswerService, private route: ActivatedRoute) { }
@@ -18,6 +20,7 @@ export class AnswersPageComponent implements OnInit {
   ngOnInit() {
     const ticketId = this.route.snapshot.params.id;
 
-    this.answers = this.answerService.loadAnswers(ticketId);
+    this.loading = true;
+    this.answers = this.answerService.loadAnswers(ticketId).pipe(finalize(() => this.loading = false));
   }
 }

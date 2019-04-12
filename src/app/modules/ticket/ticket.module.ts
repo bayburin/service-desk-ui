@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from '@shared/shared.module';
 
 import { TicketRoutingModule } from './ticket-routing.module';
 
@@ -27,13 +25,11 @@ import { SearchResultComponent } from './components/search-result/search-result.
     AnswersPageComponent,
     ServiceProxyComponent,
     SearchPageComponent,
-    SearchResultComponent
+    SearchResultComponent,
   ],
   imports: [
-    CommonModule,
     TicketRoutingModule,
-    ReactiveFormsModule,
-    NgbModule
+    SharedModule
   ]
 })
 export class TicketModule { }

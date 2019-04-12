@@ -3,7 +3,9 @@
     <div class="d-flex text-white">
       <div class="sd-brand mr-auto"><a routerLink="/"><img src="assets/images/logos/logo-iss.svg" alt="Логотип АО ИСС" /></a></div>
       <div class="sd-user-account sd-icon-group" *ngIf="isUserSignedIn | async"><i class="mdi mdi-account mdi-24px"></i>{{ (user | async)?.fio }}</div>
-      <div class="sd-user-account sd-icon-group" *ngIf="isUserSignedIn | async"><i class="mdi mdi-logout mdi-24px"></i><a (click)="logout()">Выход</a></div>
+      <div class="sd-user-account sd-icon-group" *ngIf="isUserSignedIn | async">
+        <i class="mdi mdi-logout mdi-24px"></i><a (click)="logout()">Выход</a>
+      </div>
       <div class="sd-user-account sd-icon-group" *ngIf="!(isUserSignedIn | async)"><i class="mdi mdi-login mdi-24px"></i><a routerLink="login">Вход</a></div>
     </div>
   </div>

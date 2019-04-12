@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from '@shared/shared.module';
 
 import { CaseRoutingModule } from './case-routing.module';
 import { CommonCasePageComponent } from './pages/common-case/common-case.page';
@@ -15,11 +13,8 @@ import { CasesPageComponent } from './pages/cases/cases.page';
     CasesPageComponent
   ],
   imports: [
-    CommonModule,
-    CaseRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgbModule
+    SharedModule,
+    CaseRoutingModule
   ]
 })
 export class CaseModule {}

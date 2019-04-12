@@ -9,22 +9,26 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const testToken: TokenI = {
-      type: 'Bearer',
-      access_token: 'fake-jwt-token',
-      refresh_token: 'fake-refresh-token'
-    };
+    // const testToken: TokenI = {
+    //   type: 'Bearer',
+    //   access_token: 'fake-jwt-token',
+    //   refresh_token: 'fake-refresh-token'
+    // };
 
-    if (req.url.endsWith('oauth/token') && req.method === 'POST') {
-      return of(null).pipe(mergeMap(() => {
-        return of(new HttpResponse({ body: testToken, status: 200 }));
+    // if (req.url.endsWith('oauth/token') && req.method === 'POST') {
+    //   return of(null).pipe(mergeMap((data) => {
+    //     console.log(data);
+    //     return of(new HttpResponse({ body: data, status: 200 }));
+    //   }))
+    // }
 
-      }))
-      .pipe(materialize())
-      .pipe(delay(3000))
-      .pipe(dematerialize());
-    }
+    return next.handle(req)
+      .pipe(
+        materialize(),
+        delay(2000),
+        dematerialize()
+      );
 
-    return next.handle(req);
+    // return next.handle(req);
   }
 }
