@@ -1,32 +1,34 @@
-<h4>Текущие заявки</h4>
-<div class="btn-group" role="group" aria-label="Basic example">
-  <button type="button" class="btn btn-outline-secondary" (click)="selectType('all')" [ngClass]="{ active: (selectedType | async) == 'all' }">Все</button>
-  <button type="button" class="btn btn-outline-secondary" (click)="selectType('done')" [ngClass]="{ active: (selectedType | async) == 'done' }">Выполнено</button>
-  <button type="button" class="btn btn-outline-secondary" (click)="selectType('at_work')" [ngClass]="{ active: (selectedType | async) == 'at_work' }">В работе</button>
-  <button type="button" class="btn btn-outline-secondary" (click)="selectType('processing')" [ngClass]="{ active: (selectedType | async) == 'processing' }">Не обработана</button>
-  <button type="button" class="btn btn-outline-secondary" (click)="selectType('approved')" [ngClass]="{ active: (selectedType | async) == 'approved' }">Одобрена</button>
-  <button type="button" class="btn btn-outline-secondary" (click)="selectType('rejected')" [ngClass]="{ active: (selectedType | async) == 'rejected' }">Отклонена</button>
-</div>
+<div class="container">
+  <h4>Текущие заявки</h4>
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-outline-secondary" (click)="selectType('all')" [ngClass]="{ active: (selectedType | async) == 'all' }">Все</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="selectType('done')" [ngClass]="{ active: (selectedType | async) == 'done' }">Выполнено</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="selectType('at_work')" [ngClass]="{ active: (selectedType | async) == 'at_work' }">В работе</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="selectType('processing')" [ngClass]="{ active: (selectedType | async) == 'processing' }">Не обработана</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="selectType('approved')" [ngClass]="{ active: (selectedType | async) == 'approved' }">Одобрена</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="selectType('rejected')" [ngClass]="{ active: (selectedType | async) == 'rejected' }">Отклонена</button>
+  </div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Номер</th>
-      <th>Дата подачи</th>
-      <th>Тип заявки</th>
-      <th>Срок выполнения</th>
-      <th>Состояние</th>
-      <th>Исполнитель</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let case of cases | async; trackBy:case?.case_id">
-      <td [innerHtml]="case.case_id"></td>
-      <td [innerHtml]="case.starttime"></td>
-      <td [innerHtml]=""></td>
-      <td [innerHtml]=""></td>
-      <td [innerHtml]="case.status_description"></td>
-      <td [innerHtml]=""></td>
-    </tr>
-  </tbody>
-</table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Номер</th>
+        <th>Дата подачи</th>
+        <th>Тип заявки</th>
+        <th>Срок выполнения</th>
+        <th>Состояние</th>
+        <th>Исполнитель</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let case of cases | async; trackBy:case?.case_id">
+        <td [innerHtml]="case.case_id"></td>
+        <td [innerHtml]="case.starttime"></td>
+        <td [innerHtml]=""></td>
+        <td [innerHtml]=""></td>
+        <td [innerHtml]="case.status_description"></td>
+        <td [innerHtml]=""></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

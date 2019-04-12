@@ -1,6 +1,10 @@
-<app-header></app-header>
-<div class="container">
-  <app-breadcrumb [hidden]="location == '/'"></app-breadcrumb>
+<header>
+  <app-header></app-header>
+</header>
+<app-breadcrumb [hidden]="location == '/'"></app-breadcrumb>
+<main>
   <router-outlet></router-outlet>
-</div>
-<app-footer></app-footer>
+</main>
+<footer>
+  <app-footer></app-footer>
+</footer>

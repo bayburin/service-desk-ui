@@ -1,60 +1,27 @@
-<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
+<div class="bg-strong-cyan">
   <div class="container">
-    <span class="navbar-brand">
-      <img src="assets/images/logo_iss_rus.png" height="30">
-    </span>
-    <div class="navbar-collapse justify-content-end">
-      <div *ngIf="isUserSignedIn | async">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <span class="navbar-text">
-              <i class="mdi mdi-account"></i>
-              {{ (user | async)?.fio }}
-            </span>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" (click)="logout()">
-              <i class="mdi mdi-logout"></i>
-              Выход
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div *ngIf="!(isUserSignedIn | async)">
-        <ul class="navbar-nav">
-          <a class="nav-link" routerLink="login">Вход</a>
-        </ul>
-      </div>
+    <div class="d-flex text-white">
+      <div class="sd-brand mr-auto"><a routerLink="/"><img src="assets/images/logos/logo-iss.svg" alt="Логотип АО ИСС" /></a></div>
+      <div class="sd-user-account sd-icon-group" *ngIf="isUserSignedIn | async"><i class="mdi mdi-account mdi-24px"></i>{{ (user | async)?.fio }}</div>
+      <div class="sd-user-account sd-icon-group" *ngIf="isUserSignedIn | async"><i class="mdi mdi-logout mdi-24px"></i><a (click)="logout()">Выход</a></div>
+      <div class="sd-user-account sd-icon-group" *ngIf="!(isUserSignedIn | async)"><i class="mdi mdi-login mdi-24px"></i><a routerLink="login">Вход</a></div>
     </div>
   </div>
-</nav>
-<nav class="navbar navbar-expand-md navbar-light bg-light">
+</div>
+
+<nav class="navbar navbar-expand-md">
   <div class="container">
-    <button class="navbar-toggler" type="button" (click)="toggleCollapsed()" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" routerLink="">ServiceDeskUI</a>
-    <div id="navbarToggler" class="navbar-collapse justify-content-end" [ngClass]="{ collapse: collapsed }">
+    <a routerLink="/" class="navbar-brand"><img src="assets/images/logos/logo-sd.svg" alt="Logo ServiceDesc" /></a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ml-auto d-flex align-items-center">
+        <li class="nav-item"><a routerLink="categories" class="nav-link">Категории</a></li>
+        <li class="nav-item"><a routerLink="cases" class="nav-link">Заявки</a></li>
+        <li class="nav-item"><a routerLink="cases/new" class="nav-link">Поддержка</a></li>
+      </ul>
+
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="categories">Категории</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="cases">Заявки</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="cases/new">Поддержка</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="search"><i class="mdi mdi-magnify"></i></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://lk.iss-reshetnev.ru" target="_blank">
-            <i class="mdi mdi-key"></i>
-            Личный кабинет
-          </a>
-        </li>
+        <li class="nav-item"><a routerLink="search" class="nav-link"><i class="mdi mdi-magnify mdi-24px"></i></a></li>
+        <li class="nav-item"><a href="https://lk.iss-reshetnev.ru" class="nav-link" target="_blank"><span class="sd-icon-group"><i class="mdi mdi-account-key mdi-24px"></i>Личный кабинет</span></a></li>
       </ul>
     </div>
   </div>
