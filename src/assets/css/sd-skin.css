@@ -11088,7 +11088,8 @@ h4, .h4 {
   font-weight: 600; }
 
 h5, .h5 {
-  font-size: 0.875rem; }
+  font-size: 0.875rem;
+  font-family: "Roboto Light"; }
 
 h6, .h6 {
   font-size: 0.75rem;
@@ -11111,6 +11112,9 @@ samp {
 
 .text-light a {
   color: #fff; }
+
+.sd-category-list .sd-category-list-item {
+  padding-left: 77px; }
 
 /* ===========================================
  *   ServiceDesc Interface CSS Framework expand MDI icons
@@ -11165,6 +11169,11 @@ samp {
   margin-right: .625rem;
   flex-shrink: 0; }
 
+.sd-icon-group-append .mdi {
+  margin-left: .625rem;
+  margin-right: 0;
+  flex-shrink: 0; }
+
 .sd-icon-group:hover {
   text-decoration: none !important; }
 
@@ -11174,6 +11183,9 @@ samp {
 .sd-icon-group:hover .sd-icon-category,
 .sd-icon-group:hover .sd-icon-group-category {
   border: 1px solid #e5e5e5; }
+
+.navbar-dark .nav-link:hover .mdi {
+  color: #fff; }
 
 .sd-list-masonry {
   -moz-column-gap: 60px;
@@ -11224,6 +11236,76 @@ samp {
 .input-group-append {
   margin-left: -1px; }
 
+.sd-category-list .sd-category-list-item a {
+  color: #2c2c2c; }
+
+.breadcrumb {
+  height: 2.5rem;
+  flex-wrap: nowrap; }
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  color: #2c2c2c; }
+
+.breadcrumb-item a {
+  color: #2c2c2c; }
+
+.breadcrumb-item {
+  padding-top: 0;
+  padding-bottom: 0; }
+  .breadcrumb-item + .breadcrumb-item {
+    padding-left: 3.75rem;
+    position: relative; }
+    .breadcrumb-item + .breadcrumb-item::before {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 1.25rem;
+      display: flex;
+      width: 1.25rem;
+      height: 100%;
+      padding: null;
+      color: #e5e5e5;
+      content: "";
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMjAuMnB4IiBoZWlnaHQ9IjQwLjFweCIgdmlld0JveD0iMCAwIDIwLjIgNDAuMSIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjAuMiA0MC4xIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxwb2x5Z29uIGZpbGw9IiNFNkU2RTYiIHBvaW50cz0iMC42LDAuMSAwLjEsMC4xIDAuMSwxLjEgMC4yLDEuMSAxOC43LDIwLjMgMC4yLDM5LjEgMC4xLDM5LjEgMC4xLDQwLjEgMC42LDQwLjEgMjAuMSwyMC4zICIvPg0KPC9zdmc+DQo=);
+      background-position-y: 50%;
+      align-items: center; }
+  .breadcrumb-item + .breadcrumb-item:hover::before {
+    text-decoration: underline; }
+  .breadcrumb-item + .breadcrumb-item:hover::before {
+    text-decoration: none; }
+  .breadcrumb-item.active {
+    color: #2c2c2c; }
+
+/*
+ * Layout
+ */
+html {
+  height: 100%; }
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column; }
+
+app-root {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column; }
+
+.sd-target {
+  flex: 1 0 auto; }
+
+.sd-footer {
+  flex-shrink: 0; }
+
+/*
+ * Brand
+ */
 .sd-brand,
 .sd-group-icon {
   padding: .5rem !important; }

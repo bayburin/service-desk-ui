@@ -1,10 +1,14 @@
-<header>
-  <app-header></app-header>
-</header>
-<app-breadcrumb [hidden]="location == '/'"></app-breadcrumb>
-<main>
-  <router-outlet></router-outlet>
-</main>
-<footer>
-  <app-footer></app-footer>
-</footer>
+<div class="sd-target">
+  <header>
+    <app-header></app-header>
+  </header>
+  <app-breadcrumb [hidden]="location == '/'"></app-breadcrumb>
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</div>
+<div class="sd-footer">
+  <footer>
+    <app-footer></app-footer>
+  </footer>
+</div>

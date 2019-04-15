@@ -2,11 +2,13 @@
   <div class="container">
     <div class="d-flex text-white">
       <div class="sd-brand mr-auto"><a routerLink="/"><img src="assets/images/logos/logo-iss.svg" alt="Логотип АО ИСС" /></a></div>
-      <div class="sd-user-account sd-icon-group" *ngIf="isUserSignedIn | async"><i class="mdi mdi-account mdi-24px"></i>{{ (user | async)?.fio }}</div>
-      <div class="sd-user-account sd-icon-group" *ngIf="isUserSignedIn | async">
-        <i class="mdi mdi-logout mdi-24px"></i><a (click)="logout()">Выход</a>
+      <div class="sd-user-account d-flex align-items-center navbar-expand navbar-dark">
+        <ul class="navbar-nav flex-row">
+          <li *ngIf="isUserSignedIn | async" class="nav-item"><a class="nav-link sd-icon-group"><i class="mdi mdi-account mdi-24px"></i>{{ (user | async)?.fio }}</a></li>
+          <li *ngIf="isUserSignedIn | async" class="nav-item"><a (click)="logout()" class="nav-link sd-icon-group sd-icon-group-append">Выход<i class="mdi mdi-logout mdi-24px"></i></a></li>
+          <li *ngIf="!(isUserSignedIn | async)" class="nav-item"><a routerLink="login" class="nav-link sd-icon-group sd-icon-group-append">Вход<i class="mdi mdi-login mdi-24px"></i></a></li>
+        </ul>
       </div>
-      <div class="sd-user-account sd-icon-group" *ngIf="!(isUserSignedIn | async)"><i class="mdi mdi-login mdi-24px"></i><a routerLink="login">Вход</a></div>
     </div>
   </div>
 </div>
