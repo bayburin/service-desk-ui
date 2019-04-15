@@ -1,12 +1,14 @@
-<h1>Все категории на портале</h1>
 <app-loading [loading]="loading" size="48px"></app-loading>
-<ul>
-  <li *ngFor="let category of categories | async; trackBy:category?.id">
-    <h4 [innerHtml]="category.name"></h4>
-    <ul>
-      <li *ngFor="let service of category.services; trackBy:service?.id">
-        <a [routerLink]="[category.id, 'services', service.id]" [innerHtml]="service.name"></a>
-      </li>
-    </ul>
-  </li>
-</ul>
+<div class="sd-category-list">
+  <h2 class="h1 text-primary">Все категории на портале</h2>
+  <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 list-unstyled sd-child-mb-7">
+    <li *ngFor="let category of categories | async; trackBy:category?.id">
+      <h4 class="h5 mb-0"><a routerLink="" class="sd-icon-group"><i class="sd-icon-category mdi" [ngClass]="category.icon_name"></i>{{ category.name }}</a></h4>
+      <ul class="sd-category-list-item list-unstyled sd-child-mb-3 collapse show">
+        <li *ngFor="let service of category.services; trackBy:service?.id">
+          <a [routerLink]="[category.id, 'services', service.id]" [innerHtml]="service.name"></a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
