@@ -24,7 +24,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
   public caseForm: FormGroup;
   public user: UserI;
   public loading = {
-    params: false,
+  params: false,
     form: false
   };
   public services: ServiceI[];

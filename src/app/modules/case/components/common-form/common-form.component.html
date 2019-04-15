@@ -52,7 +52,7 @@
       <div *ngIf="(form.service.touched || submitted) && form.service.errors" class="invalid-feedback">
         <span *ngIf="form.service.errors.required">Необходимо выбрать услугу или поставить галочку, если услуга отсутствует в списке</span>
       </div>
-      <app-loading [loading]="loading.params" size="24px"></app-loading>
+      <app-loading [loading]="loading.params" size="24px" class="d-flex justify-content-center"></app-loading>
       <div class="form-check">
         <input type="checkbox" id="without_service" name="without_service" (change)="onSelectCheckbox(form.service)" formControlName="without_service" class="form-check-input">
         <label for="without_service" class="form-check-label">Обращение не связано ни с одним из перечисленных видов услуг</label>
@@ -85,7 +85,7 @@
       <div *ngIf="(form.item.touched || submitted) && form.item.errors" class="invalid-feedback">
         <span *ngIf="form.item.errors.required">Необходимо выбрать технику или поставить галочку, если обращение не связано с техникой</span>
       </div>
-      <app-loading [loading]="loading.params" size="24px"></app-loading>
+      <app-loading [loading]="loading.params" size="24px" class="d-flex justify-content-center"></app-loading>
       <div class="form-check">
         <input type="checkbox" id="without_item" formControlName="without_item" (change)="onSelectCheckbox(form.item)" class="form-check-input">
         <label for="without_item" class="form-check-label">Обращение не связано ни с одним из перечисленных устройств</label>
@@ -93,6 +93,9 @@
     </div>
   </div>
 
-  <button type="submit" [disabled]="loading.form" class="btn btn-primary">Отправить</button>
+  <button type="submit" [disabled]="loading.form || loading.params" class="btn btn-primary">
+    <app-loading [loading]="loading.form"></app-loading>
+    Отправить
+  </button>
   <button (click)="onCancel($event)" class="btn btn-light">Отменить</button>
 </form>

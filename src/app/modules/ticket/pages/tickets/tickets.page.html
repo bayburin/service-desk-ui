@@ -1,4 +1,4 @@
-<app-loading [loading]="loading" size="48px"></app-loading>
+<app-loading [loading]="loading" size="48px" class="d-flex justify-content-center"></app-loading>
 <ul>
   <li *ngFor="let ticket of tickets | async; trackBy:ticket?.id">
     <a [routerLink]="['/services', ticket.service_id, 'tickets', ticket.id]" [innerHtml]="ticket.name" [ngClass]="{ disabled: isNoAnswers(ticket) }"></a>
