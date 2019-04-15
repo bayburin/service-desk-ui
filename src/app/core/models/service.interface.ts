@@ -10,6 +10,7 @@ export interface ServiceI {
   is_sla: boolean;
   sla: string;
   popularity: number;
+  questionLimit?: number;
   category?: CategoryI;
   tickets?: TicketI[];
 }
