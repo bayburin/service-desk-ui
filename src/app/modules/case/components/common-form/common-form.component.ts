@@ -11,6 +11,7 @@ import { UserOwnsI } from '@models/user-owns.interface';
 import { ServiceI } from '@models/service.interface';
 import { ItemI } from '@models/item.interface';
 import { CaseService } from '@modules/case/services/case/case.service';
+import { CaseI } from '@models/case.interface';
 
 @Component({
   selector: 'app-common-form',
@@ -107,14 +108,14 @@ export class CommonFormComponent implements OnInit, OnDestroy {
 
     this.loading.form = true;
     if (this.formType === 'new') {
-      this.caseService.createCase(this.caseForm.getRawValue())
+      this.caseService.createCase(this.getRawValue())
         .pipe(finalize(() => this.loading.form = false))
         .subscribe(
           (data) => {
             console.log('created: ', data);
             this.caseSaved.emit();
           },
-          error => console.log('Обработать ошибку: ', error)
+          (error) => console.log('Обработать ошибку: ', error)
         );
     } else {
 
@@ -149,5 +150,25 @@ export class CommonFormComponent implements OnInit, OnDestroy {
         },
         error => console.log('Обработать ошибку: ', error)
       );
+  }
+
+  /**
+   * Получить данные для отправки на сервер.
+   */
+  private getRawValue(): CaseI {
+    const value = this.caseForm.getRawValue();
+
+    if (!value.without_service) {
+      value.service_id = value.service.id;
+    }
+    if (!value.without_item) {
+      value.item_id = value.item.item_id;
+      value.invent_num = value.item.invent_num;
+    }
+
+    delete value.service;
+    delete value.item;
+
+    return value;
   }
 }
