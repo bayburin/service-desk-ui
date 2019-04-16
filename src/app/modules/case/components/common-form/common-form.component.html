@@ -1,101 +1,125 @@
 <ng-template #rt let-r="result">{{r.name}}</ng-template>
 
 <form [formGroup]="caseForm" (ngSubmit)="onSubmit()">
-  <div class="row">
-    <div class="col-sm">
-      <div class="form-group">
-        <label for="user_tn">Табельный номер</label>
-        <input type="text" id="user_tn" name="user_tn" formControlName="user_tn" class="form-control" placeholder="Табельный номер">
-      </div>
-    </div>
-    <div class="col-sm">
-      <div class="form-group">
-        <label for="fio">ФИО</label>
-        <input type="text" id="fio" name="fio" formControlName="fio" class="form-control" placeholder="ФИО">
-      </div>
-    </div>
-    <div class="col-sm">
-      <div class="form-group">
-        <label for="dept">Подразделение</label>
-        <input type="text" id="dept" name="dept" formControlName="dept" class="form-control" placeholder="Подразделение">
-      </div>
+  <div class="jumbotron bg-render-unmasked border-top border-bottom sd-p-3">
+    <div class="container">
+      <section>
+        <table class="table table-sm table-borderless">
+          <thead>
+            <tr>
+              <th class="col-4">Табельный номер</th>
+              <th class="col-4">Пользователь</th>
+              <th class="col-4">Подразделение</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td [innerHtml]="form.user_tn.value"></td>
+            <td [innerHtml]="form.fio.value"></td>
+            <td [innerHtml]="form.dept.value"></td>
+          </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <div class="row">
+          <div class="form-group col-md-3">
+            <label for="email">Электронная почта</label>
+            <input type="text" id="email" name="email" formControlName="email" class="form-control" placeholder="Электронная почта" />
+            <div class="sd-form-control-message small">* @iss-reshetnev.ru</div>
+          </div>
+          <div class="form-group col-md-3 offset-md-1">
+            <label for="email">Рабочий телефон</label>
+            <input type="text" id="phone" name="phone" formControlName="phone" class="form-control" placeholder="Рабочий телефон" />
+          </div>
+          <div class="form-group col-md-3 offset-md-1">
+            <label for="email">Сотовый телефон</label>
+            <input type="text" id="mobile" name="mobile" formControlName="mobile" class="form-control" placeholder="Сотовый телефон" />
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="form-group row">
+          <label for="service" class="col-md-2 col-form-label text-primary col-form-label">Выбор услуги</label>
+          <div class="col-md">
+            <div class="col-md-6 pl-0">
+              <div class="form-group position-relative">
+                <input id="service" name="service" type="text" class="form-control" formControlName="service" [ngbTypeahead]="search" [resultTemplate]="rt"
+                  [inputFormatter]="formatter" (click)="onService.next($event.target.value)" (focus)="onService.next($event.target.value)" #instance="ngbTypeahead"
+                  [ngClass]="{ 'is-invalid': (form.service.touched || submitted) && form.service.errors, 'is-valid': form.service.touched && form.service.valid }"
+                  autocomplete="off" placeholder="Выберите услугу" />
+                <div class="invalid-feedback">
+                  <span *ngIf="form.service.errors?.required">Необходимо выбрать услугу или поставить галочку, если услуга отсутствует в списке</span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" id="without_service" name="without_service" formControlName="without_service" (change)="onSelectCheckbox(form.service)" class="custom-control-input">
+                <label for="without_service" class="custom-control-label">Обращение не связано ни с одним из перечисленных видов услуг</label>
+              </div>
+            </div>
+            <app-loading [loading]="loading.params" size="24px"></app-loading>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="desc" class="col-md-2 col-form-label text-primary col-form-label">Описание проблемы</label>
+          <div class="col-md">
+            <div class="col-md-6 pl-0">
+              <textarea id="desc" name="desc" rows="3" formControlName="desc" class="form-control" placeholder="Введите описание"
+                [ngClass]="{ 'is-invalid': (form.desc.touched || submitted) && form.desc.errors, 'is-valid': form.desc.touched && form.desc.valid }"></textarea>
+              <div class="invalid-feedback">
+                <span *ngIf="form.desc.errors?.required">Не может быть пустым</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="item" class="col-md-2 col-form-label text-primary col-form-label">Выбор устройства</label>
+          <div class="col-md">
+            <div class="col-md-6 pl-0">
+              <div class="form-group">
+                <div class="sd-custom-select-control">
+                  <select id="item" name="item" formControlName="item" class="custom-select" [ngClass]="{ 'is-invalid': (form.item.touched || submitted) && form.item.errors,
+                    'is-valid': form.item.touched && form.item.valid }">
+                    <option value="">Выберите устройство</option>
+                    <option *ngFor="let item of items; trackBy:item?.id" [ngValue]="item">
+                      <span>{{ item.type.short_description }}</span>
+                      <span *ngIf="item.short_item_model">{{ ' ' + (item.short_item_model) + ';' }}</span>
+                      <span *ngIf="item.invent_num">{{ ' инв. № ' + item.invent_num }}</span>
+                    </option>
+                  </select>
+                  <div class="invalid-feedback">
+                    <span *ngIf="form.item.errors?.required">Необходимо выбрать технику или поставить галочку, если обращение не связано с техникой</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" id="without_item" name="without_item" formControlName="without_item" (change)="onSelectCheckbox(form.item)" class="custom-control-input" />
+                <label for="without_item" class="custom-control-label">Обращение не связано ни с одним из перечисленных устройств</label>
+              </div>
+            </div>
+            <app-loading [loading]="loading.params" size="24px"></app-loading>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-sm">
-      <div class="form-group">
-        <label for="email">Электронная почта</label>
-        <input type="text" id="email" name="email" formControlName="email" class="form-control" placeholder="Электронная почта">
-      </div>
-    </div>
-    <div class="col-sm">
-      <div class="form-group">
-        <label for="phone">Рабочий телефон</label>
-        <input type="text" id="phone" name="phone" formControlName="phone" class="form-control" placeholder="Рабочий телефон">
-      </div>
-    </div>
-    <div class="col-sm">
-      <div class="form-group">
-        <label for="mobile">Сотовый телефон</label>
-        <input type="text" id="mobile" name="mobile" formControlName="mobile" class="form-control" placeholder="Сотовый телефон">
-      </div>
+  <div class="container">
+    <div class="form-row align-items-center justify-content-center sd-mb-7">
+      <button type="submit" [disabled]="loading.form || loading.params" class="btn btn-primary">
+        <span class="d-flex justify-content-center">
+          <app-loading [loading]="loading.form" class="mr-1"></app-loading>Отправить
+        </span>
+      </button>
+      <button (click)="onCancel($event)" class="btn btn-gray-white ml-3">Отменить</button>
     </div>
   </div>
-
-  <div class="form-group row">
-    <label for="service" class="col-sm-2 col-form-label">Выбор услуги</label>
-    <div class="col-sm-10">
-      <input id="service" name="service" type="text" class="form-control" formControlName="service" [ngbTypeahead]="search" [resultTemplate]="rt"
-        [inputFormatter]="formatter" (click)="onService.next($event.target.value)" (focus)="onService.next($event.target.value)" #instance="ngbTypeahead"
-        [ngClass]="{ 'is-invalid': (form.service.touched || submitted) && form.service.errors }" autocomplete="off" placeholder="Выберите услугу">
-      <div *ngIf="(form.service.touched || submitted) && form.service.errors" class="invalid-feedback">
-        <span *ngIf="form.service.errors.required">Необходимо выбрать услугу или поставить галочку, если услуга отсутствует в списке</span>
-      </div>
-      <app-loading [loading]="loading.params" size="24px" class="d-flex justify-content-center"></app-loading>
-      <div class="form-check">
-        <input type="checkbox" id="without_service" name="without_service" (change)="onSelectCheckbox(form.service)" formControlName="without_service" class="form-check-input">
-        <label for="without_service" class="form-check-label">Обращение не связано ни с одним из перечисленных видов услуг</label>
-      </div>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <label for="desc" class="col-sm-2 col-form-label">Описание проблемы</label>
-    <div class="col-sm-10">
-      <textarea id="desc" name="desc" rows="3" formControlName="desc" class="form-control" placeholder="Введите описание"
-        [ngClass]="{ 'is-invalid': (form.desc.touched || submitted) && form.desc.errors }"></textarea>
-      <div *ngIf="(form.desc.touched || submitted) && form.desc.errors" class="invalid-feedback">
-        <span *ngIf="form.desc.errors.required">Не может быть пустым</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <label for="item" class="col-sm-2 col-form-label">Выбор устройства</label>
-    <div class="col-sm-10">
-      <select id="item" name="item" formControlName="item" class="form-control" [ngClass]="{ 'is-invalid': (form.item.touched || submitted) && form.item.errors }">
-        <option value="">Выберите устройство</option>
-        <option *ngFor="let item of items; trackBy:item?.id" [ngValue]="item">
-          <span>{{ item.type.short_description }}</span>
-          <span *ngIf="item.short_item_model">{{ ' ' + (item.short_item_model) + ';' }}</span>
-          <span *ngIf="item.invent_num">{{ ' инв. № ' + item.invent_num }}</span>
-        </option>
-      </select>
-      <div *ngIf="(form.item.touched || submitted) && form.item.errors" class="invalid-feedback">
-        <span *ngIf="form.item.errors.required">Необходимо выбрать технику или поставить галочку, если обращение не связано с техникой</span>
-      </div>
-      <app-loading [loading]="loading.params" size="24px" class="d-flex justify-content-center"></app-loading>
-      <div class="form-check">
-        <input type="checkbox" id="without_item" formControlName="without_item" (change)="onSelectCheckbox(form.item)" class="form-check-input">
-        <label for="without_item" class="form-check-label">Обращение не связано ни с одним из перечисленных устройств</label>
-      </div>
-    </div>
-  </div>
-
-  <button type="submit" [disabled]="loading.form || loading.params" class="btn btn-primary">
-    <app-loading [loading]="loading.form"></app-loading>
-    Отправить
-  </button>
-  <button (click)="onCancel($event)" class="btn btn-light">Отменить</button>
 </form>
