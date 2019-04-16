@@ -24,15 +24,6 @@
     <div class="container">
       <h2 class="h1 text-primary">Популярные категории на портале</h2>
       <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 list-unstyled sd-child-mb-7">
-          <!-- <li><h4 class="h5 mb-0"><a href="" class="sd-icon-group"><i class="sd-icon-category mdi mdi-printer"></i>Служба печати</a></h4></li>
-          <li><h4 class="h5 mb-0"><a href="" class="sd-icon-group"><i class="sd-icon-category mdi mdi-google-play"></i>Програмное обеспечение</a></h4></li>
-          <li><h4 class="h5 mb-0"><a href="" class="sd-icon-group"><i class="sd-icon-category mdi mdi-vector-polygon"></i>САПР</a></h4></li>
-          <li><h4 class="h5 mb-0"><a href="" class="sd-icon-group"><i class="sd-icon-category mdi mdi-desktop-classic"></i>Обслуживание и ремонт компьютерной техники</a></h4></li>
-          <li><h4 class="h5 mb-0"><a href="" class="sd-icon-group"><i class="sd-icon-category mdi mdi-monitor-multiple"></i>Программные комплексы предприятия</a></h4></li>
-          <li><h4 class="h5 mb-0"><a href="" class="sd-icon-group"><i class="sd-icon-category mdi mdi-checkbox-multiple-marked-circle-outline"></i>Электронная подпись</a></h4></li>
-          <li><h4 class="h5 mb-0"><a href="" class="sd-icon-group"><i class="sd-icon-category mdi mdi-lan"></i>Локальная сеть</a></h4></li>
-          <li><h4 class="h5 mb-0"><a href="" class="sd-icon-group"><i class="sd-icon-category mdi mdi-quadcopter"></i>Прикладные системы</a></h4></li>
-          <li><h4 class="h5 mb-0"><a href="" class="sd-icon-group"><i class="sd-icon-category mdi mdi-server-security"></i>Хранение данных</a></h4></li> -->
         <li *ngFor="let category of data.categories; trackBy:category?.id">
           <h4 class="h5 mb-0"><a [routerLink]="['/categories', category.id]" class="sd-icon-group"><i class="sd-icon-category mdi" [ngClass]="category.icon_name"></i>{{ category.name }}</a></h4>
         </li>
@@ -45,21 +36,6 @@
     <div class="container">
       <h2 class="h1">Часто задаваемые вопросы</h2>
       <div class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 sd-child-mb-7">
-        <!-- <div>
-          <h4>Общие вопросы</h4>
-          <ul class="list-unstyled sd-child-mb-3 sd-mb-5">
-              <li><a href="">Где находится кабинет начальника отд.714?</a></li>
-              <li><a href="">Приёмные часы начальника УИВТ?</a></li>
-              <li><a href="">Где находится кабинетначальника отд.713?</a></li>
-              <li><a href="">Где находится кабинет начальника отд.712?</a></li>
-              <li><a href="">Где находится кабинет начальника отд.715?</a></li>
-              <li><a href="">Где находятся кабинеты начальников секторов и групп УИВТ?</a></li>
-              <li><a href="">Где распечатать, сканировать документы форматов больше чем А4 ( А3, А2, А1)?</a></li>
-              <li><a href="">Не работает телефон, куда обратиться?</a></li>
-              <li><a href="">Как оформить заявку на выезд за границу?</a></li>
-          </ul>
-          <a href="" class="sd-icon-group text-dark"><i class="mdi mdi-arrow-down-drop-circle-outline mdi-24px text-primary"></i>Смотреть все вопросы</a>
-        </div> -->
         <div *ngFor="let service of data.services.slice(0, limits.services); trackBy:service?.id">
           <h4 [innerHtml]="service.name"></h4>
           <ul class="list-unstyled sd-child-mb-3 sd-mb-5">
@@ -67,8 +43,8 @@
               <a [routerLink]="['/services', ticket.service_id, 'tickets', ticket.id]" [innerHtml]="ticket.name"></a>
             </li>
           </ul>
-          <a *ngIf="service.tickets.length > service.questionLimit" (click)="toggleQuestionLimit(service)" class="sd-icon-group text-dark">
-            <i class="mdi mdi-24px text-primary" [ngClass]="service.questionLimit ? 'mdi-arrow-down-drop-circle-outline' : 'mdi-arrow-up-drop-circle-outline'"></i>
+          <a *ngIf="service.tickets.length > limits.questions" (click)="toggleQuestionLimit(service)" class="sd-icon-group text-dark">
+            <i class="mdi mdi-24px text-primary" [ngClass]="isNeedToDropDown(service) ? 'mdi-arrow-down-drop-circle-outline' : 'mdi-arrow-up-drop-circle-outline'"></i>
             Смотреть все вопросы
           </a>
         </div>
