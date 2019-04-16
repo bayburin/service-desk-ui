@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { debounceTime, switchMap, finalize, takeWhile } from 'rxjs/operators';
+import { debounceTime, switchMap, finalize, takeWhile, catchError } from 'rxjs/operators';
 
 import { APP_CONFIG } from '@config/app.config';
 import { AppConfigI } from '@models/app-config.interface';
@@ -55,7 +55,8 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
 
         this.loading = true;
         return this.dashboardService.search(term).pipe(finalize(() => this.loading = false));
-      })
+      }),
+      catchError(() => of([]))
     );
   }
 
