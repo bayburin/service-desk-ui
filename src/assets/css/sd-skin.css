@@ -11246,7 +11246,7 @@ samp {
   background-image: none !important; }
 
 .sd-custom-checkbox-add-textarea {
-  margin-top: 1rem;
+  margin-top: 1.125rem;
   margin-left: -1.625rem;
   display: none;
   opacity: 0;
@@ -11659,7 +11659,6 @@ col.col-xl-12, td.col-xl-12, th.col-xl-12 {
   position: relative;
   background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%232c2c2c' viewBox='0 0 24 24'%3e %3cpath fill='%23959595' d='M17,9.8l-5,5l-5-5H17z'/%3e %3c/svg%3e") no-repeat right 0.5rem center/24px 24px;
   position: relative;
-  z-index: 10;
   padding-right: 3.75rem; }
 
 .sd-custom-select-control {
@@ -11680,6 +11679,54 @@ col.col-xl-12, td.col-xl-12, th.col-xl-12 {
   background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%232c2c2c' viewBox='0 0 24 24'%3e %3cpath fill='%23959595' d='M17,9.8l-5,5l-5-5H17z'/%3e %3c/svg%3e") no-repeat right 0.5rem center/24px 24px;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%232c2c2c' viewBox='0 0 24 24'%3e %3cpath fill='%23959595' d='M17,9.8l-5,5l-5-5H17z'/%3e %3c/svg%3e") !important; }
 
+.dropdown-menu {
+  top: calc(1.28571em + 1.25rem + 2px);
+  width: 100%;
+  margin: -1px 0 0;
+  border-top: none; }
+
+.sd-spinner-wrap {
+  position: relative; }
+
+.sd-spinner-wrap .sd-spinner-border:after {
+  content: "";
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  width: calc(1.28571em + 1.25rem + 2px - 1.25rem);
+  height: calc(1.28571em + 1.25rem + 2px - 1.25rem);
+  color: #e5e5e5;
+  display: block;
+  align-items: center;
+  z-index: 10;
+  border: 0.25em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-border .75s linear infinite; }
+
+.sd-spinner-wrap .sd-spinner-border {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(1.28571em + 1.25rem + 2px);
+  background-color: #fff;
+  animation: none;
+  border-radius: 0;
+  border: 1px solid #e5e5e5;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0.625rem 1.25rem;
+  color: #959595;
+  display: none; }
+
+.sd-spinner-wrap .sd-spinner-border.show {
+  display: block; }
+
+@keyframes spinner-border {
+  to {
+    transform: rotate(360deg); } }
 /*
  * Layout
  */

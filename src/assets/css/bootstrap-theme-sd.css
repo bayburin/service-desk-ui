@@ -1639,7 +1639,7 @@ textarea.form-control {
   height: auto; }
 
 .form-group {
-  margin-bottom: 1rem; }
+  margin-bottom: 1.125rem; }
 
 .form-text {
   display: block;
@@ -2711,19 +2711,19 @@ input[type="button"].btn-block {
   padding: 0.25rem 1.5rem;
   clear: both;
   font-weight: 400;
-  color: #212529;
+  color: #2c2c2c;
   text-align: inherit;
   white-space: nowrap;
   background-color: transparent;
   border: 0; }
   .dropdown-item:hover, .dropdown-item:focus {
-    color: #16181b;
+    color: #1f1f1f;
     text-decoration: none;
-    background-color: #f8f9fa; }
+    background-color: #f4f4f4; }
   .dropdown-item.active, .dropdown-item:active {
-    color: #fff;
+    color: #2c2c2c;
     text-decoration: none;
-    background-color: #2170bc; }
+    background-color: #f4f4f4; }
   .dropdown-item.disabled, .dropdown-item:disabled {
     color: #6c757d;
     pointer-events: none;
@@ -2743,7 +2743,7 @@ input[type="button"].btn-block {
 .dropdown-item-text {
   display: block;
   padding: 0.25rem 1.5rem;
-  color: #212529; }
+  color: #2c2c2c; }
 
 .btn-group,
 .btn-group-vertical {
@@ -3365,8 +3365,8 @@ input[type="button"].btn-block {
 
 .navbar-brand {
   display: inline-block;
-  padding-top: 0.875rem;
-  padding-bottom: 0.875rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
   margin-right: 1rem;
   font-size: 1.12499rem;
   line-height: inherit;
