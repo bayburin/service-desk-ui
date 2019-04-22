@@ -1,3 +1,11 @@
+interface RuntimeI {
+  starttime: string;
+  endtime: string;
+  time: string;
+  formatted_starttime: string;
+  to_s: string;
+}
+
 export interface CaseI {
   case_id: number;
   service_id: number;
@@ -15,4 +23,6 @@ export interface CaseI {
   phone: string;
   email: string;
   mobile: string;
+  status: string;
+  runtime: RuntimeI;
 }

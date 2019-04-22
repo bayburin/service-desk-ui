@@ -11068,7 +11068,7 @@
  */
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-  margin-bottom: 1.125rem;
+  margin-bottom: 1.6875rem;
   font-family: Roboto;
   line-height: 1.125rem; }
 
@@ -11076,11 +11076,11 @@ h1, .h1 {
   font-size: 1.3125rem;
   font-weight: 400;
   line-height: 1.2857em;
-  color: #2170bc; }
+  color: #3251ae; }
 
 h2, .h2 {
   font-size: 1.12499rem;
-  font-family: "Roboto Light";
+  font-family: RobotoLight, Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   line-height: 1; }
 
 h3, .h3 {
@@ -11093,7 +11093,7 @@ h4, .h4 {
 
 h5, .h5 {
   font-size: 0.875rem;
-  font-family: "Roboto Light"; }
+  font-family: RobotoLight, Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif; }
 
 h6, .h6 {
   font-size: 0.75rem;
@@ -11105,7 +11105,7 @@ h6, .h6 {
 * ~ h4, * ~ .h4,
 * ~ h5, * ~ .h5,
 * ~ h6, * ~ .h6 {
-  margin-top: 1.6875rem; }
+  margin-top: 2.255rem; }
 
 pre,
 code,
@@ -11119,6 +11119,24 @@ samp {
 
 .sd-category-list .sd-category-list-item {
   padding-left: 77px; }
+
+.sd-dlist-divider-b {
+  margin-bottom: 2.25rem; }
+
+.sd-dlist-divider-b dt {
+  font-weight: normal;
+  padding-top: 1.125rem;
+  margin-top: 1.125rem;
+  border-top: 1px solid #e5e5e5;
+  margin-bottom: 1.125rem; }
+
+.sd-dlist-divider-b dd {
+  margin-bottom: 1.125rem; }
+
+.sd-dlist-divider-b dt:first-child {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0; }
 
 /* ===========================================
  *   ServiceDesc Interface CSS Framework expand MDI icons
@@ -11181,8 +11199,11 @@ samp {
 .sd-icon-group:hover {
   text-decoration: none !important; }
 
-.sd-icon-group:hover .mdi {
-  color: #2170bc; }
+.sd-icon-group .sd-icon-group-label {
+  color: #2c2c2c; }
+
+.sd-icon-group:hover .sd-icon-group-label {
+  color: #3251ae; }
 
 .sd-icon-group:hover .sd-icon-category,
 .sd-icon-group:hover .sd-icon-group-category {
@@ -11297,6 +11318,15 @@ samp {
 
 .nav-link:hover {
   cursor: pointer; }
+
+.tab-content {
+  padding: 1.6875rem 0 0; }
+
+.nav-tabs .nav-link {
+  outline: none; }
+
+.nav-pills .nav-link {
+  outline: none; }
 
 .breadcrumb {
   height: 2.5rem;
@@ -11727,6 +11757,32 @@ col.col-xl-12, td.col-xl-12, th.col-xl-12 {
 @keyframes spinner-border {
   to {
     transform: rotate(360deg); } }
+.sd-pagination {
+  padding: 1.6875rem 0 0; }
+
+.page-link-next {
+  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8px' height='14px' viewBox='0 0 8 14'%3e %3cpolyline fill='none' stroke='%232170bc' stroke-width='1.2' points='1 1 6 6 1 11'%3e%3c/polyline%3e%3c/svg%3e") no-repeat 50% 50%;
+  height: 100%;
+  width: 1rem;
+  box-sizing: border-box; }
+
+.page-link-next:hover {
+  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8px' height='14px' viewBox='0 0 8 14'%3e %3cpolyline fill='none' stroke='%230056b3' stroke-width='1.2' points='1 1 6 6 1 11'%3e%3c/polyline%3e%3c/svg%3e") no-repeat 50% 50%; }
+
+.page-link-previous {
+  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8px' height='14px' viewBox='0 0 8 14'%3e %3cpolyline fill='none' stroke='%232170bc' stroke-width='1.2' points='6 1 1 6 6 11'%3e%3c/polyline%3e%3c/svg%3e") no-repeat 50% 50%;
+  height: 100%;
+  width: 1rem;
+  box-sizing: border-box; }
+
+.page-link-previous:hover {
+  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8px' height='14px' viewBox='0 0 8 14'%3e %3cpolyline fill='none' stroke='%230056b3' stroke-width='1.2' points='6 1 1 6 6 11'%3e%3c/polyline%3e%3c/svg%3e") no-repeat 50% 50%; }
+
+.page-item.active .page-link {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%; }
+
 /*
  * Layout
  */
@@ -11757,6 +11813,15 @@ app-root {
 .container section:last-child {
   border: none;
   margin-bottom: 0; }
+
+.sd-link {
+  color: #2170bc;
+  text-decoration: none;
+  background-color: transparent; }
+  .sd-link:hover {
+    color: #3251ae;
+    text-decoration: none;
+    cursor: pointer; }
 
 /*
  * Brand

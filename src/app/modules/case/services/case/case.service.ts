@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from 'environments/environment';
 import { CaseI } from '@models/case.interface';
+import { StatusI } from '@models/status.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,10 @@ export class CaseService {
   /**
    * Получить список кейсов.
    */
-  getAllCases(): Observable<CaseI[]> {
-    return this.http.get<CaseI[]>(this.casesUrl);
+  getAllCases(filters = {}): Observable<{ statuses: StatusI[], cases: CaseI[] }> {
+    const params = new HttpParams().append('filters', JSON.stringify(filters));
+
+    return this.http.get<{ statuses: StatusI[], cases: CaseI[] }>(this.casesUrl, { params: params });
   }
 
   /**
