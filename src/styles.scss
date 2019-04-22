@@ -6,3 +6,7 @@ a.disabled {
 ngb-typeahead-window.dropdown-menu {
   width: 100%
 }
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: transparent;
+}

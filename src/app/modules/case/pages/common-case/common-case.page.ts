@@ -12,6 +12,6 @@ export class CommonCasePageComponent implements OnInit {
   ngOnInit() {}
 
   onSave() {
-    this.router.navigate(['']);
+    this.router.navigate(['/cases']);
   }
 }
