@@ -22,7 +22,7 @@
 <div *ngIf="data">
   <section class="sd-pb-6">
     <div class="container">
-      <h2 class="h1">Популярные категории на портале</h2>
+      <app-section-header header="Популярные категории на портале"></app-section-header>
       <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 list-unstyled sd-child-mb-7">
         <li *ngFor="let category of data.categories; trackBy:category?.id">
           <h4 class="h5 mb-0"><a [routerLink]="['/categories', category.id]" class="sd-icon-group"><i class="sd-icon-category mdi" [ngClass]="category.icon_name"></i>{{ category.name }}</a></h4>
@@ -34,7 +34,7 @@
 
   <section class="jumbotron mb-0">
     <div class="container">
-      <h2 class="h1">Часто задаваемые вопросы</h2>
+      <app-section-header header="Часто задаваемые вопросы"></app-section-header>
       <div class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 sd-child-mb-7">
         <div *ngFor="let service of data.services.slice(0, limits.services); trackBy:service?.id">
           <h4 [innerHtml]="service.name"></h4>

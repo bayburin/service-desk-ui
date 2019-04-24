@@ -2,7 +2,7 @@
   <div class="container">
     <app-loading [loading]="loading" size="48px"></app-loading>
     <div class="sd-category-list">
-      <h2 class="h1">Все категории на портале</h2>
+      <app-section-header header="Все категории на портале"></app-section-header>
       <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 list-unstyled sd-child-mb-7">
         <li *ngFor="let category of categories | async; trackBy:category?.id">
           <h4 class="h5 mb-0"><a [routerLink]="['/categories', category.id]" class="sd-icon-group">

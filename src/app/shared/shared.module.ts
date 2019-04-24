@@ -5,11 +5,13 @@ import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoadingComponent } from './components/loading/loading.component';
 import { CasesTableComponent } from './components/cases-table/cases-table.component';
+import { SectionHeaderComponent } from './components/section-header/section-header.component';
 
 @NgModule({
   declarations: [
     LoadingComponent,
-    CasesTableComponent
+    CasesTableComponent,
+    SectionHeaderComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,8 @@ import { CasesTableComponent } from './components/cases-table/cases-table.compon
     ReactiveFormsModule,
     NgbTypeaheadModule,
     LoadingComponent,
-    CasesTableComponent
+    CasesTableComponent,
+    SectionHeaderComponent
   ]
 })
 export class SharedModule { }
