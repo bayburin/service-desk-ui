@@ -1,15 +1,20 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-loading',
   templateUrl: './loading.component.html',
   styleUrls: ['./loading.component.scss']
 })
-export class LoadingComponent implements OnInit {
+export class LoadingComponent {
   @Input() loading: boolean;
-  @Input() size: '18px' | '24px' | '36px' | '48px';
+  @Input() size: string;
 
   constructor() { }
 
-  ngOnInit() {}
+  /**
+   * Определяет, является ли размер шрифта "маленьким" (меньше 2).
+   */
+  isSmallSize(): boolean {
+    return this.size && +(this.size.match(/(\d+).*/)[1]) <= 1;
+  }
 }

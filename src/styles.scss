@@ -16,3 +16,8 @@ ngb-typeahead-window.dropdown-menu {
 .table-striped tbody tr:nth-of-type(odd) {
   background-color: transparent;
 }
+
+.sd-spinner-wrap .sd-spinner-border:after {
+  color: #2c2c2c;
+  border-width: 0.2rem;
+}

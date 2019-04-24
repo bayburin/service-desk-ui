@@ -25,7 +25,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     return next.handle(req)
       .pipe(
         materialize(),
-        delay(2000),
+        delay(3000),
         dematerialize()
       );
 

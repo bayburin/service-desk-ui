@@ -28,7 +28,7 @@
       </thead>
       <tbody>
         <tr *ngIf="loading">
-          <td colspan="6"><app-loading [loading]="loading" size="48px"></app-loading></td>
+          <td colspan="6"><app-loading [loading]="loading" size="3rem"></app-loading></td>
         </tr>
         <ng-container *ngIf="!loading">
           <tr *ngFor="let case of cases; trackBy:case?.case_id">
@@ -38,6 +38,9 @@
             <td [innerHtml]="case.runtime.to_s"></td>
             <td [innerHtml]="case.status"></td>
             <td><span class="sd-link text-body"><i class="mdi mdi-delete"></i></span></td>
+          </tr>
+          <tr *ngIf="cases.length == 0">
+            <td colspan="6">Заявки отсутствуют</td>
           </tr>
         </ng-container>
       </tbody>

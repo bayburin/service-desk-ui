@@ -46,12 +46,17 @@
           <div class="col-md">
             <div class="col-md-6 pl-0">
               <div class="form-group position-relative">
-                <input id="service" name="service" type="text" class="form-control" formControlName="service" [ngbTypeahead]="search" [resultTemplate]="rt"
-                  [inputFormatter]="formatter" (click)="onService.next($event.target.value)" (focus)="onService.next($event.target.value)" #instance="ngbTypeahead"
-                  [ngClass]="{ 'is-invalid': (form.service.touched || submitted) && form.service.errors, 'is-valid': form.service.touched && form.service.valid }"
-                  autocomplete="off" placeholder="Выберите услугу" />
-                <div class="invalid-feedback">
-                  <span *ngIf="form.service.errors?.required">Необходимо выбрать услугу или поставить галочку, если услуга отсутствует в списке</span>
+                <div class="sd-spinner-wrap">
+                  <input id="service" name="service" type="text" class="form-control" formControlName="service" [ngbTypeahead]="search" [resultTemplate]="rt"
+                    [inputFormatter]="formatter" (click)="onService.next($event.target.value)" (focus)="onService.next($event.target.value)" #instance="ngbTypeahead"
+                    [ngClass]="{ 'is-invalid': (form.service.touched || submitted) && form.service.errors, 'is-valid': form.service.touched && form.service.valid }"
+                    autocomplete="off" placeholder="Выберите услугу" />
+                  <div class="invalid-feedback">
+                    <span *ngIf="form.service.errors?.required">Необходимо выбрать услугу или поставить галочку, если услуга отсутствует в списке</span>
+                  </div>
+                  <div [hidden]="!loading.params" class="sd-spinner-border show" role="status">
+                    <span >Загрузка...</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -61,7 +66,6 @@
                 <label for="without_service" class="custom-control-label">Обращение не связано ни с одним из перечисленных видов услуг</label>
               </div>
             </div>
-            <app-loading [loading]="loading.params" size="24px"></app-loading>
           </div>
         </div>
 
@@ -83,18 +87,23 @@
           <div class="col-md">
             <div class="col-md-6 pl-0">
               <div class="form-group">
-                <div class="sd-custom-select-control">
-                  <select id="item" name="item" formControlName="item" class="custom-select" [ngClass]="{ 'is-invalid': (form.item.touched || submitted) && form.item.errors,
-                    'is-valid': form.item.touched && form.item.valid }">
-                    <option value="">Выберите устройство</option>
-                    <option *ngFor="let item of items; trackBy:item?.id" [ngValue]="item">
-                      <span>{{ item.type.short_description }}</span>
-                      <span *ngIf="item.short_item_model">{{ ' ' + (item.short_item_model) + ';' }}</span>
-                      <span *ngIf="item.invent_num">{{ ' инв. № ' + item.invent_num }}</span>
-                    </option>
-                  </select>
-                  <div class="invalid-feedback">
-                    <span *ngIf="form.item.errors?.required">Необходимо выбрать технику или поставить галочку, если обращение не связано с техникой</span>
+                <div class="sd-spinner-wrap">
+                  <div class="sd-custom-select-control">
+                    <select id="item" name="item" formControlName="item" class="custom-select" [ngClass]="{ 'is-invalid': (form.item.touched || submitted) && form.item.errors,
+                      'is-valid': form.item.touched && form.item.valid }">
+                      <option value="">Выберите устройство</option>
+                      <option *ngFor="let item of items; trackBy:item?.id" [ngValue]="item">
+                        <span>{{ item.type.short_description }}</span>
+                        <span *ngIf="item.short_item_model">{{ ' ' + (item.short_item_model) + ';' }}</span>
+                        <span *ngIf="item.invent_num">{{ ' инв. № ' + item.invent_num }}</span>
+                      </option>
+                    </select>
+                    <div class="invalid-feedback">
+                      <span *ngIf="form.item.errors?.required">Необходимо выбрать технику или поставить галочку, если обращение не связано с техникой</span>
+                    </div>
+                  </div>
+                  <div [hidden]="!loading.params" class="sd-spinner-border show" role="status">
+                    <span>Загрузка...</span>
                   </div>
                 </div>
               </div>
@@ -105,7 +114,6 @@
                 <label for="without_item" class="custom-control-label">Обращение не связано ни с одним из перечисленных устройств</label>
               </div>
             </div>
-            <app-loading [loading]="loading.params" size="24px"></app-loading>
           </div>
         </div>
       </section>
@@ -116,7 +124,7 @@
     <div class="form-row align-items-center justify-content-center sd-mb-7">
       <button type="submit" [disabled]="loading.form || loading.params" class="btn btn-primary">
         <span class="d-flex justify-content-center">
-          <app-loading [loading]="loading.form" class="mr-1"></app-loading>Отправить
+          <app-loading [loading]="loading.form" class="mr-1" size="1rem"></app-loading>Отправить
         </span>
       </button>
       <button (click)="onCancel($event)" class="btn btn-gray-white ml-3">Отменить</button>

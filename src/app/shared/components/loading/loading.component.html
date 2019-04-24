@@ -1,3 +1,5 @@
 <div *ngIf="loading" class="d-flex justify-content-center align-items-center">
-  <i class="mdi mdi-loading mdi-spin" [ngClass]="('mdi-' + size) || ''"></i>
+  <div class="spinner-border" [style.width]="size" [style.height]="size" [ngClass]="{'spinner-border-sm': isSmallSize()}">
+    <span class="sr-only">Загрузка...</span>
+  </div>
 </div>

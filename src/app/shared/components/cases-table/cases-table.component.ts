@@ -16,7 +16,7 @@ export class CasesTableComponent implements OnInit {
   public statuses: StatusI[];
   public selectedStatus = null;
   public loading = false;
-  public caseCount = 1000;
+  public caseCount = 0;
   @Input() public services: ServiceI[] = [];
 
   constructor(private caseService: CaseService) { }
