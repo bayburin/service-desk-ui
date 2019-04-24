@@ -11,6 +11,8 @@ import { AnswersPageComponent } from './pages/answers/answers.page';
 import { AnswerService } from '@shared/services/answer/answer.service';
 import { ServiceProxyComponent } from './components/service-proxy/service-proxy.component';
 import { SearchPageComponent } from './pages/search/search.page';
+import { CategoriesDetailPageComponent } from './pages/categories-detail/categories-detail.page';
+import { CategoryService } from '@shared/services/category/category.service';
 
 const routes: Routes = [
   {
@@ -25,6 +27,11 @@ const routes: Routes = [
       {
         path: '',
         component: CategoriesOverviewPageComponent
+      },
+      {
+        path: ':id',
+        component: CategoriesDetailPageComponent,
+        data: { breadcrumb: CategoryService }
       },
       {
         path: ':id/services',

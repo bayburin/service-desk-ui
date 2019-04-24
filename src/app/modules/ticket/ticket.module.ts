@@ -13,6 +13,7 @@ import { AnswersPageComponent } from './pages/answers/answers.page';
 import { ServiceProxyComponent } from './components/service-proxy/service-proxy.component';
 import { SearchPageComponent } from './pages/search/search.page';
 import { SearchResultComponent } from './components/search-result/search-result.component';
+import { CategoriesDetailPageComponent } from './pages/categories-detail/categories-detail.page';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { SearchResultComponent } from './components/search-result/search-result.
     ServiceProxyComponent,
     SearchPageComponent,
     SearchResultComponent,
+    CategoriesDetailPageComponent
   ],
   imports: [
     TicketRoutingModule,

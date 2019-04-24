@@ -4,10 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoadingComponent } from './components/loading/loading.component';
+import { CasesTableComponent } from './components/cases-table/cases-table.component';
 
 @NgModule({
   declarations: [
-    LoadingComponent
+    LoadingComponent,
+    CasesTableComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { LoadingComponent } from './components/loading/loading.component';
     FormsModule,
     ReactiveFormsModule,
     NgbTypeaheadModule,
-    LoadingComponent
+    LoadingComponent,
+    CasesTableComponent
   ]
 })
 export class SharedModule { }

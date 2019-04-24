@@ -1,0 +1,38 @@
+<app-loading [loading]="loading" size="48px"></app-loading>
+<div *ngIf="category$ | async as category">
+  <div class="container">
+    <section>
+      <h2 class="h1" [innerHtml]="category.name"></h2>
+      <div class="sd-category-list">
+        <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 list-unstyled">
+          <li *ngFor="let service of category.services; trackBy:service?.id">
+            <a [routerLink]="['services', service.id]" [innerHtml]="service.name"></a>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+  <div class="jumbotron bg-render-unmasked border-top sd-p-3 mb-0" *ngIf="isUserSignedIn | async">
+    <div class="container">
+      <app-cases-table [services]="category.services"></app-cases-table>
+    </div>
+  </div>
+  <div class="jumbotron bg-render-unmasked border-top sd-p-3 mb-0">
+    <div class="container">
+      <section>
+        <h2 class="h1">Часто задаваемые вопросы</h2>
+        <dl class="sd-dlist-divider-b">
+          <ng-container *ngFor="let ticket of category.faq; trackBy:ticket?.id">
+            <dt>
+               <span class="sd-icon-group sd-link text-primary" (click)="ticket.open = !ticket.open">
+                 <i class="mdi mdi-24px text-primary" [ngClass]="ticket.open ? 'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'"></i>
+                 {{ ticket.name }}
+               </span>
+            </dt>
+            <dd [hidden]="!ticket.open" [innerHtml]="ticket.answers[0].answer"></dd>
+          </ng-container>
+        </dl>
+      </section>
+    </div>
+  </div>
+</div>

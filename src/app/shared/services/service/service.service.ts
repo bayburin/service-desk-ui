@@ -17,6 +17,11 @@ export class ServiceService implements CommonServiceI {
 
   constructor(private http: HttpClient) { }
 
+  /**
+   * Загрузить список услуг для указанной категории
+   *
+   * @param categoryId - Id выбранной категории
+   */
   loadServices(categoryId: number): Observable<ServiceI[]> {
     this.loadServicesUrl = `${environment.serverUrl}/api/v1/categories/${categoryId}/services`;
 

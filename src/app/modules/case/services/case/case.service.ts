@@ -17,10 +17,10 @@ export class CaseService {
   /**
    * Получить список кейсов.
    */
-  getAllCases(filters = {}): Observable<{ statuses: StatusI[], cases: CaseI[] }> {
+  getAllCases(filters = {}): Observable<{ statuses: StatusI[], cases: CaseI[], case_count: number }> {
     const params = new HttpParams().append('filters', JSON.stringify(filters));
 
-    return this.http.get<{ statuses: StatusI[], cases: CaseI[] }>(this.casesUrl, { params: params });
+    return this.http.get<{ statuses: StatusI[], cases: CaseI[], case_count: number }>(this.casesUrl, { params: params });
   }
 
   /**
