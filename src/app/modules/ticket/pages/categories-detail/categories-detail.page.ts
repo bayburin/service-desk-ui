@@ -8,7 +8,7 @@ import { CategoryService } from '@shared/services/category/category.service';
 import { AuthService } from '@auth/auth.service';
 
 @Component({
-  selector: 'app-categories-detail',
+  selector: 'app-categories-detail-page',
   templateUrl: './categories-detail.page.html',
   styleUrls: ['./categories-detail.page.scss']
 })

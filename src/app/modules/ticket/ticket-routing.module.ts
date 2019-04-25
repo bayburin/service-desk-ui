@@ -5,14 +5,12 @@ import { DashboardPageComponent } from './pages/dashboard/dashboard.page';
 import { CategoriesPageComponent } from './pages/categories/categories.page';
 import { CategoriesOverviewPageComponent } from './pages/categories-overwiev/categories-overview.page';
 import { ServicesPageComponent } from './pages/services/services.page';
-import { TicketsPageComponent } from './pages/tickets/tickets.page';
-import { TicketService } from '@shared/services/ticket/ticket.service';
-import { AnswersPageComponent } from './pages/answers/answers.page';
-import { AnswerService } from '@shared/services/answer/answer.service';
-import { ServiceProxyComponent } from './components/service-proxy/service-proxy.component';
+// import { ServiceProxyComponent } from './components/service-proxy/service-proxy.component';
 import { SearchPageComponent } from './pages/search/search.page';
 import { CategoriesDetailPageComponent } from './pages/categories-detail/categories-detail.page';
 import { CategoryService } from '@shared/services/category/category.service';
+import { ServicesDetailPageComponent } from './pages/services-detail/services-detail.page';
+import { ServiceService } from '@shared/services/service/service.service';
 
 const routes: Routes = [
   {
@@ -39,29 +37,29 @@ const routes: Routes = [
         children: [
           {
             path: ':id',
-            component: TicketsPageComponent,
-            data: { breadcrumb: TicketService }
+            component: ServicesDetailPageComponent,
+            data: { breadcrumb: ServiceService }
           }
         ]
       }
     ]
   },
-  {
-    path: 'services/:id',
-    component: ServicesPageComponent,
-    data: { breadcrumb: [TicketService, AnswerService] },
-    children: [
-      {
-        path: '',
-        component: ServiceProxyComponent
-      },
-      {
-        path: 'tickets/:id',
-        component: AnswersPageComponent,
-        data: { breadcrumb: AnswerService }
-      }
-    ]
-  },
+  // {
+  //   path: 'services/:id',
+  //   component: ServicesPageComponent,
+  //   data: { breadcrumb: [TicketService, AnswerService] },
+  //   children: [
+  //     {
+  //       path: '',
+  //       component: ServiceProxyComponent
+  //     },
+  //     {
+  //       path: 'tickets/:id',
+  //       component: AnswersPageComponent,
+  //       data: { breadcrumb: AnswerService }
+  //     }
+  //   ]
+  // },
   {
     path: 'search',
     component: SearchPageComponent,

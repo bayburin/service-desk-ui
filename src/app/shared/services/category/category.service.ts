@@ -37,7 +37,7 @@ export class CategoryService implements CommonServiceI, BreadcrumbServiceI {
   /**
    * Загрузить данные о категории и список связанных сервисов.
    */
-  loadCategory(categoryId) {
+  loadCategory(categoryId): Observable<CategoryI> {
     this.loadCategoryUrl = `${this.loadCategoriesUrl}/${categoryId}`;
 
     return this.http.get<CategoryI>(this.loadCategoryUrl).pipe(

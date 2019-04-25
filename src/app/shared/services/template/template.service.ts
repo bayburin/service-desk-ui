@@ -3,7 +3,6 @@ import { ServiceTemplateI } from '@models/service-template.interface';
 
 import { CategoryService } from '@shared/services/category/category.service';
 import { ServiceService } from '@shared/services/service/service.service';
-import { TicketService } from '@shared/services/ticket/ticket.service';
 import { CommonServiceI } from '@models/common-service.interface';
 
 @Injectable({
@@ -16,7 +15,7 @@ export class TemplateService {
 
   setCurrentState(template: ServiceTemplateI) {
     if (template.service_id) {
-      this.currentTemplate = this.injector.get(TicketService);
+      // this.currentTemplate = this.injector.get(TicketService);
     } else if (template.category_id) {
       this.currentTemplate = this.injector.get(ServiceService);
     } else {
