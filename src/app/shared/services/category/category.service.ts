@@ -49,10 +49,14 @@ export class CategoryService implements CommonServiceI, BreadcrumbServiceI {
     );
   }
 
-  getParentNodeName(highLevel: boolean = false): Observable<string> {
+  getNodeName(): Observable<string> {
     return this.category.asObservable().pipe(
       map((category: CategoryI) => category ? category.name : '')
     );
+  }
+
+  getParentNodeName(): Observable<string> {
+    return this.getNodeName();
   }
 
   getListLink(template: ServiceTemplateI): string {

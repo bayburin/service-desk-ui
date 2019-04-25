@@ -30,17 +30,18 @@ const routes: Routes = [
         path: ':id',
         component: CategoriesDetailPageComponent,
         data: { breadcrumb: CategoryService }
-      },
+      }
+    ]
+  },
+  {
+    path: 'categories/:id',
+    component: CategoriesPageComponent,
+    data: { breadcrumb: [CategoryService, ServiceService] },
+    children: [
       {
-        path: ':id/services',
-        component: ServicesPageComponent,
-        children: [
-          {
-            path: ':id',
-            component: ServicesDetailPageComponent,
-            data: { breadcrumb: ServiceService }
-          }
-        ]
+        path: 'services/:id',
+        component: ServicesDetailPageComponent,
+        data: { breadcrumb: ServiceService }
       }
     ]
   },

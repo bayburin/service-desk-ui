@@ -1,7 +1,7 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { of, Observable, race } from 'rxjs';
+import { filter, first, concatAll, startWith } from 'rxjs/operators';
+import { of, Observable, combineLatest } from 'rxjs';
 
 import { BreadcrumbServiceI } from '@models/breadcrumb-service.interface';
 import { BreadcrumbI } from '@models/breadcrumb.interface';
@@ -59,17 +59,22 @@ export class BreadcrumbComponent implements OnInit {
     if (typeof breadcrumb === 'string') {
       return of(breadcrumb);
     } else if (Array.isArray(breadcrumb)) {
-      return race(
-        this.getBreadcrumbFromService(breadcrumb[0]),
-        this.getBreadcrumbFromService(breadcrumb[1], true)
+      return combineLatest(
+        this.getBreadcrumbFromService(breadcrumb[0]).pipe(startWith('')),
+        this.getBreadcrumbFromService(breadcrumb[1], true).pipe(startWith(''))
+      )
+      .pipe(
+        concatAll(),
+        filter(Boolean),
+        first()
       );
     } else {
       return this.getBreadcrumbFromService(breadcrumb);
     }
   }
 
-  private getBreadcrumbFromService(serviceType, flag?: boolean): Observable<string> {
+  private getBreadcrumbFromService(serviceType, parentNodeflag?: boolean): Observable<string> {
     const service = this.injector.get<BreadcrumbServiceI>(serviceType);
-    return service.getParentNodeName(flag);
+    return parentNodeflag ? service.getParentNodeName() : service.getNodeName();
   }
 }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ServiceI } from '@models/service.interface';
@@ -16,7 +16,7 @@ export class ServiceService implements CommonServiceI, BreadcrumbServiceI {
   private loadServicesUrl: string;
   public loadServiceUrl: string;
   private services = new Subject<ServiceI[]>();
-  private service = new BehaviorSubject<ServiceI>(null);
+  private service = new Subject<ServiceI>();
 
   constructor(private http: HttpClient) { }
 
@@ -42,7 +42,6 @@ export class ServiceService implements CommonServiceI, BreadcrumbServiceI {
   loadService(categoryId, serviceId): Observable<ServiceI> {
     this.loadServiceUrl = `${environment.serverUrl}/api/v1/categories/${categoryId}/services/${serviceId}`;
 
-    console.log(this.loadServiceUrl);
     return this.http.get<ServiceI>(this.loadServiceUrl).pipe(
       map((service: ServiceI) => {
         this.service.next(service);
@@ -52,9 +51,15 @@ export class ServiceService implements CommonServiceI, BreadcrumbServiceI {
     );
   }
 
-  getParentNodeName(highLevel: boolean = false): Observable<string> {
+  getNodeName(): Observable<string> {
     return this.service.asObservable().pipe(
       map((service: ServiceI) => service ? service.name : '')
+    );
+  }
+
+  getParentNodeName(): Observable<string> {
+    return this.service.asObservable().pipe(
+      map((service: ServiceI) => service ? service.category.name : '')
     );
   }
 
