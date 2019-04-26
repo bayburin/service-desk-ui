@@ -1,14 +1,14 @@
 <app-loading [loading]="loading" size="3rem"></app-loading>
 
-<div *ngIf="service$ | async as service">
+<div *ngIf="service">
   <section class="sd-pb-6">
     <div class="container">
       <app-section-header [header]="service.name"></app-section-header>
       <dl class="sd-dlist-divider-b">
         <ng-container *ngFor="let ticket of service.tickets; trackBy:ticket?.id">
           <div *ngIf="ticket.ticket_type == 'question'">
-            <dt>
-              <span class="sd-icon-group sd-link text-primary" (click)="ticket.open = !ticket.open">
+            <dt [id]="ticket.id">
+              <span class="sd-icon-group sd-link text-primary" (click)="toggleTicket(ticket)">
                 <i class="mdi mdi-24px text-primary" [ngClass]="ticket.open ? 'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'"></i>
                 {{ ticket.name }}
               </span>
@@ -16,7 +16,7 @@
             <dd [hidden]="!ticket.open" [innerHtml]="ticket.answers[0]?.answer"></dd>
           </div>
           <div *ngIf="ticket.ticket_type == 'case'">
-            <dt>
+            <dt [id]="ticket.id">
               <span class="sd-link text-primary">
                 {{ ticket.name }}
               </span>

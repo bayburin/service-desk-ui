@@ -7,4 +7,5 @@ export interface TicketI {
   short_description: string;
   popularity: number;
   service?: ServiceI;
+  open?: boolean;
 }
