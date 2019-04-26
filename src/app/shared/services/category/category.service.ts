@@ -1,65 +1,58 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
-import { CategoryI } from '@models/category.interface';
+import { CategoryI } from '@interfaces/category.interface';
+import { Category } from '@modules/ticket/models/category.model';
 import { environment } from 'environments/environment';
-import { CommonServiceI } from '@models/common-service.interface';
-import { ServiceTemplateI } from '@models/service-template.interface';
-import { BreadcrumbServiceI } from '@models/breadcrumb-service.interface';
+import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryService implements CommonServiceI, BreadcrumbServiceI {
+export class CategoryService implements BreadcrumbServiceI {
   private loadCategoriesUrl = `${environment.serverUrl}/api/v1/categories`;
   private loadCategoryUrl: string;
-  private categories: CategoryI[];
-  private category = new BehaviorSubject<CategoryI>(null);
+  private categories: Category[];
+  private category = new BehaviorSubject<Category>(null);
 
   constructor(private http: HttpClient) {}
 
   /**
    * Загрузить список категорий.
    */
-  loadCategories(): Observable<CategoryI[]> {
-    return this.http.get<CategoryI[]>(this.loadCategoriesUrl).pipe(map((categories: CategoryI[]) => this.categories = categories));
+  loadCategories(): Observable<Category[]> {
+    return this.http.get(this.loadCategoriesUrl)
+             .pipe(map((categories: CategoryI[]) => categories.map((category) => new Category(category))));
   }
 
   /**
    * Получить текущий список категорий.
    */
-  getCategories(): CategoryI[] {
+  getCategories(): Category[] {
     return this.categories;
   }
 
   /**
    * Загрузить данные о категории и список связанных сервисов.
    */
-  loadCategory(categoryId): Observable<CategoryI> {
+  loadCategory(categoryId): Observable<Category> {
     this.loadCategoryUrl = `${this.loadCategoriesUrl}/${categoryId}`;
 
-    return this.http.get<CategoryI>(this.loadCategoryUrl).pipe(
-      map((category: CategoryI) => {
-        this.category.next(category);
-
-        return category;
-      })
+    return this.http.get(this.loadCategoryUrl).pipe(
+      map((data: CategoryI) => new Category(data)),
+      tap((category) => this.category.next(category))
     );
   }
 
   getNodeName(): Observable<string> {
     return this.category.asObservable().pipe(
-      map((category: CategoryI) => category ? category.name : '')
+      map((category: Category) => category ? category.name : '')
     );
   }
 
   getParentNodeName(): Observable<string> {
     return this.getNodeName();
-  }
-
-  getListLink(template: ServiceTemplateI): string {
-    return `/categories/${template.id}`;
   }
 }

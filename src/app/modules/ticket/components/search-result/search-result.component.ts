@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { takeWhile, map, switchMap } from 'rxjs/operators';
 
-import { ServiceTemplateI } from '@models/service-template.interface';
+import { ServiceTemplateI } from '@interfaces/service-template.interface';
 import { TemplateService } from '@shared/services/template/template.service';
 
 @Component({
@@ -11,10 +11,10 @@ import { TemplateService } from '@shared/services/template/template.service';
   styleUrls: ['./search-result.component.scss']
 })
 export class SearchResultComponent implements OnInit, OnDestroy {
-  private alive = true;
-  public result: ServiceTemplateI[];
-  public selectedType = new BehaviorSubject<string>('all');
+  result: ServiceTemplateI[];
+  selectedType = new BehaviorSubject<string>('all');
   @Input() searchResult: Observable<ServiceTemplateI[]>;
+  private alive = true;
 
   constructor(private templateService: TemplateService) {}
 

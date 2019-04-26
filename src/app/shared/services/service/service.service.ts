@@ -1,22 +1,20 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
-import { ServiceI } from '@models/service.interface';
+import { Service } from '@modules/ticket/models/service.model';
 import { environment } from 'environments/environment';
-import { CommonServiceI } from '@models/common-service.interface';
-import { ServiceTemplateI } from '@models/service-template.interface';
-import { BreadcrumbServiceI } from '@models/breadcrumb-service.interface';
+import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ServiceService implements CommonServiceI, BreadcrumbServiceI {
+export class ServiceService implements BreadcrumbServiceI {
+  loadServiceUrl: string;
   private loadServicesUrl: string;
-  public loadServiceUrl: string;
-  private services = new Subject<ServiceI[]>();
-  private service = new Subject<ServiceI>();
+  private services = new Subject<Service[]>();
+  private service = new Subject<Service>();
 
   constructor(private http: HttpClient) { }
 
@@ -38,32 +36,28 @@ export class ServiceService implements CommonServiceI, BreadcrumbServiceI {
 
   /**
    * Загрузить данные о категории и список связанных сервисов.
+   *
+   * @param categoryId - id категории
+   * @param serviceId  id сервиса
    */
-  loadService(categoryId, serviceId): Observable<ServiceI> {
+  loadService(categoryId: string, serviceId: string): Observable<Service> {
     this.loadServiceUrl = `${environment.serverUrl}/api/v1/categories/${categoryId}/services/${serviceId}`;
 
-    return this.http.get<ServiceI>(this.loadServiceUrl).pipe(
-      map((service: ServiceI) => {
-        this.service.next(service);
-
-        return service;
-      })
+    return this.http.get<Service>(this.loadServiceUrl).pipe(
+      map(data => new Service(data)),
+      tap(service => this.service.next(service))
     );
   }
 
   getNodeName(): Observable<string> {
     return this.service.asObservable().pipe(
-      map((service: ServiceI) => service ? service.name : '')
+      map((service) => service ? service.name : '')
     );
   }
 
   getParentNodeName(): Observable<string> {
     return this.service.asObservable().pipe(
-      map((service: ServiceI) => service ? service.category.name : '')
+      map((service) => service ? service.category.name : '')
     );
-  }
-
-  getListLink(template: ServiceTemplateI): string {
-    return `/categories/${template.category_id}/services`;
   }
 }

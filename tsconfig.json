@@ -19,7 +19,7 @@
       "dom"
     ],
     "paths": {
-      "@models/*": ["app/core/models/*"],
+      "@interfaces/*": ["app/core/interfaces/*"],
       "@auth/*": ["app/core/auth/*"],
       "@guards/*": ["app/core/guards/*"],
       "@config/*": ["app/config/*"],

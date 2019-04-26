@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { DashboardI } from '@models/dashboard.interface';
+import { DashboardI } from '@interfaces/dashboard.interface';
 import { environment } from 'environments/environment';
 
 @Injectable()

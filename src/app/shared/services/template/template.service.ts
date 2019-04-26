@@ -1,9 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
-import { ServiceTemplateI } from '@models/service-template.interface';
+import { ServiceTemplateI } from '@interfaces/service-template.interface';
 
 import { CategoryService } from '@shared/services/category/category.service';
 import { ServiceService } from '@shared/services/service/service.service';
-import { CommonServiceI } from '@models/common-service.interface';
+import { CommonServiceI } from '@interfaces/common-service.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,15 +17,15 @@ export class TemplateService {
     if (template.service_id) {
       // this.currentTemplate = this.injector.get(TicketService);
     } else if (template.category_id) {
-      this.currentTemplate = this.injector.get(ServiceService);
+      // this.currentTemplate = this.injector.get(ServiceService);
     } else {
-      this.currentTemplate = this.injector.get(CategoryService);
+      // this.currentTemplate = this.injector.get(CategoryService);
     }
   }
 
   generateUrlBy(template: ServiceTemplateI): string {
     this.setCurrentState(template);
-    return this.currentTemplate.getListLink(template);
+    return this.currentTemplate.getShowLink(template);
   }
 
   filterTemplateArr(arr: ServiceTemplateI[], type: string): ServiceTemplateI[] {

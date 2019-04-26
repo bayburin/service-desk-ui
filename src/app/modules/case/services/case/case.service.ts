@@ -3,8 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from 'environments/environment';
-import { CaseI } from '@models/case.interface';
-import { StatusI } from '@models/status.interface';
+import { CaseI } from '@interfaces/case.interface';
+import { StatusI } from '@interfaces/status.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +30,23 @@ export class CaseService {
    */
   createCase(data: CaseI): Observable<any> {
     return this.http.post(this.casesUrl, { case: data });
+  }
+
+  /**
+   * Возвращает объект case для отправки на сервер.
+   */
+  getRowValues(caseObj): CaseI {
+    if (!caseObj.without_service) {
+      caseObj.service_id = caseObj.service.id;
+    }
+    if (!caseObj.without_item) {
+      caseObj.item_id = caseObj.item.item_id;
+      caseObj.invent_num = caseObj.item.invent_num;
+    }
+
+    delete caseObj.service;
+    delete caseObj.item;
+
+    return caseObj;
   }
 }

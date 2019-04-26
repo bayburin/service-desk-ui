@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 
 import { ServiceService } from '@shared/services/service/service.service';
-import { ServiceI } from '@models/service.interface';
-import { TicketI } from '@models/ticket.interface';
+import { Service } from '@modules/ticket/models/service.model';
+import { Ticket } from '@modules/ticket/models/ticket.model';
 
 @Component({
   selector: 'app-services-detail-page',
@@ -12,8 +12,8 @@ import { TicketI } from '@models/ticket.interface';
   styleUrls: ['./services-detail.page.scss']
 })
 export class ServicesDetailPageComponent implements OnInit {
-  public loading = false;
-  public service: ServiceI;
+  loading = false;
+  service: Service;
 
   constructor(private serviceService: ServiceService, private route: ActivatedRoute) { }
 
@@ -26,7 +26,7 @@ export class ServicesDetailPageComponent implements OnInit {
     this.serviceService.loadService(categoryId, serviceId)
       .pipe(finalize(() => this.loading = false))
       .subscribe(
-        (service: ServiceI) => {
+        service => {
           this.service = service;
 
           setTimeout(() => {
@@ -34,7 +34,6 @@ export class ServicesDetailPageComponent implements OnInit {
               this.toggleTicket(service.tickets.find(ticket => ticket.id == ticketId));
               this.scrollToTicket(ticketId);
             }
-
           }, 200);
         }
       );
@@ -43,7 +42,7 @@ export class ServicesDetailPageComponent implements OnInit {
   /**
    * "Раскрывает" вопрос.
    */
-  toggleTicket(ticket: TicketI): void {
+  toggleTicket(ticket: Ticket): void {
     ticket.open = !ticket.open;
   }
 

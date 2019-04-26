@@ -3,8 +3,8 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { of, Observable, combineLatest } from 'rxjs';
 import { filter, first, concatAll, startWith } from 'rxjs/operators';
 
-import { BreadcrumbServiceI } from '@models/breadcrumb-service.interface';
-import { BreadcrumbI } from '@models/breadcrumb.interface';
+import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
+import { BreadcrumbI } from '@interfaces/breadcrumb.interface';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -12,7 +12,7 @@ import { BreadcrumbI } from '@models/breadcrumb.interface';
   styleUrls: ['./breadcrumb.component.scss']
 })
 export class BreadcrumbComponent implements OnInit {
-  public breadcrumbs: BreadcrumbI[] = [];
+  breadcrumbs: BreadcrumbI[] = [];
   private readonly routeParamName = 'breadcrumb';
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private injector: Injector) {}

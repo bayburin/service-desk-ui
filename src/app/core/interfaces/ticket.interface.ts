@@ -1,4 +1,4 @@
-import { ServiceI } from '@models/service.interface';
+import { ServiceI } from '@interfaces/service.interface';
 
 export interface TicketI {
   id: number;

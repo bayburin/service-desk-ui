@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { finalize, map } from 'rxjs/operators';
 
-import { DashboardI } from '@models/dashboard.interface';
+import { DashboardI } from '@interfaces/dashboard.interface';
 import { DashboardService } from '@modules/ticket/services/dashboard/dashboard.service';
-import { ServiceI } from '@models/service.interface';
+import { Service } from '@modules/ticket/models/service.model';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -11,9 +11,9 @@ import { ServiceI } from '@models/service.interface';
   styleUrls: ['./dashboard.page.scss']
 })
 export class DashboardPageComponent implements OnInit {
-  public data: DashboardI;
-  public loading = false;
-  public limits = {
+  data: DashboardI;
+  loading = false;
+  limits = {
     services: 6,
     questions: 3
   };
@@ -25,13 +25,17 @@ export class DashboardPageComponent implements OnInit {
     this.dashboardDataService.loadAll()
       .pipe(
         finalize(() => this.loading = false),
-        map((data: DashboardI) => {
-          data.services.map((service: ServiceI) => service.questionLimit = this.limits.questions);
+        map((data) => {
+          data.services.map((service) =>  {
+            service.questionLimit = this.limits.questions;
+
+            return service;
+          });
 
           return data;
         })
       )
-      .subscribe((data: DashboardI) => this.data = data);
+      .subscribe((data) => this.data = data);
   }
 
   /**
@@ -39,7 +43,7 @@ export class DashboardPageComponent implements OnInit {
    *
    * @param service - сервис, у которого необходимо показать/скрыть вопросы.
    */
-  toggleQuestionLimit(service: ServiceI): void {
+  toggleQuestionLimit(service: Service): void {
     service.questionLimit = this.isNeedToDropDown(service) ? service.tickets.length + 1 : this.limits.questions;
   }
 
@@ -48,7 +52,7 @@ export class DashboardPageComponent implements OnInit {
    *
    * @param service - сервис, содержащий вопросы.
    */
-  isNeedToDropDown(service: ServiceI): boolean {
+  isNeedToDropDown(service: Service): boolean {
     return service.questionLimit < service.tickets.length;
   }
 }

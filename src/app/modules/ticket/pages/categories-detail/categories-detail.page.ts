@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, share } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
-import { CategoryI } from '@models/category.interface';
+import { Category } from '@modules/ticket/models/category.model';
 import { CategoryService } from '@shared/services/category/category.service';
 import { AuthService } from '@auth/auth.service';
 
@@ -13,9 +13,9 @@ import { AuthService } from '@auth/auth.service';
   styleUrls: ['./categories-detail.page.scss']
 })
 export class CategoriesDetailPageComponent implements OnInit {
-  public loading = false;
-  public isUserSignedIn: Observable<boolean>;
-  public category$: Observable<CategoryI>;
+  loading = false;
+  isUserSignedIn: Observable<boolean>;
+  category$: Observable<Category>;
 
   constructor(
     private categoryService: CategoryService,

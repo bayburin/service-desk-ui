@@ -13,6 +13,7 @@ import { SearchPageComponent } from './pages/search/search.page';
 import { SearchResultComponent } from './components/search-result/search-result.component';
 import { CategoriesDetailPageComponent } from './pages/categories-detail/categories-detail.page';
 import { ServicesDetailPageComponent } from './pages/services-detail/services-detail.page';
+import { CategoryHeaderComponent } from './components/category-header/category-header.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ServicesDetailPageComponent } from './pages/services-detail/services-de
     SearchPageComponent,
     SearchResultComponent,
     CategoriesDetailPageComponent,
-    ServicesDetailPageComponent
+    ServicesDetailPageComponent,
+    CategoryHeaderComponent
   ],
   imports: [
     TicketRoutingModule,

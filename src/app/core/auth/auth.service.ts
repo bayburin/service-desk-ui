@@ -4,8 +4,8 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { APP_CONFIG } from '@config/app.config';
-import { AppConfigI } from '@models/app-config.interface';
-import { TokenI } from '@models/token.interface';
+import { AppConfigI } from '@interfaces/app-config.interface';
+import { TokenI } from '@interfaces/token.interface';
 import { UserService } from '@shared/services/user/user.service';
 import { environment } from 'environments/environment';
 
@@ -17,7 +17,7 @@ export class AuthService {
   private logoutUrl = `${environment.serverUrl}/oauth/revoke`;
   private loggedFlag = this.getToken() ? true : false;
   private isLoggedInSub = new BehaviorSubject<boolean>(this.loggedFlag);
-  public readonly isUserSignedIn = this.isLoggedInSub.asObservable();
+  readonly isUserSignedIn = this.isLoggedInSub.asObservable();
 
   constructor(
     private http: HttpClient,

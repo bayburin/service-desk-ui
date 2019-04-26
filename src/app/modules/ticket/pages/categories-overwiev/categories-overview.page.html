@@ -5,9 +5,7 @@
       <app-loading [loading]="loading" size="3rem"></app-loading>
       <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 list-unstyled sd-child-mb-7">
         <li *ngFor="let category of categories | async; trackBy:category?.id">
-          <h4 class="h5 mb-0"><a [routerLink]="['/categories', category.id]" class="sd-icon-group">
-            <i class="sd-icon-category mdi" [ngClass]="category.icon_name"></i>{{ category.name }}</a>
-          </h4>
+          <app-category-header [category]="category"></app-category-header>
           <ul class="sd-category-list-item list-unstyled sd-child-mb-3 collapse show">
             <li *ngFor="let service of category.services; trackBy:service?.id">
               <a [routerLink]="[category.id, 'services', service.id]" [innerHtml]="service.name"></a>

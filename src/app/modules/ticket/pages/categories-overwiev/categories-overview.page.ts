@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 import { CategoryService } from '@shared/services/category/category.service';
-import { CategoryI } from '@models/category.interface';
+import { Category } from '@modules/ticket/models/category.model';
 
 @Component({
   selector: 'app-categories-overview-page',
@@ -11,8 +11,8 @@ import { CategoryI } from '@models/category.interface';
   styleUrls: ['./categories-overview.page.scss']
 })
 export class CategoriesOverviewPageComponent implements OnInit {
-  public loading = false;
-  categories: Observable<CategoryI[]>;
+  loading = false;
+  categories: Observable<Category[]>;
 
   constructor(private categoryService: CategoryService) { }
 

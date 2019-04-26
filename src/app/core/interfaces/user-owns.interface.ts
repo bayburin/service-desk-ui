@@ -1,7 +1,7 @@
 import { ItemI } from './item.interface';
-import { ServiceI } from '@models/service.interface';
+import { Service } from '@modules/ticket/models/service.model';
 
 export interface UserOwnsI {
-  services: ServiceI[];
+  services: Service[];
   items: ItemI[];
 }

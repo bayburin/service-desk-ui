@@ -1,9 +1,12 @@
+import { Category } from '@modules/ticket/models/category.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { DashboardI } from '@models/dashboard.interface';
+import { DashboardI } from '@interfaces/dashboard.interface';
 import { environment } from 'environments/environment';
+import { map } from 'rxjs/operators';
+import { Service } from '@modules/ticket/models/service.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +14,18 @@ import { environment } from 'environments/environment';
 export class DashboardService {
   private getAllUrl = `${environment.serverUrl}/api/v1/dashboard`;
   private searchUrl = `${environment.serverUrl}/api/v1/dashboard/search`;
+
   constructor(private http: HttpClient) {}
 
   loadAll(): Observable<DashboardI> {
-    return this.http.get<DashboardI>(this.getAllUrl);
+    return this.http.get<DashboardI>(this.getAllUrl).pipe(
+      map((data) => {
+        data.services = data.services.map(service => new Service(service));
+        data.categories = data.categories.map(category => new Category(category));
+
+        return data;
+      })
+    );
   }
 
   search(searchValue: string): Observable<any> {

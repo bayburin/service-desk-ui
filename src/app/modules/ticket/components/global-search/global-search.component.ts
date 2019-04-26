@@ -5,9 +5,9 @@ import { Observable, of } from 'rxjs';
 import { debounceTime, switchMap, finalize, takeWhile, catchError } from 'rxjs/operators';
 
 import { APP_CONFIG } from '@config/app.config';
-import { AppConfigI } from '@models/app-config.interface';
+import { AppConfigI } from '@interfaces/app-config.interface';
 import { DashboardService } from '@modules/ticket/services/dashboard/dashboard.service';
-import { ServiceTemplateI } from '@models/service-template.interface';
+import { ServiceTemplateI } from '@interfaces/service-template.interface';
 import { TemplateService } from '@shared/services/template/template.service';
 
 @Component({
@@ -16,10 +16,10 @@ import { TemplateService } from '@shared/services/template/template.service';
   styleUrls: ['./global-search.component.scss']
 })
 export class GlobalSearchComponent implements OnInit, OnDestroy {
-  private alive = true;
-  public serviceCtrl: FormControl;
-  public loading = false;
+  serviceCtrl: FormControl;
+  loading = false;
   @Input() searchTerm: string;
+  private alive = true;
 
   constructor(
     @Inject(APP_CONFIG) private config: AppConfigI,
@@ -44,6 +44,11 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * Поиск, вызывающийся сразу после того, как пользователь ввел данные.
+   *
+   * @param searchTerm - строка поиска
+   */
   search = (searchTerm: Observable<string>) => {
     return searchTerm.pipe(
       debounceTime(500),
@@ -60,6 +65,9 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Событие поиска по нажатии на кнопку "Поиск".
+   */
   onSearch(): void {
     if (!this.searchTerm || this.searchTerm.length < this.config.minLengthSearch) {
       return;
@@ -68,6 +76,9 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
     this.router.navigate(['search'], { queryParams: { search: this.searchTerm.trim() } });
   }
 
+  /**
+   * Форматирует выводимые данные.
+   */
   formatter = (val: { name: string }) => val.name;
 
   ngOnDestroy() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Observable, Subject, merge } from 'rxjs';
@@ -6,12 +6,11 @@ import { finalize, takeWhile, map, filter } from 'rxjs/operators';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 
 import { UserService } from '@shared/services/user/user.service';
-import { UserI } from '@models/user.interface';
-import { UserOwnsI } from '@models/user-owns.interface';
-import { ServiceI } from '@models/service.interface';
-import { ItemI } from '@models/item.interface';
+import { UserI } from '@interfaces/user.interface';
+import { ItemI } from '@interfaces/item.interface';
 import { CaseService } from '@modules/case/services/case/case.service';
-import { CaseI } from '@models/case.interface';
+import { CaseI } from '@interfaces/case.interface';
+import { Service } from '@modules/ticket/models/service.model';
 
 @Component({
   selector: 'app-common-form',
@@ -22,16 +21,16 @@ export class CommonFormComponent implements OnInit, OnDestroy {
   @ViewChild('instance') instance: NgbTypeahead;
   @Input() formType: 'new' | 'edit';
   @Output() caseSaved = new EventEmitter();
-  public caseForm: FormGroup;
-  public user: UserI;
-  public loading = {
+  caseForm: FormGroup;
+  user: UserI;
+  loading = {
   params: false,
     form: false
   };
-  public services: ServiceI[];
-  public items: ItemI[];
-  public onService = new Subject<string>();
-  public submitted = false;
+  services: Service[];
+  items: ItemI[];
+  onService = new Subject<string>();
+  submitted = false;
   private alive = true;
 
   constructor(
@@ -111,11 +110,8 @@ export class CommonFormComponent implements OnInit, OnDestroy {
       this.caseService.createCase(this.getRawValue())
         .pipe(finalize(() => this.loading.form = false))
         .subscribe(
-          (data) => {
-            console.log('created: ', data);
-            this.caseSaved.emit();
-          },
-          (error) => console.log('Обработать ошибку: ', error)
+          () => this.caseSaved.emit(),
+          error => console.log('Обработать ошибку: ', error)
         );
     } else {
 
@@ -144,7 +140,8 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     this.userService.loadUserOwns()
       .pipe(finalize(() => this.loading.params = false))
       .subscribe(
-        (data: UserOwnsI) => {
+        data => {
+          console.log(data);
           this.services = data.services;
           this.items = data.items;
         },
@@ -156,19 +153,6 @@ export class CommonFormComponent implements OnInit, OnDestroy {
    * Получить данные для отправки на сервер.
    */
   private getRawValue(): CaseI {
-    const value = this.caseForm.getRawValue();
-
-    if (!value.without_service) {
-      value.service_id = value.service.id;
-    }
-    if (!value.without_item) {
-      value.item_id = value.item.item_id;
-      value.invent_num = value.item.invent_num;
-    }
-
-    delete value.service;
-    delete value.item;
-
-    return value;
+    return this.caseService.getRowValues(this.caseForm.getRawValue());
   }
 }

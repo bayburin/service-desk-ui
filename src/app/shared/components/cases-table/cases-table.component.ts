@@ -2,9 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 
 import { CaseService } from '@modules/case/services/case/case.service';
-import { CaseI } from '@models/case.interface';
-import { StatusI } from '@models/status.interface';
-import { ServiceI } from '@models/service.interface';
+import { CaseI } from '@interfaces/case.interface';
+import { StatusI } from '@interfaces/status.interface';
+import { Service } from '@modules/ticket/models/service.model';
 
 @Component({
   selector: 'app-cases-table',
@@ -17,7 +17,7 @@ export class CasesTableComponent implements OnInit {
   public selectedStatus = null;
   public loading = false;
   public caseCount = 0;
-  @Input() public services: ServiceI[] = [];
+  @Input() public services: Service[] = [];
 
   constructor(private caseService: CaseService) { }
 
@@ -43,7 +43,6 @@ export class CasesTableComponent implements OnInit {
     this.caseService.getAllCases(this.getFilters())
       .pipe(finalize(() => this.loading = false))
       .subscribe((data: { statuses: StatusI[], cases: CaseI[], case_count: number }) => {
-        console.log(data);
         this.statuses = data.statuses;
         this.cases = data.cases;
         this.caseCount = data.case_count;
@@ -54,7 +53,7 @@ export class CasesTableComponent implements OnInit {
    * Получить список фильтров
    */
   private getFilters() {
-    const serviceIds = this.services.map((service: ServiceI) => service.id);
+    const serviceIds = this.services.map(service => service.id);
 
     return {
       limit: 15,

@@ -4,7 +4,7 @@ import { finalize } from 'rxjs/operators';
 
 import { UserService } from '@shared/services/user/user.service';
 import { AuthService } from '@auth/auth.service';
-import { UserI } from '@models/user.interface';
+import { UserI } from '@interfaces/user.interface';
 
 @Component({
   selector: 'app-header',
@@ -12,10 +12,10 @@ import { UserI } from '@models/user.interface';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  public collapsed = true;
-  public user: Observable<UserI>;
-  public isUserSignedIn: Observable<boolean>;
-  public loading = false;
+  collapsed = true;
+  user: Observable<UserI>;
+  isUserSignedIn: Observable<boolean>;
+  loading = false;
 
   constructor(private userService: UserService, private authService: AuthService) {}
 

@@ -25,7 +25,7 @@
       <app-section-header header="Популярные категории на портале"></app-section-header>
       <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 list-unstyled sd-child-mb-7">
         <li *ngFor="let category of data.categories; trackBy:category?.id">
-          <h4 class="h5 mb-0"><a [routerLink]="['/categories', category.id]" class="sd-icon-group"><i class="sd-icon-category mdi" [ngClass]="category.icon_name"></i>{{ category.name }}</a></h4>
+          <app-category-header [category]="category"></app-category-header>
         </li>
       </ul>
       <div class="text-center"><a routerLink="/categories" class="btn btn-gray-white">Все категории</a></div>
@@ -40,7 +40,7 @@
           <h4 [innerHtml]="service.name"></h4>
           <ul class="list-unstyled sd-child-mb-3 sd-mb-5">
             <li *ngFor="let ticket of service.tickets.slice(0, service.questionLimit); trackBy:ticket?.id">
-              <a [routerLink]="['/categories', service.category_id, 'services', service.id]" [queryParams]="{ ticket: ticket.id }" [innerHtml]="ticket.name"></a>
+              <a [routerLink]="['/categories', service.categoryId, 'services', service.id]" [queryParams]="{ ticket: ticket.id }" [innerHtml]="ticket.name"></a>
             </li>
           </ul>
           <span *ngIf="service.tickets.length > limits.questions" (click)="toggleQuestionLimit(service)" class="sd-icon-group sd-link text-dark">
