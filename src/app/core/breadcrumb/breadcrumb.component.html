@@ -4,7 +4,8 @@
       <ol class="breadcrumb bg-render-unmasked d-flex align-items-center">
         <li class="breadcrumb-item"><a routerLink="" class="sd-icon-group"><i class="mdi mdi-home mdi-24px"></i>Главная</a></li>
         <li *ngFor="let breadcrumb of breadcrumbs; let last = last" class="breadcrumb-item">
-          <a [routerLink]="[breadcrumb.url]" [queryParams]="breadcrumb.params" [innerHtml]="breadcrumb.label | async" class="breadcrumb-item" [ngClass]="{ active: last }"></a>
+          <a [routerLink]="[breadcrumb.url]" [innerHtml]="breadcrumb.label | async" class="breadcrumb-item" [ngClass]="{ active: last }"></a>
+          <!-- [queryParams]="breadcrumb.params" -->
         </li>
       </ol>
     </nav>
