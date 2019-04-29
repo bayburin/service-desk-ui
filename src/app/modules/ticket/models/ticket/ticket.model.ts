@@ -3,6 +3,7 @@ import { CommonServiceI } from '@interfaces/common-service.interface';
 import { CaseState } from './ticket_states/case_state';
 import { AbstractTicketState } from './ticket_states/abstract_ticket_state';
 import { QuestionState } from './ticket_states/question_state';
+import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 
 export class Ticket implements CommonServiceI {
   id: number;
@@ -24,7 +25,7 @@ export class Ticket implements CommonServiceI {
     this.isHidden = ticket.is_hidden || true;
     this.sla = ticket.sla || 0;
     this.popularity = ticket.popularity || 0;
-    this.service = new Service(ticket.service) || null;
+    this.service = ServiceFactory.create(ticket.service) || null;
 
     this.createState();
   }

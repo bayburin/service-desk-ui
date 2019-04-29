@@ -4,6 +4,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { CategoryI } from '@interfaces/category.interface';
+import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { Category } from '@modules/ticket/models/category.model';
 import { environment } from 'environments/environment';
 import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
@@ -23,8 +24,9 @@ export class CategoryService implements BreadcrumbServiceI {
    * Загрузить список категорий.
    */
   loadCategories(): Observable<Category[]> {
-    return this.http.get(this.loadCategoriesUrl)
-             .pipe(map((categories: CategoryI[]) => categories.map((category) => new Category(category))));
+    return this.http.get(this.loadCategoriesUrl).pipe(
+      map((categories: CategoryI[]) => categories.map((category) => CategoryFactory.create(category)))
+    );
   }
 
   /**
@@ -41,7 +43,7 @@ export class CategoryService implements BreadcrumbServiceI {
     this.loadCategoryUrl = `${this.loadCategoriesUrl}/${categoryId}`;
 
     return this.http.get(this.loadCategoryUrl).pipe(
-      map((data: CategoryI) => new Category(data)),
+      map((data: CategoryI) => CategoryFactory.create(data)),
       tap((category) => this.category.next(category))
     );
   }

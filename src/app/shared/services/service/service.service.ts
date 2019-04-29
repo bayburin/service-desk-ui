@@ -3,8 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-import { Service } from '@modules/ticket/models/service.model';
 import { environment } from 'environments/environment';
+import { Service } from '@modules/ticket/models/service.model';
+import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
 
 @Injectable({
@@ -44,7 +45,7 @@ export class ServiceService implements BreadcrumbServiceI {
     this.loadServiceUrl = `${environment.serverUrl}/api/v1/categories/${categoryId}/services/${serviceId}`;
 
     return this.http.get<Service>(this.loadServiceUrl).pipe(
-      map(data => new Service(data)),
+      map(data => ServiceFactory.create(data)),
       tap(service => this.service.next(service))
     );
   }

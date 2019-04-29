@@ -5,8 +5,8 @@ import { map } from 'rxjs/operators';
 
 import { DashboardI } from '@interfaces/dashboard.interface';
 import { environment } from 'environments/environment';
-import { Category } from '@modules/ticket/models/category.model';
-import { Service } from '@modules/ticket/models/service.model';
+import { CategoryFactory } from '@modules/ticket/factories/category.factory';
+import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +22,8 @@ export class DashboardService {
   loadAll(): Observable<DashboardI> {
     return this.http.get<DashboardI>(this.getAllUrl).pipe(
       map((data) => {
-        data.services = data.services.map(service => new Service(service));
-        data.categories = data.categories.map(category => new Category(category));
+        data.services = data.services.map(service => ServiceFactory.create(service));
+        data.categories = data.categories.map(category => CategoryFactory.create(category));
 
         return data;
       })

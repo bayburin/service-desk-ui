@@ -1,4 +1,3 @@
-import { Service } from '@modules/ticket/models/service.model';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -9,6 +8,7 @@ import { UserI } from '@interfaces/user.interface';
 import { AppConfigI } from '@interfaces/app-config.interface';
 import { environment } from 'environments/environment';
 import { UserOwnsI } from '@interfaces/user-owns.interface';
+import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +35,7 @@ export class UserService {
   loadUserOwns(): Observable<UserOwnsI> {
     return this.http.get<UserOwnsI>(this.loadUserOwnsUrl).pipe(
       map((data) => {
-        data.services = data.services.map(service => new Service(service));
+        data.services = data.services.map(service => ServiceFactory.create(service));
 
         return data;
       })
