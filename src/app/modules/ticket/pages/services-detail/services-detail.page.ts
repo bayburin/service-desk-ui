@@ -4,7 +4,7 @@ import { finalize } from 'rxjs/operators';
 
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service.model';
-import { Ticket } from '@modules/ticket/models/ticket.model';
+import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
 @Component({
   selector: 'app-services-detail-page',

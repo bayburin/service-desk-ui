@@ -1,5 +1,5 @@
 import { Category } from './category.model';
-import { Ticket } from './ticket.model';
+import { Ticket } from './ticket/ticket.model';
 import { CommonServiceI } from '@interfaces/common-service.interface';
 
 export class Service implements CommonServiceI {
@@ -24,11 +24,11 @@ export class Service implements CommonServiceI {
     this.isSla = service.is_sla || false;
     this.sla = service.sla || 0;
     this.popularity = service.popularity || 0;
-    this.category = service.category || null;
+    this.category = new Category(service.category) || null;
     this.tickets = service.tickets || [];
   }
 
   getShowLink(): string {
-    return `/categories/${this.id}/services/${this.categoryId}`;
+    return `/categories/${this.categoryId}/services/${this.id}`;
   }
 }

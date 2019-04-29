@@ -6,9 +6,10 @@ import { debounceTime, switchMap, finalize, takeWhile, catchError } from 'rxjs/o
 
 import { APP_CONFIG } from '@config/app.config';
 import { AppConfigI } from '@interfaces/app-config.interface';
-import { DashboardService } from '@modules/ticket/services/dashboard/dashboard.service';
-import { ServiceTemplateI } from '@interfaces/service-template.interface';
-import { TemplateService } from '@shared/services/template/template.service';
+import { SearchService } from '@modules/ticket/services/search/search.service';
+import { Category } from '@modules/ticket/models/category.model';
+import { Service } from '@modules/ticket/models/service.model';
+import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
 @Component({
   selector: 'app-global-search',
@@ -24,23 +25,21 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(APP_CONFIG) private config: AppConfigI,
     private router: Router,
-    private dashboardService: DashboardService,
-    private templateService: TemplateService
+    private searchService: SearchService
   ) { }
 
   ngOnInit() {
     this.serviceCtrl = new FormControl({ name: this.searchTerm });
     this.serviceCtrl.valueChanges
       .pipe(takeWhile(() => this.alive))
-      .subscribe((res: string | ServiceTemplateI) => {
+      .subscribe((res: string | Category | Service | Ticket) => {
         if (typeof res === 'string') {
           this.searchTerm = res;
           return;
         }
 
         this.searchTerm = res.name;
-        const url = this.templateService.generateUrlBy(res);
-        this.router.navigateByUrl(url);
+        this.router.navigateByUrl(res.getShowLink());
       });
   }
 
@@ -59,7 +58,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
         }
 
         this.loading = true;
-        return this.dashboardService.search(term).pipe(finalize(() => this.loading = false));
+        return this.searchService.search(term).pipe(finalize(() => this.loading = false));
       }),
       catchError(() => of([]))
     );

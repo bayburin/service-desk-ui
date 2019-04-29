@@ -1,11 +1,11 @@
-import { Category } from '@modules/ticket/models/category.model';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { DashboardI } from '@interfaces/dashboard.interface';
 import { environment } from 'environments/environment';
-import { map } from 'rxjs/operators';
+import { Category } from '@modules/ticket/models/category.model';
 import { Service } from '@modules/ticket/models/service.model';
 
 @Injectable({
@@ -13,10 +13,12 @@ import { Service } from '@modules/ticket/models/service.model';
 })
 export class DashboardService {
   private getAllUrl = `${environment.serverUrl}/api/v1/dashboard`;
-  private searchUrl = `${environment.serverUrl}/api/v1/dashboard/search`;
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * Загрузить данные, необходимые для страницы dashboard.
+   */
   loadAll(): Observable<DashboardI> {
     return this.http.get<DashboardI>(this.getAllUrl).pipe(
       map((data) => {
@@ -26,11 +28,5 @@ export class DashboardService {
         return data;
       })
     );
-  }
-
-  search(searchValue: string): Observable<any> {
-    const params = new HttpParams().set('search', searchValue).set('without_associations', 'true');
-
-    return this.http.get<any>(this.searchUrl, { params: params });
   }
 }

@@ -1,6 +1,6 @@
 import { CommonServiceI } from '@interfaces/common-service.interface';
 import { Service } from './service.model';
-import { Ticket } from './ticket.model';
+import { Ticket } from './ticket/ticket.model';
 
 export class Category implements CommonServiceI {
   id: number;
