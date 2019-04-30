@@ -24,4 +24,8 @@ export class Category implements CommonServiceI {
   getShowLink(): string {
     return `/categories/${this.id}`;
   }
+
+  pageComponent(): string {
+    return 'CategoryPageContentComponent';
+  }
 }

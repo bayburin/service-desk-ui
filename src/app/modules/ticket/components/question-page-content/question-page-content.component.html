@@ -1,0 +1,7 @@
+<dt [id]="data.id">
+  <span class="sd-icon-group sd-link text-primary" (click)="toggleTicket(data)">
+    <i class="mdi mdi-24px text-primary" [ngClass]="data.open ? 'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'"></i>
+    {{ data.name }}
+  </span>
+</dt>
+<dd [hidden]="!data.open" [innerHtml]="data.answers[0]?.answer"></dd>

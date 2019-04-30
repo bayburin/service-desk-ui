@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ServiceProxyComponent } from './service-proxy.component';
+import { CasePageContentComponent } from './case-page-content.component';
 
-describe('SericeProxyComponent', () => {
-  let component: ServiceProxyComponent;
-  let fixture: ComponentFixture<ServiceProxyComponent>;
+describe('CasePageContentComponent', () => {
+  let component: CasePageContentComponent;
+  let fixture: ComponentFixture<CasePageContentComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ServiceProxyComponent ]
+      declarations: [ CasePageContentComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ServiceProxyComponent);
+    fixture = TestBed.createComponent(CasePageContentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

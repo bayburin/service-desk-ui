@@ -1,14 +1,18 @@
-<h4>Результаты поиска</h4>
-
-<div class="btn-group" role="group" aria-label="Basic example">
-  <button type="button" class="btn btn-outline-secondary" (click)="selectType('all')" [ngClass]="{ active: (selectedType | async) == 'all' }">Все</button>
-  <button type="button" class="btn btn-outline-secondary" (click)="selectType('Category')" [ngClass]="{ active: (selectedType | async) == 'Category' }">Категории</button>
-  <button type="button" class="btn btn-outline-secondary" (click)="selectType('Service')" [ngClass]="{ active: (selectedType | async) == 'Service' }">Услуги</button>
-  <button type="button" class="btn btn-outline-secondary" (click)="selectType('Ticket')" [ngClass]="{ active: (selectedType | async) == 'Ticket' }">Вопросы/заявки</button>
-</div>
-
-<ul>
-  <li *ngFor="let serviceTemplate of result">
-    <a [routerLink]="generateServiceLink(serviceTemplate)">{{ serviceTemplate.name }}</a>
-  </li>
-</ul>
+<section>
+  <app-section-header header="Результаты поиска"></app-section-header>
+  <div class="sd-nav-pills">
+    <nav>
+      <div class="nav nav-pills">
+        <span *ngFor="let type of types" (click)="selectType(type)" class="nav-item nav-link" [ngClass]="{ active: (selectedType?.name) == type.klass?.name }">
+          {{ type.type }}
+          <span class="badge">({{ (result | searchResult:type.klass).length || 0 }})</span>
+        </span>
+      </div>
+    </nav>
+  </div>
+  <div class="tab-content">
+    <dl class="sd-dlist-divider-b">
+      <app-dynamic-template-content *ngFor="let template of result | searchResult:selectedType" [data]="template"></app-dynamic-template-content>
+    </dl>
+  </div>
+</section>

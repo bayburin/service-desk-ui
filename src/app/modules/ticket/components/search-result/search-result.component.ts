@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { takeWhile, map, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
 
-import { ServiceTemplateI } from '@interfaces/service-template.interface';
-import { TemplateService } from '@shared/services/template/template.service';
+import { Category } from '@modules/ticket/models/category.model';
+import { Service } from '@modules/ticket/models/service.model';
+import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
 @Component({
   selector: 'app-search-result',
@@ -11,43 +12,43 @@ import { TemplateService } from '@shared/services/template/template.service';
   styleUrls: ['./search-result.component.scss']
 })
 export class SearchResultComponent implements OnInit, OnDestroy {
-  result: ServiceTemplateI[];
-  selectedType = new BehaviorSubject<string>('all');
-  @Input() searchResult: Observable<ServiceTemplateI[]>;
+  result: (Category | Service | Ticket)[] = [];
+  types = [
+    {
+      type: 'Все',
+      klass: null
+    },
+    {
+      type: 'Категории',
+      klass: Category
+    },
+    {
+      type: 'Услуги',
+      klass: Service
+    },
+    {
+      type: 'Вопросы/заявки',
+      klass: Ticket
+    }
+  ];
+  selectedType = this.types[0].klass;
+  @Input() searchResult: Observable<(Category | Service | Ticket)[]>;
   private alive = true;
 
-  constructor(private templateService: TemplateService) {}
+  constructor() {}
 
   ngOnInit() {
     this.searchResult
-      .pipe(
-        takeWhile(() => this.alive),
-        switchMap((arr: ServiceTemplateI[]) => {
-          return this.selectedType.pipe(
-            map((type: 'all' | 'Category' | 'Service' | 'Ticket') => this.filterTemplateArr(arr, type))
-          );
-        })
-      )
-      .subscribe((result: ServiceTemplateI[]) => this.result = result);
+      .pipe(takeWhile(() => this.alive))
+      .subscribe(result => this.result = result);
   }
 
-  generateServiceLink(currentTemplate): string {
-    return this.templateService.generateUrlBy(currentTemplate);
-  }
 
-  selectType(type: 'all' | 'Category' | 'Service' | 'Ticket'): void {
-    this.selectedType.next(type);
+  selectType(type: { type: string, klass: any }): void {
+    this.selectedType = type.klass;
   }
 
   ngOnDestroy() {
     this.alive = false;
-  }
-
-  private filterTemplateArr(arr: ServiceTemplateI[], filterType: string): ServiceTemplateI[] {
-    if (filterType === 'all') {
-      return arr;
-    }
-
-    return this.templateService.filterTemplateArr(arr, filterType);
   }
 }

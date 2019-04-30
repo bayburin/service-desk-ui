@@ -6,12 +6,14 @@ import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingComponent } from './components/loading/loading.component';
 import { CasesTableComponent } from './components/cases-table/cases-table.component';
 import { SectionHeaderComponent } from './components/section-header/section-header.component';
+import { SearchResultPipe } from './pipes/search-result/search-result.pipe';
 
 @NgModule({
   declarations: [
     LoadingComponent,
     CasesTableComponent,
-    SectionHeaderComponent
+    SectionHeaderComponent,
+    SearchResultPipe
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { SectionHeaderComponent } from './components/section-header/section-head
     NgbTypeaheadModule,
     LoadingComponent,
     CasesTableComponent,
-    SectionHeaderComponent
+    SectionHeaderComponent,
+    SearchResultPipe
   ]
 })
 export class SharedModule { }

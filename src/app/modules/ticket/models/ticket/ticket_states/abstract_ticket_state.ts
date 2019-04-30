@@ -1,14 +1,12 @@
-import { Ticket } from '../ticket.model';
+import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
 export abstract class AbstractTicketState {
-  protected ticket: Ticket;
-
-  constructor(ticket: Ticket) {
-    this.ticket = ticket;
-  }
-
   /**
-   * Получить ссылку на просмотр текущего вопроса или ссылку на создание заявки.
+   * Возвращает ссылку на просмотр текущего вопроса или ссылку на создание заявки.
    */
-  abstract getShowLink(): string;
+  abstract getShowLink(ticket: Ticket): string;
+  /**
+   * Возвращает компонент выбранного шаблона для выдачи пользователю.
+   */
+  abstract getPageContentComponent(): string;
 }

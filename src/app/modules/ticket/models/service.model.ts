@@ -1,7 +1,8 @@
-import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { Category } from './category.model';
 import { Ticket } from './ticket/ticket.model';
 import { CommonServiceI } from '@interfaces/common-service.interface';
+import { CategoryFactory } from '@modules/ticket/factories/category.factory';
+import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 
 export class Service implements CommonServiceI {
   id: number;
@@ -25,11 +26,21 @@ export class Service implements CommonServiceI {
     this.isSla = service.is_sla || false;
     this.sla = service.sla || 0;
     this.popularity = service.popularity || 0;
-    this.category = CategoryFactory.create(service.category) || null;
-    this.tickets = service.tickets || [];
+
+    if (service.tickets) {
+      this.tickets = service.tickets.map(ticket => TicketFactory.create(ticket)) || [];
+    }
+
+    if (service.category) {
+      this.category = CategoryFactory.create(service.category) || null;
+    }
   }
 
   getShowLink(): string {
     return `/categories/${this.categoryId}/services/${this.id}`;
+  }
+
+  pageComponent(): string {
+    return 'ServicePageContentComponent';
   }
 }

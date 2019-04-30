@@ -1,9 +1,10 @@
 import { Service } from '@modules/ticket/models/service.model';
 import { CommonServiceI } from '@interfaces/common-service.interface';
-import { CaseState } from './ticket_states/case_state';
+import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { AbstractTicketState } from './ticket_states/abstract_ticket_state';
 import { QuestionState } from './ticket_states/question_state';
-import { ServiceFactory } from '@modules/ticket/factories/service.factory';
+import { CaseState } from './ticket_states/case_state';
+import { AnswerI } from '@interfaces/answer.interface';
 
 export class Ticket implements CommonServiceI {
   id: number;
@@ -15,7 +16,8 @@ export class Ticket implements CommonServiceI {
   popularity: number;
   service: Service;
   open: boolean;
-  state: AbstractTicketState;
+  answers: AnswerI[];
+  private state: AbstractTicketState;
 
   constructor(ticket: any = {}) {
     this.id = ticket.id || null;
@@ -25,16 +27,21 @@ export class Ticket implements CommonServiceI {
     this.isHidden = ticket.is_hidden || true;
     this.sla = ticket.sla || 0;
     this.popularity = ticket.popularity || 0;
-    this.service = ServiceFactory.create(ticket.service) || null;
+    this.answers = ticket.answers || [];
+
+    if (ticket.service) {
+      this.service = ServiceFactory.create(ticket.service) || null;
+    }
 
     this.createState();
   }
 
-  /**
-   * Получить ссылку на просмотр текущего вопроса или ссылку на создание заявки.
-   */
   getShowLink(): string {
-    return this.state.getShowLink();
+    return this.state.getShowLink(this);
+  }
+
+  pageComponent(): string {
+    return this.state.getPageContentComponent();
   }
 
   /**
@@ -42,9 +49,9 @@ export class Ticket implements CommonServiceI {
    */
   private createState(): void {
     if (this.ticketType === 'question') {
-      this.state = new QuestionState(this);
+      this.state = new QuestionState();
     } else if (this.ticketType === 'case') {
-      this.state = new CaseState(this);
+      this.state = new CaseState();
     } else {
       throw new Error('Unknown ticketType');
     }
