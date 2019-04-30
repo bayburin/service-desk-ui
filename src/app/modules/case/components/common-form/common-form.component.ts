@@ -141,7 +141,6 @@ export class CommonFormComponent implements OnInit, OnDestroy {
       .pipe(finalize(() => this.loading.params = false))
       .subscribe(
         data => {
-          console.log(data);
           this.services = data.services;
           this.items = data.items;
         },

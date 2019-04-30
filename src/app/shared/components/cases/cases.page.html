@@ -1,0 +1,17 @@
+<div class="container">
+  <section>
+    <app-section-header header="Мои заявки"></app-section-header>
+    <app-loading [loading]="loading.initialization" size="3rem"></app-loading>
+
+    <div *ngIf="!loading.initialization && this.cases.length === 0" class="d-flex justify-content-start align-items-center">
+      <span>Заявки отсутствуют</span>
+      <a routerLink="/cases/new" class="btn btn-primary ml-4">Создать заявку в свободной форме</a>
+    </div>
+
+    <div *ngIf="!loading.initialization && this.cases.length !== 0">
+      <app-filters [data]="statuses" [totalCount]="caseCount" (changeFilter)="filterChanged($event)"></app-filters>
+      <app-cases-table [cases]="cases" [loading]="loading.table"></app-cases-table>
+      <app-paginator></app-paginator>
+    </div>
+  </section>
+</div>
