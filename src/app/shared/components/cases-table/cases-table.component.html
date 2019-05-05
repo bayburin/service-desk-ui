@@ -18,7 +18,7 @@
         <tr *ngFor="let case of cases; trackBy:case?.case_id">
           <td [innerHtml]="case.case_id"></td>
           <td [innerHtml]="case.runtime.formatted_starttime"></td>
-          <td [innerHtml]="case.ticket?.name || 'Общая заявка'"></td>
+          <td [innerHtml]="case.ticket?.name || 'Обращение в техподдержку'"></td>
           <td [innerHtml]="case.runtime.to_s"></td>
           <td [innerHtml]="case.status"></td>
           <td><span class="sd-link text-body"><i class="mdi mdi-delete"></i></span></td>
