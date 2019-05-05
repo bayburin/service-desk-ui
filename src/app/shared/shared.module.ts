@@ -41,6 +41,9 @@ import { FiltersComponent } from './components/filters/filters.component';
     CasesPageComponent,
     PaginatorComponent,
     FiltersComponent
+  ],
+  providers: [
+    SearchResultPipe
   ]
 })
 export class SharedModule { }

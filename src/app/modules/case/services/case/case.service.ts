@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from 'environments/environment';
 import { CaseI } from '@interfaces/case.interface';
-import { StatusI } from '@interfaces/status.interface';
+import { FilterI } from '@interfaces/filter.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +17,10 @@ export class CaseService {
   /**
    * Получить список кейсов.
    */
-  getAllCases(filters = {}): Observable<{ statuses: StatusI[], cases: CaseI[], case_count: number }> {
+  getAllCases(filters = {}): Observable<{ statuses: FilterI[], cases: CaseI[] }> {
     const params = new HttpParams().append('filters', JSON.stringify(filters));
 
-    return this.http.get<{ statuses: StatusI[], cases: CaseI[], case_count: number }>(this.casesUrl, { params: params });
+    return this.http.get<{ statuses: FilterI[], cases: CaseI[] }>(this.casesUrl, { params: params });
   }
 
   /**

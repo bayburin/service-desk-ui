@@ -3,7 +3,7 @@ import { finalize } from 'rxjs/operators';
 
 import { CaseService } from '@modules/case/services/case/case.service';
 import { CaseI } from '@interfaces/case.interface';
-import { StatusI } from '@interfaces/status.interface';
+import { FilterI } from '@interfaces/filter.interface';
 import { Service } from '@modules/ticket/models/service.model';
 
 @Component({
@@ -17,8 +17,7 @@ export class CasesPageComponent implements OnInit {
     table: false
   };
   cases: CaseI[] = [];
-  statuses: StatusI[] = [];
-  caseCount = 0;
+  statuses: FilterI[] = [];
   selectedStatus = null;
   @Input() services: Service[] = [];
 
@@ -28,9 +27,19 @@ export class CasesPageComponent implements OnInit {
     this.loadCases(true);
   }
 
+  /**
+   * Событие изменения фильтра.
+   */
   filterChanged(data) {
     this.selectedStatus = data;
     this.loadCases();
+  }
+
+  /**
+   * Проверяет, существуют ли какие-либо кейсы у текущего пользователя.
+   */
+  isAnyCasesExists() {
+    return this.statuses.some((status) => status.count != 0);
   }
 
   /**
@@ -45,10 +54,10 @@ export class CasesPageComponent implements OnInit {
       .pipe(finalize(() => {
         this.toggleLoading();
       }))
-      .subscribe((data: { statuses: StatusI[], cases: CaseI[], case_count: number }) => {
+      .subscribe((data: { statuses: FilterI[], cases: CaseI[]}) => {
+        console.log(data);
         this.statuses = data.statuses;
         this.cases = data.cases;
-        this.caseCount = data.case_count;
       });
   }
 

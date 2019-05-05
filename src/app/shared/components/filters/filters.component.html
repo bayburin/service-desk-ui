@@ -1,13 +1,9 @@
 <div class="sd-nav-pills">
   <nav>
     <div class="nav nav-pills">
-      <span class="nav-item nav-link" (click)="selectFilter(null)" [ngClass]="{ active: !selectedFilter }">
-        Все
-        <span class="badge">({{ totalCount || 0 }})</span>
-      </span>
-      <span *ngFor="let filter of data; trackBy:filter?.id" (click)="selectFilter(filter.id)" class="nav-item nav-link" [ngClass]="{ active: selectedFilter == filter.id }">
-        {{ filter.status }}
-        <span class="badge">({{ filter.case_count || 0 }})</span>
+      <span *ngFor="let filter of data" (click)="selectFilter(filter.id)" class="nav-item nav-link" [ngClass]="{ active: selectedFilter == filter.id }">
+        {{ filter.name }}
+        <span class="badge">({{ filter.count || 0 }})</span>
       </span>
     </div>
   </nav>

@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { takeWhile, tap } from 'rxjs/operators';
 
 import { Category } from '@modules/ticket/models/category.model';
 import { Service } from '@modules/ticket/models/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { SearchResultPipe } from '@shared/pipes/search-result/search-result.pipe';
 
 @Component({
   selector: 'app-search-result',
@@ -15,37 +16,52 @@ export class SearchResultComponent implements OnInit, OnDestroy {
   result: (Category | Service | Ticket)[] = [];
   types = [
     {
-      type: 'Все',
-      klass: null
+      name: 'Все',
+      id: null,
+      count: 0
     },
     {
-      type: 'Категории',
-      klass: Category
+      name: 'Категории',
+      id: Category,
+      count: 0
     },
     {
-      type: 'Услуги',
-      klass: Service
+      name: 'Услуги',
+      id: Service,
+      count: 0
     },
     {
-      type: 'Вопросы/заявки',
-      klass: Ticket
+      name: 'Вопросы/заявки',
+      id: Ticket,
+      count: 0
     }
   ];
-  selectedType = this.types[0].klass;
+  selectedType = this.types[0].id;
   @Input() searchResult: Observable<(Category | Service | Ticket)[]>;
   private alive = true;
 
-  constructor() {}
+  constructor(private searchResultPipe: SearchResultPipe) {}
 
   ngOnInit() {
     this.searchResult
-      .pipe(takeWhile(() => this.alive))
+      .pipe(
+        takeWhile(() => this.alive),
+        tap((arr) => {
+          this.types.map((type) => {
+            type.count = this.searchResultPipe.transform(arr, type.id).length;
+
+            return type;
+          });
+        })
+      )
       .subscribe(result => this.result = result);
   }
 
-
-  selectType(type: { type: string, klass: any }): void {
-    this.selectedType = type.klass;
+  /**
+   * Событие изменения фильтра.
+   */
+  filterChanged(data) {
+    this.selectedType = data;
   }
 
   ngOnDestroy() {

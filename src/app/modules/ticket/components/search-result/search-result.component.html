@@ -1,15 +1,6 @@
 <section>
   <app-section-header header="Результаты поиска"></app-section-header>
-  <div class="sd-nav-pills">
-    <nav>
-      <div class="nav nav-pills">
-        <span *ngFor="let type of types" (click)="selectType(type)" class="nav-item nav-link" [ngClass]="{ active: (selectedType?.name) == type.klass?.name }">
-          {{ type.type }}
-          <span class="badge">({{ (result | searchResult:type.klass).length || 0 }})</span>
-        </span>
-      </div>
-    </nav>
-  </div>
+  <app-filters [data]="types" (changeFilter)="filterChanged($event)"></app-filters>
   <div class="tab-content">
     <dl class="sd-dlist-divider-b">
       <app-dynamic-template-content *ngFor="let template of result | searchResult:selectedType" [data]="template"></app-dynamic-template-content>
