@@ -12,28 +12,20 @@ import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
   providedIn: 'root'
 })
 export class ServiceService implements BreadcrumbServiceI {
-  loadServiceUrl: string;
   private loadServicesUrl: string;
-  private services = new Subject<Service[]>();
+  private loadServiceUrl: string;
   private service = new Subject<Service>();
 
   constructor(private http: HttpClient) { }
 
-  // /**
-  //  * Загрузить список услуг для указанной категории
-  //  *
-  //  * @param categoryId - Id выбранной категории
-  //  */
-  // loadServices(categoryId: number): Observable<ServiceI[]> {
-  //   this.loadServicesUrl = `${environment.serverUrl}/api/v1/categories/${categoryId}/services`;
+  /**
+   * Загрузить список всех услуг (вместе с вопросами/заявками)
+   */
+  loadServices(): Observable<Service[]> {
+    this.loadServicesUrl = `${environment.serverUrl}/api/v1/services`;
 
-  //   return this.http.get<ServiceI[]>(this.loadServicesUrl)
-  //     .pipe(map((services: ServiceI[]) => {
-  //       this.services.next(services);
-
-  //       return services;
-  //     }));
-  // }
+    return this.http.get<Service[]>(this.loadServicesUrl).pipe(map((services) => services.map(service => ServiceFactory.create(service))));
+  }
 
   /**
    * Загрузить данные о категории и список связанных сервисов.

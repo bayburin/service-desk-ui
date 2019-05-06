@@ -4,13 +4,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashboardPageComponent } from './pages/dashboard/dashboard.page';
 import { CategoriesPageComponent } from './pages/categories/categories.page';
 import { CategoriesOverviewPageComponent } from './pages/categories-overwiev/categories-overview.page';
-import { ServicesPageComponent } from './pages/services/services.page';
-// import { ServiceProxyComponent } from './components/service-proxy/service-proxy.component';
 import { SearchPageComponent } from './pages/search/search.page';
 import { CategoriesDetailPageComponent } from './pages/categories-detail/categories-detail.page';
 import { CategoryService } from '@shared/services/category/category.service';
 import { ServicesDetailPageComponent } from './pages/services-detail/services-detail.page';
 import { ServiceService } from '@shared/services/service/service.service';
+import { ServicesOverwievPageComponent } from './pages/services-overwiev/services-overwiev.page';
 
 const routes: Routes = [
   {
@@ -44,6 +43,11 @@ const routes: Routes = [
         data: { breadcrumb: ServiceService }
       }
     ]
+  },
+  {
+    path: 'services',
+    component: ServicesOverwievPageComponent,
+    data: { breadcrumb: 'Все вопросы' }
   },
   // {
   //   path: 'services/:id',
