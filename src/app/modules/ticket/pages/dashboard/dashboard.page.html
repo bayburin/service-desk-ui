@@ -23,11 +23,7 @@
   <section class="sd-pb-6">
     <div class="container">
       <app-section-header header="Популярные категории на портале"></app-section-header>
-      <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 list-unstyled sd-child-mb-7">
-        <li *ngFor="let category of data.categories; trackBy:category?.id">
-          <app-category-header [category]="category"></app-category-header>
-        </li>
-      </ul>
+      <app-category-list [categories]="data.categories"></app-category-list>
       <div class="text-center"><a routerLink="/categories" class="btn btn-gray-white">Все категории</a></div>
     </div>
   </section>

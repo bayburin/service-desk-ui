@@ -18,6 +18,7 @@ import { QuestionPageContentComponent } from './components/question-page-content
 import { CasePageContentComponent } from './components/case-page-content/case-page-content.component';
 import { ServicesOverwievPageComponent } from './pages/services-overwiev/services-overwiev.page';
 import { ServiceDetailComponent } from './components/service-detail/service-detail.component';
+import { CategoryListComponent } from './components/category-list/category-list.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ServiceDetailComponent } from './components/service-detail/service-deta
     QuestionPageContentComponent,
     CasePageContentComponent,
     ServicesOverwievPageComponent,
-    ServiceDetailComponent
+    ServiceDetailComponent,
+    CategoryListComponent
   ],
   entryComponents: [
     CategoryPageContentComponent,

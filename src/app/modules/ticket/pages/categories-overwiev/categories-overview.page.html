@@ -3,16 +3,7 @@
     <div class="sd-category-list">
       <app-section-header header="Все категории на портале"></app-section-header>
       <app-loading [loading]="loading" size="3rem"></app-loading>
-      <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 list-unstyled sd-child-mb-7">
-        <li *ngFor="let category of categories | async; trackBy:category?.id">
-          <app-category-header [category]="category"></app-category-header>
-          <ul class="sd-category-list-item list-unstyled sd-child-mb-3 collapse show">
-            <li *ngFor="let service of category.services; trackBy:service?.id">
-              <a [routerLink]="[category.id, 'services', service.id]" [innerHtml]="service.name"></a>
-            </li>
-          </ul>
-        </li>
-      </ul>
+      <app-category-list [categories]="categories | async"></app-category-list>
     </div>
   </div>
 </section>
