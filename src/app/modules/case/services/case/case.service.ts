@@ -33,6 +33,15 @@ export class CaseService {
   }
 
   /**
+   * Отменить заявку.
+   */
+  destroyCase(caseId: number): Observable<Object> {
+    const caseUrl = `${this.casesUrl}/${caseId}`;
+
+    return this.http.delete(caseUrl);
+  }
+
+  /**
    * Возвращает объект case для отправки на сервер.
    */
   getRowValues(caseObj): CaseI {

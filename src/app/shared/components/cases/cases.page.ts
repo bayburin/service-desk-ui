@@ -36,6 +36,15 @@ export class CasesPageComponent implements OnInit {
   }
 
   /**
+   * Событие удаления заявки.
+   *
+   * @param data
+   */
+  caseRemoved() {
+    this.loadCases();
+  }
+
+  /**
    * Проверяет, существуют ли какие-либо кейсы у текущего пользователя.
    */
   isAnyCasesExists() {
@@ -55,7 +64,6 @@ export class CasesPageComponent implements OnInit {
         this.toggleLoading();
       }))
       .subscribe((data: { statuses: FilterI[], cases: CaseI[]}) => {
-        console.log(data);
         this.statuses = data.statuses;
         this.cases = data.cases;
       });

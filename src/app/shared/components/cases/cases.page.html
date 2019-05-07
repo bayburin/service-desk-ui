@@ -10,7 +10,7 @@
 
     <div *ngIf="!loading.initialization && isAnyCasesExists()">
       <app-filters [data]="statuses" (changeFilter)="filterChanged($event)"></app-filters>
-      <app-cases-table [cases]="cases" [loading]="loading.table"></app-cases-table>
+      <app-cases-table [cases]="cases" [loading]="loading.table" (removeCase)="caseRemoved()"></app-cases-table>
       <app-paginator></app-paginator>
     </div>
   </section>

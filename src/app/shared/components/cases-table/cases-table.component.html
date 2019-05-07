@@ -21,7 +21,7 @@
           <td [innerHtml]="case.ticket?.name || 'Обращение в техподдержку'"></td>
           <td [innerHtml]="case.runtime.to_s"></td>
           <td [innerHtml]="case.status"></td>
-          <td><span class="sd-link text-body"><i class="mdi mdi-delete"></i></span></td>
+          <td><span class="sd-link text-body"><i class="mdi mdi-delete" (click)="destroyCase(case)" ngbTooltip="Отменить заявку"></i></span></td>
         </tr>
         <tr *ngIf="cases.length == 0">
           <td colspan="6">Заявки отсутствуют</td>

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTypeaheadModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoadingComponent } from './components/loading/loading.component';
 import { CasesTableComponent } from './components/cases-table/cases-table.component';
@@ -26,7 +26,8 @@ import { FiltersComponent } from './components/filters/filters.component';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbTypeaheadModule
+    NgbTypeaheadModule,
+    NgbTooltipModule
   ],
   exports: [
     CommonModule,
@@ -34,6 +35,7 @@ import { FiltersComponent } from './components/filters/filters.component';
     FormsModule,
     ReactiveFormsModule,
     NgbTypeaheadModule,
+    NgbTooltipModule,
     LoadingComponent,
     CasesTableComponent,
     SectionHeaderComponent,
