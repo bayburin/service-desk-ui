@@ -41,6 +41,6 @@ export class Service implements CommonServiceI {
   }
 
   pageComponent(): string {
-    return 'ServicePageContentComponent';
+    return 'app-service-page-content';
   }
 }

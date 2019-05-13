@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { Category } from '@modules/ticket/models/category.model';
+import { Service } from '@modules/ticket/models/service.model';
 
 @Component({
   selector: 'app-category-list',
@@ -13,4 +14,12 @@ export class CategoryListComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  trackByCategory(category: Category) {
+    return category.id;
+  }
+
+  trackByService(service: Service) {
+    return service.id;
+  }
 }

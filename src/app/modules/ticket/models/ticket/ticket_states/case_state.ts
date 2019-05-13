@@ -7,6 +7,6 @@ export class CaseState extends AbstractTicketState {
   }
 
   getPageContentComponent(): string {
-    return 'CasePageContentComponent';
+    return 'app-case-page-content';
   }
 }

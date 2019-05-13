@@ -26,6 +26,6 @@ export class Category implements CommonServiceI {
   }
 
   pageComponent(): string {
-    return 'CategoryPageContentComponent';
+    return 'app-category-page-content';
   }
 }

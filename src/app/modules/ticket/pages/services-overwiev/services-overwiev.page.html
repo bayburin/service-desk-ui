@@ -2,6 +2,6 @@
   <section>
     <app-section-header header="Все вопросы"></app-section-header>
     <app-loading [loading]="loading" size="3rem"></app-loading>
-    <app-service-detail *ngFor="let service of services | async; trackBy:service?.id" [service]="service"></app-service-detail>
+      <app-service-detail *ngFor="let service of services | async; trackBy: trackByService" [service]="service"></app-service-detail>
   </section>
 </div>

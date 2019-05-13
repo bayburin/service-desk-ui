@@ -62,7 +62,7 @@
             </div>
             <div class="form-group">
               <div class="custom-control custom-checkbox">
-                <input type="checkbox" id="without_service" name="without_service" formControlName="without_service" (change)="onSelectCheckbox(form.service)" class="custom-control-input">
+                <input type="checkbox" id="without_service" name="without_service" formControlName="without_service" (change)="onSelectCheckbox(formService)" class="custom-control-input">
                 <label for="without_service" class="custom-control-label">Обращение не связано ни с одним из перечисленных видов услуг</label>
               </div>
             </div>
@@ -92,7 +92,7 @@
                     <select id="item" name="item" formControlName="item" class="custom-select" [ngClass]="{ 'is-invalid': (form.item.touched || submitted) && form.item.errors,
                       'is-valid': form.item.touched && form.item.valid }">
                       <option value="">Выберите устройство</option>
-                      <option *ngFor="let item of items; trackBy:item?.id" [ngValue]="item">
+                      <option *ngFor="let item of items; trackBy: trackByItem" [ngValue]="item">
                         <span>{{ item.type.short_description }}</span>
                         <span *ngIf="item.short_item_model">{{ ' ' + (item.short_item_model) + ';' }}</span>
                         <span *ngIf="item.invent_num">{{ ' инв. № ' + item.invent_num }}</span>
@@ -110,7 +110,7 @@
             </div>
             <div class="form-group">
               <div class="custom-control custom-checkbox">
-                <input type="checkbox" id="without_item" name="without_item" formControlName="without_item" (change)="onSelectCheckbox(form.item)" class="custom-control-input" />
+                <input type="checkbox" id="without_item" name="without_item" formControlName="without_item" (change)="onSelectCheckbox(formItem)" class="custom-control-input" />
                 <label for="without_item" class="custom-control-label">Обращение не связано ни с одним из перечисленных устройств</label>
               </div>
             </div>

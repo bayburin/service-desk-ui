@@ -44,6 +44,14 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     return this.caseForm.controls;
   }
 
+  get formItem() {
+    return this.caseForm.controls.item as FormControl;
+  }
+
+  get formService() {
+    return this.caseForm.controls.service as FormControl;
+  }
+
   ngOnInit() {
     this.loadParameters();
     this.userService.user.subscribe((data: UserI) => this.user = data);
@@ -126,6 +134,10 @@ export class CommonFormComponent implements OnInit, OnDestroy {
   onCancel(event: any): void {
     event.preventDefault();
     this.location.back();
+  }
+
+  trackByItem(item: ItemI) {
+    return item.item_id;
   }
 
   ngOnDestroy() {

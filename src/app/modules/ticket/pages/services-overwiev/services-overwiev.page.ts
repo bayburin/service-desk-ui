@@ -20,4 +20,8 @@ export class ServicesOverwievPageComponent implements OnInit {
     this.loading = true;
     this.services = this.serviceService.loadServices().pipe(finalize(() => this.loading = false));
   }
+
+  trackByService(service: Service) {
+    return service.id;
+  }
 }

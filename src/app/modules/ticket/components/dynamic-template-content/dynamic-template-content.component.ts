@@ -1,4 +1,4 @@
-import { Type } from '@angular/core';
+import { ComponentFactory } from '@angular/core';
 import { Component, OnInit, Input, ComponentFactoryResolver, ViewContainerRef, ViewChild, OnDestroy } from '@angular/core';
 
 import { Category } from '@modules/ticket/models/category.model';
@@ -20,11 +20,13 @@ export class DynamicTemplateContentComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const factories = Array.from(this.componentFactoryResolver['_factories'].keys());
-    const factoryClass = factories.find((factory: any) => factory.name === this.data.pageComponent()) as Type<any>;
+    // const factories = Array.from(this.componentFactoryResolver['_factories'].keys());
+    // const factoryClass = factories.find((factory: any) => factory.name === this.data.pageComponent()) as Type<any>;
+    const factories = Array.from(this.componentFactoryResolver['_factories'].values());
+    const componentFactory = factories.find((factory: any) => factory.selector === this.data.pageComponent()) as ComponentFactory<{}>;
 
     this.entry.clear();
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(factoryClass);
+    // const componentFactory = this.componentFactoryResolver.resolveComponentFactory(factoryClass);
     this.componentRef = this.entry.createComponent(componentFactory);
     this.componentRef.instance.data = this.data;
   }

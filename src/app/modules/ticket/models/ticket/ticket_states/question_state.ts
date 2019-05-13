@@ -7,6 +7,6 @@ export class QuestionState extends AbstractTicketState {
   }
 
   getPageContentComponent(): string {
-    return 'QuestionPageContentComponent';
+    return 'app-question-page-content';
   }
 }
