@@ -10,7 +10,7 @@ import { ServiceTemplateCreator } from '@modules/ticket/core/service_template_cr
   providedIn: 'root'
 })
 export class SearchService {
-  private searchUrl = `${environment.serverUrl}/api/v1/dashboard/search`;
+  private searchUri = `${environment.serverUrl}/api/v1/dashboard/search`;
 
   constructor(private http: HttpClient) { }
 
@@ -20,7 +20,7 @@ export class SearchService {
   search(searchValue: string): Observable<any> {
     const params = new HttpParams().set('search', searchValue).set('without_associations', 'true');
 
-    return this.http.get<any>(this.searchUrl, { params: params }).pipe(
+    return this.http.get<any>(this.searchUri, { params: params }).pipe(
       map((data) => data.map((template) => ServiceTemplateCreator.createBy(template)))
     );
   }

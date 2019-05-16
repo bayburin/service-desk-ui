@@ -2,7 +2,7 @@
   <header>
     <app-header></app-header>
   </header>
-  <app-breadcrumb [hidden]="location == '/'"></app-breadcrumb>
+  <app-breadcrumb [hidden]="hideBreadcrumb()"></app-breadcrumb>
   <main>
     <router-outlet></router-outlet>
   </main>

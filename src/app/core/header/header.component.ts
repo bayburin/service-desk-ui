@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
 
 import { UserService } from '@shared/services/user/user.service';
 import { AuthService } from '@auth/auth.service';
@@ -15,7 +14,6 @@ export class HeaderComponent implements OnInit {
   collapsed = true;
   user: Observable<UserI>;
   isUserSignedIn: Observable<boolean>;
-  loading = false;
 
   constructor(private userService: UserService, private authService: AuthService) {}
 
@@ -26,15 +24,5 @@ export class HeaderComponent implements OnInit {
 
   toggleCollapsed(): void {
     this.collapsed = !this.collapsed;
-  }
-
-  logout() {
-    this.loading = true;
-    this.authService.logout()
-      .pipe(finalize(() => this.loading = false))
-      .subscribe(
-        null,
-        (error) => console.log('Обработать ошибку: ', error)
-      );
   }
 }

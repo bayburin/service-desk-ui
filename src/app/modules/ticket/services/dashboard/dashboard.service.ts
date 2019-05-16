@@ -12,7 +12,7 @@ import { ServiceFactory } from '@modules/ticket/factories/service.factory';
   providedIn: 'root'
 })
 export class DashboardService {
-  private getAllUrl = `${environment.serverUrl}/api/v1/dashboard`;
+  private getAllUri = `${environment.serverUrl}/api/v1/dashboard`;
 
   constructor(private http: HttpClient) {}
 
@@ -20,7 +20,7 @@ export class DashboardService {
    * Загрузить данные, необходимые для страницы dashboard.
    */
   loadAll(): Observable<DashboardI> {
-    return this.http.get<DashboardI>(this.getAllUrl).pipe(
+    return this.http.get<DashboardI>(this.getAllUri).pipe(
       map((data) => {
         data.services = data.services.map(service => ServiceFactory.create(service));
         data.categories = data.categories.map(category => CategoryFactory.create(category));

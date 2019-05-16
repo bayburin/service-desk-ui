@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'http://inv-dev'
+  serverUrl: 'http://inv-dev',
+  authorizeUri: 'http://inv-dev:4200/authorize',
+  clientId: 42
 };
 
 /*

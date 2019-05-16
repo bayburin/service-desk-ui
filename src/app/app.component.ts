@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  public location;
+  location: string;
 
   constructor(private router: Router) {}
 
@@ -16,5 +16,9 @@ export class AppComponent implements OnInit {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => this.location = event.urlAfterRedirects);
+  }
+
+  hideBreadcrumb() {
+    return ['/', '/logout', undefined].some(el => el === this.location);
   }
 }

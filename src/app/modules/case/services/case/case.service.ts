@@ -10,7 +10,7 @@ import { FilterI } from '@interfaces/filter.interface';
   providedIn: 'root'
 })
 export class CaseService {
-  private casesUrl = `${environment.serverUrl}/api/v1/cases`;
+  private casesUri = `${environment.serverUrl}/api/v1/cases`;
 
   constructor(private http: HttpClient) {}
 
@@ -20,7 +20,7 @@ export class CaseService {
   getAllCases(filters = {}): Observable<{ statuses: FilterI[], cases: CaseI[] }> {
     const params = new HttpParams().append('filters', JSON.stringify(filters));
 
-    return this.http.get<{ statuses: FilterI[], cases: CaseI[] }>(this.casesUrl, { params: params });
+    return this.http.get<{ statuses: FilterI[], cases: CaseI[] }>(this.casesUri, { params: params });
   }
 
   /**
@@ -29,14 +29,14 @@ export class CaseService {
    * @param data - данные о кейсе.
    */
   createCase(data: CaseI): Observable<any> {
-    return this.http.post(this.casesUrl, { case: data });
+    return this.http.post(this.casesUri, { case: data });
   }
 
   /**
    * Отменить заявку.
    */
   destroyCase(caseId: number): Observable<Object> {
-    const caseUrl = `${this.casesUrl}/${caseId}`;
+    const caseUrl = `${this.casesUri}/${caseId}`;
 
     return this.http.delete(caseUrl);
   }

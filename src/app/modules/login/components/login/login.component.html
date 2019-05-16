@@ -1,8 +1,0 @@
-<form [formGroup]=loginForm (ngSubmit)="onSubmit()">
-  <input type="text" name="username" formControlName="username" placeholder="Логин">
-  <span *ngIf="loginForm.controls.username.errors?.required && loginForm.controls.username.touched">Не может быть пустым</span>
-  <input type="password" name="password" formControlName="password" placeholder="Пароль">
-  <span *ngIf="loginForm.controls.password.errors?.required && loginForm.controls.password.touched">Не может быть пустым</span>
-  <span *ngIf="loginForm.controls.password.errors?.invalid_grant" [textContent]="authorizationError()"></span>
-  <button type="submit" [disabled]="isDisabledLogin()">Войти</button>
-</form>
