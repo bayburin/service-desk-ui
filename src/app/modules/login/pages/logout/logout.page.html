@@ -1,13 +1,4 @@
-<section>
-  <div class="container">
-    <section class="text-center mt-5">
-      <a routerLink="/"><img src="assets/images/logos/logo-sd.svg" alt="Logo ServiceDesc" /></a>
-    </section>
-    <section class="mt-5" class="text-center">
-      <p [hidden]="success || errors">Вы вышли из ресурса</p>
-      <div class="text-center mt-5">
-        <a routerLink="/" class="btn btn-primary">Войти заново</a>
-      </div>
-    </section>
-  </div>
-  </section>
+<app-unauthorize-content>
+  <p class="text-center" [hidden]="success || errors">Вы вышли из ресурса</p>
+  <div class="text-center mt-5"><a routerLink="/" class="btn btn-primary">Войти заново</a></div>
+</app-unauthorize-content>

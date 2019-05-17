@@ -11,6 +11,8 @@ import { SearchResultPipe } from './pipes/search-result/search-result.pipe';
 import { CasesPageComponent } from './pages/cases/cases.page';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { FiltersComponent } from './components/filters/filters.component';
+import { UnauthorizeContentComponent } from './components/unauthorize-content/unauthorize-content.component';
+import { LogoComponent } from './components/logo/logo.component';
 @NgModule({
   declarations: [
     LoadingComponent,
@@ -19,7 +21,9 @@ import { FiltersComponent } from './components/filters/filters.component';
     SearchResultPipe,
     CasesPageComponent,
     PaginatorComponent,
-    FiltersComponent
+    FiltersComponent,
+    UnauthorizeContentComponent,
+    LogoComponent
   ],
   imports: [
     CommonModule,
@@ -42,7 +46,9 @@ import { FiltersComponent } from './components/filters/filters.component';
     SearchResultPipe,
     CasesPageComponent,
     PaginatorComponent,
-    FiltersComponent
+    FiltersComponent,
+    UnauthorizeContentComponent,
+    LogoComponent
   ],
   providers: [
     SearchResultPipe
