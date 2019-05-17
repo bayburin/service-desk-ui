@@ -22,7 +22,7 @@
       <section>
         <app-section-header header="Часто задаваемые вопросы"></app-section-header>
         <dl class="sd-dlist-divider-b">
-          <app-dynamic-template-content *ngFor="let ticket of category.tickets; trackBy: trackByTicket" [data]="ticket"></app-dynamic-template-content>
+          <app-question-page-content *ngFor="let ticket of category.tickets; trackBy: trackByTicket" [data]="ticket"></app-question-page-content>
         </dl>
       </section>
     </div>

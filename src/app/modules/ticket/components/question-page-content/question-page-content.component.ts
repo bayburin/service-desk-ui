@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Subject } from 'rxjs';
+import { first, switchMap } from 'rxjs/operators';
 
+import { TicketService } from '@shared/services/ticket/ticket.service';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
 @Component({
@@ -9,15 +12,25 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 })
 export class QuestionPageContentComponent implements OnInit {
   @Input() data: Ticket;
+  ratingStream = new Subject<Ticket>();
 
-  constructor() { }
+  constructor(private ticketService: TicketService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.ratingStream
+      .pipe(
+        first(),
+        switchMap((ticket) => this.ticketService.raiseRating(ticket))
+      )
+      .subscribe();
+  }
 
   /**
-   * "Раскрывает" вопрос.
+   * "Раскрывает" вопрос и отправляет запрос на сервер с его id для изменения рейтинга.
    */
-  toggleTicket(data: Ticket): void {
-    data.open = !data.open;
+  toggleTicket(ticket: Ticket): void {
+    ticket.open = !ticket.open;
+
+    this.ratingStream.next(ticket);
   }
 }

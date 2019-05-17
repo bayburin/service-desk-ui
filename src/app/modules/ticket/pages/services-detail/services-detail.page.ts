@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service.model';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { ServiceDetailComponent } from '@modules/ticket/components/service-detail/service-detail.component';
 
 @Component({
   selector: 'app-services-detail-page',
@@ -14,6 +14,7 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 export class ServicesDetailPageComponent implements OnInit {
   loading = false;
   service: Service;
+  @ViewChild(ServiceDetailComponent) private serviceDetailComponent: ServiceDetailComponent;
 
   constructor(private serviceService: ServiceService, private route: ActivatedRoute) { }
 
@@ -31,19 +32,12 @@ export class ServicesDetailPageComponent implements OnInit {
 
           setTimeout(() => {
             if (ticketId) {
-              this.toggleTicket(service.tickets.find(ticket => ticket.id == ticketId));
+              this.serviceDetailComponent.questionComponent.toggleTicket(service.tickets.find(ticket => ticket.id == ticketId));
               this.scrollToTicket(ticketId);
             }
           }, 200);
         }
       );
-  }
-
-  /**
-   * "Раскрывает" вопрос.
-   */
-  toggleTicket(ticket: Ticket): void {
-    ticket.open = !ticket.open;
   }
 
   /**

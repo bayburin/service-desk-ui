@@ -2,7 +2,7 @@
   <div class="container">
     <app-section-header [header]="service.name"></app-section-header>
     <dl class="sd-dlist-divider-b">
-      <app-dynamic-template-content *ngFor="let ticket of service.tickets; trackBy: trackByTicket" [data]="ticket"></app-dynamic-template-content>
+      <app-question-page-content *ngFor="let ticket of service.tickets; trackBy: trackByTicket" [data]="ticket"></app-question-page-content>
     </dl>
   </div>
 </section>
