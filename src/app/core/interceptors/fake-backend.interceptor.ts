@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, delay, materialize, dematerialize } from 'rxjs/operators';
 import { TokenI } from '@interfaces/token.interface';
 
@@ -22,12 +22,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       email: 'fortochkina'
     };
 
-    // if (req.url.endsWith('oauth/token') && req.method === 'POST') {
-    //   return of(new HttpResponse({ body: testToken, status: 200 }));
+    // if (req.url.endsWith('auth/token') && req.method === 'POST') {
+    //   // return of(new HttpResponse({ body: testToken, status: 200 }));
+    //   return throwError({ error: { message: 'Unauthorized' } });
     // }
 
     // if (req.url.endsWith('users/info') && req.method === 'GET') {
-    //   return of(new HttpResponse({ body: userInfo, status: 200 }));
+    //   // return of(new HttpResponse({ body: userInfo, status: 200 }));
+    //   return throwError({ error: { message: 'Unauthorized' } });
     // }
 
     return next.handle(req)

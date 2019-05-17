@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { StateGuard } from '@guards/state/state.guard';
 import { AuthorizePageComponent } from './pages/authorize/authorize.page';
 import { LogoutPageComponent } from './pages/logout/logout.page';
+import { AuthorizeForbiddenPageComponent } from './pages/authorize-forbidden/authorize-forbidden.page';
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'logout',
     component: LogoutPageComponent
+  },
+  {
+    path: 'authorize_forbidden',
+    component: AuthorizeForbiddenPageComponent
   }
 ];
 

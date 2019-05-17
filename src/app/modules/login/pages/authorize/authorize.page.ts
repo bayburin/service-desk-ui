@@ -13,6 +13,11 @@ import { UserService } from '@shared/services/user/user.service';
   styleUrls: ['./authorize.page.scss']
 })
 export class AuthorizePageComponent implements OnInit {
+  progressValue = 0;
+  errors = false;
+  success = false;
+  private interval;
+
   constructor(
     private authService: AuthService,
     private userService: UserService,
@@ -21,14 +26,41 @@ export class AuthorizePageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.runProgressBar();
+
     this.authService.getAccessToken()
-      .pipe(switchMap(() => this.userService.loadUserInfo()))
+      .pipe(switchMap(() => {
+        if (this.progressValue < 50) {
+          this.progressValue = 50;
+        }
+
+        return this.userService.loadUserInfo();
+      }))
       .subscribe(
-        () => this.router.navigate([this.authService.getReturnUrl()]),
+        () => {
+          this.progressValue = 100;
+          this.success = true;
+
+          setTimeout(() => {
+            this.authService.isLoggedInSub.next(true);
+            this.router.navigate([this.authService.getReturnUrl()]);
+          }, 1000);
+        },
         error => {
           console.log('Ошибка авторизации: ', error);
-          this.router.navigate(['/logout']);
+          this.authService.unauthorize();
+          clearInterval(this.interval);
+          this.errors = true;
         }
       );
+  }
+
+  private runProgressBar() {
+    this.interval = setInterval(() => {
+      this.progressValue += 4;
+      if (this.progressValue >= 100) {
+        clearInterval(this.interval);
+      }
+    }, 150);
   }
 }

@@ -22,7 +22,7 @@ export class StateGuard implements CanActivate {
     if (this.authService.isValidState(state.root.queryParams.state)) {
       return true;
     } else {
-      console.log('Проверочный код не совпадает.');
+      this.router.navigate(['authorize_forbidden']);
       return false;
     }
   }

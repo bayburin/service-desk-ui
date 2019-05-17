@@ -5,7 +5,6 @@ import { finalize } from 'rxjs/operators';
 
 import { Category } from '@modules/ticket/models/category.model';
 import { CategoryService } from '@shared/services/category/category.service';
-import { AuthService } from '@auth/auth.service';
 
 @Component({
   selector: 'app-categories-detail-page',
@@ -14,17 +13,14 @@ import { AuthService } from '@auth/auth.service';
 })
 export class CategoriesDetailPageComponent implements OnInit {
   loading = false;
-  isUserSignedIn: Observable<boolean>;
   category$: Observable<Category>;
 
   constructor(
     private categoryService: CategoryService,
     private route: ActivatedRoute,
-    private authService: AuthService
   ) {}
 
   ngOnInit() {
-    this.isUserSignedIn = this.authService.isUserSignedIn;
     const categoryId = this.route.snapshot.params.id;
 
     this.loading = true;

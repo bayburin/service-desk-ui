@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { UserService } from '@shared/services/user/user.service';
-import { AuthService } from '@auth/auth.service';
 import { UserI } from '@interfaces/user.interface';
 
 @Component({
@@ -13,13 +12,11 @@ import { UserI } from '@interfaces/user.interface';
 export class HeaderComponent implements OnInit {
   collapsed = true;
   user: Observable<UserI>;
-  isUserSignedIn: Observable<boolean>;
 
-  constructor(private userService: UserService, private authService: AuthService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.user = this.userService.user;
-    this.isUserSignedIn = this.authService.isUserSignedIn;
   }
 
   toggleCollapsed(): void {

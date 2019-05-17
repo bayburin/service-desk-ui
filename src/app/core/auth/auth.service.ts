@@ -16,7 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 export class AuthService {
   private accessTokenUri = `${environment.serverUrl}/api/v1/auth/token`;
   private loggedFlag = this.getToken() ? true : false;
-  private isLoggedInSub = new BehaviorSubject<boolean>(this.loggedFlag);
+  isLoggedInSub = new BehaviorSubject<boolean>(this.loggedFlag);
   readonly isUserSignedIn = this.isLoggedInSub.asObservable();
 
   constructor(
@@ -55,7 +55,6 @@ export class AuthService {
 
         if (token && token.access_token) {
           this.setToken(token);
-          this.isLoggedInSub.next(true);
         }
       }));
   }

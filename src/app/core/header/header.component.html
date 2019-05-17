@@ -4,9 +4,8 @@
       <div class="sd-brand mr-auto"><a routerLink="/"><img src="assets/images/logos/logo-iss.svg" alt="Логотип АО ИСС" /></a></div>
       <div class="sd-user-account d-flex align-items-center navbar-expand navbar-dark">
         <ul class="navbar-nav flex-row">
-          <li *ngIf="isUserSignedIn | async" class="nav-item"><span class="nav-link sd-icon-group"><i class="mdi mdi-account mdi-24px"></i>{{ (user | async)?.fio }}</span></li>
-          <li *ngIf="isUserSignedIn | async" class="nav-item"><a routerLink="/logout" class="nav-link sd-icon-group sd-icon-group-append">Выход<i class="mdi mdi-logout mdi-24px"></i></a></li>
-          <!-- <li *ngIf="!(isUserSignedIn | async)" class="nav-item"><a routerLink="login" class="nav-link sd-icon-group sd-icon-group-append">Вход<i class="mdi mdi-login mdi-24px"></i></a></li> -->
+          <li class="nav-item"><span class="nav-link sd-icon-group"><i class="mdi mdi-account mdi-24px"></i>{{ (user | async)?.fio }}</span></li>
+          <li class="nav-item"><a routerLink="/logout" class="nav-link sd-icon-group sd-icon-group-append">Выход<i class="mdi mdi-logout mdi-24px"></i></a></li>
         </ul>
       </div>
     </div>
@@ -25,7 +24,7 @@
 
       <ul class="navbar-nav">
         <li class="nav-item"><a routerLink="search" class="nav-link"><i class="mdi mdi-magnify mdi-24px"></i></a></li>
-        <li class="nav-item"><a href="https://lk.iss-reshetnev.ru" class="nav-link" target="_blank"><span class="sd-icon-group"><i class="mdi mdi-account-key mdi-24px"></i>Личный кабинет</span></a></li>
+        <li class="nav-item"><span class="nav-link sd-icon-group"><i class="mdi mdi-phone mdi-24px"></i>06</span></li>
       </ul>
     </div>
   </div>

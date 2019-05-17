@@ -1,8 +1,10 @@
 <div class="sd-target">
-  <header>
-    <app-header></app-header>
-  </header>
-  <app-breadcrumb [hidden]="hideBreadcrumb()"></app-breadcrumb>
+  <div *ngIf="isUserSignedIn | async">
+    <header>
+      <app-header></app-header>
+    </header>
+    <app-breadcrumb [hidden]="hideBreadcrumb()"></app-breadcrumb>
+  </div>
   <main>
     <router-outlet></router-outlet>
   </main>
