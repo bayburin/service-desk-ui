@@ -17,6 +17,10 @@ export class CasesTableComponent implements OnInit {
 
   ngOnInit() {}
 
+  trackByCase(kase: CaseI) {
+    return kase.case_id;
+  }
+
   /**
    * Отменить заявку
    *

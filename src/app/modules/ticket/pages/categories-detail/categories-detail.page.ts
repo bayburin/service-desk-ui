@@ -5,6 +5,8 @@ import { finalize } from 'rxjs/operators';
 
 import { Category } from '@modules/ticket/models/category.model';
 import { CategoryService } from '@shared/services/category/category.service';
+import { Service } from '@modules/ticket/models/service.model';
+import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
 @Component({
   selector: 'app-categories-detail-page',
@@ -25,5 +27,13 @@ export class CategoriesDetailPageComponent implements OnInit {
 
     this.loading = true;
     this.category$ = this.categoryService.loadCategory(categoryId).pipe(finalize(() => this.loading = false));
+  }
+
+  trackByService(service: Service) {
+    return service.id;
+  }
+
+  trackByTicket(ticket: Ticket) {
+    return ticket.id;
   }
 }

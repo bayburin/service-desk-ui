@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { Service } from '@modules/ticket/models/service.model';
+import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
 @Component({
   selector: 'app-service-detail',
@@ -13,4 +14,8 @@ export class ServiceDetailComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  trackByTicket(ticket: Ticket) {
+    return ticket.id;
+  }
 }

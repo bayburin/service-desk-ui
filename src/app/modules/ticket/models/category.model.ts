@@ -1,6 +1,8 @@
 import { CommonServiceI } from '@interfaces/common-service.interface';
 import { Service } from './service.model';
 import { Ticket } from './ticket/ticket.model';
+import { ServiceFactory } from '@modules/ticket/factories/service.factory';
+import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 
 export class Category implements CommonServiceI {
   id: number;
@@ -17,8 +19,14 @@ export class Category implements CommonServiceI {
     this.shortDescription = category.short_description || '';
     this.popularity = category.popularity || 0;
     this.iconName = category.icon_name;
-    this.services = category.services || [];
-    this.tickets = category.faq || [];
+
+    if (category.services) {
+      this.services = category.services.map((service) => ServiceFactory.create(service)) || [];
+    }
+
+    if (category.faq) {
+      this.tickets = category.faq.map((ticket) => TicketFactory.create(ticket)) || [];
+    }
   }
 
   getShowLink(): string {

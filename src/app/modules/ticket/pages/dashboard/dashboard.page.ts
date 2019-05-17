@@ -4,6 +4,7 @@ import { finalize, map } from 'rxjs/operators';
 import { DashboardI } from '@interfaces/dashboard.interface';
 import { DashboardService } from '@modules/ticket/services/dashboard/dashboard.service';
 import { Service } from '@modules/ticket/models/service.model';
+import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -54,5 +55,13 @@ export class DashboardPageComponent implements OnInit {
    */
   isNeedToDropDown(service: Service): boolean {
     return service.questionLimit < service.tickets.length;
+  }
+
+  trackByService(service: Service) {
+    return service.id;
+  }
+
+  trackByTicket(ticket: Ticket) {
+    return ticket.id;
   }
 }

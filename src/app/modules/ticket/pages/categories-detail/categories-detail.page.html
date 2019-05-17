@@ -5,7 +5,7 @@
       <app-section-header [header]="category.name"></app-section-header>
       <div class="sd-category-list">
         <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 list-unstyled">
-          <li *ngFor="let service of category.services; trackBy:service?.id">
+          <li *ngFor="let service of category.services; trackBy: trackByService">
             <a [routerLink]="['services', service.id]" [innerHtml]="service.name"></a>
           </li>
         </ul>
@@ -22,15 +22,7 @@
       <section>
         <app-section-header header="Часто задаваемые вопросы"></app-section-header>
         <dl class="sd-dlist-divider-b">
-          <ng-container *ngFor="let ticket of category.tickets; trackBy:ticket?.id">
-            <dt>
-               <span class="sd-icon-group sd-link text-primary" (click)="ticket.open = !ticket.open">
-                 <i class="mdi mdi-24px text-primary" [ngClass]="ticket.open ? 'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'"></i>
-                 {{ ticket.name }}
-               </span>
-            </dt>
-            <dd [hidden]="!ticket.open" [innerHtml]="ticket.answers[0].answer"></dd>
-          </ng-container>
+          <app-dynamic-template-content *ngFor="let ticket of category.tickets; trackBy: trackByTicket" [data]="ticket"></app-dynamic-template-content>
         </dl>
       </section>
     </div>
