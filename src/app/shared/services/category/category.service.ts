@@ -13,8 +13,8 @@ import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
   providedIn: 'root'
 })
 export class CategoryService implements BreadcrumbServiceI {
-  private loadCategoriesUrl = `${environment.serverUrl}/api/v1/categories`;
-  private loadCategoryUrl: string;
+  private loadCategoriesUri = `${environment.serverUrl}/api/v1/categories`;
+  private loadCategoryUri: string;
   private categories: Category[];
   private category = new BehaviorSubject<Category>(null);
 
@@ -24,7 +24,7 @@ export class CategoryService implements BreadcrumbServiceI {
    * Загрузить список категорий.
    */
   loadCategories(): Observable<Category[]> {
-    return this.http.get(this.loadCategoriesUrl).pipe(
+    return this.http.get(this.loadCategoriesUri).pipe(
       map((categories: CategoryI[]) => categories.map((category) => CategoryFactory.create(category)))
     );
   }
@@ -40,9 +40,9 @@ export class CategoryService implements BreadcrumbServiceI {
    * Загрузить данные о категории и список связанных сервисов.
    */
   loadCategory(categoryId): Observable<Category> {
-    this.loadCategoryUrl = `${this.loadCategoriesUrl}/${categoryId}`;
+    this.loadCategoryUri = `${this.loadCategoriesUri}/${categoryId}`;
 
-    return this.http.get(this.loadCategoryUrl).pipe(
+    return this.http.get(this.loadCategoryUri).pipe(
       map((data: CategoryI) => CategoryFactory.create(data)),
       tap((category) => this.category.next(category))
     );

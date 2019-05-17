@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'http://inv-dev'
+  serverUrl: 'https://inv-dev.iss-reshetnev.ru',
+  authorizeUri: 'https://inv-dev.iss-reshetnev.ru:4200/authorize',
+  clientId: 42
 };
 
 /*

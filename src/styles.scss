@@ -27,3 +27,9 @@ ngb-typeahead-window.dropdown-menu {
   margin-top: 1.125rem;
   border-top: 1px solid #e5e5e5;
 }
+
+.sd-dlist-divider-b app-dynamic-template-content:first-child dt {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}

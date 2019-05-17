@@ -67,7 +67,9 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "service-desk-ui:build"
+            "browserTarget": "service-desk-ui:build",
+            "sslKey": "/etc/pki/tls/nginx/iss-reshetnev.ru.key",
+            "sslCert": "/etc/pki/tls/nginx/iss_reshetnev_ru.crt"
           },
           "configurations": {
             "production": {

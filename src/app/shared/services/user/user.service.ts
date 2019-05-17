@@ -14,8 +14,8 @@ import { ServiceFactory } from '@modules/ticket/factories/service.factory';
   providedIn: 'root'
 })
 export class UserService {
-  private loadUserInfoUrl = `${environment.serverUrl}/api/v1/users/info`;
-  private loadUserOwnsUrl = `${environment.serverUrl}/api/v1/users/owns`;
+  private loadUserInfoUri = `${environment.serverUrl}/api/v1/users/info`;
+  private loadUserOwnsUri = `${environment.serverUrl}/api/v1/users/owns`;
   private currentUser: UserI = JSON.parse(localStorage.getItem(this.config.currentUserStorage)) || null;
   private userSubj = new BehaviorSubject<UserI>(this.currentUser);
   user = this.userSubj.asObservable();
@@ -26,14 +26,14 @@ export class UserService {
    * Получить данные о пользователе.
    */
   loadUserInfo(): Observable<UserI> {
-    return this.http.get(this.loadUserInfoUrl).pipe(tap((data: UserI) => this.setUser(data)));
+    return this.http.get(this.loadUserInfoUri).pipe(tap((data: UserI) => this.setUser(data)));
   }
 
   /**
    * Получить списки объектов, с которыми может работать пользователь для создания заявок (список техники, список сервисов и т.п.).
    */
   loadUserOwns(): Observable<UserOwnsI> {
-    return this.http.get<UserOwnsI>(this.loadUserOwnsUrl).pipe(
+    return this.http.get<UserOwnsI>(this.loadUserOwnsUri).pipe(
       map((data) => {
         data.services = data.services.map(service => ServiceFactory.create(service));
 

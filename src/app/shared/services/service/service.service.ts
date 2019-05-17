@@ -12,8 +12,8 @@ import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
   providedIn: 'root'
 })
 export class ServiceService implements BreadcrumbServiceI {
-  private loadServicesUrl: string;
-  private loadServiceUrl: string;
+  private loadServicesUri: string;
+  private loadServiceUri: string;
   private service = new Subject<Service>();
 
   constructor(private http: HttpClient) { }
@@ -22,9 +22,9 @@ export class ServiceService implements BreadcrumbServiceI {
    * Загрузить список всех услуг (вместе с вопросами/заявками)
    */
   loadServices(): Observable<Service[]> {
-    this.loadServicesUrl = `${environment.serverUrl}/api/v1/services`;
+    this.loadServicesUri = `${environment.serverUrl}/api/v1/services`;
 
-    return this.http.get<Service[]>(this.loadServicesUrl).pipe(map((services) => services.map(service => ServiceFactory.create(service))));
+    return this.http.get<Service[]>(this.loadServicesUri).pipe(map((services) => services.map(service => ServiceFactory.create(service))));
   }
 
   /**
@@ -34,9 +34,9 @@ export class ServiceService implements BreadcrumbServiceI {
    * @param serviceId  id сервиса
    */
   loadService(categoryId: string, serviceId: string): Observable<Service> {
-    this.loadServiceUrl = `${environment.serverUrl}/api/v1/categories/${categoryId}/services/${serviceId}`;
+    this.loadServiceUri = `${environment.serverUrl}/api/v1/categories/${categoryId}/services/${serviceId}`;
 
-    return this.http.get<Service>(this.loadServiceUrl).pipe(
+    return this.http.get<Service>(this.loadServiceUri).pipe(
       map(data => ServiceFactory.create(data)),
       tap(service => this.service.next(service))
     );
