@@ -45,12 +45,26 @@ export class Ticket implements CommonServiceI {
   }
 
   /**
+   * Проверяет, является ли экземпляр вопросом.
+   */
+  isQuestion(): boolean {
+    return this.ticketType === 'question';
+  }
+
+  /**
+   * Проверяет, является ли экземпляр заявкой.
+   */
+  isCase(): boolean {
+    return this.ticketType === 'case';
+  }
+
+  /**
    * Установить состояние класса взависимости от типа ticketType.
    */
   private createState(): void {
-    if (this.ticketType === 'question') {
+    if (this.isQuestion()) {
       this.state = new QuestionState();
-    } else if (this.ticketType === 'case') {
+    } else if (this.isCase()) {
       this.state = new CaseState();
     } else {
       throw new Error('Unknown ticketType');

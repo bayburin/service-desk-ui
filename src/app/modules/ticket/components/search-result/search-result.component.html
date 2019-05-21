@@ -3,7 +3,7 @@
   <app-filters [data]="types" (changeFilter)="filterChanged($event)"></app-filters>
   <div class="tab-content">
     <dl class="sd-dlist-divider-b">
-      <app-dynamic-template-content *ngFor="let template of result | searchResult: selectedType" [data]="template"></app-dynamic-template-content>
+      <app-dynamic-template-content *ngFor="let template of result | searchResult: selectedType | searchSorting" [data]="template"></app-dynamic-template-content>
     </dl>
   </div>
 </section>

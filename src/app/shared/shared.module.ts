@@ -13,6 +13,7 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { UnauthorizeContentComponent } from './components/unauthorize-content/unauthorize-content.component';
 import { LogoComponent } from './components/logo/logo.component';
+import { SearchSortingPipe } from './pipes/search-sorting/search-sorting.pipe';
 @NgModule({
   declarations: [
     LoadingComponent,
@@ -23,7 +24,8 @@ import { LogoComponent } from './components/logo/logo.component';
     PaginatorComponent,
     FiltersComponent,
     UnauthorizeContentComponent,
-    LogoComponent
+    LogoComponent,
+    SearchSortingPipe
   ],
   imports: [
     CommonModule,
@@ -48,10 +50,12 @@ import { LogoComponent } from './components/logo/logo.component';
     PaginatorComponent,
     FiltersComponent,
     UnauthorizeContentComponent,
-    LogoComponent
+    LogoComponent,
+    SearchSortingPipe
   ],
   providers: [
-    SearchResultPipe
+    SearchResultPipe,
+    SearchSortingPipe
   ]
 })
 export class SharedModule { }
