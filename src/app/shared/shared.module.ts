@@ -7,7 +7,7 @@ import { NgbTypeaheadModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap
 import { LoadingComponent } from './components/loading/loading.component';
 import { CasesTableComponent } from './components/cases-table/cases-table.component';
 import { SectionHeaderComponent } from './components/section-header/section-header.component';
-import { SearchResultPipe } from './pipes/search-result/search-result.pipe';
+import { SearchResultFilterPipe } from './pipes/search-result-filter/search-result-filter.pipe';
 import { CasesPageComponent } from './pages/cases/cases.page';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { FiltersComponent } from './components/filters/filters.component';
@@ -19,7 +19,7 @@ import { SearchSortingPipe } from './pipes/search-sorting/search-sorting.pipe';
     LoadingComponent,
     CasesTableComponent,
     SectionHeaderComponent,
-    SearchResultPipe,
+    SearchResultFilterPipe,
     CasesPageComponent,
     PaginatorComponent,
     FiltersComponent,
@@ -45,7 +45,7 @@ import { SearchSortingPipe } from './pipes/search-sorting/search-sorting.pipe';
     LoadingComponent,
     CasesTableComponent,
     SectionHeaderComponent,
-    SearchResultPipe,
+    SearchResultFilterPipe,
     CasesPageComponent,
     PaginatorComponent,
     FiltersComponent,
@@ -54,7 +54,7 @@ import { SearchSortingPipe } from './pipes/search-sorting/search-sorting.pipe';
     SearchSortingPipe
   ],
   providers: [
-    SearchResultPipe,
+    SearchResultFilterPipe,
     SearchSortingPipe
   ]
 })

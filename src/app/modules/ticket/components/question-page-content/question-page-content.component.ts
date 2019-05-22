@@ -12,6 +12,7 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 })
 export class QuestionPageContentComponent implements OnInit {
   @Input() data: Ticket;
+  @Input() onlyLink: boolean;
   ratingStream = new Subject<Ticket>();
 
   constructor(private ticketService: TicketService) { }
@@ -29,8 +30,11 @@ export class QuestionPageContentComponent implements OnInit {
    * "Раскрывает" вопрос и отправляет запрос на сервер с его id для изменения рейтинга.
    */
   toggleTicket(ticket: Ticket): void {
-    ticket.open = !ticket.open;
+    if (this.onlyLink) {
+      return;
+    }
 
+    ticket.open = !ticket.open;
     this.ratingStream.next(ticket);
   }
 }

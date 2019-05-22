@@ -11,4 +11,6 @@
   </div>
 </div>
 
-<ng-template #rt let-r="result">{{r.name}}</ng-template>
+<ng-template #rt let-r="result">
+  <app-dynamic-template-content class="search-result" [data]="r" [onlyLink]="true"></app-dynamic-template-content>
+</ng-template>

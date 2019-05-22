@@ -5,7 +5,7 @@ import { takeWhile, tap } from 'rxjs/operators';
 import { Category } from '@modules/ticket/models/category.model';
 import { Service } from '@modules/ticket/models/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { SearchResultPipe } from '@shared/pipes/search-result/search-result.pipe';
+import { SearchResultFilterPipe } from '@shared/pipes/search-result-filter/search-result-filter.pipe';
 
 @Component({
   selector: 'app-search-result',
@@ -40,7 +40,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
   @Input() searchResult: Observable<(Category | Service | Ticket)[]>;
   private alive = true;
 
-  constructor(private searchResultPipe: SearchResultPipe) {}
+  constructor(private searchResultFilterPipe: SearchResultFilterPipe) {}
 
   ngOnInit() {
     this.searchResult
@@ -48,7 +48,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
         takeWhile(() => this.alive),
         tap((arr) => {
           this.types.map((type) => {
-            type.count = this.searchResultPipe.transform(arr, type.id).length;
+            type.count = this.searchResultFilterPipe.transform(arr, type.id).length;
 
             return type;
           });

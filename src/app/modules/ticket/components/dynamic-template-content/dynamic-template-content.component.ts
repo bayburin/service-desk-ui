@@ -12,6 +12,7 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 })
 export class DynamicTemplateContentComponent implements OnInit, OnDestroy {
   @Input() data: Category | Service | Ticket;
+  @Input() onlyLink: boolean;
   @ViewChild('templateContainer', { read: ViewContainerRef }) entry: ViewContainerRef;
   componentRef;
 
@@ -29,6 +30,7 @@ export class DynamicTemplateContentComponent implements OnInit, OnDestroy {
     // const componentFactory = this.componentFactoryResolver.resolveComponentFactory(factoryClass);
     this.componentRef = this.entry.createComponent(componentFactory);
     this.componentRef.instance.data = this.data;
+    this.componentRef.instance.onlyLink = this.onlyLink;
   }
 
   ngOnDestroy() {
