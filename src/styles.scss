@@ -43,3 +43,25 @@ ngb-typeahead-window.dropdown-menu {
 .search-result dt {
   font-weight: normal;
 }
+
+.sd-dlist-divider-b {
+  .sd-list-item {
+    padding: 1.125rem;
+    border-top: 1px solid #e5e5e5;
+
+    .sd-list-answer {
+      margin-top: 1.125rem;
+    }
+  }
+
+  .active-item {
+    background-color: #f4f4f4 !important;
+  }
+
+  app-question-page-content:first-child .sd-list-item,
+  app-dynamic-template-content:first-child .sd-list-item {
+    border-top: none;
+  }
+}
+
+

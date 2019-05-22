@@ -1,7 +1,10 @@
-<dt [id]="data.id">
-  <span class="sd-icon-group sd-link text-body" (click)="toggleTicket(data)">
-    <i *ngIf="!onlyLink" class="mdi mdi-24px" [ngClass]="data.open ? 'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'"></i>
-    {{ data.name }}
-  </span>
-</dt>
-<dd [hidden]="!data.open" [innerHtml]="data.answers[0]?.answer"></dd>
+<div class="sd-list-item" [ngClass]="{ 'active-item': data.open }" [id]="data.id">
+  <div class="sd-list-question">
+    <div class="sd-icon-group sd-link text-body" (click)="toggleTicket(data)">
+      <i *ngIf="!onlyLink" class="mdi mdi-24px" [ngClass]="data.open ? 'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'"></i>
+      {{ data.name }}
+    </div>
+  </div>
+  <div class="sd-list-answer" [hidden]="!data.open" [innerHtml]="data.answers[0]?.answer"></div>
+</div>
+

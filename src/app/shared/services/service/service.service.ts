@@ -7,6 +7,7 @@ import { environment } from 'environments/environment';
 import { Service } from '@modules/ticket/models/service.model';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
+import { SearchSortingPipe } from '@shared/pipes/search-sorting/search-sorting.pipe';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class ServiceService implements BreadcrumbServiceI {
   private loadServiceUri: string;
   private service = new Subject<Service>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private searchSortingPipe: SearchSortingPipe) { }
 
   /**
    * Загрузить список всех услуг (вместе с вопросами/заявками)
@@ -37,7 +38,11 @@ export class ServiceService implements BreadcrumbServiceI {
     this.loadServiceUri = `${environment.serverUrl}/api/v1/categories/${categoryId}/services/${serviceId}`;
 
     return this.http.get<Service>(this.loadServiceUri).pipe(
-      map(data => ServiceFactory.create(data)),
+      map(data => {
+        const service = ServiceFactory.create(data);
+        service.tickets = this.searchSortingPipe.transform(service.tickets);
+        return service;
+      }),
       tap(service => this.service.next(service))
     );
   }
