@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core';
 
 import { Service } from '@modules/ticket/models/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { QuestionPageContentComponent } from '@modules/ticket/components/question-page-content/question-page-content.component';
+import { DynamicTemplateContentComponent } from '@modules/ticket/components/dynamic-template-content/dynamic-template-content.component';
 
 @Component({
   selector: 'app-service-detail',
@@ -11,7 +11,7 @@ import { QuestionPageContentComponent } from '@modules/ticket/components/questio
 })
 export class ServiceDetailComponent implements OnInit {
   @Input() service: Service;
-  @ViewChild(QuestionPageContentComponent) questionComponent: QuestionPageContentComponent;
+  @ViewChildren(DynamicTemplateContentComponent) dynamicTemplateComponent: QueryList<DynamicTemplateContentComponent>;
 
   constructor() {}
 

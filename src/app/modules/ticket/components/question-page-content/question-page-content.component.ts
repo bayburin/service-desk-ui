@@ -21,20 +21,20 @@ export class QuestionPageContentComponent implements OnInit {
     this.ratingStream
       .pipe(
         first(),
-        switchMap((ticket) => this.ticketService.raiseRating(ticket))
+        switchMap(() => this.ticketService.raiseRating(this.data))
       )
       .subscribe();
   }
 
   /**
-   * "Раскрывает" вопрос и отправляет запрос на сервер с его id для изменения рейтинга.
+   * "Раскрывает" вопрос и отправляет запрос на сервер для изменения его рейтинга.
    */
-  toggleTicket(ticket: Ticket): void {
+  toggleTicket(): void {
     if (this.onlyLink) {
       return;
     }
 
-    ticket.open = !ticket.open;
-    this.ratingStream.next(ticket);
+    this.data.open = !this.data.open;
+    this.ratingStream.next();
   }
 }

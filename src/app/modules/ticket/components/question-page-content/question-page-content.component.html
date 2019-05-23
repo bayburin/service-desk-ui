@@ -1,6 +1,6 @@
 <div class="sd-list-item" [ngClass]="{ 'active-item': data.open }" [id]="data.id">
   <div class="sd-list-question">
-    <div class="sd-icon-group sd-link text-body" (click)="toggleTicket(data)">
+    <div class="sd-icon-group sd-link text-body" (click)="toggleTicket()">
       <i *ngIf="!onlyLink" class="mdi mdi-24px" [ngClass]="data.open ? 'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'"></i>
       {{ data.name }}
     </div>
