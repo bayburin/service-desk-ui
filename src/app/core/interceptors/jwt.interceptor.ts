@@ -13,7 +13,6 @@ export class JwtInterceptor implements HttpInterceptor {
     if (currentToken && currentToken.access_token) {
       const reqWithToken = req.clone({
         setHeaders: {
-          'Content-Type': 'application/json',
           Accept: 'application/json',
           Authorization: `Bearer ${currentToken.access_token}`
         }

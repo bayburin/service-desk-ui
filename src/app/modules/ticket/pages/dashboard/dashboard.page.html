@@ -40,7 +40,7 @@
             </li>
           </ul>
           <span *ngIf="service.tickets.length > limits.questions" (click)="toggleQuestionLimit(service)" class="sd-icon-group sd-link text-dark">
-            <i class="mdi mdi-24px text-primary" [ngClass]="isNeedToDropDown(service) ? 'mdi-arrow-down-drop-circle-outline' : 'mdi-arrow-up-drop-circle-outline'"></i>
+            <i class="mdi mdi-24px" [ngClass]="isNeedToDropDown(service) ? 'mdi-arrow-down-drop-circle-outline' : 'mdi-arrow-up-drop-circle-outline'"></i>
             Смотреть все вопросы
           </span>
         </div>

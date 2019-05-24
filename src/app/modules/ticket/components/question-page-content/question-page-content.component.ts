@@ -4,6 +4,7 @@ import { first, switchMap } from 'rxjs/operators';
 
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { AnswerAttachmentI } from '@interfaces/answer_attachment.interface';
 
 @Component({
   selector: 'app-question-page-content',
@@ -36,5 +37,28 @@ export class QuestionPageContentComponent implements OnInit {
 
     this.data.open = !this.data.open;
     this.ratingStream.next();
+  }
+
+  /**
+   * Загружает выбранный файл.
+   */
+  downloadAttachment(attachment: AnswerAttachmentI) {
+    this.ticketService.downloadAttachmentFromAnswer(attachment)
+      .subscribe(
+        fileData => {
+          const url = window.URL.createObjectURL(fileData);
+          const link = document.createElement('a');
+
+          link.href = url;
+          link.download = attachment.filename;
+          link.click();
+
+          // Для firefox необходимо отложить отзыв ObjectURL.
+          setTimeout(() => {
+            window.URL.revokeObjectURL(url);
+            link.remove();
+          }, 100);
+        },
+        error => console.log('Ошибка загрузки файла: ', error));
   }
 }
