@@ -18,15 +18,21 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
   service: Service;
   @ViewChild(ServiceDetailComponent) private serviceDetailComponent: ServiceDetailComponent;
   private questionStream = new Subject();
+  private ticketId: number;
 
   constructor(private serviceService: ServiceService, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.ticketId = this.route.snapshot.queryParams.ticket;
     this.loadService();
     this.openQuestionStream();
   }
 
   ngAfterViewChecked() {
+    if (!this.ticketId) {
+      return;
+    }
+
     const dynamicTemplateComponentArr = this.serviceDetailComponent.dynamicTemplateComponent.toArray();
 
     this.questionStream.next(dynamicTemplateComponentArr);
@@ -65,11 +71,10 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
    * Вызывает метод toggleTicket() у компонента для раскрытия вопроса.
    */
   openSelectedQuestion(componentArr: DynamicTemplateContentComponent[]): void {
-    const ticketId = this.route.snapshot.queryParams.ticket;
-    const selectedComponent = componentArr.find(el => el.data.id == ticketId);
+    const selectedComponent = componentArr.find(el => el.data.id == this.ticketId);
 
     selectedComponent.componentRef.instance.toggleTicket();
-    this.scrollToTicket(ticketId);
+    this.scrollToTicket();
   }
 
   /**
@@ -77,8 +82,8 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
    *
    * @param ticketId - id элемента
    */
-  private scrollToTicket(ticketId): void {
-    const el = document.getElementById(ticketId);
+  private scrollToTicket(): void {
+    const el = document.getElementById(`${this.ticketId}`);
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
