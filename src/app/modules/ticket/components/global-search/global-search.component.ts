@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { debounceTime, switchMap, finalize, takeWhile, catchError } from 'rxjs/operators';
+import { debounceTime, finalize, takeWhile, catchError, mergeMap } from 'rxjs/operators';
 
 import { APP_CONFIG } from '@config/app.config';
 import { AppConfigI } from '@interfaces/app-config.interface';
@@ -52,15 +52,22 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
     return searchTerm.pipe(
       debounceTime(500),
       takeWhile(() => this.alive),
-      switchMap(term => {
+      mergeMap(term => {
         if (!term || term.length < this.config.minLengthSearch) {
           return of([]);
         }
 
         this.loading = true;
-        return this.searchService.search(term).pipe(finalize(() => this.loading = false));
+        return this.searchService.search(term)
+          .pipe(
+            finalize(() => this.loading = false),
+            catchError(error => {
+              console.log('При поиске произошла ошибка: ', error);
+
+              return of([]);
+            })
+          );
       }),
-      catchError(() => of([]))
     );
   }
 
