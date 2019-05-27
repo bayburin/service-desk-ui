@@ -12,7 +12,7 @@
     </thead>
     <tbody>
       <tr *ngIf="loading">
-        <td colspan="6"><app-loading [loading]="loading" size="3rem"></app-loading></td>
+        <td colspan="6"><app-loading [loading]="loading" size="48px"></app-loading></td>
       </tr>
       <ng-container *ngIf="!loading">
         <tr *ngFor="let case of cases; trackBy: trackByCase">

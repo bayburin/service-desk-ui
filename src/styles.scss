@@ -48,6 +48,14 @@ ngb-typeahead-window.dropdown-menu {
 
 main, app-breadcrumb {
   i {
-    color: #6c757d !important
+    color: #6c757d !important;
   }
+}
+
+button.btn-primary i {
+  color: #fff !important;
+}
+
+.sd-spinner-wrap .sd-spinner-border:after {
+  color: #6c757d;
 }

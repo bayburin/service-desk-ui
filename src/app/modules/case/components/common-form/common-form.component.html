@@ -124,7 +124,7 @@
     <div class="form-row align-items-center justify-content-center sd-mb-7">
       <button type="submit" [disabled]="loading.form || loading.params" class="btn btn-primary">
         <span class="d-flex justify-content-center">
-          <app-loading [loading]="loading.form" class="mr-1" size="1rem"></app-loading>Отправить
+          <app-loading [loading]="loading.form" class="mr-1 text-body"></app-loading>Отправить
         </span>
       </button>
       <button (click)="onCancel($event)" class="btn btn-gray-white ml-3">Отменить</button>

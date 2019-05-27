@@ -1,7 +1,7 @@
 <div class="container">
   <section>
     <app-section-header header="Мои заявки"></app-section-header>
-    <app-loading [loading]="loading.initialization" size="3rem"></app-loading>
+    <app-loading [loading]="loading.initialization" size="48px"></app-loading>
 
     <div *ngIf="!loading.initialization && !isAnyCasesExists()" class="d-flex justify-content-start align-items-center">
       <span>Заявки отсутствуют</span>

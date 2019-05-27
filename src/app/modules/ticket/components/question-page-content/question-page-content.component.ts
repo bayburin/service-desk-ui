@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs';
-import { first, switchMap } from 'rxjs/operators';
+import { first, switchMap, finalize } from 'rxjs/operators';
 
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
@@ -43,7 +43,9 @@ export class QuestionPageContentComponent implements OnInit {
    * Загружает выбранный файл.
    */
   downloadAttachment(attachment: AnswerAttachmentI) {
+    attachment.loading = true;
     this.ticketService.downloadAttachmentFromAnswer(attachment)
+      .pipe(finalize(() => attachment.loading = false))
       .subscribe(
         fileData => {
           const url = window.URL.createObjectURL(fileData);
