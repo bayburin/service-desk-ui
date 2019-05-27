@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { of, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
-import { GlobalSearchComponent } from '@modules/ticket/components/global-search/global-search.component';
 import { ServiceTemplateI } from '@interfaces/service-template.interface';
+import { SearchService } from '@modules/ticket/services/search/search.service';
 
 @Component({
   selector: 'app-search-page',
@@ -12,16 +12,15 @@ import { ServiceTemplateI } from '@interfaces/service-template.interface';
   styleUrls: ['./search.page.scss']
 })
 export class SearchPageComponent implements OnInit {
-  @ViewChild(GlobalSearchComponent) private searchComponent: GlobalSearchComponent;
   searchTerm: string;
   searchResult: Observable<ServiceTemplateI[]>;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private searchService: SearchService) { }
 
   ngOnInit() {
     this.searchTerm = this.route.snapshot.queryParams.search;
     this.searchResult = this.route.queryParams.pipe(
-      mergeMap((params) => this.searchComponent.search(of(params.search)))
+      mergeMap((params) => this.searchService.deepSearch(params.search))
     );
   }
 }

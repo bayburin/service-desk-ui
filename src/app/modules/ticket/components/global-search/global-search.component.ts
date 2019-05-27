@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy, Input, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Inject, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { debounceTime, finalize, takeWhile, catchError, mergeMap } from 'rxjs/operators';
+import { debounceTime, finalize, takeWhile, catchError, mergeMap, tap } from 'rxjs/operators';
 
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { APP_CONFIG } from '@config/app.config';
 import { AppConfigI } from '@interfaces/app-config.interface';
 import { SearchService } from '@modules/ticket/services/search/search.service';
@@ -20,7 +21,12 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   serviceCtrl: FormControl;
   loading = false;
   @Input() searchTerm: string;
+  @ViewChild(NgbTypeahead) globalSearch: NgbTypeahead;
   private alive = true;
+  /**
+   * Если true - выпадающее меню с результатами поиска не будет раскрыто.
+   */
+  private closeState = false;
 
   constructor(
     @Inject(APP_CONFIG) private config: AppConfigI,
@@ -31,7 +37,10 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.serviceCtrl = new FormControl({ name: this.searchTerm });
     this.serviceCtrl.valueChanges
-      .pipe(takeWhile(() => this.alive))
+      .pipe(
+        takeWhile(() => this.alive),
+        tap(() => this.setOpenState())
+      )
       .subscribe((res: string | Category | Service | Ticket) => {
         if (typeof res === 'string') {
           this.searchTerm = res;
@@ -53,7 +62,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
       debounceTime(500),
       takeWhile(() => this.alive),
       mergeMap(term => {
-        if (!term || term.length < this.config.minLengthSearch) {
+        if (!term || term.length < this.config.minLengthSearch || this.closeState) {
           return of([]);
         }
 
@@ -75,6 +84,9 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
    * Событие поиска по нажатии на кнопку "Поиск".
    */
   onSearch(): void {
+    this.setCloseState();
+    this.globalSearch.dismissPopup();
+
     if (!this.searchTerm || this.searchTerm.length < this.config.minLengthSearch) {
       return;
     }
@@ -89,5 +101,13 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.alive = false;
+  }
+
+  private setCloseState() {
+    this.closeState = true;
+  }
+
+  private setOpenState() {
+    this.closeState = false;
   }
 }

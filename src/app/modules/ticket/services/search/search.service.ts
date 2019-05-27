@@ -11,8 +11,6 @@ import { SearchSortingPipe } from '@shared/pipes/search-sorting/search-sorting.p
   providedIn: 'root'
 })
 export class SearchService {
-  private searchUri = `${environment.serverUrl}/api/v1/dashboard/search`;
-
   constructor(
     private http: HttpClient,
     private searchSortingPipe: SearchSortingPipe
@@ -20,11 +18,30 @@ export class SearchService {
 
   /**
    * Возвращает совместный список категорий/сервисов/вопросов/заявок.
+   *
+   * @params searchValue - поисковая строка.
    */
   search(searchValue: string): Observable<any> {
-    const params = new HttpParams().set('search', searchValue).set('without_associations', 'true');
+    const searchUri = `${environment.serverUrl}/api/v1/dashboard/search`;
 
-    return this.http.get<any>(this.searchUri, { params: params }).pipe(
+    return this.searchRequest(searchUri, searchValue);
+  }
+
+  /**
+   * Возвращает совместный список категорий/сервисов/вопросов/заявок со вложенными структурами данных.
+   *
+   * @params searchValue - поисковая строка.
+   */
+  deepSearch(searchValue: string): Observable<any> {
+    const searchUri = `${environment.serverUrl}/api/v1/dashboard/deep_search`;
+
+    return this.searchRequest(searchUri, searchValue);
+  }
+
+  private searchRequest(uri: string, searchValue: string): Observable<any> {
+    const params = new HttpParams().set('search', searchValue);
+
+    return this.http.get<any>(uri, { params: params }).pipe(
       map((data) => {
         const arr = data.map((template) => ServiceTemplateCreator.createBy(template));
 
