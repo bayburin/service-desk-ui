@@ -4,6 +4,7 @@ import { first, switchMap, finalize } from 'rxjs/operators';
 
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { AnswerI } from '@interfaces/answer.interface';
 import { AnswerAttachmentI } from '@interfaces/answer_attachment.interface';
 
 @Component({
@@ -62,5 +63,9 @@ export class QuestionPageContentComponent implements OnInit {
           }, 100);
         },
         error => console.log('Ошибка загрузки файла: ', error));
+  }
+
+  trackByAnswer(answer: AnswerI) {
+    return answer.id;
   }
 }
