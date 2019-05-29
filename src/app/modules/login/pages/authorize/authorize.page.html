@@ -1,0 +1,17 @@
+<app-unauthorize-content>
+  <div class="text-center">
+    <p [hidden]="success || errors">Идет процесс авторизации...</p>
+    <p *ngIf="errors" class="text-danger">Ошибка авторизации</p>
+    <p *ngIf="success">Авторизация прошла успешно. Перенаправление...</p>
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="progress">
+          <div class="progress-bar" [ngStyle]="{ 'width.%': progressValue }" [ngClass]="{ 'bg-danger': errors, 'bg-success': success }" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="errors" class="text-center mt-5">
+      <a routerLink="/" class="btn btn-primary">Войти заново</a>
+    </div>
+  </div>
+</app-unauthorize-content>

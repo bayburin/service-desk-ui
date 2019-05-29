@@ -1,0 +1,30 @@
+<app-loading [loading]="loading" size="48px"></app-loading>
+<div *ngIf="category$ | async as category">
+  <div class="container">
+    <section>
+      <app-section-header [header]="category.name"></app-section-header>
+      <div class="sd-category-list">
+        <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 list-unstyled">
+          <li *ngFor="let service of category.services; trackBy: trackByService">
+            <a [routerLink]="['services', service.id]" [innerHtml]="service.name"></a>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+  <div class="jumbotron bg-render-unmasked border-top sd-p-3 mb-0">
+    <div class="container">
+      <app-cases-page [services]="category.services"></app-cases-page>
+    </div>
+  </div>
+  <div class="jumbotron bg-render-unmasked border-top sd-p-3 mb-0">
+    <div class="container">
+      <section>
+        <app-section-header header="Часто задаваемые вопросы"></app-section-header>
+        <div class="sd-dlist-divider-b">
+          <app-question-page-content *ngFor="let ticket of category.tickets; trackBy: trackByTicket" [data]="ticket"></app-question-page-content>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

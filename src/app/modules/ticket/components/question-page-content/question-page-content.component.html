@@ -1,0 +1,25 @@
+<div class="sd-list-item" [ngClass]="{ 'active-item': data.open }" [id]="data.id">
+  <div class="sd-list-question">
+    <div class="sd-icon-group sd-link text-body" (click)="toggleTicket()">
+      <i *ngIf="!onlyLink" class="mdi mdi-24px" [ngClass]="data.open ? 'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'"></i>
+      {{ data.name }}
+    </div>
+  </div>
+  <div *ngFor="let answer of data.answers; trackBy: trackByAnswer" class="sd-list-answer ml-5" [hidden]="!data.open">
+    <div class="row d-flex align-items-center">
+      <div class="col-sm-9 col-md-10">{{ answer.answer }}</div>
+      <div class="col-sm-3 col-md-2">
+        <div class="sd-link sd-icon-group justify-content-center">
+          <div *ngFor="let attachment of answer.attachments">
+            <ng-template #filename>{{ attachment.filename }}</ng-template>
+            <app-loading [loading]="attachment.loading" size="24px" class="text-secondary"></app-loading>
+            <div *ngIf="!attachment.loading" [ngbTooltip]="filename"><i class="mdi mdi-file-download mdi-24px" (click)="downloadAttachment(attachment)"></i></div>
+          </div>
+          <div *ngIf="answer.link" ngbTooltip="Перейти по ссылке">
+            <a [href]="answer.link" target="_blank"><i class="mdi mdi-open-in-new mdi-24px"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

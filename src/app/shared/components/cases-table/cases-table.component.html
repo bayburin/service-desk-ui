@@ -1,0 +1,32 @@
+<div class="tab-content">
+  <table class="table table-striped table-borderless border">
+    <thead>
+      <tr class="thead-light border-bottom">
+        <th scope="col">Номер</th>
+        <th scope="col">Дата подачи</th>
+        <th scope="col">Услуга</th>
+        <th scope="col">Срок выполнения</th>
+        <th scope="col">Статус</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="loading">
+        <td colspan="6"><app-loading [loading]="loading" size="48px"></app-loading></td>
+      </tr>
+      <ng-container *ngIf="!loading">
+        <tr *ngFor="let case of cases; trackBy: trackByCase">
+          <td [innerHtml]="case.case_id"></td>
+          <td [innerHtml]="case.runtime.formatted_starttime"></td>
+          <td [innerHtml]="case.ticket?.name || 'Обращение в техподдержку'"></td>
+          <td [innerHtml]="case.runtime.to_s"></td>
+          <td [innerHtml]="case.status"></td>
+          <td><span class="sd-link"><i class="mdi mdi-delete" (click)="destroyCase(case)" ngbTooltip="Отменить заявку"></i></span></td>
+        </tr>
+        <tr *ngIf="cases.length == 0">
+          <td colspan="6">Заявки отсутствуют</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

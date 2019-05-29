@@ -1,0 +1,5 @@
+<div class="container">
+  <app-global-search [searchTerm]="searchTerm"></app-global-search>
+  <app-loading [loading]="loading" size="48px"></app-loading>
+  <app-search-result [hidden]="loading" [searchResult]="searchResult"></app-search-result>
+</div>

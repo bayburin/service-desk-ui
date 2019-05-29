@@ -1,1 +1,61 @@
-/* You can add global styles to this file, and also import other style files */
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+ngb-typeahead-window.dropdown-menu {
+  width: 100%;
+  max-height: 300px;
+  overflow-y: scroll;
+
+  button {
+    white-space: normal;
+  }
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: transparent;
+}
+
+.sd-spinner-wrap .sd-spinner-border:after {
+  color: #2c2c2c;
+  border-width: 0.2rem;
+}
+
+.sd-dlist-divider-b {
+  .sd-list-item {
+    padding: 1.125rem;
+    border-top: 1px solid #e5e5e5;
+
+    .sd-list-answer {
+      margin-top: 1.125rem;
+    }
+  }
+
+  .active-item {
+    background-color: #f4f4f4 !important;
+  }
+
+  app-question-page-content:first-child .sd-list-item,
+  app-dynamic-template-content:first-child .sd-list-item {
+    border-top: none;
+  }
+
+  app-dynamic-template-content:not(:first-child) app-question-page-content .sd-list-item{
+    border-top: 1px solid #e5e5e5 !important;
+  }
+}
+
+main, app-breadcrumb {
+  i {
+    color: #6c757d !important;
+  }
+}
+
+button.btn-primary i {
+  color: #fff !important;
+}
+
+.sd-spinner-wrap .sd-spinner-border:after {
+  color: #6c757d;
+}
