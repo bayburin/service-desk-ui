@@ -8,26 +8,27 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { CaseCardListComponent } from './components/case-card-list/case-card-list.component';
 import { SectionHeaderComponent } from './components/section-header/section-header.component';
 import { SearchResultFilterPipe } from './pipes/search-result-filter/search-result-filter.pipe';
-import { CasesPageComponent } from './pages/cases/cases.page';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { UnauthorizeContentComponent } from './components/unauthorize-content/unauthorize-content.component';
 import { LogoComponent } from './components/logo/logo.component';
 import { SearchSortingPipe } from './pipes/search-sorting/search-sorting.pipe';
 import { CaseCardComponent } from './components/case-card/case-card.component';
+import { CasesPageContentComponent } from './components/cases-page-content/cases-page-content.component';
+
 @NgModule({
   declarations: [
     LoadingComponent,
     CaseCardListComponent,
     SectionHeaderComponent,
     SearchResultFilterPipe,
-    CasesPageComponent,
     PaginatorComponent,
     FiltersComponent,
     UnauthorizeContentComponent,
     LogoComponent,
     SearchSortingPipe,
-    CaseCardComponent
+    CaseCardComponent,
+    CasesPageContentComponent
   ],
   imports: [
     CommonModule,
@@ -50,12 +51,12 @@ import { CaseCardComponent } from './components/case-card/case-card.component';
     CaseCardListComponent,
     SectionHeaderComponent,
     SearchResultFilterPipe,
-    CasesPageComponent,
     PaginatorComponent,
     FiltersComponent,
     UnauthorizeContentComponent,
     LogoComponent,
-    SearchSortingPipe
+    SearchSortingPipe,
+    CasesPageContentComponent
   ],
   providers: [
     SearchResultFilterPipe,
