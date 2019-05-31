@@ -7,11 +7,11 @@ import { FilterI } from '@interfaces/filter.interface';
 import { Service } from '@modules/ticket/models/service.model';
 
 @Component({
-  selector: 'app-cases-page',
-  templateUrl: './cases.page.html',
-  styleUrls: ['./cases.page.scss']
+  selector: 'app-cases-page-content',
+  templateUrl: './cases-page-content.component.html',
+  styleUrls: ['./cases-page-content.component.scss']
 })
-export class CasesPageComponent implements OnInit {
+export class CasesPageContentComponent implements OnInit {
   loading = {
     initialization: false,
     table: false
@@ -36,11 +36,9 @@ export class CasesPageComponent implements OnInit {
   }
 
   /**
-   * Событие удаления заявки.
-   *
-   * @param data
+   * Событие отмены заявки.
    */
-  caseRemoved() {
+  caseRevoked() {
     this.loadCases();
   }
 
@@ -84,7 +82,7 @@ export class CasesPageComponent implements OnInit {
   }
 
   /**
-   * Переключить индиакторы загрузки
+   * Переключить индиакторы загрузки.
    */
   private toggleLoading(init = false) {
     this.loading.initialization = init ? !this.loading.initialization : false;
