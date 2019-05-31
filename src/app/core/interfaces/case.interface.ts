@@ -23,6 +23,8 @@ export interface CaseI {
   phone: string;
   email: string;
   mobile: string;
+  status_id: number;
   status: string;
   runtime: RuntimeI;
+  rating: number;
 }

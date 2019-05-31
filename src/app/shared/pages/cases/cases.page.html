@@ -9,8 +9,9 @@
     </div>
 
     <div *ngIf="!loading.initialization && isAnyCasesExists()">
+      <a routerLink="/cases/new" class="btn btn-gray-white mb-3">Создать заявку в свободной форме</a>
       <app-filters [data]="statuses" (changeFilter)="filterChanged($event)"></app-filters>
-      <app-cases-table [cases]="cases" [loading]="loading.table" (removeCase)="caseRemoved()"></app-cases-table>
+      <app-case-card-list [cases]="cases" [loading]="loading.table" (removeCase)="caseRevoked()"></app-case-card-list>
       <!-- <app-paginator></app-paginator> -->
     </div>
   </section>

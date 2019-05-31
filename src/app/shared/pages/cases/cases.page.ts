@@ -36,11 +36,9 @@ export class CasesPageComponent implements OnInit {
   }
 
   /**
-   * Событие удаления заявки.
-   *
-   * @param data
+   * Событие отмены заявки.
    */
-  caseRemoved() {
+  caseRevoked() {
     this.loadCases();
   }
 
@@ -84,7 +82,7 @@ export class CasesPageComponent implements OnInit {
   }
 
   /**
-   * Переключить индиакторы загрузки
+   * Переключить индиакторы загрузки.
    */
   private toggleLoading(init = false) {
     this.loading.initialization = init ? !this.loading.initialization : false;

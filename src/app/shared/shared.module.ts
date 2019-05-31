@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbTypeaheadModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTypeaheadModule, NgbTooltipModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoadingComponent } from './components/loading/loading.component';
-import { CasesTableComponent } from './components/cases-table/cases-table.component';
+import { CaseCardListComponent } from './components/case-card-list/case-card-list.component';
 import { SectionHeaderComponent } from './components/section-header/section-header.component';
 import { SearchResultFilterPipe } from './pipes/search-result-filter/search-result-filter.pipe';
 import { CasesPageComponent } from './pages/cases/cases.page';
@@ -14,10 +14,11 @@ import { FiltersComponent } from './components/filters/filters.component';
 import { UnauthorizeContentComponent } from './components/unauthorize-content/unauthorize-content.component';
 import { LogoComponent } from './components/logo/logo.component';
 import { SearchSortingPipe } from './pipes/search-sorting/search-sorting.pipe';
+import { CaseCardComponent } from './components/case-card/case-card.component';
 @NgModule({
   declarations: [
     LoadingComponent,
-    CasesTableComponent,
+    CaseCardListComponent,
     SectionHeaderComponent,
     SearchResultFilterPipe,
     CasesPageComponent,
@@ -25,7 +26,8 @@ import { SearchSortingPipe } from './pipes/search-sorting/search-sorting.pipe';
     FiltersComponent,
     UnauthorizeContentComponent,
     LogoComponent,
-    SearchSortingPipe
+    SearchSortingPipe,
+    CaseCardComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +35,8 @@ import { SearchSortingPipe } from './pipes/search-sorting/search-sorting.pipe';
     FormsModule,
     ReactiveFormsModule,
     NgbTypeaheadModule,
-    NgbTooltipModule
+    NgbTooltipModule,
+    NgbRatingModule
   ],
   exports: [
     CommonModule,
@@ -42,8 +45,9 @@ import { SearchSortingPipe } from './pipes/search-sorting/search-sorting.pipe';
     ReactiveFormsModule,
     NgbTypeaheadModule,
     NgbTooltipModule,
+    NgbRatingModule,
     LoadingComponent,
-    CasesTableComponent,
+    CaseCardListComponent,
     SectionHeaderComponent,
     SearchResultFilterPipe,
     CasesPageComponent,

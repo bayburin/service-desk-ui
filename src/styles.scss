@@ -59,3 +59,20 @@ button.btn-primary i {
 .sd-spinner-wrap .sd-spinner-border:after {
   color: #6c757d;
 }
+
+.star {
+  font-size: 1.2rem;
+  color: transparent;
+  color: #6c757d;
+}
+
+.filled {
+  color: #ffc107;
+}
+.row + .row {
+  margin-top: 1.5rem;
+}
+
+.card-header {
+  background-color: transparent !important;
+}

@@ -15,7 +15,7 @@ export class CaseService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Получить список кейсов.
+   * Получает список кейсов.
    */
   getAllCases(filters = {}): Observable<{ statuses: FilterI[], cases: CaseI[] }> {
     const params = new HttpParams().append('filters', JSON.stringify(filters));
@@ -24,7 +24,7 @@ export class CaseService {
   }
 
   /**
-   * Создать кейс.
+   * Создает кейс.
    *
    * @param data - данные о кейсе.
    */
@@ -33,9 +33,9 @@ export class CaseService {
   }
 
   /**
-   * Отменить заявку.
+   * Отменяет заявку.
    */
-  destroyCase(caseId: number): Observable<Object> {
+  revokeCase(caseId: number): Observable<Object> {
     const caseUrl = `${this.casesUri}/${caseId}`;
 
     return this.http.delete(caseUrl);
@@ -57,5 +57,16 @@ export class CaseService {
     delete caseObj.item;
 
     return caseObj;
+  }
+
+  /**
+   * Устанавливает качество обслуживания по заявке.
+   *
+   * @param data - данные заявки.
+   */
+  voteCase(data: CaseI): Observable<any> {
+    const caseUrl = `${this.casesUri}/${data.case_id}`;
+
+    return this.http.put(caseUrl, { case: data });
   }
 }
