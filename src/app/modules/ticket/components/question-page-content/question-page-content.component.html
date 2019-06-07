@@ -2,12 +2,12 @@
   <div class="sd-list-question">
     <div class="sd-icon-group sd-link text-body" (click)="toggleTicket()">
       <i *ngIf="!onlyLink" class="mdi mdi-24px" [ngClass]="data.open ? 'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'"></i>
-      {{ data.name }}
+      <span [innerHtml]="data.name"></span>
     </div>
   </div>
   <div *ngFor="let answer of data.answers; trackBy: trackByAnswer" class="sd-list-answer ml-5" [hidden]="!data.open">
     <div class="row d-flex align-items-center">
-      <div class="col-sm-9 col-md-10">{{ answer.answer }}</div>
+      <div class="col-sm-9 col-md-10" [innerHtml]="answer.answer"></div>
       <div class="col-sm-3 col-md-2">
         <div class="sd-link sd-icon-group justify-content-center">
           <div *ngFor="let attachment of answer.attachments">
