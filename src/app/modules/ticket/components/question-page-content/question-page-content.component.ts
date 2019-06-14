@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subject } from 'rxjs';
 import { first, switchMap, finalize } from 'rxjs/operators';
 
@@ -9,6 +10,17 @@ import { AnswerAttachmentI } from '@interfaces/answer_attachment.interface';
 
 @Component({
   selector: 'app-question-page-content',
+  animations: [
+    trigger('ToggleAnswer', [
+      state('expanded', style({
+        height: '*'
+      })),
+      state('collapsed', style({
+        height: 0
+      })),
+      transition('expanded <=> collapsed', animate(100))
+    ])
+  ],
   templateUrl: './question-page-content.component.html',
   styleUrls: ['./question-page-content.component.scss']
 })
