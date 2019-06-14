@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { trigger, style, transition, animate, query, stagger } from '@angular/animations';
 import { finalize, map } from 'rxjs/operators';
 
 import { DashboardI } from '@interfaces/dashboard.interface';
@@ -8,6 +9,35 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
 @Component({
   selector: 'app-dashboard-page',
+  animations: [
+    trigger('ToggleQuestions', [
+      transition('* => *', [
+        query(':enter', [
+          style({
+            opacity: 0,
+            height: 0,
+            marginBottom: 0
+          }),
+          stagger(10, [
+            animate(30, style({
+              opacity: 1,
+              height: '*',
+              marginBottom: '*'
+            })),
+          ])
+        ], { optional: true }),
+        query(':leave', [
+          stagger(30, [
+            animate(50, style({
+              opacity: 0,
+              height: 0,
+              marginBottom: 0
+            })),
+          ])
+        ], { optional: true }),
+      ]),
+    ])
+  ],
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss']
 })
