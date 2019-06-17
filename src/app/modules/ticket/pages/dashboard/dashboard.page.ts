@@ -9,6 +9,8 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
 @Component({
   selector: 'app-dashboard-page',
+  templateUrl: './dashboard.page.html',
+  styleUrls: ['./dashboard.page.scss'],
   animations: [
     trigger('ToggleQuestions', [
       transition('* => *', [
@@ -37,9 +39,7 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
         ], { optional: true }),
       ]),
     ])
-  ],
-  templateUrl: './dashboard.page.html',
-  styleUrls: ['./dashboard.page.scss']
+  ]
 })
 export class DashboardPageComponent implements OnInit {
   data: DashboardI;

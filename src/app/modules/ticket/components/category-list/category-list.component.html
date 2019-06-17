@@ -1,4 +1,4 @@
-<ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 list-unstyled sd-child-mb-7">
+<ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 list-unstyled sd-child-mb-7" [@contentAnimation]="categories">
   <li *ngFor="let category of categories; trackBy: trackByCategory">
     <app-category-header [category]="category"></app-category-header>
     <ul *ngIf="category.services" class="sd-category-list-item list-unstyled sd-child-mb-3 collapse show">

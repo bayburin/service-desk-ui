@@ -1,7 +1,9 @@
-<div class="container">
-  <section>
-    <app-section-header header="Все вопросы"></app-section-header>
-    <app-loading [loading]="loading" size="48px"></app-loading>
-    <app-service-detail *ngFor="let service of services | async; trackBy: trackByService" [service]="service"></app-service-detail>
-  </section>
-</div>
+<section class="sd-pb-6">
+  <div class="container">
+    <section>
+      <app-section-header header="Все вопросы"></app-section-header>
+      <app-loading [loading]="loading" size="48px"></app-loading>
+      <app-service-detail *ngFor="let service of services | async; trackBy: trackByService" [service]="service"></app-service-detail>
+    </section>
+  </div>
+</section>
