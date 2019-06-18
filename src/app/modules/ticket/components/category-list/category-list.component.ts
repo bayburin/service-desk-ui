@@ -2,13 +2,13 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { Category } from '@modules/ticket/models/category.model';
 import { Service } from '@modules/ticket/models/service.model';
-import { contentAnimation } from '@animations/content.animation';
+import { contentListAnimation } from '@animations/content.animation';
 
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss'],
-  animations: [contentAnimation]
+  animations: [contentListAnimation]
 })
 export class CategoryListComponent implements OnInit {
   @Input() categories: Category[] = [];

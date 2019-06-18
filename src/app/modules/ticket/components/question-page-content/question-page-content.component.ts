@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subject } from 'rxjs';
 import { first, switchMap, finalize } from 'rxjs/operators';
 
@@ -7,22 +6,13 @@ import { TicketService } from '@shared/services/ticket/ticket.service';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { AnswerI } from '@interfaces/answer.interface';
 import { AnswerAttachmentI } from '@interfaces/answer_attachment.interface';
+import { toggleAnswer } from '@modules/ticket/animations/toggle-answer.animation';
 
 @Component({
   selector: 'app-question-page-content',
-  animations: [
-    trigger('ToggleAnswer', [
-      state('expanded', style({
-        height: '*'
-      })),
-      state('collapsed', style({
-        height: 0
-      })),
-      transition('expanded <=> collapsed', animate(100))
-    ])
-  ],
   templateUrl: './question-page-content.component.html',
-  styleUrls: ['./question-page-content.component.scss']
+  styleUrls: ['./question-page-content.component.scss'],
+  animations: [toggleAnswer]
 })
 export class QuestionPageContentComponent implements OnInit {
   @Input() data: Ticket;

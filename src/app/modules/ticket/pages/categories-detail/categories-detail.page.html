@@ -1,5 +1,5 @@
 <app-loading [loading]="loading" size="48px"></app-loading>
-<div *ngIf="category$ | async as category">
+<div *ngIf="category$ | async as category" @contentBlockAnimation>
   <div class="container">
     <section>
       <app-section-header [header]="category.name"></app-section-header>

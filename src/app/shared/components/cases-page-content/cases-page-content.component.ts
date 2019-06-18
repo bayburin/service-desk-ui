@@ -5,11 +5,13 @@ import { CaseService } from '@modules/case/services/case/case.service';
 import { CaseI } from '@interfaces/case.interface';
 import { FilterI } from '@interfaces/filter.interface';
 import { Service } from '@modules/ticket/models/service.model';
+import { contentBlockAnimation } from '@animations/content.animation';
 
 @Component({
   selector: 'app-cases-page-content',
   templateUrl: './cases-page-content.component.html',
-  styleUrls: ['./cases-page-content.component.scss']
+  styleUrls: ['./cases-page-content.component.scss'],
+  animations: [contentBlockAnimation]
 })
 export class CasesPageContentComponent implements OnInit {
   loading = {

@@ -1,44 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { trigger, style, transition, animate, query, stagger } from '@angular/animations';
 import { finalize, map } from 'rxjs/operators';
 
 import { DashboardI } from '@interfaces/dashboard.interface';
 import { DashboardService } from '@modules/ticket/services/dashboard/dashboard.service';
 import { Service } from '@modules/ticket/models/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { toggleQuestionList } from '@modules/ticket/animations/toggle-question-list.animation';
+import { contentBlockAnimation } from '@animations/content.animation';
 
 @Component({
   selector: 'app-dashboard-page',
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
   animations: [
-    trigger('ToggleQuestions', [
-      transition('* => *', [
-        query(':enter', [
-          style({
-            opacity: 0,
-            height: 0,
-            marginBottom: 0
-          }),
-          stagger(10, [
-            animate(30, style({
-              opacity: 1,
-              height: '*',
-              marginBottom: '*'
-            })),
-          ])
-        ], { optional: true }),
-        query(':leave', [
-          stagger(30, [
-            animate(50, style({
-              opacity: 0,
-              height: 0,
-              marginBottom: 0
-            })),
-          ])
-        ], { optional: true }),
-      ]),
-    ])
+    toggleQuestionList,
+    contentBlockAnimation
   ]
 })
 export class DashboardPageComponent implements OnInit {

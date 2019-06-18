@@ -7,11 +7,13 @@ import { Category } from '@modules/ticket/models/category.model';
 import { CategoryService } from '@shared/services/category/category.service';
 import { Service } from '@modules/ticket/models/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { contentBlockAnimation } from '@animations/content.animation';
 
 @Component({
   selector: 'app-categories-detail-page',
   templateUrl: './categories-detail.page.html',
-  styleUrls: ['./categories-detail.page.scss']
+  styleUrls: ['./categories-detail.page.scss'],
+  animations: [contentBlockAnimation]
 })
 export class CategoriesDetailPageComponent implements OnInit {
   loading = false;
