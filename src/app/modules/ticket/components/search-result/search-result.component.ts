@@ -6,11 +6,13 @@ import { Category } from '@modules/ticket/models/category.model';
 import { Service } from '@modules/ticket/models/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { SearchResultFilterPipe } from '@shared/pipes/search-result-filter/search-result-filter.pipe';
+import { contentBlockAnimation } from '@animations/content.animation';
 
 @Component({
   selector: 'app-search-result',
   templateUrl: './search-result.component.html',
-  styleUrls: ['./search-result.component.scss']
+  styleUrls: ['./search-result.component.scss'],
+  animations: [contentBlockAnimation]
 })
 export class SearchResultComponent implements OnInit, OnDestroy {
   result: (Category | Service | Ticket)[] = [];

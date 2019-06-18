@@ -2,7 +2,7 @@
   <app-section-header header="Результаты поиска"></app-section-header>
   <app-filters [data]="types" (changeFilter)="filterChanged($event)"></app-filters>
   <div class="tab-content">
-    <div class="sd-dlist-divider-b">
+    <div class="sd-dlist-divider-b" *ngIf="result.length" @contentBlockAnimation>
       <app-dynamic-template-content *ngFor="let template of result | searchResult: selectedType" [data]="template"></app-dynamic-template-content>
     </div>
   </div>

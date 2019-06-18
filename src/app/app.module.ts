@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -31,6 +32,7 @@ import { BreadcrumbComponent } from './core/breadcrumb/breadcrumb.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     SharedModule,
     HttpClientModule,
     TicketModule,

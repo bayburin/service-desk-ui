@@ -4,11 +4,13 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { AuthService } from '@auth/auth.service';
+import { routeAnimation } from '@animations/route.animation';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [routeAnimation]
 })
 export class AppComponent implements OnInit, AfterViewChecked {
   location: string;

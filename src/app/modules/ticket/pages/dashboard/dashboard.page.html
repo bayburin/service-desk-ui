@@ -1,30 +1,29 @@
-<section class="jumbotron sd-pt-3">
-  <div class="container">
-    <h1 class="text-center text-danger">Уважаемые пользователи! На текущий момент сайт находится на стадии наполнения данными.</h1>
-    <app-global-search></app-global-search>
-    <div *ngIf="data" class="sd-favorite-questions">
-      <h2>Рекомендуем для пользователя</h2>
-      <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-3 list-unstyled mb-0">
-        <li><a routerLink="/categories/2/services/16">Ремонт и обслуживание оргтехники</a></li>
-        <li><a routerLink="/categories/4/services/27">ДелоВед</a></li>
-        <li><a routerLink="/categories/1/services/6" [queryParams]="{ ticket: 31 }">Что делать, если забыли пароль от ЛК</a></li>
-        <li><a routerLink="/categories/8/services/42" [queryParams]="{ ticket: 277 }">Как подключить netdisk, сетевой диск netdisk, или netdisk\dept</a></li>
-        <li><a routerLink="/categories/1/services/4">Закрытая локальная сеть</a></li>
-        <li><a routerLink="/categories/9">Электронная подпись</a></li>
-        <li><a routerLink="/categories/6">САПР</a></li>
-        <li><a routerLink="/categories/2">Обслуживание и ремонт компьютерной техники</a></li>
-      </ul>
+<div>
+  <section class="jumbotron sd-pt-3">
+    <div class="container">
+      <h1 class="text-center text-danger">Уважаемые пользователи! На текущий момент сайт находится на стадии наполнения данными.</h1>
+      <app-global-search></app-global-search>
+      <div class="sd-favorite-questions">
+        <h2>Рекомендуем для пользователя</h2>
+        <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-3 list-unstyled mb-0">
+          <li><a routerLink="/categories/2/services/16">Ремонт и обслуживание оргтехники</a></li>
+          <li><a routerLink="/categories/4/services/27">ДелоВед</a></li>
+          <li><a routerLink="/categories/1/services/6" [queryParams]="{ ticket: 31 }">Что делать, если забыли пароль от ЛК</a></li>
+          <li><a routerLink="/categories/8/services/42" [queryParams]="{ ticket: 277 }">Как подключить netdisk, сетевой диск netdisk, или netdisk\dept</a></li>
+          <li><a routerLink="/categories/1/services/4">Закрытая локальная сеть</a></li>
+          <li><a routerLink="/categories/9">Электронная подпись</a></li>
+          <li><a routerLink="/categories/6">САПР</a></li>
+          <li><a routerLink="/categories/2">Обслуживание и ремонт компьютерной техники</a></li>
+        </ul>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<app-loading [loading]="loading" size="48px"></app-loading>
-
-<div *ngIf="data">
   <section class="sd-pb-6">
     <div class="container">
       <app-section-header header="Популярные категории на портале"></app-section-header>
-      <app-category-list [categories]="data.categories"></app-category-list>
+      <app-loading [loading]="loading" size="48px" class="d-block mb-3"></app-loading>
+      <app-category-list [categories]="data?.categories"></app-category-list>
       <div class="text-center"><a routerLink="/categories" class="btn btn-gray-white">Все категории</a></div>
     </div>
   </section>
@@ -32,10 +31,11 @@
   <section class="jumbotron mb-0">
     <div class="container">
       <app-section-header header="Часто задаваемые вопросы"></app-section-header>
-      <div class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 sd-child-mb-7">
+      <app-loading [loading]="loading" size="48px" class="d-block mb-3"></app-loading>
+      <div class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 sd-child-mb-7" *ngIf="data" @contentBlockAnimation>
         <div *ngFor="let service of data.services.slice(0, limits.services); trackBy: trackByService">
           <h4 [innerHtml]="service.name"></h4>
-          <ul class="list-unstyled sd-child-mb-3 sd-mb-5">
+          <ul class="list-unstyled sd-child-mb-3 sd-mb-5" [@ToggleQuestionList]="service.tickets.slice(0, service.questionLimit).length">
             <li *ngFor="let ticket of service.tickets.slice(0, service.questionLimit); trackBy: trackByTicket">
               <a [routerLink]="['/categories', service.categoryId, 'services', service.id]" [queryParams]="{ ticket: ticket.id }" [innerHtml]="ticket.name"></a>
             </li>
