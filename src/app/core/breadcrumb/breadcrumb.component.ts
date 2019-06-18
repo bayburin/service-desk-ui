@@ -5,11 +5,13 @@ import { filter, first, concatAll, startWith } from 'rxjs/operators';
 
 import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
 import { BreadcrumbI } from '@interfaces/breadcrumb.interface';
+import { breadcrumbAnimation } from '@animations/breadcrumb.animation';
 
 @Component({
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
-  styleUrls: ['./breadcrumb.component.scss']
+  styleUrls: ['./breadcrumb.component.scss'],
+  animations: [breadcrumbAnimation]
 })
 export class BreadcrumbComponent implements OnInit {
   breadcrumbs: BreadcrumbI[] = [];
@@ -21,8 +23,13 @@ export class BreadcrumbComponent implements OnInit {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
-        this.breadcrumbs = this.buildBreadcrumbs(this.activatedRoute.root);
+        const breadcrumbs = this.buildBreadcrumbs(this.activatedRoute.root);
+        this.updateBreadcrumb(breadcrumbs);
       });
+  }
+
+  trackByBreadcrumb(index: number, breadcrumb: BreadcrumbI) {
+    return breadcrumb.url;
   }
 
   /**
@@ -108,6 +115,29 @@ export class BreadcrumbComponent implements OnInit {
    */
   private getBreadcrumbFromService(injectionService, parentNodeflag?: boolean): Observable<string> {
     const service = this.injector.get<BreadcrumbServiceI>(injectionService);
+
     return parentNodeflag ? service.getParentNodeName() : service.getNodeName();
+  }
+
+  /**
+   * Обновить данные в старом массиве Breadcrumb
+   *
+   * @params newBreadcrumb - новый массив Breadcrumb
+   */
+  private updateBreadcrumb(newBreadcrumb: BreadcrumbI[]) {
+    const diff = newBreadcrumb.length - this.breadcrumbs.length;
+
+    // Обрезать старый ммасив, если это необходимо
+    if (newBreadcrumb.length < this.breadcrumbs.length) {
+      this.breadcrumbs = this.breadcrumbs.splice(diff, this.breadcrumbs.length);
+    }
+
+    newBreadcrumb.map((breadcrumb, index: number) => {
+      if (this.breadcrumbs[index] && breadcrumb.url === this.breadcrumbs[index].url) {
+        return;
+      }
+
+      this.breadcrumbs[index] = breadcrumb;
+    });
   }
 }
