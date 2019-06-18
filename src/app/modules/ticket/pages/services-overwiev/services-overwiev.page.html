@@ -3,7 +3,9 @@
     <section>
       <app-section-header header="Все вопросы"></app-section-header>
       <app-loading [loading]="loading" size="48px"></app-loading>
-      <app-service-detail *ngFor="let service of services | async; trackBy: trackByService" [service]="service"></app-service-detail>
+      <div class="section-list">
+        <app-service-detail *ngFor="let service of services | async; trackBy: trackByService" [service]="service"></app-service-detail>
+      </div>
     </section>
   </div>
 </section>

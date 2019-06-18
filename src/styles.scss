@@ -1,3 +1,7 @@
+html {
+  overflow-y: scroll;
+}
+
 a.disabled {
   pointer-events: none;
   cursor: default;
@@ -81,4 +85,14 @@ button.btn-primary i {
 
 .card-header {
   background-color: transparent !important;
+}
+
+.section-list {
+  section {
+    padding: 0;
+  }
+
+  .h1 {
+    margin-bottom: 0;
+  }
 }
