@@ -15,7 +15,7 @@
   </div>
   <div class="card-footer">
     <div class="d-flex">
-      <ngb-rating [(rate)]="kase.rating" [readonly]="!isAllowedToVote()" max="5" (rateChange)="vote()">
+      <ngb-rating *ngIf="kase.status_id == 3" [(rate)]="kase.rating" [readonly]="!isAllowedToVote()" max="5" (rateChange)="vote()">
         <ng-template let-fill="fill" let-index="index">
           <span class="star" [class.filled]="fill === 100" >&#9733;</span>
         </ng-template>
