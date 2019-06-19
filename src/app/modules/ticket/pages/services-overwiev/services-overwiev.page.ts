@@ -21,7 +21,7 @@ export class ServicesOverwievPageComponent implements OnInit {
     this.services = this.serviceService.loadServices().pipe(finalize(() => this.loading = false));
   }
 
-  trackByService(service: Service) {
+  trackByService(index, service: Service) {
     return service.id;
   }
 }

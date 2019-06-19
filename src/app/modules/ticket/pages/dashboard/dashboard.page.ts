@@ -63,11 +63,11 @@ export class DashboardPageComponent implements OnInit {
     return service.questionLimit < service.tickets.length;
   }
 
-  trackByService(service: Service) {
+  trackByService(index, service: Service) {
     return service.id;
   }
 
-  trackByTicket(ticket: Ticket) {
+  trackByTicket(index, ticket: Ticket) {
     return ticket.id;
   }
 }

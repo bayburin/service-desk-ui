@@ -33,7 +33,7 @@ export class CaseCardListComponent implements OnInit, OnChanges {
     this.removeCase.emit(true);
   }
 
-  trackByCase(kase: CaseI) {
+  trackByCase(index, kase: CaseI) {
     return kase.case_id;
   }
 }

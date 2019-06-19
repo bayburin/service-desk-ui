@@ -31,11 +31,11 @@ export class CategoriesDetailPageComponent implements OnInit {
     this.category$ = this.categoryService.loadCategory(categoryId).pipe(finalize(() => this.loading = false));
   }
 
-  trackByService(service: Service) {
+  trackByService(index, service: Service) {
     return service.id;
   }
 
-  trackByTicket(ticket: Ticket) {
+  trackByTicket(index, ticket: Ticket) {
     return ticket.id;
   }
 }

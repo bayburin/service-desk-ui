@@ -67,7 +67,7 @@ export class QuestionPageContentComponent implements OnInit {
         error => console.log('Ошибка загрузки файла: ', error));
   }
 
-  trackByAnswer(answer: AnswerI) {
+  trackByAnswer(index, answer: AnswerI) {
     return answer.id;
   }
 }

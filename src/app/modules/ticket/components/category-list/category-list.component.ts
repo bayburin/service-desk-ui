@@ -17,11 +17,11 @@ export class CategoryListComponent implements OnInit {
 
   ngOnInit() {}
 
-  trackByCategory(category: Category) {
+  trackByCategory(index, category: Category) {
     return category.id;
   }
 
-  trackByService(service: Service) {
+  trackByService(index, service: Service) {
     return service.id;
   }
 }

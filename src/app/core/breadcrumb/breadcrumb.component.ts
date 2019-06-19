@@ -28,7 +28,7 @@ export class BreadcrumbComponent implements OnInit {
       });
   }
 
-  trackByBreadcrumb(index: number, breadcrumb: BreadcrumbI) {
+  trackByBreadcrumb(index, breadcrumb: BreadcrumbI) {
     return breadcrumb.url;
   }
 
