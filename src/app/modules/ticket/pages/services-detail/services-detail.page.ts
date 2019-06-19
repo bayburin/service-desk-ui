@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import { finalize, filter, first, map } from 'rxjs/operators';
+import { finalize, filter, first, map, delay } from 'rxjs/operators';
 
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service.model';
@@ -62,6 +62,7 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
       .pipe(
         filter((componentArr: []) => componentArr.length !== 0),
         first(),
+        delay(300),
         map(componentArr => this.openSelectedQuestion(componentArr))
       )
       .subscribe();

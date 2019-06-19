@@ -3,11 +3,13 @@ import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core
 import { Service } from '@modules/ticket/models/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { DynamicTemplateContentComponent } from '@modules/ticket/components/dynamic-template-content/dynamic-template-content.component';
+import { contentBlockAnimation } from '@animations/content.animation';
 
 @Component({
   selector: 'app-service-detail',
   templateUrl: './service-detail.component.html',
-  styleUrls: ['./service-detail.component.scss']
+  styleUrls: ['./service-detail.component.scss'],
+  animations: [contentBlockAnimation]
 })
 export class ServiceDetailComponent implements OnInit {
   @Input() service: Service;
@@ -17,7 +19,7 @@ export class ServiceDetailComponent implements OnInit {
 
   ngOnInit() {}
 
-  trackByTicket(ticket: Ticket) {
+  trackByTicket(index, ticket: Ticket) {
     return ticket.id;
   }
 }

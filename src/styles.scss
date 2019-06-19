@@ -1,3 +1,7 @@
+html {
+  overflow-y: scroll;
+}
+
 a.disabled {
   pointer-events: none;
   cursor: default;
@@ -23,6 +27,8 @@ ngb-typeahead-window.dropdown-menu {
 }
 
 .sd-dlist-divider-b {
+  margin-bottom: 0;
+
   .sd-list-item {
     padding: 1.125rem;
     border-top: 1px solid #e5e5e5;
@@ -34,6 +40,10 @@ ngb-typeahead-window.dropdown-menu {
 
   .active-item {
     background-color: #f4f4f4 !important;
+  }
+
+  app-question-page-content {
+    white-space: pre-wrap;
   }
 
   app-question-page-content:first-child .sd-list-item,
@@ -58,4 +68,35 @@ button.btn-primary i {
 
 .sd-spinner-wrap .sd-spinner-border:after {
   color: #6c757d;
+}
+
+.star {
+  font-size: 1.2rem;
+  color: transparent;
+  color: #6c757d;
+}
+
+.filled {
+  color: #ffc107;
+}
+.row + .row {
+  margin-top: 1.5rem;
+}
+
+.card-header {
+  background-color: transparent !important;
+}
+
+.section-list {
+  section {
+    padding: 0;
+  }
+
+  .h1 {
+    margin-bottom: 0;
+  }
+}
+
+.without-item:hover {
+  cursor: default;
 }

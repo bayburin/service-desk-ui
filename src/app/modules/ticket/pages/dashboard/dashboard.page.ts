@@ -5,11 +5,17 @@ import { DashboardI } from '@interfaces/dashboard.interface';
 import { DashboardService } from '@modules/ticket/services/dashboard/dashboard.service';
 import { Service } from '@modules/ticket/models/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { toggleQuestionList } from '@modules/ticket/animations/toggle-question-list.animation';
+import { contentBlockAnimation } from '@animations/content.animation';
 
 @Component({
   selector: 'app-dashboard-page',
   templateUrl: './dashboard.page.html',
-  styleUrls: ['./dashboard.page.scss']
+  styleUrls: ['./dashboard.page.scss'],
+  animations: [
+    toggleQuestionList,
+    contentBlockAnimation
+  ]
 })
 export class DashboardPageComponent implements OnInit {
   data: DashboardI;
@@ -57,11 +63,11 @@ export class DashboardPageComponent implements OnInit {
     return service.questionLimit < service.tickets.length;
   }
 
-  trackByService(service: Service) {
+  trackByService(index, service: Service) {
     return service.id;
   }
 
-  trackByTicket(ticket: Ticket) {
+  trackByTicket(index, ticket: Ticket) {
     return ticket.id;
   }
 }

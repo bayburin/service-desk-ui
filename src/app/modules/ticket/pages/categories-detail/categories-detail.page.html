@@ -1,5 +1,5 @@
 <app-loading [loading]="loading" size="48px"></app-loading>
-<div *ngIf="category$ | async as category">
+<div *ngIf="category$ | async as category" @contentBlockAnimation>
   <div class="container">
     <section>
       <app-section-header [header]="category.name"></app-section-header>
@@ -14,7 +14,7 @@
   </div>
   <div class="jumbotron bg-render-unmasked border-top sd-p-3 mb-0">
     <div class="container">
-      <app-cases-page [services]="category.services"></app-cases-page>
+      <app-cases-page-content [services]="category.services"></app-cases-page-content>
     </div>
   </div>
   <div class="jumbotron bg-render-unmasked border-top sd-p-3 mb-0">

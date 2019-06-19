@@ -136,7 +136,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
-  trackByItem(item: ItemI) {
+  trackByItem(index, item: ItemI) {
     return item.item_id;
   }
 
