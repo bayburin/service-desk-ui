@@ -5,15 +5,11 @@
       <app-global-search></app-global-search>
       <div class="sd-favorite-questions">
         <h2>Рекомендуем для пользователя</h2>
-        <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-3 list-unstyled mb-0">
-          <li><a routerLink="/categories/5/services/18">Ремонт и обслуживание компьютера</a></li>
-          <li><a routerLink="/categories/4/services/10">Перечень ПО</a></li>
-          <li><a routerLink="/categories/7/services/26">Электронная подпись</a></li>
-          <li><a routerLink="/categories/1/services/39">Деловед</a></li>
-          <li><a routerLink="/categories/2/services/25">Электронная почта</a></li>
-          <li><a routerLink="/categories/4/services/7">Антивирус</a></li>
-          <li><a routerLink="/categories/1/services/3">АСУ ФЭЗ</a></li>
-          <li><a routerLink="/categories/2/services/8">Личный кабинет</a></li>
+        <app-loading [loading]="loading" size="48px" class="d-block mb-3"></app-loading>
+        <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-3 list-unstyled mb-0" *ngIf="data" @contentBlockAnimation>
+          <li *ngFor="let recommendation of data.user_recommendations; trackBy: trackByRecommendation">
+            <a [routerLink]="recommendation.link">{{ recommendation.title }}</a>
+          </li>
         </ul>
       </div>
     </div>
