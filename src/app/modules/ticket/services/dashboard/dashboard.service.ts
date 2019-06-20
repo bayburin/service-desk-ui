@@ -21,7 +21,7 @@ export class DashboardService {
    */
   loadAll(): Observable<DashboardI> {
     return this.http.get<DashboardI>(this.getAllUri).pipe(
-      map((data) => {
+      map(data => {
         data.services = data.services.map(service => ServiceFactory.create(service));
         data.categories = data.categories.map(category => CategoryFactory.create(category));
 

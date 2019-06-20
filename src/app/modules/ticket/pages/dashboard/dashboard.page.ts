@@ -7,6 +7,7 @@ import { Service } from '@modules/ticket/models/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { toggleQuestionList } from '@modules/ticket/animations/toggle-question-list.animation';
 import { contentBlockAnimation } from '@animations/content.animation';
+import { UserRecommendationI } from '@interfaces/user_recommendation.interface';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -69,5 +70,9 @@ export class DashboardPageComponent implements OnInit {
 
   trackByTicket(index, ticket: Ticket) {
     return ticket.id;
+  }
+
+  trackByRecommendation(index, recommendation: UserRecommendationI) {
+    return recommendation.id;
   }
 }
