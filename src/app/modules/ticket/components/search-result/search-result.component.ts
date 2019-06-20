@@ -16,6 +16,7 @@ import { contentBlockAnimation } from '@animations/content.animation';
 })
 export class SearchResultComponent implements OnInit, OnDestroy {
   result: (Category | Service | Ticket)[] = [];
+  searched = false;
   types = [
     {
       name: 'Все',
@@ -49,6 +50,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
       .pipe(
         takeWhile(() => this.alive),
         tap((arr) => {
+          this.searched = true;
           this.types.map((type) => {
             type.count = this.searchResultFilterPipe.transform(arr, type.id).length;
 
@@ -68,5 +70,9 @@ export class SearchResultComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.alive = false;
+  }
+
+  isNotFound() {
+    return !this.result.length && this.searched;
   }
 }

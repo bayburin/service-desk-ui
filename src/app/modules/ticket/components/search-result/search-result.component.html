@@ -1,9 +1,17 @@
 <section>
-  <app-section-header header="Результаты поиска"></app-section-header>
-  <app-filters [data]="types" (changeFilter)="filterChanged($event)"></app-filters>
-  <div class="tab-content">
-    <div class="sd-dlist-divider-b" *ngIf="result.length" @contentBlockAnimation>
-      <app-dynamic-template-content *ngFor="let template of result | searchResult: selectedType" [data]="template"></app-dynamic-template-content>
+  <div *ngIf="isNotFound()" @contentBlockAnimation>
+    <p class="search-title">Ничего не найдено.<br />Попробуйте исправить поисковый запрос или найдите услугу в каталоге. Вы также можете задать вопрос, оставив заявку или позвонив по телефону 06.</p>
+    <a routerLink="/categories" class="btn btn-primary">Каталог услуг</a>
+    <a routerLink="/cases/new" class="btn btn-primary ml-2">Оставить заявку</a>
+  </div>
+
+  <div *ngIf="result.length" @contentBlockAnimation>
+    <app-section-header header="Результаты поиска"></app-section-header>
+    <app-filters [data]="types" (changeFilter)="filterChanged($event)"></app-filters>
+    <div class="tab-content">
+      <div class="sd-dlist-divider-b">
+        <app-dynamic-template-content *ngFor="let template of result | searchResult: selectedType" [data]="template"></app-dynamic-template-content>
+      </div>
     </div>
   </div>
 </section>
