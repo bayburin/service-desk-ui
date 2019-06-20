@@ -22,7 +22,7 @@ const routes: Routes = [
     path: 'categories',
     component: CategoriesPageComponent,
     canActivate: [AuthGuard],
-    data: { breadcrumb: 'Категории услуг' },
+    data: { breadcrumb: 'Услуги' },
     children: [
       {
         path: '',
