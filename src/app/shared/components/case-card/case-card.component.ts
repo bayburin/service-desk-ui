@@ -54,4 +54,11 @@ export class CaseCardComponent implements OnInit {
   vote(): void {
     this.caseService.voteCase(this.kase).subscribe();
   }
+
+  /**
+   * Проверякт, закрыта ли заявка.
+   */
+  isCaseClosed(): boolean {
+    return this.caseService.isClosed(this.kase);
+  }
 }

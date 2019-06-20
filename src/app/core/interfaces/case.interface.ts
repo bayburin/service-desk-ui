@@ -6,6 +6,8 @@ interface RuntimeI {
   endtime: string;
   time: string;
   formatted_starttime: string;
+  formatted_endtime: string;
+  formatted_time: string;
   to_s: string;
 }
 

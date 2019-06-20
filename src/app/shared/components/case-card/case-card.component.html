@@ -15,7 +15,8 @@
   <div class="card-body">
     <p class="card-text">{{ kase.desc }}</p>
     <p class="card-text"><b>{{ kase.status }}</b></p>
-    <small>Срок выполнения: {{ kase.runtime.to_s }}</small>
+    <small *ngIf="!isCaseClosed()">Срок выполнения: {{ kase.runtime.to_s }}</small>
+    <small *ngIf="isCaseClosed()">Дата закрытия: {{ kase.runtime.formatted_endtime }}</small>
   </div>
   <div class="card-footer">
     <div class="d-flex">
