@@ -69,4 +69,13 @@ export class CaseService {
 
     return this.http.put(caseUrl, { case: data });
   }
+
+  /**
+   * Проверяет, закрыта ли указанная заявка.
+   *
+   * @param kase - заявка
+   */
+  isClosed(kase: CaseI): boolean {
+    return kase.status_id === 3 || kase.status_id === 4;
+  }
 }

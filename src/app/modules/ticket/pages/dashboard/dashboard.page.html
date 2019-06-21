@@ -1,7 +1,7 @@
 <div>
   <section class="jumbotron sd-pt-3">
     <div class="container">
-      <h1 class="text-center text-danger">Уважаемые пользователи! На текущий момент сайт находится на стадии наполнения данными.</h1>
+      <h1 class="text-center text-danger">Уважаемые пользователи!<br />На текущий момент портал активно наполняется данными, в том числе благодаря вашим запросам</h1>
       <app-global-search></app-global-search>
       <div class="sd-favorite-questions">
         <h2>Рекомендуем для пользователя</h2>
@@ -17,10 +17,10 @@
 
   <section class="sd-pb-6">
     <div class="container">
-      <app-section-header header="Популярные категории на портале"></app-section-header>
+      <app-section-header header="Услуги портала"></app-section-header>
       <app-loading [loading]="loading" size="48px" class="d-block mb-3"></app-loading>
       <app-category-list [categories]="data?.categories"></app-category-list>
-      <div class="text-center"><a routerLink="/categories" class="btn btn-gray-white">Все категории</a></div>
+      <div class="text-center"><a routerLink="/categories" class="btn btn-gray-white">Все услуги</a></div>
     </div>
   </section>
 

@@ -23,7 +23,7 @@ export class CaseCardComponent implements OnInit {
    */
   revokeCase() {
     if (this.kase.status_id !== 1) {
-      alert('Отменить можно только заявку, имеющую статус "Не обработано".');
+      alert('Отменить можно только заявку, имеющую статус "Не обработано". Если вы действительно хотите отменить текущую заявку, обратитесь по тел. 06.');
       return;
     }
 
@@ -53,5 +53,12 @@ export class CaseCardComponent implements OnInit {
    */
   vote(): void {
     this.caseService.voteCase(this.kase).subscribe();
+  }
+
+  /**
+   * Проверякт, закрыта ли заявка.
+   */
+  isCaseClosed(): boolean {
+    return this.caseService.isClosed(this.kase);
   }
 }
