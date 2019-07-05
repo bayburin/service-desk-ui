@@ -104,3 +104,14 @@ button.btn-primary i {
 .search-title {
   font-size: 20px;
 }
+
+.notification-block {
+  width: 500px;
+  left: unset;
+  top: 20px;
+  right: 20px;
+}
+
+.alert-dismissible .close {
+  padding: 0.65rem 1.25rem;
+}

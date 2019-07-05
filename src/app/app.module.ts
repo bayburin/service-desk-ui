@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ActionCableService } from 'angular2-actioncable';
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -43,7 +44,8 @@ import { BreadcrumbComponent } from './core/breadcrumb/breadcrumb.component';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: APP_CONFIG, useValue: AppConfig }
+    { provide: APP_CONFIG, useValue: AppConfig },
+    ActionCableService
     // { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true }
     // AppLoadService
     // { provide: APP_INITIALIZER, useFactory: loadDataFactory, deps: [AppLoadService], multi: true }
