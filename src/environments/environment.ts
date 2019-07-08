@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   serverUrl: 'https://inv-dev.iss-reshetnev.ru',
   authorizeUri: 'https://inv-dev.iss-reshetnev.ru:4200/authorize',
-  clientId: 42
+  clientId: 42,
+  actionCableUrl: 'wss://inv-dev.iss-reshetnev.ru/cable'
 };
 
 /*

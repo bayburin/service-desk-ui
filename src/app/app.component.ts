@@ -20,7 +20,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
     private authService: AuthService,
     private router: Router,
     private cdRef: ChangeDetectorRef
-    ) {}
+  ) {}
 
   ngOnInit() {
     this.router.events
