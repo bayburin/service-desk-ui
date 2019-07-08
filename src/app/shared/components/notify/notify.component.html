@@ -1,0 +1,5 @@
+<div *ngFor="let notification of notifications; trackBy: trackByNotification">
+  <ngb-alert type="primary" (close)="close(notification)" [@notifyAnimation]="notifications">
+    <span [innerHtml]="notification.body.message"></span>
+  </ngb-alert>
+</div>
