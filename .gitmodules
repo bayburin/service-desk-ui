@@ -1,0 +1,3 @@
+[submodule "src/assets"]
+	path = src/assets
+	url = git@gitlab.iss-reshetnev.ru:service-desk/ui/service-desk-assets.git
