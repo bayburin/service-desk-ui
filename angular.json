@@ -24,14 +24,11 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets/images"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/@mdi/font/css/materialdesignicons.min.css",
-              "src/assets/css/bootstrap-theme-sd.css",
-              "src/assets/css/materialdesignicons.css",
-              "src/assets/css/sd-skin.css",
+              "src/assets/scss/bootstrap-theme-sd.scss",
+              "src/assets/scss/sd-skin.scss",
               "src/styles.scss"
             ],
             "scripts": [],
