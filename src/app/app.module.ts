@@ -10,7 +10,7 @@ import { APP_CONFIG, AppConfig } from './config/app.config';
 import { AppRoutingModule } from './app-routing.module';
 import { TicketModule } from './modules/ticket/ticket.module';
 import { CaseModule } from './modules/case/case.module';
-import { LoginModule } from './modules/login/login.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 // import { loadDataFactory } from './core/initializer/load-data.factory';
 // import { AppLoadService } from './core/initializer/app-load.service';
@@ -38,7 +38,7 @@ import { BreadcrumbComponent } from './core/breadcrumb/breadcrumb.component';
     HttpClientModule,
     TicketModule,
     CaseModule,
-    LoginModule,
+    AuthModule,
     AppRoutingModule
   ],
   providers: [
