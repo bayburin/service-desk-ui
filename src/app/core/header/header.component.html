@@ -15,7 +15,7 @@
         </ul>
       </div>
     </div>
-    <div class="user-dashboard-menu-wrapper" *ngIf="userDashboard">
+    <div class="user-dashboard-menu-wrapper" *ngIf="userDashboard" @userDashboardAnimation>
       <app-user-dashboard-menu (clickedOutside)="userDashboard = false" [calledElement]="parentDashboardElement"></app-user-dashboard-menu>
     </div>
   </div>

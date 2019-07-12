@@ -6,11 +6,13 @@ import { UserService } from '@shared/services/user/user.service';
 import { UserI } from '@interfaces/user.interface';
 import { StreamService } from '@shared/services/stream/stream.service';
 import { NotificationService } from '@shared/services/notification/notification.service';
+import { userDashboardAnimation } from '@animations/user-dashboard.animation';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  animations: [userDashboardAnimation]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   collapsed = true;
