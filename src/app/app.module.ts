@@ -23,6 +23,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './core/header/header.component';
 import { FooterComponent } from './core/footer/footer.component';
 import { BreadcrumbComponent } from './core/breadcrumb/breadcrumb.component';
+import { StreamService } from '@shared/services/stream/stream.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { BreadcrumbComponent } from './core/breadcrumb/breadcrumb.component';
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: APP_CONFIG, useValue: AppConfig },
-    ActionCableService
+    ActionCableService,
+    StreamService
     // { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true }
     // AppLoadService
     // { provide: APP_INITIALIZER, useFactory: loadDataFactory, deps: [AppLoadService], multi: true }

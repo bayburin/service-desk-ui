@@ -6,6 +6,7 @@ import { EventLogI } from '@interfaces/event-log.interface';
 })
 export class NotificationService {
   notifications = [];
+  notificationCount = { value: 0 };
   private readonly MAX_LENGTH = 5;
   private readonly LIFETIME = 15000;
 
@@ -20,6 +21,7 @@ export class NotificationService {
     this.notifications.unshift(notification);
     this.removeExtraItems();
     this.startTimer(notification);
+    this.notificationCount.value ++;
   }
 
   private removeExtraItems() {

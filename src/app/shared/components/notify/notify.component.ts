@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActionCableService, Channel } from 'angular2-actioncable';
+import { Channel } from 'angular2-actioncable';
 
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { EventLogI } from '@interfaces/event-log.interface';
 import { notifyAnimation } from '@animations/notify.animation';
-import { AuthService } from '@auth/auth.service';
-import { environment } from 'environments/environment';
+import { StreamService } from '@shared/services/stream/stream.service';
 
 @Component({
   selector: 'app-notify',
@@ -15,14 +14,12 @@ import { environment } from 'environments/environment';
 })
 export class NotifyComponent implements OnInit, OnDestroy {
   notifications: EventLogI[] = [];
-  private channelServer;
   private channel: Channel;
   private readonly channelName = 'UserNotifyChannel';
 
   constructor(
     private notifyService: NotificationService,
-    private cableService: ActionCableService,
-    private authService: AuthService
+    private streamService: StreamService
   ) { }
 
   ngOnInit() {
@@ -34,21 +31,21 @@ export class NotifyComponent implements OnInit, OnDestroy {
     return notification.id;
   }
 
+  /**
+   * Закрыть уведомление.
+   */
   close(notification: EventLogI) {
     this.notifications.splice(this.notifications.indexOf(notification), 1);
   }
 
-  private connectToCaseNotifications() {
-    const access_token = this.authService.getToken().access_token;
-    this.channelServer = this.cableService.cable(environment.actionCableUrl, { access_token: access_token });
-    this.channel = this.channelServer.channel(this.channelName);
+  ngOnDestroy() {
+    this.channel.unsubscribe();
+  }
 
+  private connectToCaseNotifications() {
+    this.channel = this.streamService.channelServer.channel(this.channelName);
     this.channel.received().subscribe(msg => {
       this.notifyService.notify(msg);
     });
-  }
-
-  ngOnDestroy() {
-    this.channelServer.disconnect();
   }
 }
