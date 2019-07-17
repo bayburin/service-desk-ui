@@ -38,6 +38,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.collapsed = !this.collapsed;
   }
 
+  clearNotificationCount() {
+    this.notificationCount.value = 0;
+  }
+
   ngOnDestroy() {
     this.channel.unsubscribe();
   }

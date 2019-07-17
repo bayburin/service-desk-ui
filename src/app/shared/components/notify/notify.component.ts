@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Channel } from 'angular2-actioncable';
 
 import { NotificationService } from '@shared/services/notification/notification.service';
-import { EventLogI } from '@interfaces/event-log.interface';
+import { NotificationI } from '@interfaces/notification.interface';
 import { notifyAnimation } from '@animations/notify.animation';
 import { StreamService } from '@shared/services/stream/stream.service';
 
@@ -13,7 +13,7 @@ import { StreamService } from '@shared/services/stream/stream.service';
   animations: [notifyAnimation]
 })
 export class NotifyComponent implements OnInit, OnDestroy {
-  notifications: EventLogI[] = [];
+  notifications: NotificationI[] = [];
   private channel: Channel;
   private readonly channelName = 'UserNotifyChannel';
 
@@ -27,14 +27,14 @@ export class NotifyComponent implements OnInit, OnDestroy {
     this.connectToCaseNotifications();
   }
 
-  trackByNotification(index, notification: EventLogI) {
+  trackByNotification(index, notification: NotificationI) {
     return notification.id;
   }
 
   /**
    * Закрыть уведомление.
    */
-  close(notification: EventLogI) {
+  close(notification: NotificationI) {
     this.notifications.splice(this.notifications.indexOf(notification), 1);
   }
 
