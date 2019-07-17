@@ -8,7 +8,9 @@ export const AppConfig: AppConfigI = {
   currentTokenStorage: 'currentToken',
   minLengthSearch: 3,
   redirectAfterAuthorizeUrlName: 'returnUrl',
-  authState: 'state'
+  authState: 'state',
+  defaultUserDashboardListCount: 5,
+  maxUserDashboardListCount: 100
 };
 
 

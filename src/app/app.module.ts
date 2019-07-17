@@ -10,7 +10,7 @@ import { APP_CONFIG, AppConfig } from './config/app.config';
 import { AppRoutingModule } from './app-routing.module';
 import { TicketModule } from './modules/ticket/ticket.module';
 import { CaseModule } from './modules/case/case.module';
-import { LoginModule } from './modules/login/login.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 // import { loadDataFactory } from './core/initializer/load-data.factory';
 // import { AppLoadService } from './core/initializer/app-load.service';
@@ -23,6 +23,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './core/header/header.component';
 import { FooterComponent } from './core/footer/footer.component';
 import { BreadcrumbComponent } from './core/breadcrumb/breadcrumb.component';
+import { StreamService } from '@shared/services/stream/stream.service';
 
 @NgModule({
   declarations: [
@@ -38,14 +39,15 @@ import { BreadcrumbComponent } from './core/breadcrumb/breadcrumb.component';
     HttpClientModule,
     TicketModule,
     CaseModule,
-    LoginModule,
+    AuthModule,
     AppRoutingModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: APP_CONFIG, useValue: AppConfig },
-    ActionCableService
+    ActionCableService,
+    StreamService
     // { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true }
     // AppLoadService
     // { provide: APP_INITIALIZER, useFactory: loadDataFactory, deps: [AppLoadService], multi: true }
