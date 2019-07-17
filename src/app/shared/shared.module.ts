@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbTypeaheadModule, NgbTooltipModule, NgbRatingModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTypeaheadModule, NgbTooltipModule, NgbRatingModule, NgbAlertModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoadingComponent } from './components/loading/loading.component';
 import { CaseCardListComponent } from './components/case-card-list/case-card-list.component';
@@ -16,6 +16,7 @@ import { SearchSortingPipe } from './pipes/search-sorting/search-sorting.pipe';
 import { CaseCardComponent } from './components/case-card/case-card.component';
 import { CasesPageContentComponent } from './components/cases-page-content/cases-page-content.component';
 import { NotifyComponent } from './components/notify/notify.component';
+import { UserDashboardMenuComponent } from './components/user-dashboard-menu/user-dashboard-menu.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { NotifyComponent } from './components/notify/notify.component';
     SearchSortingPipe,
     CaseCardComponent,
     CasesPageContentComponent,
-    NotifyComponent
+    NotifyComponent,
+    UserDashboardMenuComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +42,8 @@ import { NotifyComponent } from './components/notify/notify.component';
     NgbTypeaheadModule,
     NgbTooltipModule,
     NgbRatingModule,
-    NgbAlertModule
+    NgbAlertModule,
+    NgbTabsetModule
   ],
   exports: [
     CommonModule,
@@ -51,6 +54,7 @@ import { NotifyComponent } from './components/notify/notify.component';
     NgbTooltipModule,
     NgbRatingModule,
     NgbAlertModule,
+    NgbTabsetModule,
     LoadingComponent,
     CaseCardListComponent,
     SectionHeaderComponent,
@@ -61,7 +65,8 @@ import { NotifyComponent } from './components/notify/notify.component';
     LogoComponent,
     SearchSortingPipe,
     CasesPageContentComponent,
-    NotifyComponent
+    NotifyComponent,
+    UserDashboardMenuComponent
   ],
   providers: [
     SearchResultFilterPipe,

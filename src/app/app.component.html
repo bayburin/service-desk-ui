@@ -1,6 +1,6 @@
 <div class="sd-target">
   <div *ngIf="isUserSignedIn | async">
-    <app-notify class="fixed-top notification-block"></app-notify>
+    <app-notify class="fixed-top notification-block" (click)="$event.stopPropagation()"></app-notify>
     <header>
       <app-header></app-header>
     </header>

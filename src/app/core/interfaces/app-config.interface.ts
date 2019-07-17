@@ -4,4 +4,6 @@ export interface AppConfigI {
   minLengthSearch: number;
   redirectAfterAuthorizeUrlName: string;
   authState: string;
+  defaultUserDashboardListCount: number;
+  maxUserDashboardListCount: number;
 }
