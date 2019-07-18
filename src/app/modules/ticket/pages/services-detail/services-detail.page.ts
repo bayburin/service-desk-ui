@@ -16,7 +16,7 @@ import { DynamicTemplateContentComponent } from '@modules/ticket/components/dyna
 export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
   loading = false;
   service: Service;
-  @ViewChild(ServiceDetailComponent) private serviceDetailComponent: ServiceDetailComponent;
+  @ViewChild(ServiceDetailComponent, { static: true }) private serviceDetailComponent: ServiceDetailComponent;
   private questionStream = new Subject();
   private ticketId: number;
 

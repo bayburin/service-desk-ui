@@ -18,7 +18,7 @@ import { Service } from '@modules/ticket/models/service.model';
   styleUrls: ['./common-form.component.scss']
 })
 export class CommonFormComponent implements OnInit, OnDestroy {
-  @ViewChild('instance') instance: NgbTypeahead;
+  @ViewChild('instance', { static: true }) instance: NgbTypeahead;
   @Input() formType: 'new' | 'edit';
   @Output() caseSaved = new EventEmitter();
   caseForm: FormGroup;
