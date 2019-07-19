@@ -3,11 +3,11 @@ import { finalize, tap } from 'rxjs/operators';
 
 import { AppConfigI } from '@interfaces/app-config.interface';
 import { APP_CONFIG } from '@config/app.config';
-import { NotificationI } from '@interfaces/notification.interface';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { contentBlockAnimation } from '@animations/content.animation';
 import { notifyAnimation } from '@animations/notify.animation';
 import { colorAnimation } from '@animations/color.animation';
+import { Notify } from '@shared/models/notify';
 
 @Component({
   selector: 'app-user-dashboard-menu',
@@ -16,7 +16,7 @@ import { colorAnimation } from '@animations/color.animation';
   animations: [notifyAnimation, contentBlockAnimation, colorAnimation]
 })
 export class UserDashboardMenuComponent implements OnInit, OnDestroy {
-  notifications: NotificationI[];
+  notifications: Notify[];
   loading = {
     allNotifications: false,
     newNotifications: false
@@ -44,22 +44,8 @@ export class UserDashboardMenuComponent implements OnInit, OnDestroy {
     }
   }
 
-  trackByNotification(index, notification: NotificationI) {
+  trackByNotification(index, notification: Notify) {
     return notification.id;
-  }
-
-  /**
-   * Возвращает иконку уведомления взавимисомти от ее типа
-   *
-   * @param notification - объект уведомления.
-   */
-  notificationIcon(notification: NotificationI) {
-    switch (notification.event_type) {
-      case 'case':
-        return 'mdi-clipboard-arrow-up-outline';
-      case 'broadcast':
-        return 'mdi-information-outline';
-    }
   }
 
   /**
@@ -68,7 +54,7 @@ export class UserDashboardMenuComponent implements OnInit, OnDestroy {
   loadNewNotifications() {
     this.notifyService.loadNewNotifications()
       .subscribe(
-        (data: NotificationI[]) => {
+        (data: Notify[]) => {
           this.notifications.splice(this.notifications.length - data.length);
           this.notifications.unshift(...data);
         }
@@ -94,6 +80,6 @@ export class UserDashboardMenuComponent implements OnInit, OnDestroy {
         finalize(() => this.loading.allNotifications = false),
         tap(() => this.notificationReaded.emit(true))
       )
-      .subscribe((data: NotificationI[]) => this.notifications = data);
+      .subscribe((data: Notify[]) => this.notifications = data);
   }
 }

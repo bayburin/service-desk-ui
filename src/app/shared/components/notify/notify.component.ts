@@ -5,6 +5,9 @@ import { NotificationService } from '@shared/services/notification/notification.
 import { NotificationI } from '@interfaces/notification.interface';
 import { notifyAnimation } from '@animations/notify.animation';
 import { StreamService } from '@shared/services/stream/stream.service';
+import { map } from 'rxjs/operators';
+import { Notify } from '@shared/models/notify';
+import { NotifyFactory } from '@shared/factories/notify.factory';
 
 @Component({
   selector: 'app-notify',
@@ -13,7 +16,7 @@ import { StreamService } from '@shared/services/stream/stream.service';
   animations: [notifyAnimation]
 })
 export class NotifyComponent implements OnInit, OnDestroy {
-  notifications: NotificationI[] = [];
+  notifications: Notify[] = [];
   private channel: Channel;
   private readonly channelName = 'UserNotifyChannel';
 
@@ -27,23 +30,14 @@ export class NotifyComponent implements OnInit, OnDestroy {
     this.connectToCaseNotifications();
   }
 
-  notificationIcon(notification: NotificationI) {
-    switch (notification.event_type) {
-      case 'case':
-        return 'mdi-clipboard-arrow-up-outline';
-      case 'broadcast':
-        return 'mdi-information-outline';
-    }
-  }
-
-  trackByNotification(index, notification: NotificationI) {
+  trackByNotification(index, notification: Notify) {
     return notification.id;
   }
 
   /**
    * Закрыть уведомление.
    */
-  close(notification: NotificationI) {
+  close(notification: Notify) {
     this.notifications.splice(this.notifications.indexOf(notification), 1);
   }
 
@@ -53,8 +47,8 @@ export class NotifyComponent implements OnInit, OnDestroy {
 
   private connectToCaseNotifications() {
     this.channel = this.streamService.channelServer.channel(this.channelName);
-    this.channel.received().subscribe(msg => {
-      this.notifyService.notify(msg);
-    });
+    this.channel.received()
+      .pipe(map((notify: NotificationI) => NotifyFactory.create(notify)))
+      .subscribe(notifyInstance => this.notifyService.notify(notifyInstance));
   }
 }
