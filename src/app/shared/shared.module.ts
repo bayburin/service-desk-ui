@@ -2,7 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbTypeaheadModule, NgbTooltipModule, NgbRatingModule, NgbAlertModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbTypeaheadModule,
+  NgbTooltipModule,
+  NgbRatingModule,
+  NgbTabsetModule,
+  NgbToastModule
+} from '@ng-bootstrap/ng-bootstrap';
 
 import { LoadingComponent } from './components/loading/loading.component';
 import { CaseCardListComponent } from './components/case-card-list/case-card-list.component';
@@ -42,8 +48,8 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
     NgbTypeaheadModule,
     NgbTooltipModule,
     NgbRatingModule,
-    NgbAlertModule,
-    NgbTabsetModule
+    NgbTabsetModule,
+    NgbToastModule
   ],
   exports: [
     CommonModule,
@@ -53,8 +59,8 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
     NgbTypeaheadModule,
     NgbTooltipModule,
     NgbRatingModule,
-    NgbAlertModule,
     NgbTabsetModule,
+    NgbToastModule,
     LoadingComponent,
     CaseCardListComponent,
     SectionHeaderComponent,

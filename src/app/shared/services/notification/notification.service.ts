@@ -16,7 +16,6 @@ export class NotificationService {
   notificationCount = { value: 0 };
   private notificationLimit = this.config.defaultUserDashboardListCount;
   private readonly MAX_ALERT_COUNT = 5;
-  private readonly LIFETIME = 15000;
 
   constructor(
     private http: HttpClient,
@@ -31,7 +30,6 @@ export class NotificationService {
   notify(notification: NotificationI) {
     this.notifications.unshift(notification);
     this.removeExtraItems();
-    this.startTimer(notification);
     this.notificationCount.value ++;
   }
 
@@ -75,14 +73,5 @@ export class NotificationService {
     if (this.notifications.length > this.MAX_ALERT_COUNT) {
       this.notifications.pop();
     }
-  }
-
-  private startTimer(notification: NotificationI) {
-    setTimeout(() => {
-      const index = this.notifications.indexOf(notification);
-      if (index !== -1) {
-        this.notifications.splice(index, 1);
-      }
-    }, this.LIFETIME);
   }
 }
