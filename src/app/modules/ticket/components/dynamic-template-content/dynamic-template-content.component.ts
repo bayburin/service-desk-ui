@@ -13,7 +13,7 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 export class DynamicTemplateContentComponent implements OnInit, OnDestroy {
   @Input() data: Category | Service | Ticket;
   @Input() onlyLink: boolean;
-  @ViewChild('templateContainer', { read: ViewContainerRef }) entry: ViewContainerRef;
+  @ViewChild('templateContainer', { read: ViewContainerRef, static: true }) entry: ViewContainerRef;
   componentRef;
 
   constructor(

@@ -21,7 +21,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   serviceCtrl: FormControl;
   loading = false;
   @Input() searchTerm: string;
-  @ViewChild(NgbTypeahead) globalSearch: NgbTypeahead;
+  @ViewChild(NgbTypeahead, { static: true }) globalSearch: NgbTypeahead;
   private alive = true;
   /**
    * Если true - выпадающее меню с результатами поиска не будет раскрыто.

@@ -27,6 +27,15 @@ export class NotifyComponent implements OnInit, OnDestroy {
     this.connectToCaseNotifications();
   }
 
+  notificationIcon(notification: NotificationI) {
+    switch (notification.event_type) {
+      case 'case':
+        return 'mdi-clipboard-arrow-up-outline';
+      case 'broadcast':
+        return 'mdi-information-outline';
+    }
+  }
+
   trackByNotification(index, notification: NotificationI) {
     return notification.id;
   }
