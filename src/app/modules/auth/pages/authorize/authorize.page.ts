@@ -46,8 +46,7 @@ export class AuthorizePageComponent implements OnInit {
             this.router.navigate([this.authService.getReturnUrl()]);
           }, 1000);
         },
-        error => {
-          console.log('Ошибка авторизации: ', error);
+        () => {
           this.authService.unauthorize();
           clearInterval(this.interval);
           this.errors = true;

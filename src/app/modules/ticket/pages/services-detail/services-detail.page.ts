@@ -48,10 +48,7 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
     this.loading = true;
     this.serviceService.loadService(categoryId, serviceId)
       .pipe(finalize(() => this.loading = false))
-      .subscribe(
-        service => this.service = service,
-        error => console.log('Ошибка ', error)
-      );
+      .subscribe(service => this.service = service);
   }
 
   /**

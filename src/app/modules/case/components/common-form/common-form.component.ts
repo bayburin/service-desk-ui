@@ -117,10 +117,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     if (this.formType === 'new') {
       this.caseService.createCase(this.getRawValue())
         .pipe(finalize(() => this.loading.form = false))
-        .subscribe(
-          () => this.caseSaved.emit(),
-          error => console.log('Обработать ошибку: ', error)
-        );
+        .subscribe(() => this.caseSaved.emit());
     } else {
 
     }
@@ -155,9 +152,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
         data => {
           this.services = data.services;
           this.items = data.items;
-        },
-        error => console.log('Обработать ошибку: ', error)
-      );
+        });
   }
 
   /**

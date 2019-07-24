@@ -43,7 +43,7 @@ export class DashboardPageComponent implements OnInit {
           return data;
         })
       )
-      .subscribe((data) => this.data = data);
+      .subscribe(data => this.data = data);
   }
 
   /**

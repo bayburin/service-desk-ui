@@ -1,7 +1,7 @@
-<ngb-toast (hide)="close(notification)" [autohide]="false" [delay]="15000"
+<ngb-toast (hide)="close(notification)" [autohide]="notification.isAutoClose()" [delay]="notification.delay" [ngClass]="notification.getClassName()"
   *ngFor="let notification of notifications; trackBy: trackByNotification" [@notifyAnimation]="notifications">
   <span class="d-flex align-items-center">
-    <i class="mdi mdi-24px mr-2" [ngClass]="notificationIcon(notification)"></i>
+    <i class="mdi mdi-24px mr-2" [ngClass]="notification.getIconName()"></i>
     <span [innerHtml]="notification.body.message"></span>
     <button class="close ml-auto" (click)="close(notification)">
       <i class="mdi mdi-18px mdi-close close-notification"></i>

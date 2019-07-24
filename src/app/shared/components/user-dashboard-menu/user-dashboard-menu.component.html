@@ -24,7 +24,7 @@
               </div>
               <div class="notification-row" *ngFor="let notification of notifications; trackBy: trackByNotification" [@contentBlockAnimation] [@colorAnimation]>
                 <div class="row align-items-center">
-                  <div class="col-md-1 text-center"><i class="mdi mdi-24px" [ngClass]="notificationIcon(notification)"></i></div>
+                  <div class="col-md-1 text-center"><i class="mdi mdi-24px" [ngClass]="notification.getIconName()"></i></div>
                   <div class="col-md-9" [innerHtml]="notification.body.message"></div>
                   <div class="col-md-2 text-center">{{ notification.date }}</div>
                 </div>
