@@ -1,4 +1,4 @@
-<ngb-toast (hide)="close(notification)" [autohide]="false" [delay]="15000"
+<ngb-toast (hide)="close(notification)" [autohide]="notification.isAutoClose()" [delay]="notification.delay" [ngClass]="notification.getClassName()"
   *ngFor="let notification of notifications; trackBy: trackByNotification" [@notifyAnimation]="notifications">
   <span class="d-flex align-items-center">
     <i class="mdi mdi-24px mr-2" [ngClass]="notification.getIconName()"></i>

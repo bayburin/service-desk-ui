@@ -30,9 +30,17 @@ export class NotificationService {
    * @param notification - объект уведомления.
    */
   notify(notification: Notify) {
-    this.notifications.unshift(notification);
-    this.removeExtraItems();
+    this.showNotify(notification);
     this.notificationCount.value ++;
+  }
+
+  /**
+   * Добавить сообщение об ошибку в массив уведомлений.
+   *
+   * @param notification - объект уведомления.
+   */
+  alert(notification: Notify) {
+    this.showNotify(notification);
   }
 
   /**
@@ -79,5 +87,10 @@ export class NotificationService {
     if (this.notifications.length > this.MAX_ALERT_COUNT) {
       this.notifications.pop();
     }
+  }
+
+  private showNotify(notification: Notify) {
+    this.notifications.unshift(notification);
+    this.removeExtraItems();
   }
 }

@@ -1,15 +1,15 @@
 import { AbstractNotifyState } from './abstract_notify_state';
 
-export class BroadcastState implements AbstractNotifyState {
+export class ErrorState implements AbstractNotifyState {
   getIconName(): string {
-    return 'mdi-information-outline';
+    return 'mdi-alert';
   }
 
   getClassName(): string {
-    return '';
+    return 'bg-danger text-light';
   }
 
   isAutoClose(): boolean {
-    return true;
+    return false;
   }
 }

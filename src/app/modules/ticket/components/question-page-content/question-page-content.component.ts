@@ -63,8 +63,7 @@ export class QuestionPageContentComponent implements OnInit {
             window.URL.revokeObjectURL(url);
             link.remove();
           }, 100);
-        },
-        error => console.log('Ошибка загрузки файла: ', error));
+        });
   }
 
   trackByAnswer(index, answer: AnswerI) {

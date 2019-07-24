@@ -70,11 +70,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
         return this.searchService.search(term)
           .pipe(
             finalize(() => this.loading = false),
-            catchError(error => {
-              console.log('При поиске произошла ошибка: ', error);
-
-              return of([]);
-            })
+            catchError(() => of([]))
           );
       }),
     );

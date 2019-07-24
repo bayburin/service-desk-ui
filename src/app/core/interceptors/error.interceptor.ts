@@ -3,17 +3,15 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/c
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { AuthService } from '@auth/auth.service';
+import { ErrorHandlerService } from '@shared/services/error-handler/error-handler.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private errorHandlerService: ErrorHandlerService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe(catchError((error) => {
-      if (error.status === 401 && this.authService.isUserSignedIn) {
-        this.authService.unauthorize();
-      }
+    return next.handle(req).pipe(catchError(error => {
+      this.errorHandlerService.handleError(error);
 
       return throwError(error);
     }));
