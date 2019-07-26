@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ServicesDetailPageComponent } from './services-detail.page';
+// import { ServicesDetailPageComponent } from './services-detail.page';
 
-describe('ServicesDetailPageComponent', () => {
-  let component: ServicesDetailPageComponent;
-  let fixture: ComponentFixture<ServicesDetailPageComponent>;
+// describe('ServicesDetailPageComponent', () => {
+//   let component: ServicesDetailPageComponent;
+//   let fixture: ComponentFixture<ServicesDetailPageComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ServicesDetailPageComponent ]
-    })
-    .compileComponents();
-  }));
+//   beforeEach(async(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [ ServicesDetailPageComponent ]
+//     })
+//     .compileComponents();
+//   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ServicesDetailPageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(ServicesDetailPageComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });
