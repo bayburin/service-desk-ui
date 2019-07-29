@@ -7,7 +7,7 @@ import { NotificationService } from '@shared/services/notification/notification.
 import { contentBlockAnimation } from '@animations/content.animation';
 import { notifyAnimation } from '@animations/notify.animation';
 import { colorAnimation } from '@animations/color.animation';
-import { Notify } from '@shared/models/notify';
+import { Notify } from '@shared/models/notify.model';
 
 @Component({
   selector: 'app-user-dashboard-menu',

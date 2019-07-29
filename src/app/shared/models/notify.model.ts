@@ -8,9 +8,9 @@ export class Notify {
   id: number;
   eventType: string;
   tn: number;
-  body: NotificationBodyI;
   date: string;
   delay = 15000;
+  private body: NotificationBodyI;
   private state: AbstractNotifyState;
 
   constructor(notification: any = {}) {
@@ -23,7 +23,11 @@ export class Notify {
     this.createState();
   }
 
-  setMessage(msg: string): void {
+  get message(): string {
+    return this.body.message;
+  }
+
+  set message(msg: string) {
     this.body.message = msg;
   }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { Notify } from '@shared/models/notify';
+import { Notify } from '@shared/models/notify.model';
 import { AuthService } from '@auth/auth.service';
 import { NotifyFactory } from '@shared/factories/notify.factory';
 import { NotificationService } from '@shared/services/notification/notification.service';
@@ -23,13 +23,13 @@ export class ErrorHandlerService {
         break;
       case 403:
         this.notification = NotifyFactory.create({ event_type: 'error' });
-        this.notification.setMessage('Доступ запрещен.');
+        this.notification.message = 'Доступ запрещен.';
         this.notifyService.alert(this.notification);
         break;
       case 500:
         this.notification = NotifyFactory.create({ event_type: 'error' });
-        this.notification.setMessage(`Упс! На сервере произошла ошибка. Мы автоматически получили уведомление о проблеме.
-         Если со временем проблема не исчезнет, свяжитесь с нами по телефону 06.`);
+        this.notification.message = `Упс! На сервере произошла ошибка. Мы автоматически получили уведомление о проблеме.
+         Если со временем проблема не исчезнет, свяжитесь с нами по телефону 06.`;
         this.notifyService.alert(this.notification);
         break;
     }
