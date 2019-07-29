@@ -1,3 +1,4 @@
+import { AnswerI } from './answer.interface';
 import { ServiceI } from '@interfaces/service.interface';
 
 export interface TicketI {
@@ -8,6 +9,7 @@ export interface TicketI {
   is_hidden: boolean;
   sla: number;
   popularity: number;
+  answers?: AnswerI[];
   service?: ServiceI;
   open?: boolean;
 }

@@ -5,6 +5,7 @@ import { map, tap } from 'rxjs/operators';
 
 import { environment } from 'environments/environment';
 import { Service } from '@modules/ticket/models/service.model';
+import { ServiceI } from '@interfaces/service.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
 import { SearchSortingPipe } from '@shared/pipes/search-sorting/search-sorting.pipe';
@@ -25,20 +26,20 @@ export class ServiceService implements BreadcrumbServiceI {
   loadServices(): Observable<Service[]> {
     this.loadServicesUri = `${environment.serverUrl}/api/v1/services`;
 
-    return this.http.get<Service[]>(this.loadServicesUri).pipe(map((services) => services.map(service => ServiceFactory.create(service))));
+    return this.http.get(this.loadServicesUri).pipe(map((services: ServiceI[]) => services.map(service => ServiceFactory.create(service))));
   }
 
   /**
-   * Загрузить данные о категории и список связанных сервисов.
+   * Загрузить данные об услуге, список вопросов и ответов.
    *
    * @param categoryId - id категории
-   * @param serviceId  id сервиса
+   * @param serviceId - id услуги
    */
-  loadService(categoryId: string, serviceId: string): Observable<Service> {
+  loadService(categoryId: number, serviceId: number): Observable<Service> {
     this.loadServiceUri = `${environment.serverUrl}/api/v1/categories/${categoryId}/services/${serviceId}`;
 
-    return this.http.get<Service>(this.loadServiceUri).pipe(
-      map(data => {
+    return this.http.get(this.loadServiceUri).pipe(
+      map((data: ServiceI) => {
         const service = ServiceFactory.create(data);
         service.tickets = this.searchSortingPipe.transform(service.tickets);
         return service;
@@ -49,13 +50,13 @@ export class ServiceService implements BreadcrumbServiceI {
 
   getNodeName(): Observable<string> {
     return this.service.asObservable().pipe(
-      map((service) => service ? service.name : '')
+      map((service: Service) => service ? service.name : '')
     );
   }
 
   getParentNodeName(): Observable<string> {
     return this.service.asObservable().pipe(
-      map((service) => service ? service.category.name : '')
+      map((service: Service) => service ? service.category.name : '')
     );
   }
 }
