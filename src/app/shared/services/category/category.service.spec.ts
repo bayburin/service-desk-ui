@@ -47,8 +47,6 @@ describe('CategoryService', () => {
 
     it('should return Observable with Category data', () => {
       categoryService.loadCategory(category.id).subscribe(result => {
-        console.log(result);
-        console.log(category);
         expect(result).toEqual(category);
       });
 
