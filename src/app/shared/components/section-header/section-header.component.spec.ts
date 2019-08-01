@@ -1,25 +1,37 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { SectionHeaderComponent } from './section-header.component';
+import { SectionHeaderComponent } from './section-header.component';
 
-// describe('SectionHeaderComponent', () => {
-//   let component: SectionHeaderComponent;
-//   let fixture: ComponentFixture<SectionHeaderComponent>;
+describe('SectionHeaderComponent', () => {
+  let component: SectionHeaderComponent;
+  let fixture: ComponentFixture<SectionHeaderComponent>;
 
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ SectionHeaderComponent ]
-//     })
-//     .compileComponents();
-//   }));
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      declarations: [SectionHeaderComponent],
+      schemas: [NO_ERRORS_SCHEMA]
+    })
+    .compileComponents();
+  }));
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(SectionHeaderComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(SectionHeaderComponent);
+    component = fixture.componentInstance;
+  });
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+  it('should create', () => {
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
+  });
+
+  it('should show header', () => {
+    const myHeader = 'My custom header';
+    component.header = myHeader;
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.nativeElement.textContent).toContain(myHeader);
+  });
+});
