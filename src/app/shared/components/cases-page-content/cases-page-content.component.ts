@@ -20,7 +20,7 @@ export class CasesPageContentComponent implements OnInit {
   };
   cases: CaseI[] = [];
   statuses: FilterI[] = [];
-  selectedStatus = null;
+  selectedStatusId: number;
   @Input() services: Service[] = [];
 
   constructor(private caseService: CaseService) { }
@@ -33,7 +33,7 @@ export class CasesPageContentComponent implements OnInit {
    * Событие изменения фильтра.
    */
   filterChanged(data) {
-    this.selectedStatus = data;
+    this.selectedStatusId = data;
     this.loadCases();
   }
 
@@ -78,7 +78,7 @@ export class CasesPageContentComponent implements OnInit {
     return {
       limit: 15,
       offset: 0,
-      status_id: this.selectedStatus,
+      status_id: this.selectedStatusId,
       service_ids: serviceIds
     };
   }
