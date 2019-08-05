@@ -31,9 +31,11 @@ export class CasesPageContentComponent implements OnInit {
 
   /**
    * Событие изменения фильтра.
+   *
+   * @param id - id выбранного фильтра.
    */
-  filterChanged(data) {
-    this.selectedStatusId = data;
+  filterChanged(id: number) {
+    this.selectedStatusId = id;
     this.loadCases();
   }
 
@@ -48,7 +50,7 @@ export class CasesPageContentComponent implements OnInit {
    * Проверяет, существуют ли какие-либо кейсы у текущего пользователя.
    */
   isAnyCasesExists() {
-    return this.statuses.some((status) => status.count != 0);
+    return this.statuses.some(status => status.count !== 0);
   }
 
   /**
@@ -60,9 +62,7 @@ export class CasesPageContentComponent implements OnInit {
     this.toggleLoading(init);
 
     this.caseService.getAllCases(this.getFilters())
-      .pipe(finalize(() => {
-        this.toggleLoading();
-      }))
+      .pipe(finalize(() => this.toggleLoading()))
       .subscribe((data: { statuses: FilterI[], cases: CaseI[]}) => {
         this.statuses = data.statuses;
         this.cases = data.cases;
