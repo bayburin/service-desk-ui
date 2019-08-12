@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 
@@ -12,7 +12,7 @@ import { UserService } from '@shared/services/user/user.service';
   templateUrl: './authorize.page.html',
   styleUrls: ['./authorize.page.scss']
 })
-export class AuthorizePageComponent implements OnInit {
+export class AuthorizePageComponent implements OnInit, OnDestroy {
   progressValue = 0;
   errors = false;
   success = false;
@@ -52,6 +52,10 @@ export class AuthorizePageComponent implements OnInit {
           this.errors = true;
         }
       );
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.interval);
   }
 
   private runProgressBar() {
