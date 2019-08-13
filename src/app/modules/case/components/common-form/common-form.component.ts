@@ -159,6 +159,6 @@ export class CommonFormComponent implements OnInit, OnDestroy {
    * Получить данные для отправки на сервер.
    */
   private getRawValue(): CaseI {
-    return this.caseService.getRowValues(this.caseForm.getRawValue());
+    return this.caseService.getRawValues(this.caseForm.getRawValue());
   }
 }
