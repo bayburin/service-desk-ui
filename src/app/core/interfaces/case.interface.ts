@@ -24,6 +24,7 @@ export interface CaseI {
   dept: string;
   fio: string;
   host_id: string;
+  invent_num: string;
   item_id: number;
   without_item: boolean;
   desc: string;
