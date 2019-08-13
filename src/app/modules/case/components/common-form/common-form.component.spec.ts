@@ -1,18 +1,18 @@
-import { UserOwnsI } from '@interfaces/user-owns.interface';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import { of, BehaviorSubject } from 'rxjs';
 
 import { CommonFormComponent } from './common-form.component';
 import { UserService } from '@shared/services/user/user.service';
 import { CaseService } from '@modules/case/services/case/case.service';
-import { of, BehaviorSubject } from 'rxjs';
 import { UserI } from '@interfaces/user.interface';
 import { ItemI } from '@interfaces/item.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
+import { UserOwnsI } from '@interfaces/user-owns.interface';
 
 const user = {
   id_tn: 12345,
