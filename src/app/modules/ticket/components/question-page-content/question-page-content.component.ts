@@ -16,7 +16,7 @@ import { toggleAnswer } from '@modules/ticket/animations/toggle-answer.animation
 })
 export class QuestionPageContentComponent implements OnInit {
   @Input() data: Ticket;
-  @Input() onlyLink: boolean;
+  @Input() standaloneLink: boolean;
   ratingStream = new Subject<Ticket>();
 
   constructor(private ticketService: TicketService) { }
@@ -34,7 +34,7 @@ export class QuestionPageContentComponent implements OnInit {
    * "Раскрывает" вопрос и отправляет запрос на сервер для изменения его рейтинга.
    */
   toggleTicket(): void {
-    if (this.onlyLink) {
+    if (this.standaloneLink) {
       return;
     }
 
