@@ -51,7 +51,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
         takeWhile(() => this.alive),
         tap((arr) => {
           this.searched = true;
-          this.types.map((type) => {
+          this.types.map(type => {
             type.count = this.filterByClass.transform(arr, type.id).length;
 
             return type;
@@ -63,9 +63,11 @@ export class SearchResultComponent implements OnInit, OnDestroy {
 
   /**
    * Событие изменения фильтра.
+   *
+   * @param type - выбранный фильтр (экземпляр класса)
    */
-  filterChanged(data) {
-    this.selectedType = data;
+  filterChanged(type: any) {
+    this.selectedType = type;
   }
 
   ngOnDestroy() {
