@@ -45,7 +45,7 @@ export class QuestionPageContentComponent implements OnInit {
   /**
    * Загружает выбранный файл.
    */
-  downloadAttachment(attachment: AnswerAttachmentI) {
+  downloadAttachment(attachment: AnswerAttachmentI): void {
     attachment.loading = true;
     this.ticketService.downloadAttachmentFromAnswer(attachment)
       .pipe(finalize(() => attachment.loading = false))
