@@ -11,7 +11,6 @@ export class Service implements CommonServiceI {
   shortDescription: string;
   install: string;
   isSla: boolean;
-  sla: string;
   popularity: number;
   questionLimit: number;
   category: Category;
@@ -24,7 +23,6 @@ export class Service implements CommonServiceI {
     this.shortDescription = service.short_description || '';
     this.install = service.install || '';
     this.isSla = service.is_sla || false;
-    this.sla = service.sla || 0;
     this.popularity = service.popularity || 0;
 
     if (service.tickets) {

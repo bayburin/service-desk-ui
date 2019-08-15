@@ -34,7 +34,7 @@ export class DashboardPageComponent implements OnInit {
       .pipe(
         finalize(() => this.loading = false),
         map((data) => {
-          data.services.map((service) =>  {
+          data.services.map(service =>  {
             service.questionLimit = this.limits.questions;
 
             return service;

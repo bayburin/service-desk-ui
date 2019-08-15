@@ -8,7 +8,6 @@ export interface ServiceI {
   short_description: string;
   install: string;
   is_sla: boolean;
-  sla: string;
   popularity: number;
   questionLimit?: number;
   category?: CategoryI;
