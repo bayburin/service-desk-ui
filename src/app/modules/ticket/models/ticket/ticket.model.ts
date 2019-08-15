@@ -1,4 +1,4 @@
-import { Service } from '@modules/ticket/models/service.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 import { CommonServiceI } from '@interfaces/common-service.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { AbstractTicketState } from './ticket_states/abstract_ticket_state';

@@ -1,9 +1,9 @@
-import { Category } from '@modules/ticket/models/category.model';
+import { Category } from '@modules/ticket/models/category/category.model';
 import { CategoryI } from '@interfaces/category.interface';
 import { Service } from './service.model';
 import { ServiceI } from '@interfaces/service.interface';
 import { TicketI } from '@interfaces/ticket.interface';
-import { Ticket } from './ticket/ticket.model';
+import { Ticket } from '../ticket/ticket.model';
 
 describe('Service', () => {
   let serviceI: ServiceI;

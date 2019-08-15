@@ -1,8 +1,8 @@
 import { ComponentFactory } from '@angular/core';
 import { Component, OnInit, Input, ComponentFactoryResolver, ViewContainerRef, ViewChild, OnDestroy } from '@angular/core';
 
-import { Category } from '@modules/ticket/models/category.model';
-import { Service } from '@modules/ticket/models/service.model';
+import { Category } from '@modules/ticket/models/category/category.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
 @Component({

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { ServicePageContentComponent } from './service-page-content.component';
-import { Service } from '@modules/ticket/models/service.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 
 describe('ServicePageContentComponent', () => {

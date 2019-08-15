@@ -5,7 +5,7 @@ import { map, tap } from 'rxjs/operators';
 
 import { CategoryI } from '@interfaces/category.interface';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
-import { Category } from '@modules/ticket/models/category.model';
+import { Category } from '@modules/ticket/models/category/category.model';
 import { environment } from 'environments/environment';
 import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
 

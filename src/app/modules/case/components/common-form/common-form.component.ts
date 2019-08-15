@@ -10,7 +10,7 @@ import { UserI } from '@interfaces/user.interface';
 import { ItemI } from '@interfaces/item.interface';
 import { CaseService } from '@modules/case/services/case/case.service';
 import { CaseI } from '@interfaces/case.interface';
-import { Service } from '@modules/ticket/models/service.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 
 @Component({
   selector: 'app-common-form',

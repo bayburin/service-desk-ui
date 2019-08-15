@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { CategoryHeaderComponent } from './category-header.component';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
-import { Category } from '@modules/ticket/models/category.model';
+import { Category } from '@modules/ticket/models/category/category.model';
 
 describe('CategoryHeaderComponent', () => {
   let component: CategoryHeaderComponent;

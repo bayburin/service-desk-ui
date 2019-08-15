@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { Notify } from '@shared/models/notify.model';
+import { Notify } from '@shared/models/notify/notify.model';
 import { AuthService } from '@auth/auth.service';
 import { NotifyFactory } from '@shared/factories/notify.factory';
 import { NotificationService } from '@shared/services/notification/notification.service';

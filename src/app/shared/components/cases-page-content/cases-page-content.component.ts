@@ -4,7 +4,7 @@ import { finalize } from 'rxjs/operators';
 import { CaseService } from '@modules/case/services/case/case.service';
 import { CaseI } from '@interfaces/case.interface';
 import { FilterI } from '@interfaces/filter.interface';
-import { Service } from '@modules/ticket/models/service.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 import { contentBlockAnimation } from '@animations/content.animation';
 
 @Component({

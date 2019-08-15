@@ -12,7 +12,7 @@ import { AppConfig, APP_CONFIG } from '@config/app.config';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { NotifyFactory } from '@shared/factories/notify.factory';
 import { AppConfigI } from '@interfaces/app-config.interface';
-import { Notify } from '@shared/models/notify.model';
+import { Notify } from '@shared/models/notify/notify.model';
 
 describe('UserDashboardMenuComponent', () => {
   let component: UserDashboardMenuComponent;

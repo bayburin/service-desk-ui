@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { environment } from 'environments/environment';
-import { Service } from '@modules/ticket/models/service.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceI } from '@interfaces/service.interface';
 import { UserOwnsI } from '@interfaces/user-owns.interface';
 import { UserService } from './user.service';

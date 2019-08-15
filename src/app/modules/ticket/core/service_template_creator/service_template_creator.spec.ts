@@ -1,7 +1,7 @@
 import { ServiceTemplateCreator } from './service_template_creator';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { Service } from '@modules/ticket/models/service.model';
-import { Category } from '@modules/ticket/models/category.model';
+import { Service } from '@modules/ticket/models/service/service.model';
+import { Category } from '@modules/ticket/models/category/category.model';
 import { ServiceTemplateI } from '@interfaces/service-template.interface';
 
 describe('ServiceTemplateCreator', () => {

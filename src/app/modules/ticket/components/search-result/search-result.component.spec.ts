@@ -6,7 +6,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchResultComponent } from './search-result.component';
 import { FilterByClassPipe } from '@shared/pipes/filter-by-class/filter-by-class.pipe';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
-import { Category } from '@modules/ticket/models/category.model';
+import { Category } from '@modules/ticket/models/category/category.model';
 
 describe('SearchResultComponent', () => {
   let component: SearchResultComponent;

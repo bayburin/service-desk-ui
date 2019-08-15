@@ -1,5 +1,5 @@
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { Service } from '@modules/ticket/models/service.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 
 interface RuntimeI {
   starttime: string;

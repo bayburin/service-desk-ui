@@ -6,7 +6,7 @@ import { NotificationService } from '@shared/services/notification/notification.
 import { NotificationI } from '@interfaces/notification.interface';
 import { notifyAnimation } from '@animations/notify.animation';
 import { StreamService } from '@shared/services/stream/stream.service';
-import { Notify } from '@shared/models/notify.model';
+import { Notify } from '@shared/models/notify/notify.model';
 import { NotifyFactory } from '@shared/factories/notify.factory';
 
 @Component({

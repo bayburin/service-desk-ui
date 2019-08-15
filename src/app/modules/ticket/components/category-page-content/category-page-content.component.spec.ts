@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { CategoryPageContentComponent } from './category-page-content.component';
-import { Category } from '@modules/ticket/models/category.model';
+import { Category } from '@modules/ticket/models/category/category.model';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 
 describe('CategoryPageContentComponent', () => {

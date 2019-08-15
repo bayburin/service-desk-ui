@@ -1,6 +1,6 @@
 import { NotificationBodyI, NotificationI } from '@interfaces/notification.interface';
 
-import { Notify } from '@shared/models/notify.model';
+import { Notify } from '@shared/models/notify/notify.model';
 import { NotifyFactory } from '@shared/factories/notify.factory';
 import { BroadcastState } from './notify_states/broadcast_state';
 import { CaseState } from './notify_states/case_state';

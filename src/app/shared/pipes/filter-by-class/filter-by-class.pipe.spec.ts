@@ -2,7 +2,7 @@ import { FilterByClassPipe } from './filter-by-class.pipe';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
-import { Category } from '@modules/ticket/models/category.model';
+import { Category } from '@modules/ticket/models/category/category.model';
 
 describe('FilterByClassPipe', () => {
   let pipe: FilterByClassPipe;

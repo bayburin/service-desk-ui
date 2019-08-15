@@ -1,4 +1,4 @@
-import { Service } from '@modules/ticket/models/service.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 
 export class ServiceFactory {
   static create(params) {

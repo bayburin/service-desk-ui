@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { finalize, filter, first, map, delay } from 'rxjs/operators';
 
 import { ServiceService } from '@shared/services/service/service.service';
-import { Service } from '@modules/ticket/models/service.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceDetailComponent } from '@modules/ticket/components/service-detail/service-detail.component';
 import { DynamicTemplateContentComponent } from '@modules/ticket/components/dynamic-template-content/dynamic-template-content.component';
 

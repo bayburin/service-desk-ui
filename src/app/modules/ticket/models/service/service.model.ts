@@ -1,5 +1,5 @@
-import { Category } from './category.model';
-import { Ticket } from './ticket/ticket.model';
+import { Category } from '@modules/ticket/models/category/category.model';
+import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { CommonServiceI } from '@interfaces/common-service.interface';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';

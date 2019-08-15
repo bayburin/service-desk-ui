@@ -8,8 +8,8 @@ import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { APP_CONFIG } from '@config/app.config';
 import { AppConfigI } from '@interfaces/app-config.interface';
 import { SearchService } from '@modules/ticket/services/search/search.service';
-import { Category } from '@modules/ticket/models/category.model';
-import { Service } from '@modules/ticket/models/service.model';
+import { Category } from '@modules/ticket/models/category/category.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
 @Component({

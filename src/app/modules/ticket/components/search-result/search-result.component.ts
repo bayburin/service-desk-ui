@@ -2,8 +2,8 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { takeWhile, tap } from 'rxjs/operators';
 
-import { Category } from '@modules/ticket/models/category.model';
-import { Service } from '@modules/ticket/models/service.model';
+import { Category } from '@modules/ticket/models/category/category.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { FilterByClassPipe } from '@shared/pipes/filter-by-class/filter-by-class.pipe';
 import { contentBlockAnimation } from '@animations/content.animation';

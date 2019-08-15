@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 import { CategoryService } from '@shared/services/category/category.service';
-import { Category } from '@modules/ticket/models/category.model';
+import { Category } from '@modules/ticket/models/category/category.model';
 
 @Component({
   selector: 'app-categories-overview-page',
