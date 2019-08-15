@@ -24,7 +24,7 @@ export class Ticket implements CommonServiceI {
     this.serviceId = ticket.service_id || null;
     this.name = ticket.name || '';
     this.ticketType = ticket.ticket_type || '';
-    this.isHidden = ticket.is_hidden || true;
+    this.isHidden = ticket.is_hidden;
     this.sla = ticket.sla || 0;
     this.popularity = ticket.popularity || 0;
     this.answers = ticket.answers || [];
