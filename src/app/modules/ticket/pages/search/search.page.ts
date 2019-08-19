@@ -21,8 +21,8 @@ export class SearchPageComponent implements OnInit {
   ngOnInit() {
     this.searchTerm = this.route.snapshot.queryParams.search;
     this.searchResult = this.route.queryParams.pipe(
-      filter((params) => params.search),
-      mergeMap((params) => {
+      filter(params => params.search),
+      mergeMap(params => {
         this.loading = true;
         return this.searchService.deepSearch(params.search).pipe(finalize(() => this.loading = false));
       })

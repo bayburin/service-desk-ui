@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'searchResult'
+  name: 'filterByClass'
 })
-export class SearchResultFilterPipe implements PipeTransform {
+export class FilterByClassPipe implements PipeTransform {
   transform(resultArr: any, klass?: any): any {
     if (!klass) {
       return resultArr;

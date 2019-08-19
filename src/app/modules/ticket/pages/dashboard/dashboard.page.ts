@@ -3,7 +3,7 @@ import { finalize, map } from 'rxjs/operators';
 
 import { DashboardI } from '@interfaces/dashboard.interface';
 import { DashboardService } from '@modules/ticket/services/dashboard/dashboard.service';
-import { Service } from '@modules/ticket/models/service.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { toggleQuestionList } from '@modules/ticket/animations/toggle-question-list.animation';
 import { contentBlockAnimation } from '@animations/content.animation';
@@ -34,7 +34,7 @@ export class DashboardPageComponent implements OnInit {
       .pipe(
         finalize(() => this.loading = false),
         map((data) => {
-          data.services.map((service) =>  {
+          data.services.map(service =>  {
             service.questionLimit = this.limits.questions;
 
             return service;

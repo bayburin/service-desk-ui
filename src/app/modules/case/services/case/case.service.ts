@@ -44,7 +44,7 @@ export class CaseService {
   /**
    * Возвращает объект case для отправки на сервер.
    */
-  getRowValues(caseObj): CaseI {
+  getRawValues(caseObj): CaseI {
     if (!caseObj.without_service) {
       caseObj.service_id = caseObj.service.id;
     }

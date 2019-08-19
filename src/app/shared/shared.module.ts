@@ -13,7 +13,7 @@ import {
 import { LoadingComponent } from './components/loading/loading.component';
 import { CaseCardListComponent } from './components/case-card-list/case-card-list.component';
 import { SectionHeaderComponent } from './components/section-header/section-header.component';
-import { SearchResultFilterPipe } from './pipes/search-result-filter/search-result-filter.pipe';
+import { FilterByClassPipe } from './pipes/filter-by-class/filter-by-class.pipe';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { UnauthorizeContentComponent } from './components/unauthorize-content/unauthorize-content.component';
@@ -29,7 +29,7 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
     LoadingComponent,
     CaseCardListComponent,
     SectionHeaderComponent,
-    SearchResultFilterPipe,
+    FilterByClassPipe,
     PaginatorComponent,
     FiltersComponent,
     UnauthorizeContentComponent,
@@ -64,7 +64,7 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
     LoadingComponent,
     CaseCardListComponent,
     SectionHeaderComponent,
-    SearchResultFilterPipe,
+    FilterByClassPipe,
     PaginatorComponent,
     FiltersComponent,
     UnauthorizeContentComponent,
@@ -75,7 +75,7 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
     UserDashboardMenuComponent
   ],
   providers: [
-    SearchResultFilterPipe,
+    FilterByClassPipe,
     SearchSortingPipe
   ]
 })

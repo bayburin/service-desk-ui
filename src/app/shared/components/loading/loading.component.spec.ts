@@ -8,7 +8,7 @@ describe('LoadingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoadingComponent ]
+      declarations: [LoadingComponent]
     })
     .compileComponents();
   }));
@@ -21,5 +21,20 @@ describe('LoadingComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should show loading icon when "loading" attribute is true', () => {
+    component.loading = true;
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.nativeElement.querySelector('i[class*="mdi mdi-loading mdi-spin"]')).toBeTruthy();
+  });
+
+  it('should show loading icon with specified size', () => {
+    component.loading = true;
+    component.size = '48px';
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.nativeElement.querySelector('i[class*="mdi mdi-loading mdi-spin mdi-48px"]')).toBeTruthy();
   });
 });

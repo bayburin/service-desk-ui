@@ -2,10 +2,10 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { takeWhile, tap } from 'rxjs/operators';
 
-import { Category } from '@modules/ticket/models/category.model';
-import { Service } from '@modules/ticket/models/service.model';
+import { Category } from '@modules/ticket/models/category/category.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { SearchResultFilterPipe } from '@shared/pipes/search-result-filter/search-result-filter.pipe';
+import { FilterByClassPipe } from '@shared/pipes/filter-by-class/filter-by-class.pipe';
 import { contentBlockAnimation } from '@animations/content.animation';
 
 @Component({
@@ -43,7 +43,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
   @Input() searchResult: Observable<(Category | Service | Ticket)[]>;
   private alive = true;
 
-  constructor(private searchResultFilterPipe: SearchResultFilterPipe) {}
+  constructor(private filterByClass: FilterByClassPipe) {}
 
   ngOnInit() {
     this.searchResult
@@ -51,8 +51,8 @@ export class SearchResultComponent implements OnInit, OnDestroy {
         takeWhile(() => this.alive),
         tap((arr) => {
           this.searched = true;
-          this.types.map((type) => {
-            type.count = this.searchResultFilterPipe.transform(arr, type.id).length;
+          this.types.map(type => {
+            type.count = this.filterByClass.transform(arr, type.id).length;
 
             return type;
           });
@@ -63,9 +63,11 @@ export class SearchResultComponent implements OnInit, OnDestroy {
 
   /**
    * Событие изменения фильтра.
+   *
+   * @param type - выбранный фильтр (экземпляр класса)
    */
-  filterChanged(data) {
-    this.selectedType = data;
+  filterChanged(type: any) {
+    this.selectedType = type;
   }
 
   ngOnDestroy() {

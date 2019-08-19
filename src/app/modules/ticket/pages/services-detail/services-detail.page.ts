@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { finalize, filter, first, map, delay } from 'rxjs/operators';
 
 import { ServiceService } from '@shared/services/service/service.service';
-import { Service } from '@modules/ticket/models/service.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceDetailComponent } from '@modules/ticket/components/service-detail/service-detail.component';
 import { DynamicTemplateContentComponent } from '@modules/ticket/components/dynamic-template-content/dynamic-template-content.component';
 
@@ -54,7 +54,7 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
   /**
    * Создает подписку для раскрытия выбранного вопроса после рендера страницы.
    */
-  openQuestionStream(): void {
+  private openQuestionStream(): void {
     this.questionStream
       .pipe(
         filter((componentArr: []) => componentArr.length !== 0),
@@ -68,7 +68,7 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
   /**
    * Вызывает метод toggleTicket() у компонента для раскрытия вопроса.
    */
-  openSelectedQuestion(componentArr: DynamicTemplateContentComponent[]): void {
+  private openSelectedQuestion(componentArr: DynamicTemplateContentComponent[]): void {
     const selectedComponent = componentArr.find(el => el.data.id == this.ticketId);
 
     selectedComponent.componentRef.instance.toggleTicket();

@@ -10,7 +10,7 @@ import { UserI } from '@interfaces/user.interface';
 import { ItemI } from '@interfaces/item.interface';
 import { CaseService } from '@modules/case/services/case/case.service';
 import { CaseI } from '@interfaces/case.interface';
-import { Service } from '@modules/ticket/models/service.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 
 @Component({
   selector: 'app-common-form',
@@ -159,6 +159,6 @@ export class CommonFormComponent implements OnInit, OnDestroy {
    * Получить данные для отправки на сервер.
    */
   private getRawValue(): CaseI {
-    return this.caseService.getRowValues(this.caseForm.getRawValue());
+    return this.caseService.getRawValues(this.caseForm.getRawValue());
   }
 }

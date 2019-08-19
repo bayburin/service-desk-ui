@@ -1,7 +1,7 @@
 <div class="sd-nav-pills">
   <nav>
     <div class="nav nav-pills">
-      <span *ngFor="let filter of data" (click)="selectFilter(filter.id)" class="nav-item nav-link" [ngClass]="{ active: selectedFilter == filter.id }">
+      <span *ngFor="let filter of data" (click)="selectFilter(filter.id)" class="nav-item nav-link" [ngClass]="{ active: selectedFilterId == filter.id }">
         {{ filter.name }}
         <span class="badge">({{ filter.count || 0 }})</span>
       </span>

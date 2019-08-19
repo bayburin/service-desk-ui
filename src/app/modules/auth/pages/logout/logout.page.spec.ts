@@ -1,6 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { LogoutPageComponent } from './logout.page';
+import { AuthService } from '@auth/auth.service';
+
+class StubAuthService {
+  unauthorize() {}
+}
 
 describe('LogoutPageComponent', () => {
   let component: LogoutPageComponent;
@@ -8,7 +14,9 @@ describe('LogoutPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LogoutPageComponent ]
+      declarations: [LogoutPageComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [{ provide: AuthService, useClass: StubAuthService }]
     })
     .compileComponents();
   }));
@@ -16,10 +24,18 @@ describe('LogoutPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LogoutPageComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
+
     expect(component).toBeTruthy();
   });
+
+  it('should class "unauthorize" method for AuthService', inject([AuthService], (authService: AuthService) => {
+    spyOn(authService, 'unauthorize');
+    fixture.detectChanges();
+
+    expect(authService.unauthorize).toHaveBeenCalled();
+  }));
 });

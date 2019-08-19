@@ -7,7 +7,7 @@ import { APP_CONFIG } from '@config/app.config';
 import { AppConfigI } from '@interfaces/app-config.interface';
 import { NotificationI } from '@interfaces/notification.interface';
 import { environment } from 'environments/environment';
-import { Notify } from '@shared/models/notify';
+import { Notify } from '@shared/models/notify/notify.model';
 import { NotifyFactory } from '@shared/factories/notify.factory';
 
 @Injectable({

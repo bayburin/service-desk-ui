@@ -1,7 +1,7 @@
 <div class="sd-list-item" [ngClass]="{ 'active-item': data.open }" [id]="data.id">
   <div class="sd-list-question">
     <div class="sd-icon-group sd-link text-body" (click)="toggleTicket()">
-      <i *ngIf="!onlyLink" class="mdi mdi-24px" [ngClass]="data.open ? 'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'"></i>
+      <i *ngIf="!standaloneLink" class="mdi mdi-24px" [ngClass]="data.open ? 'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'"></i>
       <span [innerHtml]="data.name"></span>
     </div>
   </div>
@@ -14,10 +14,10 @@
             <div *ngFor="let attachment of answer.attachments">
               <ng-template #filename>{{ attachment.filename }}</ng-template>
               <app-loading [loading]="attachment.loading" size="24px" class="text-secondary"></app-loading>
-              <div *ngIf="!attachment.loading" [ngbTooltip]="filename"><i class="mdi mdi-file-download mdi-24px" (click)="downloadAttachment(attachment)"></i></div>
+              <div id="attachmentFile" *ngIf="!attachment.loading" [ngbTooltip]="filename"><i class="mdi mdi-file-download mdi-24px" (click)="downloadAttachment(attachment)"></i></div>
             </div>
             <div *ngIf="answer.link" ngbTooltip="Перейти по ссылке">
-              <a [href]="answer.link" target="_blank"><i class="mdi mdi-open-in-new mdi-24px"></i></a>
+              <a id="attachmentLink" [href]="answer.link" target="_blank"><i class="mdi mdi-open-in-new mdi-24px"></i></a>
             </div>
           </div>
         </div>

@@ -42,8 +42,8 @@ export class SearchService {
     const params = new HttpParams().set('search', searchValue);
 
     return this.http.get<any>(uri, { params: params }).pipe(
-      map((data) => {
-        const arr = data.map((template) => ServiceTemplateCreator.createBy(template));
+      map(data => {
+        const arr = data.map(template => ServiceTemplateCreator.createBy(template));
 
         return this.searchSortingPipe.transform(arr);
       })

@@ -1,6 +1,8 @@
+import { TicketI } from '@interfaces/ticket.interface';
+import { ServiceI } from '@interfaces/service.interface';
 import { CommonServiceI } from '@interfaces/common-service.interface';
-import { Service } from './service.model';
-import { Ticket } from './ticket/ticket.model';
+import { Service } from '@modules/ticket/models/service/service.model';
+import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 
@@ -21,11 +23,11 @@ export class Category implements CommonServiceI {
     this.iconName = category.icon_name;
 
     if (category.services) {
-      this.services = category.services.map((service) => ServiceFactory.create(service)) || [];
+      this.services = category.services.map((service: ServiceI) => ServiceFactory.create(service)) || [];
     }
 
     if (category.faq) {
-      this.tickets = category.faq.map((ticket) => TicketFactory.create(ticket)) || [];
+      this.tickets = category.faq.map((ticket: TicketI) => TicketFactory.create(ticket)) || [];
     }
   }
 

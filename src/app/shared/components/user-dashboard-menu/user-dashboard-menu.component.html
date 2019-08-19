@@ -4,7 +4,7 @@
       <div class="d-flex align-items-center justify-content-end navbar-expand">
         <ul class="navbar-nav flex-row">
           <li class="nav-item"><a href="https://lk.iss-reshetnev.ru" target="_blank" class="nav-link sd-icon-group"><i class="mdi mdi-account-key mdi-24px"></i>Личный кабинет</a></li>
-          <li class="nav-item"><a routerLink="/logout" class="nav-link sd-icon-group sd-icon-group-append">Выход<i class="mdi mdi-logout mdi-24px"></i></a></li>
+          <li class="nav-item"><a routerLink="/logout" id="logout" class="nav-link sd-icon-group sd-icon-group-append">Выход<i class="mdi mdi-logout mdi-24px"></i></a></li>
         </ul>
       </div>
     </div>
@@ -15,7 +15,7 @@
             <app-loading [loading]="loading.allNotifications" size="48px"></app-loading>
             <div *ngIf="notifications">
               <div class="text-center" *ngIf="notificationCount.value" @notifyAnimation>
-                <button class="btn btn-sm btn-primary" [disabled]="loading.newNotifications" (click)="loadNewNotifications()">
+                <button id="loadNewNotifications" class="btn btn-sm btn-primary" [disabled]="loading.newNotifications" (click)="loadNewNotifications()">
                   <span class="d-flex justify-content-center">
                     <app-loading [loading]="loading.newNotifications" class="mr-1 text-body"></app-loading>
                     Получить новые уведомления
@@ -25,12 +25,12 @@
               <div class="notification-row" *ngFor="let notification of notifications; trackBy: trackByNotification" [@contentBlockAnimation] [@colorAnimation]>
                 <div class="row align-items-center">
                   <div class="col-md-1 text-center"><i class="mdi mdi-24px" [ngClass]="notification.getIconName()"></i></div>
-                  <div class="col-md-9" [innerHtml]="notification.body.message"></div>
+                  <div class="col-md-9" [innerHtml]="notification.message"></div>
                   <div class="col-md-2 text-center">{{ notification.date }}</div>
                 </div>
               </div>
               <div class="d-flex justify-content-center mt-3" *ngIf="notifications.length >= notificationLimit">
-                <span (click)="toggleNotificationLimit(); arrowUp = !arrowUp" class="sd-icon-group sd-link text-dark">
+                <span id="toggleNotificationLimit" (click)="toggleNotificationLimit(); arrowUp = !arrowUp" class="sd-icon-group sd-link text-dark">
                   <i class="mdi mdi-24px" [ngClass]="arrowUp ? 'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'"></i>
                   Смотреть остальные уведомления (не более 100 последних)
                 </span>
