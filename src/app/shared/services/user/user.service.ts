@@ -9,7 +9,7 @@ import { AppConfigI } from '@interfaces/app-config.interface';
 import { environment } from 'environments/environment';
 import { UserOwnsI } from '@interfaces/user-owns.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
-import { User } from 'app/core/models/user/user';
+import { User } from 'app/core/models/user/user.model';
 import { UserFactory } from 'app/core/factories/user.factory';
 
 @Injectable({

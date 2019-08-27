@@ -1,5 +1,5 @@
 import { RoleI } from '@interfaces/role.interface';
-import { User } from './user';
+import { User } from './user.model';
 
 describe('User', () => {
   const userI = { tn: 12_123, dept: 714, fio: 'Форточкина Клавдия Ивановна', role_id: 1 };

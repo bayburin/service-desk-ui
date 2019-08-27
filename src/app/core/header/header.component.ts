@@ -6,7 +6,7 @@ import { UserService } from '@shared/services/user/user.service';
 import { StreamService } from '@shared/services/stream/stream.service';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { userDashboardAnimation } from '@animations/user-dashboard.animation';
-import { User } from 'app/core/models/user/user';
+import { User } from 'app/core/models/user/user.model';
 
 @Component({
   selector: 'app-header',
