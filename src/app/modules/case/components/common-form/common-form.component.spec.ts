@@ -13,8 +13,10 @@ import { UserI } from '@interfaces/user.interface';
 import { ItemI } from '@interfaces/item.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { UserOwnsI } from '@interfaces/user-owns.interface';
+import { User } from 'app/core/models/user/user';
+import { UserFactory } from 'app/core/factories/user.factory';
 
-const user = {
+const userI = {
   id_tn: 12345,
   tn: 100123,
   fio: 'Форточкина Клавдия Ивановна',
@@ -22,6 +24,7 @@ const user = {
   tel: '41-85',
   email: 'test-email'
 } as UserI;
+const user = UserFactory.create(userI);
 const service = ServiceFactory.create({ id: 1, name: 'Тестовый сервис' });
 const item = { item_id: 12, invent_num: '333444', type: { short_description: 'Монитор' }, model: { item_model: 'Asus ABC' } } as ItemI;
 const userOwns: UserOwnsI = {
@@ -30,7 +33,7 @@ const userOwns: UserOwnsI = {
 };
 
 class StubUserService {
-  user = new BehaviorSubject<UserI>(user);
+  user = new BehaviorSubject<User>(user);
 
   loadUserOwns() {
     return of(userOwns);
@@ -96,7 +99,7 @@ describe('CommonFormComponent', () => {
     });
 
     it('should set user attirbutes', () => {
-      expect(form.controls.id_tn.value).toEqual(user.id_tn);
+      expect(form.controls.id_tn.value).toEqual(user.idTn);
       expect(form.controls.user_tn.value).toEqual(user.tn);
       expect(form.controls.fio.value).toEqual(user.fio);
       expect(form.controls.dept.value).toEqual(user.dept);

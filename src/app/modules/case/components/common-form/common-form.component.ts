@@ -6,11 +6,11 @@ import { finalize, takeWhile, map, filter } from 'rxjs/operators';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 
 import { UserService } from '@shared/services/user/user.service';
-import { UserI } from '@interfaces/user.interface';
 import { ItemI } from '@interfaces/item.interface';
 import { CaseService } from '@modules/case/services/case/case.service';
 import { CaseI } from '@interfaces/case.interface';
 import { Service } from '@modules/ticket/models/service/service.model';
+import { User } from 'app/core/models/user/user';
 
 @Component({
   selector: 'app-common-form',
@@ -22,7 +22,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
   @Input() formType: 'new' | 'edit';
   @Output() caseSaved = new EventEmitter();
   caseForm: FormGroup;
-  user: UserI;
+  user: User;
   loading = {
   params: false,
     form: false
@@ -54,9 +54,9 @@ export class CommonFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadParameters();
-    this.userService.user.subscribe((data: UserI) => this.user = data);
+    this.userService.user.subscribe((user: User) => this.user = user);
     this.caseForm = this.formBuilder.group({
-      id_tn: [this.user.id_tn],
+      id_tn: [this.user.idTn],
       user_tn: [{ value: this.user.tn, disabled: true }],
       fio: [{ value: this.user.fio, disabled: true }],
       dept: [{ value: this.user.dept, disabled: true }],

@@ -7,7 +7,7 @@ import { ServiceI } from '@interfaces/service.interface';
 import { UserOwnsI } from '@interfaces/user-owns.interface';
 import { UserService } from './user.service';
 import { AppConfig, APP_CONFIG } from '@config/app.config';
-import { UserI } from '@interfaces/user.interface';
+import { UserFactory } from 'app/core/factories/user.factory';
 
 describe('UserService', () => {
   let httpTestingController: HttpTestingController;
@@ -33,11 +33,25 @@ describe('UserService', () => {
 
   describe('#loadUserInfo', () => {
     const loadUserInfo = `${environment.serverUrl}/api/v1/users/info`;
-    const expectedUserInfo = { tn: 12345, fio: 'Test User' } as UserI;
+    const expectedUserInfo = { tn: 12345, fio: 'Test User' };
+    const expectedUser = UserFactory.create(expectedUserInfo);
 
-    it('should return Observable with UserI data', () => {
+    it('should return Observable with User data', () => {
       userService.loadUserInfo().subscribe(userInfo => {
-        expect(userInfo).toEqual(expectedUserInfo);
+        expect(userInfo).toEqual(expectedUser);
+      });
+
+      httpTestingController.expectOne({
+        method: 'GET',
+        url: loadUserInfo
+      }).flush(expectedUserInfo);
+    });
+
+    it('should call "setUser" method with User data', () => {
+      spyOn(userService, 'setUser');
+
+      userService.loadUserInfo().subscribe(() => {
+        expect(userService.setUser).toHaveBeenCalledWith(expectedUser);
       });
 
       httpTestingController.expectOne({
@@ -88,11 +102,12 @@ describe('UserService', () => {
   });
 
   describe('#setUser', () => {
-    const user = { tn: 12345, fio: 'test user' } as UserI;
+    const userI = { tn: 12345, fio: 'test user' };
+    const user = UserFactory.create(userI);
 
     it('should save user in localStorage', () => {
       userService.setUser(user);
-      expect(localStorage.getItem('currentUser')).toEqual(JSON.stringify(user));
+      expect(localStorage.getItem('currentUser')).toEqual(JSON.stringify(userI));
     });
 
     it('should emit user data to user subject', () => {
@@ -105,7 +120,7 @@ describe('UserService', () => {
   });
 
   describe('#clearUser', () => {
-    const user = { tn: 12345, fio: 'test user' } as UserI;
+    const user = UserFactory.create({ tn: 12345, fio: 'test user' });
 
     it('should remove user data from localStorage', () => {
       userService.setUser(user);

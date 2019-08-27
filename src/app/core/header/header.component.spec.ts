@@ -9,12 +9,15 @@ import { NotificationService } from '@shared/services/notification/notification.
 import { StreamService } from '@shared/services/stream/stream.service';
 import { UserI } from '@interfaces/user.interface';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { User } from 'app/core/models/user/user';
+import { UserFactory } from 'app/core/factories/user.factory';
 
-const user = {
+const userI = {
   tn: 12345,
   dept: 714,
   fio: 'Форточкина Клавдия Ивановна',
 } as UserI;
+const user: User = UserFactory.create(userI);
 
 class StubUserService {
   user = of(user);
