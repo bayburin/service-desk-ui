@@ -28,4 +28,15 @@ describe('User', () => {
       expect(user.hasRole('admin')).toBeTruthy();
     });
   });
+
+  describe('#hasOneOfRoles', () => {
+    const role: RoleI = { id: 1, name: 'admin', short_description: 'Администратор', long_description: '' };
+
+    it('should return true user role is in array', () => {
+      user.role = role;
+
+      expect(user.hasOneOfRoles(['admin', 'guest'])).toBeTruthy();
+      expect(user.hasOneOfRoles(['guest'])).toBeFalsy();
+    });
+  });
 });

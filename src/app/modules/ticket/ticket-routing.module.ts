@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from '@guards/auth/auth.guard';
+import { ResponsibleGuard } from '@guards/responsible/responsible.guard';
 import { DashboardPageComponent } from './pages/dashboard/dashboard.page';
 import { CategoriesPageComponent } from './pages/categories/categories.page';
 import { CategoriesOverviewPageComponent } from './pages/categories-overwiev/categories-overview.page';
@@ -48,7 +49,8 @@ const routes: Routes = [
         children: [
           {
             path: 'admin',
-            loadChildren: './admin/admin-ticket.module#AdminTicketModule'
+            loadChildren: './admin/admin-ticket.module#AdminTicketModule',
+            canLoad: [ResponsibleGuard]
           }
         ]
       }

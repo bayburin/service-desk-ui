@@ -64,4 +64,8 @@ export class User {
   hasRole(name: string): boolean {
     return this.role.name === name;
   }
+
+  hasOneOfRoles(names: string[]): boolean {
+    return names.includes(this.role.name);
+  }
 }
