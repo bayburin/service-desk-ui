@@ -44,7 +44,13 @@ const routes: Routes = [
       {
         path: 'services/:id',
         component: ServicesDetailPageComponent,
-        data: { breadcrumb: ServiceService }
+        data: { breadcrumb: ServiceService },
+        children: [
+          {
+            path: 'admin',
+            loadChildren: './admin/admin-ticket.module#AdminTicketModule'
+          }
+        ]
       }
     ]
   },
