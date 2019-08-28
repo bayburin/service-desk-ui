@@ -5,6 +5,7 @@ import { AbstractTicketState } from './ticket_states/abstract_ticket_state';
 import { QuestionState } from './ticket_states/question_state';
 import { CaseState } from './ticket_states/case_state';
 import { AnswerI } from '@interfaces/answer.interface';
+import { ResponsibleUserI } from '@interfaces/responsible_user.interface';
 
 export class Ticket implements CommonServiceI {
   id: number;
@@ -17,20 +18,22 @@ export class Ticket implements CommonServiceI {
   service: Service;
   open: boolean;
   answers: AnswerI[];
+  responsibleUsers: ResponsibleUserI[];
   private state: AbstractTicketState;
 
   constructor(ticket: any = {}) {
-    this.id = ticket.id || null;
-    this.serviceId = ticket.service_id || null;
-    this.name = ticket.name || '';
-    this.ticketType = ticket.ticket_type || '';
+    this.id = ticket.id;
+    this.serviceId = ticket.service_id;
+    this.name = ticket.name;
+    this.ticketType = ticket.ticket_type;
     this.isHidden = ticket.is_hidden;
-    this.sla = ticket.sla || 0;
-    this.popularity = ticket.popularity || 0;
+    this.sla = ticket.sla;
+    this.popularity = ticket.popularity;
     this.answers = ticket.answers || [];
+    this.responsibleUsers = ticket.responsible_users || [];
 
     if (ticket.service) {
-      this.service = ServiceFactory.create(ticket.service) || null;
+      this.service = ServiceFactory.create(ticket.service);
     }
 
     this.createState();

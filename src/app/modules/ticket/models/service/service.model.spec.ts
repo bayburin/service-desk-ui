@@ -1,3 +1,4 @@
+import { ResponsibleUserI } from '@interfaces/responsible_user.interface';
 import { Category } from '@modules/ticket/models/category/category.model';
 import { CategoryI } from '@interfaces/category.interface';
 import { Service } from './service.model';
@@ -17,6 +18,12 @@ describe('Service', () => {
     id: 3,
     name: 'Тестовая категория'
   } as CategoryI;
+  const reponsibleUserI = {
+    id: 1,
+    tn: 123,
+    responseable_type: 'Service',
+    responseable_id: 1
+  } as ResponsibleUserI;
 
   beforeEach(() => {
     serviceI = {
@@ -28,7 +35,8 @@ describe('Service', () => {
       is_sla: true,
       popularity: 23,
       tickets: [ticketI],
-      category: categoryI
+      category: categoryI,
+      responsible_users: [reponsibleUserI]
     } as ServiceI;
   });
 
@@ -47,6 +55,7 @@ describe('Service', () => {
       expect(service.install).toEqual(serviceI.install);
       expect(service.isSla).toEqual(serviceI.is_sla);
       expect(service.popularity).toEqual(serviceI.popularity);
+      expect(service.responsibleUsers).toEqual([reponsibleUserI]);
     });
 
     it('should create instances of nested tickets', () => {

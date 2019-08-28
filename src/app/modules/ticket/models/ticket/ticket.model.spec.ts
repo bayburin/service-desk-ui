@@ -1,3 +1,4 @@
+import { ResponsibleUserI } from '@interfaces/responsible_user.interface';
 import { QuestionState } from './ticket_states/question_state';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { Ticket } from './ticket.model';
@@ -8,13 +9,21 @@ import { CaseState } from './ticket_states/case_state';
 describe('Ticket', () => {
   let serviceI: ServiceI;
   let ticketI: TicketI;
+  let responsibleUserI;
   let ticket: Ticket;
 
   beforeEach(() => {
+    responsibleUserI = {
+      id: 1,
+      tn: 123,
+      responseable_type: 'Service',
+      responseable_id: 1
+    } as ResponsibleUserI;
     serviceI = {
       id: 2,
       name: 'Тестовая услуга',
-      category_id: 3
+      category_id: 3,
+      responsible_users: [responsibleUserI]
     } as ServiceI;
     ticketI = {
       id: 1,
@@ -24,7 +33,8 @@ describe('Ticket', () => {
       is_hidden: false,
       sla: 2,
       popularity: 34,
-      service: serviceI
+      service: serviceI,
+      responsible_users: [responsibleUserI]
     };
   });
 
@@ -49,6 +59,7 @@ describe('Ticket', () => {
       expect(ticket.isHidden).toEqual(ticketI.is_hidden);
       expect(ticket.sla).toEqual(ticketI.sla);
       expect(ticket.popularity).toEqual(ticketI.popularity);
+      expect(ticket.responsibleUsers).toEqual([responsibleUserI]);
     });
 
     it('should create QuestionState if ticket_type is equal "question"', () => {
