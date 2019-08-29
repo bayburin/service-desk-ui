@@ -9,8 +9,8 @@ import { AppConfigI } from '@interfaces/app-config.interface';
 import { environment } from 'environments/environment';
 import { UserOwnsI } from '@interfaces/user-owns.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
-import { User } from 'app/core/models/user/user.model';
-import { UserFactory } from 'app/core/factories/user.factory';
+import { User } from '@shared/models/user/user.model';
+import { UserFactory } from '@shared/factories/user.factory';
 
 @Injectable({
   providedIn: 'root'

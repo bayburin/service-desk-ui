@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { UserService } from '@shared/services/user/user.service';
-import { User } from 'app/core/models/user/user.model';
+import { User } from '@shared/models/user/user.model';
 
 @Injectable({
   providedIn: 'root'

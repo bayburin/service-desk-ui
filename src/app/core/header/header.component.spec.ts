@@ -9,8 +9,8 @@ import { NotificationService } from '@shared/services/notification/notification.
 import { StreamService } from '@shared/services/stream/stream.service';
 import { UserI } from '@interfaces/user.interface';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { User } from 'app/core/models/user/user.model';
-import { UserFactory } from 'app/core/factories/user.factory';
+import { User } from '@shared/models/user/user.model';
+import { UserFactory } from '@shared/factories/user.factory';
 
 const userI = {
   tn: 12345,

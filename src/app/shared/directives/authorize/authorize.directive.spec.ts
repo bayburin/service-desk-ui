@@ -3,13 +3,13 @@ import { Component, TemplateRef, ViewContainerRef } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BehaviorSubject } from 'rxjs';
 
-import { UserFactory } from 'app/core/factories/user.factory';
+import { UserFactory } from '@shared/factories/user.factory';
 import { ServicePolicy } from '@shared/policies/service/service.policy';
 import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
 import { AuthorizeDirective } from './authorize.directive';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { UserService } from '@shared/services/user/user.service';
-import { User } from 'app/core/models/user/user.model';
+import { User } from '@shared/models/user/user.model';
 
 @Component({
   template: `<div *appAuthorize="[service, 'newService']">Тестовый компонент</div>`

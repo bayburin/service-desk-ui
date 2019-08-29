@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { User } from 'app/core/models/user/user.model';
+import { User } from '@shared/models/user/user.model';
 import { UserService } from '@shared/services/user/user.service';
 
 @Injectable({

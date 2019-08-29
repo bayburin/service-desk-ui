@@ -7,7 +7,7 @@ import { ServiceI } from '@interfaces/service.interface';
 import { UserOwnsI } from '@interfaces/user-owns.interface';
 import { UserService } from './user.service';
 import { AppConfig, APP_CONFIG } from '@config/app.config';
-import { UserFactory } from 'app/core/factories/user.factory';
+import { UserFactory } from '@shared/factories/user.factory';
 
 describe('UserService', () => {
   let httpTestingController: HttpTestingController;

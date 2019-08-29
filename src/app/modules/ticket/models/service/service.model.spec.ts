@@ -1,4 +1,4 @@
-import { UserFactory } from 'app/core/factories/user.factory';
+import { UserFactory } from '@shared/factories/user.factory';
 import { ResponsibleUserI } from '@interfaces/responsible_user.interface';
 import { Category } from '@modules/ticket/models/category/category.model';
 import { CategoryI } from '@interfaces/category.interface';

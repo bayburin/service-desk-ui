@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
 
-import { UserFactory } from 'app/core/factories/user.factory';
+import { UserFactory } from '@shared/factories/user.factory';
 import { UserService } from '@shared/services/user/user.service';
-import { User } from 'app/core/models/user/user.model';
+import { User } from '@shared/models/user/user.model';
 import { ApplicationPolicy } from './application.policy';
 
 const user = UserFactory.create({ tn: 17_664 });

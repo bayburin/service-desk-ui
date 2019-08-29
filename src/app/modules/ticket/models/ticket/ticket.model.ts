@@ -1,4 +1,4 @@
-import { User } from 'app/core/models/user/user.model';
+import { User } from '@shared/models/user/user.model';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { CommonServiceI } from '@interfaces/common-service.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';

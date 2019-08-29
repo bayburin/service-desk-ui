@@ -4,7 +4,7 @@ import { CommonServiceI } from '@interfaces/common-service.interface';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { ResponsibleUserI } from '@interfaces/responsible_user.interface';
-import { User } from 'app/core/models/user/user.model';
+import { User } from '@shared/models/user/user.model';
 
 export class Service implements CommonServiceI {
   id: number;

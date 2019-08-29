@@ -5,7 +5,7 @@ import { Ticket } from './ticket.model';
 import { ServiceI } from '@interfaces/service.interface';
 import { TicketI } from '@interfaces/ticket.interface';
 import { CaseState } from './ticket_states/case_state';
-import { UserFactory } from 'app/core/factories/user.factory';
+import { UserFactory } from '@shared/factories/user.factory';
 
 describe('Ticket', () => {
   let serviceI: ServiceI;

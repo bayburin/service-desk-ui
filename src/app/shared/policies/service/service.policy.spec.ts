@@ -5,8 +5,8 @@ import { ServicePolicy } from './service.policy';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { UserService } from '@shared/services/user/user.service';
-import { UserFactory } from 'app/core/factories/user.factory';
-import { User } from 'app/core/models/user/user.model';
+import { UserFactory } from '@shared/factories/user.factory';
+import { User } from '@shared/models/user/user.model';
 
 const user = UserFactory.create({ tn: 123, role: { name: 'service_responsible' } });
 

@@ -13,8 +13,8 @@ import { UserI } from '@interfaces/user.interface';
 import { ItemI } from '@interfaces/item.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { UserOwnsI } from '@interfaces/user-owns.interface';
-import { User } from 'app/core/models/user/user.model';
-import { UserFactory } from 'app/core/factories/user.factory';
+import { User } from '@shared/models/user/user.model';
+import { UserFactory } from '@shared/factories/user.factory';
 
 const userI = {
   id_tn: 12345,

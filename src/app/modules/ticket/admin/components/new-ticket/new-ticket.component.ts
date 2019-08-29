@@ -6,10 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new-ticket.component.sass']
 })
 export class NewTicketComponent implements OnInit {
-
   constructor() { }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
