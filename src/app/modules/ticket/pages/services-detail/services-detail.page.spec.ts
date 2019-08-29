@@ -12,10 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ServiceDetailComponent } from '@modules/ticket/components/service-detail/service-detail.component';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { TicketI } from '@interfaces/ticket.interface';
-
-class StubServiceService {
-  loadService() {}
-}
+import { StubServiceService } from '@shared/services/service/service.service.stub';
 
 @Directive({
   selector: '[appAuthorize]'

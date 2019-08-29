@@ -6,10 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { SearchPageComponent } from './search.page';
 import { SearchService } from '@modules/ticket/services/search/search.service';
-
-class StubSearchService {
-  deepSearch() { }
-}
+import { StubSearchService } from '@modules/ticket/services/search/search.service.stub';
 
 describe('SearchComponent', () => {
   let component: SearchPageComponent;

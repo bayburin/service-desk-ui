@@ -3,10 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { LogoutPageComponent } from './logout.page';
 import { AuthService } from '@auth/auth.service';
-
-class StubAuthService {
-  unauthorize() {}
-}
+import { StubAuthService } from '@auth/auth.service.stub';
 
 describe('LogoutPageComponent', () => {
   let component: LogoutPageComponent;

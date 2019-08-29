@@ -7,25 +7,9 @@ import { HeaderComponent } from './header.component';
 import { UserService } from '@shared/services/user/user.service';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { StreamService } from '@shared/services/stream/stream.service';
-import { UserI } from '@interfaces/user.interface';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { User } from '@shared/models/user/user.model';
-import { UserFactory } from '@shared/factories/user.factory';
-
-const userI = {
-  tn: 12345,
-  dept: 714,
-  fio: 'Форточкина Клавдия Ивановна',
-} as UserI;
-const user: User = UserFactory.create(userI);
-
-class StubUserService {
-  user = of(user);
-}
-
-class StubNotificationService {
-  notificationCount = { value: 0 };
-}
+import { StubUserService, user } from '@shared/services/user/user.service.stub';
+import { StubNotificationService } from '@shared/services/notification/notification.service.stub';
 
 class StubStreamService {
   channelServer = {

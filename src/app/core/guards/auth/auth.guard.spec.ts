@@ -1,18 +1,10 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { BehaviorSubject } from 'rxjs';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { AuthGuard } from './auth.guard';
 import { AuthService } from '@auth/auth.service';
 import { TicketModule } from '@modules/ticket/ticket.module';
-
-class StubAuthService {
-  isLoggedInSub = new BehaviorSubject<boolean>(false);
-  isUserSignedIn = this.isLoggedInSub.asObservable();
-
-  setReturnUrl() {}
-  authorize() {}
-}
+import { StubAuthService } from '@auth/auth.service.stub';
 
 describe('AuthGuard', () => {
   let authService: AuthService;

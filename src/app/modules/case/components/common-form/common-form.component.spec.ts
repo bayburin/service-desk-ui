@@ -4,49 +4,23 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-import { of, BehaviorSubject } from 'rxjs';
+import { of } from 'rxjs';
 
 import { CommonFormComponent } from './common-form.component';
 import { UserService } from '@shared/services/user/user.service';
 import { CaseService } from '@modules/case/services/case/case.service';
-import { UserI } from '@interfaces/user.interface';
 import { ItemI } from '@interfaces/item.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { UserOwnsI } from '@interfaces/user-owns.interface';
-import { User } from '@shared/models/user/user.model';
-import { UserFactory } from '@shared/factories/user.factory';
+import { StubUserService, user } from '@shared/services/user/user.service.stub';
+import { StubCaseService } from '@modules/case/services/case/case.service.stub';
 
-const userI = {
-  id_tn: 12345,
-  tn: 100123,
-  fio: 'Форточкина Клавдия Ивановна',
-  dept: 714,
-  tel: '41-85',
-  email: 'test-email'
-} as UserI;
-const user = UserFactory.create(userI);
 const service = ServiceFactory.create({ id: 1, name: 'Тестовый сервис' });
 const item = { item_id: 12, invent_num: '333444', type: { short_description: 'Монитор' }, model: { item_model: 'Asus ABC' } } as ItemI;
 const userOwns: UserOwnsI = {
   services: [service],
   items: [item]
 };
-
-class StubUserService {
-  user = new BehaviorSubject<User>(user);
-
-  loadUserOwns() {
-    return of(userOwns);
-  }
-}
-
-class StubCaseService {
-  createCase() {
-    return of({});
-  }
-
-  getRawValues() {}
-}
 
 describe('CommonFormComponent', () => {
   let component: CommonFormComponent;
@@ -72,13 +46,13 @@ describe('CommonFormComponent', () => {
     fixture = TestBed.createComponent(CommonFormComponent);
     component = fixture.componentInstance;
     component.formType = 'new';
+    userService = TestBed.get(UserService);
+    spyOn(userService, 'loadUserOwns').and.returnValue(of(userOwns));
   });
 
 // Unit ====================================================================================================================================
 
   it('should load user owns', () => {
-    userService = TestBed.get(UserService);
-    spyOn(userService, 'loadUserOwns').and.callThrough();
     fixture.detectChanges();
 
     expect(userService.loadUserOwns).toHaveBeenCalled();

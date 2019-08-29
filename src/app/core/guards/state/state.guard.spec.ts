@@ -4,10 +4,7 @@ import { RouterStateSnapshot, ActivatedRouteSnapshot, Router } from '@angular/ro
 
 import { StateGuard } from './state.guard';
 import { AuthService } from '@auth/auth.service';
-
-class StubAuthService {
-  isValidState() {}
-}
+import { StubAuthService } from '@auth/auth.service.stub';
 
 describe('StateGuard', () => {
   let authService: AuthService;

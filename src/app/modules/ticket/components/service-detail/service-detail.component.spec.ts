@@ -3,33 +3,13 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
 
 import { ServiceDetailComponent } from './service-detail.component';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { TicketI } from '@interfaces/ticket.interface';
-import { UserFactory } from '@shared/factories/user.factory';
-import { User } from '@shared/models/user/user.model';
-import { RoleI } from '@interfaces/role.interface';
 import { UserService } from '@shared/services/user/user.service';
 import { AuthorizeDirective } from '@shared/directives/authorize/authorize.directive';
-
-const role = {
-  id: 1,
-  name: 'content_manager'
-} as RoleI;
-const UserI = {
-  tn: 12_123,
-  fio: 'Форточкина Клавдия Ивановна',
-  dept: 714,
-  role_id: 1,
-  role: role
-};
-const user = UserFactory.create(UserI);
-
-class StubUserService {
-  user = new BehaviorSubject<User>(user);
-}
+import { StubUserService, roleI, user } from '@shared/services/user/user.service.stub';
 
 describe('ServiceDetailComponent', () => {
   let component: ServiceDetailComponent;
@@ -60,22 +40,32 @@ describe('ServiceDetailComponent', () => {
     fixture = TestBed.createComponent(ServiceDetailComponent);
     component = fixture.componentInstance;
     component.service = service;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
+
     expect(component).toBeTruthy();
   });
 
   it('should show app-section-header component', () => {
+    fixture.detectChanges();
+
     expect(fixture.debugElement.nativeElement.querySelector('app-section-header')).toBeTruthy();
   });
 
   it('should show app-dynamic-template-content component', () => {
+    fixture.detectChanges();
+
     expect(fixture.debugElement.nativeElement.querySelectorAll('app-dynamic-template-content').length).toEqual(tickets.length);
   });
 
   describe('when user has admin role or responsible for this service', () => {
+    beforeEach(() => {
+      user.role.name = 'content_manager';
+      fixture.detectChanges();
+    });
+
     it('should redirect to form to create a new question', inject([Router], (router: Router) => {
       const spy = spyOn(router, 'navigateByUrl');
       fixture.debugElement.nativeElement.querySelector('#newQuestion').click();

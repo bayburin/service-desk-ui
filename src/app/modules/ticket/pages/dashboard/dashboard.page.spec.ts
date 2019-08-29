@@ -12,10 +12,7 @@ import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { TicketI } from '@interfaces/ticket.interface';
 import { UserRecommendationI } from '@interfaces/user_recommendation.interface';
-
-class StubDashboardService {
-  loadAll() { return of(''); }
-}
+import { StubDashboardService } from '@modules/ticket/services/dashboard/dashboard.service.stub';
 
 describe('DashboardComponent', () => {
   let component: DashboardPageComponent;

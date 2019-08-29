@@ -9,11 +9,7 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { AnswerAttachmentI } from '@interfaces/answer_attachment.interface';
 import { AnswerI } from '@interfaces/answer.interface';
-
-class StubTicketService {
-  raiseRating() { return of(''); }
-  downloadAttachmentFromAnswer() { return of(''); }
-}
+import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
 
 describe('QuestionPageContentComponent', () => {
   let component: QuestionPageContentComponent;
@@ -55,7 +51,7 @@ describe('QuestionPageContentComponent', () => {
   });
 
   it('should call "raiseRating" method for TicketService if "ratingStream" emitted', () => {
-    spyOn(ticketService, 'raiseRating').and.returnValue(of(''));
+    spyOn(ticketService, 'raiseRating').and.callThrough();
     component.ratingStream.subscribe(() => {
       expect(ticketService.raiseRating).toHaveBeenCalledWith(ticket);
     });

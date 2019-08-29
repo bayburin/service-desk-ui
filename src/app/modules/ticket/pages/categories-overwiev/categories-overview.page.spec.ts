@@ -4,10 +4,7 @@ import { of } from 'rxjs';
 
 import { CategoriesOverviewPageComponent } from './categories-overview.page';
 import { CategoryService } from '@shared/services/category/category.service';
-
-class StubCategoryService {
-  loadCategories() {}
-}
+import { StubCategoryService } from '@shared/services/category/category.service.stub';
 
 describe('CategoriesOverwievComponent', () => {
   let component: CategoriesOverviewPageComponent;

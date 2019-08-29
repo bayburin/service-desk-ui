@@ -6,14 +6,7 @@ import { CaseCardComponent } from './case-card.component';
 import { CaseService } from '@modules/case/services/case/case.service';
 import { CaseI } from '@interfaces/case.interface';
 import { of } from 'rxjs';
-
-class StubCaseService {
-  revokeCase() {}
-  voteCase() {
-    return of({});
-  }
-  isClosed() {}
-}
+import { StubCaseService } from '@modules/case/services/case/case.service.stub';
 
 describe('CaseCardComponent', () => {
   let component: CaseCardComponent;
@@ -26,9 +19,7 @@ describe('CaseCardComponent', () => {
       imports: [NgbModule],
       declarations: [CaseCardComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [
-        { provide: CaseService, useClass: StubCaseService }
-      ]
+      providers: [{ provide: CaseService, useClass: StubCaseService }]
     })
     .compileComponents();
   }));

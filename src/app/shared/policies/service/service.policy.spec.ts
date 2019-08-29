@@ -1,18 +1,10 @@
-import { BehaviorSubject } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 
 import { ServicePolicy } from './service.policy';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { UserService } from '@shared/services/user/user.service';
-import { UserFactory } from '@shared/factories/user.factory';
-import { User } from '@shared/models/user/user.model';
-
-const user = UserFactory.create({ tn: 123, role: { name: 'service_responsible' } });
-
-class StubUserService {
-  user = new BehaviorSubject<User>(user);
-}
+import { StubUserService, user } from '@shared/services/user/user.service.stub';
 
 describe('ServicePolicy', () => {
   let servicePolicy: ServicePolicy;
@@ -27,8 +19,8 @@ describe('ServicePolicy', () => {
       providers: [{ provide: UserService, useClass: StubUserService }]
     });
 
-    ticketResponsible = { tn: 123 };
-    serviceResponsible = { tn: 123 };
+    ticketResponsible = { tn: user.tn };
+    serviceResponsible = { tn: user.tn };
     ticketI = { name: 'Тестовый вопрос', ticket_type: 'question', responsible_users: [ticketResponsible] };
     serviceI = { name: 'Тестовая услуга', is_hidden: false, tickets: [ticketI], responsible_users: [serviceResponsible] };
 
@@ -39,6 +31,8 @@ describe('ServicePolicy', () => {
 
   describe('#newTicket', () => {
     describe('when user has "service_responsible" role', () => {
+      beforeEach(() => { user.role.name = 'service_responsible'; });
+
       describe('and when service belongs to user', () => {
         it('should grant access', () => {
           expect(servicePolicy.newTicket()).toBeTruthy();
@@ -71,9 +65,7 @@ describe('ServicePolicy', () => {
     });
 
     describe('when user has another role', () => {
-      beforeEach(() => {
-        user.role.name = 'guest';
-      });
+      beforeEach(() => { user.role.name = 'guest'; });
 
       it('should deny access', () => {
         expect(servicePolicy.newTicket()).toBeFalsy();

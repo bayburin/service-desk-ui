@@ -1,33 +1,21 @@
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { Component, TemplateRef, ViewContainerRef } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { BehaviorSubject } from 'rxjs';
 
-import { UserFactory } from '@shared/factories/user.factory';
 import { ServicePolicy } from '@shared/policies/service/service.policy';
 import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
 import { AuthorizeDirective } from './authorize.directive';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { UserService } from '@shared/services/user/user.service';
-import { User } from '@shared/models/user/user.model';
+import { StubUserService } from '@shared/services/user/user.service.stub';
+import { StubTicketPolicy } from '@shared/policies/ticket/ticket.policy.stub';
+import { StubServicePolicy } from '@shared/policies/service/service.policy.stub';
 
 @Component({
   template: `<div *appAuthorize="[service, 'newService']">Тестовый компонент</div>`
 })
-export class TestContainerComponent {
+class TestContainerComponent {
   service = ServiceFactory.create({ id: 1, name: 'Тестовый сервис', user_responsibles: [{ tn: 17_664 }] });
-}
-
-class StubUserService {
-  user = new BehaviorSubject<User>(UserFactory.create({ tn: 17_664 }));
-}
-
-class StubTicketPolicy {
-  authorize() {}
-}
-
-class StubServicePolicy {
-  authorize() {}
 }
 
 describe('AuthorizeDirective', () => {

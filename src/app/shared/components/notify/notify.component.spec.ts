@@ -9,16 +9,10 @@ import { NotifyComponent } from './notify.component';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { StreamService } from '@shared/services/stream/stream.service';
 import { NotifyFactory } from '@shared/factories/notify.factory';
+import { StubNotificationService } from '@shared/services/notification/notification.service.stub';
 
 const notifyI = { id: 1, tn: 1234, body: { message: 'Заявка отклонена' }, event_type: 'case' };
 const notify = NotifyFactory.create(notifyI);
-
-class StubNotificationService {
-  notifications = [];
-  notify = (notification) => {
-    this.notifications.push(notification);
-  }
-}
 
 class StubStreamService {
   channelServer = {
@@ -44,7 +38,6 @@ describe('NotifyComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: NotificationService, useClass: StubNotificationService },
-        // StreamService,
         { provide: StreamService, useClass: StubStreamService }
       ]
     })
@@ -57,7 +50,9 @@ describe('NotifyComponent', () => {
 
     notifyService = TestBed.get(NotificationService);
     streamService = TestBed.get(StreamService);
-    // spyOn(streamService.channel)
+    spyOn(notifyService, 'notify').and.callFake((notification) => {
+      notifyService.notifications.push(notification);
+    });
   });
 
 // Unit ====================================================================================================================================
@@ -82,10 +77,8 @@ describe('NotifyComponent', () => {
   });
 
   it('should call "notify" method with Notify class for NotificationService if occured notification', () => {
-    const spy = spyOn(notifyService, 'notify');
-
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledWith(notify);
+    expect(notifyService.notify).toHaveBeenCalledWith(notify);
   });
 
   it('should unsubscribe from channel if component destroyed', () => {

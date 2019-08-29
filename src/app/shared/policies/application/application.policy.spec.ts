@@ -1,16 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject } from 'rxjs';
 
-import { UserFactory } from '@shared/factories/user.factory';
 import { UserService } from '@shared/services/user/user.service';
-import { User } from '@shared/models/user/user.model';
 import { ApplicationPolicy } from './application.policy';
-
-const user = UserFactory.create({ tn: 17_664 });
-
-class StubUserService {
-  user = new BehaviorSubject<User>(user);
-}
+import { StubUserService, user } from '@shared/services/user/user.service.stub';
 
 class TestPolicy extends ApplicationPolicy {
   testMethod() {}

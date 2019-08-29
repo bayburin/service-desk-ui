@@ -5,10 +5,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ServicesOverwievPageComponent } from './services-overwiev.page';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { ServiceService } from '@shared/services/service/service.service';
-
-class StubServiceService {
-  loadServices() {}
-}
+import { StubServiceService } from '@shared/services/service/service.service.stub';
 
 describe('ServicesOverwievPageComponent', () => {
   let component: ServicesOverwievPageComponent;

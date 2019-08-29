@@ -1,28 +1,8 @@
-import { BehaviorSubject } from 'rxjs';
 import { TestBed, inject } from '@angular/core/testing';
 
 import { ResponsibleGuard } from './responsible.guard';
-import { User } from '@shared/models/user/user.model';
-import { UserFactory } from '@shared/factories/user.factory';
 import { UserService } from '@shared/services/user/user.service';
-import { RoleI } from '@interfaces/role.interface';
-
-const role = {
-  id: 1,
-  name: 'admin'
-} as RoleI;
-const UserI = {
-  tn: 12_123,
-  fio: 'Форточкина Клавдия Ивановна',
-  dept: 714,
-  role_id: 1,
-  role: role
-};
-const user = UserFactory.create({ role: { name: 'admin' } });
-
-class StubUserService {
-  user = new BehaviorSubject<User>(user);
-}
+import { StubUserService, user } from '@shared/services/user/user.service.stub';
 
 describe('ResponsibleGuard', () => {
   beforeEach(() => {
