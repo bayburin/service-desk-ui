@@ -4,6 +4,7 @@ import { CommonServiceI } from '@interfaces/common-service.interface';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { ResponsibleUserI } from '@interfaces/responsible_user.interface';
+import { User } from 'app/core/models/user/user.model';
 
 export class Service implements CommonServiceI {
   id: number;
@@ -11,7 +12,8 @@ export class Service implements CommonServiceI {
   name: string;
   shortDescription: string;
   install: string;
-  isSla: boolean;
+  isHidden: boolean;
+  hasCommonCase: boolean;
   popularity: number;
   questionLimit: number;
   category: Category;
@@ -24,7 +26,8 @@ export class Service implements CommonServiceI {
     this.name = service.name;
     this.shortDescription = service.short_description;
     this.install = service.install;
-    this.isSla = service.is_sla;
+    this.isHidden = service.is_hidden;
+    this.hasCommonCase = service.has_common_case;
     this.popularity = service.popularity;
     this.responsibleUsers = service.responsible_users || [];
 
@@ -43,5 +46,25 @@ export class Service implements CommonServiceI {
 
   pageComponent(): string {
     return 'app-service-page-content';
+  }
+
+  /**
+   * Проверяет, есть ли указанный пользователь в списке ответственных за услугу.
+   *
+   * @param user - пользователь
+   */
+  isBelongsTo(user: User): boolean {
+    return this.responsibleUsers.some(responsible => {
+      return responsible.tn === user.tn;
+    });
+  }
+
+  /**
+   * Проверяет, есть ли указанный пользователь в списке ответственных во вложенных tickets.
+   *
+   * @param user - пользователь
+   */
+  isBelongsByTicketTo(user: User): boolean {
+    return this.tickets.some(ticket => ticket.isBelongsTo(user));
   }
 }

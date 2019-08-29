@@ -1,9 +1,11 @@
+import { Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA, NgModule } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { AuthorizeDirective } from '@shared/directives/authorize/authorize.directive';
 import { ServicesDetailPageComponent } from './services-detail.page';
 import { ServiceService } from '@shared/services/service/service.service';
 import { ActivatedRoute } from '@angular/router';
@@ -13,6 +15,13 @@ import { TicketI } from '@interfaces/ticket.interface';
 
 class StubServiceService {
   loadService() {}
+}
+
+@Directive({
+  selector: '[appAuthorize]'
+})
+class StubAuthorizeDirective extends AuthorizeDirective {
+  @Input() set appAuthorize(policyData: [any, string]) {}
 }
 
 describe('ServicesDetailPageComponent', () => {
@@ -43,7 +52,7 @@ describe('ServicesDetailPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, NoopAnimationsModule],
-      declarations: [ServicesDetailPageComponent, ServiceDetailComponent],
+      declarations: [ServicesDetailPageComponent, ServiceDetailComponent, StubAuthorizeDirective],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },

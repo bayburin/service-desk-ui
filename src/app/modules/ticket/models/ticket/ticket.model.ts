@@ -1,3 +1,4 @@
+import { User } from 'app/core/models/user/user.model';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { CommonServiceI } from '@interfaces/common-service.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
@@ -59,6 +60,13 @@ export class Ticket implements CommonServiceI {
    */
   isCase(): boolean {
     return this.ticketType === 'case';
+  }
+
+  /**
+   * Проверяет, есть ли указанные пользователь в списке ответственных за ticket.
+   */
+  isBelongsTo(user: User): boolean {
+    return this.responsibleUsers.some(responsible => responsible.tn === user.tn);
   }
 
   /**

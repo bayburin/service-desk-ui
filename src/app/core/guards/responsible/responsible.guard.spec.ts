@@ -39,7 +39,7 @@ describe('ResponsibleGuard', () => {
   }));
 
   describe('when roles from allowed pool', () => {
-    const arr = ['operator', 'content_manager', 'service_responsible'];
+    const arr = ['content_manager', 'service_responsible'];
     arr.forEach(name => {
       it(`should return Observable with true value if user has "${name}" role`, inject([ResponsibleGuard], (guard: ResponsibleGuard) => {
         user.role.name = name;

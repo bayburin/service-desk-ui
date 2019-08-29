@@ -1,3 +1,4 @@
+import { UserFactory } from 'app/core/factories/user.factory';
 import { ResponsibleUserI } from '@interfaces/responsible_user.interface';
 import { Category } from '@modules/ticket/models/category/category.model';
 import { CategoryI } from '@interfaces/category.interface';
@@ -32,7 +33,8 @@ describe('Service', () => {
       name: 'Тестовая услуга',
       short_description: 'Тестовое описание',
       install: '',
-      is_sla: true,
+      is_hidden: false,
+      has_common_case: true,
       popularity: 23,
       tickets: [ticketI],
       category: categoryI,
@@ -53,7 +55,8 @@ describe('Service', () => {
       expect(service.name).toEqual(serviceI.name);
       expect(service.shortDescription).toEqual(serviceI.short_description);
       expect(service.install).toEqual(serviceI.install);
-      expect(service.isSla).toEqual(serviceI.is_sla);
+      expect(service.isHidden).toEqual(serviceI.is_hidden);
+      expect(service.hasCommonCase).toEqual(serviceI.has_common_case);
       expect(service.popularity).toEqual(serviceI.popularity);
       expect(service.responsibleUsers).toEqual([reponsibleUserI]);
     });
@@ -86,6 +89,46 @@ describe('Service', () => {
       it('should return name of component', () => {
         expect(service.pageComponent()).toEqual('app-service-page-content');
       });
+    });
+  });
+
+  describe('#isBelongsTo', () => {
+    const tn = 1;
+    const user = UserFactory.create({ tn: 1 });
+
+    beforeEach(() => {
+      service = new Service(serviceI);
+      service.responsibleUsers.forEach(responsible => responsible.tn = tn );
+    });
+
+    it('should return true if user tn exists in "responsible_users" array', () => {
+      expect(service.isBelongsTo(user)).toBeTruthy();
+    });
+
+    it('should return false if user tn not exists in "responsible_users" array', () => {
+      user.tn = 17_664;
+
+      expect(service.isBelongsTo(user)).toBeFalsy();
+    });
+  });
+
+  describe('#isBelongsByTicketTo', () => {
+    const tn = 1;
+    const user = UserFactory.create({ tn: 1 });
+
+    beforeEach(() => {
+      ticketI.responsible_users = [{ tn: tn } as ResponsibleUserI];
+      service = new Service(serviceI);
+    });
+
+    it('should return true if user tn exists in "responsible_users" array of nested tickets', () => {
+      expect(service.isBelongsByTicketTo(user)).toBeTruthy();
+    });
+
+    it('should return false if user tn not exists in "responsible_users" array', () => {
+      user.tn = 17_664;
+
+      expect(service.isBelongsByTicketTo(user)).toBeFalsy();
     });
   });
 });

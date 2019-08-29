@@ -23,6 +23,7 @@ import { CaseCardComponent } from './components/case-card/case-card.component';
 import { CasesPageContentComponent } from './components/cases-page-content/cases-page-content.component';
 import { NotifyComponent } from './components/notify/notify.component';
 import { UserDashboardMenuComponent } from './components/user-dashboard-menu/user-dashboard-menu.component';
+import { AuthorizeDirective } from './directives/authorize/authorize.directive';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
     CaseCardComponent,
     CasesPageContentComponent,
     NotifyComponent,
-    UserDashboardMenuComponent
+    UserDashboardMenuComponent,
+    AuthorizeDirective
   ],
   imports: [
     CommonModule,
@@ -72,7 +74,8 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
     SearchSortingPipe,
     CasesPageContentComponent,
     NotifyComponent,
-    UserDashboardMenuComponent
+    UserDashboardMenuComponent,
+    AuthorizeDirective
   ],
   providers: [
     FilterByClassPipe,

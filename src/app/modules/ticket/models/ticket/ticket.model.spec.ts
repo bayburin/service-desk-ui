@@ -5,6 +5,7 @@ import { Ticket } from './ticket.model';
 import { ServiceI } from '@interfaces/service.interface';
 import { TicketI } from '@interfaces/ticket.interface';
 import { CaseState } from './ticket_states/case_state';
+import { UserFactory } from 'app/core/factories/user.factory';
 
 describe('Ticket', () => {
   let serviceI: ServiceI;
@@ -110,6 +111,26 @@ describe('Ticket', () => {
         ticket.ticketType = 'case';
         expect(ticket.isCase()).toBeTruthy();
       });
+    });
+  });
+
+  describe('#isBelongsTo', () => {
+    const tn = 1;
+    const user = UserFactory.create({ tn: 1 });
+
+    beforeEach(() => {
+      ticket = new Ticket(ticketI);
+      ticket.responsibleUsers.forEach(responsible => responsible.tn = tn );
+    });
+
+    it('should return true if user tn exists in "responsible_users" array', () => {
+      expect(ticket.isBelongsTo(user)).toBeTruthy();
+    });
+
+    it('should return false if user tn not exists in "responsible_users" array', () => {
+      user.tn = 17_664;
+
+      expect(ticket.isBelongsTo(user)).toBeFalsy();
     });
   });
 });

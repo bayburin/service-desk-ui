@@ -15,7 +15,7 @@ export class ResponsibleGuard implements CanLoad {
   canLoad(): Observable<boolean> {
     return this.userService.user
       .pipe(
-        map((user: User) => user.hasOneOfRoles(['operator', 'content_manager', 'service_responsible'])),
+        map((user: User) => user.hasOneOfRoles(['content_manager', 'service_responsible'])),
         take(1)
       );
   }
