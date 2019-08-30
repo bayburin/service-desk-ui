@@ -86,10 +86,21 @@ describe('ServiceService', () => {
     });
 
     it('should emit Service data to service subject', () => {
-      const spy = spyOn((serviceService as any).service, 'next');
+      const spy = spyOn((serviceService as any).service$, 'next');
 
       serviceService.loadService(category.id, service.id).subscribe(data => {
         expect(spy).toHaveBeenCalledWith(data);
+      });
+
+      httpTestingController.expectOne({
+        method: 'GET',
+        url: loadServiceUri
+      }).flush(serviceI);
+    });
+
+    it('should set service data in "service" attribute', () => {
+      serviceService.loadService(category.id, service.id).subscribe(data => {
+        expect(serviceService.service).toEqual(service);
       });
 
       httpTestingController.expectOne({
@@ -108,7 +119,7 @@ describe('ServiceService', () => {
         expect(result).toEqual(service.name);
       });
 
-      (serviceService as any).service.next(service);
+      (serviceService as any).service$.next(service);
     });
 
     it('should return Observale with service name when service not exist', () => {
@@ -116,7 +127,7 @@ describe('ServiceService', () => {
         expect(result).toEqual('');
       });
 
-      (serviceService as any).service.next(null);
+      (serviceService as any).service$.next(null);
     });
   });
 
@@ -130,7 +141,7 @@ describe('ServiceService', () => {
         expect(result).toEqual(category.name);
       });
 
-      (serviceService as any).service.next(service);
+      (serviceService as any).service$.next(service);
     });
 
     it('should return Observale with service name when service not exist', () => {
@@ -138,7 +149,7 @@ describe('ServiceService', () => {
         expect(result).toEqual('');
       });
 
-      (serviceService as any).service.next(null);
+      (serviceService as any).service$.next(null);
     });
   });
 });

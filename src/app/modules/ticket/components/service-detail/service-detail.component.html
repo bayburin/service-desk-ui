@@ -1,7 +1,7 @@
 <section class="sd-pb-6" *ngIf="service" @contentBlockAnimation>
   <div class="container">
     <app-section-header [header]="service.name"></app-section-header>
-    <a *appAuthorize="[service, 'newTicket']" id="newQuestion" routerLink="admin/new" class="btn btn-gray-white">Добавить вопрос</a>
+    <a id="newTicket" *appAuthorize="[service, 'newTicket']" routerLink="admin/services/new_ticket" class="btn btn-gray-white">Добавить вопрос</a>
     <div class="sd-dlist-divider-b">
       <app-dynamic-template-content *ngFor="let ticket of service.tickets; trackBy: trackByTicket" [data]="ticket"></app-dynamic-template-content>
     </div>

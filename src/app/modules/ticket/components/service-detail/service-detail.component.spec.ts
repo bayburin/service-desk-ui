@@ -60,7 +60,7 @@ describe('ServiceDetailComponent', () => {
     expect(fixture.debugElement.nativeElement.querySelectorAll('app-dynamic-template-content').length).toEqual(tickets.length);
   });
 
-  describe('when user has admin role or responsible for this service', () => {
+  describe('when user has "content_manager" role or responsible for this service', () => {
     beforeEach(() => {
       user.role.name = 'content_manager';
       fixture.detectChanges();
@@ -68,9 +68,9 @@ describe('ServiceDetailComponent', () => {
 
     it('should redirect to form to create a new question', inject([Router], (router: Router) => {
       const spy = spyOn(router, 'navigateByUrl');
-      fixture.debugElement.nativeElement.querySelector('#newQuestion').click();
+      fixture.debugElement.nativeElement.querySelector('#newTicket').click();
 
-      expect(`${spy.calls.first().args[0]}`).toEqual('/admin/new');
+      expect(`${spy.calls.first().args[0]}`).toEqual('/admin/services/new_ticket');
     }));
   });
 });
