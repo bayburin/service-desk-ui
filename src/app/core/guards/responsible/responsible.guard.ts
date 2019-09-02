@@ -27,10 +27,34 @@ export class ResponsibleGuard implements CanLoad, CanActivate {
       );
   }
 
-  canActivate(next: ActivatedRouteSnapshot): boolean {
+  canActivate(next: ActivatedRouteSnapshot): boolean | Observable<boolean> {
     const policy = this.injector.get<ServicePolicy | TicketPolicy>(next.data.policy);
     const action = next.data.action;
 
-    return policy.authorize(this.service.service, action);
+    if (this.service.service) {
+      return policy.authorize(this.service.service, action);
+    } else {
+      const serviceId = this.serviceIdInParentRoute(next);
+      const categoryId = this.categoryIdInParentRoute(next);
+
+      return this.service.loadService(categoryId, serviceId)
+        .pipe(map(service => policy.authorize(service, action)));
+    }
+  }
+
+  private serviceIdInParentRoute(route: ActivatedRouteSnapshot) {
+    if (route.routeConfig.path === 'services/:id') {
+      return route.params.id;
+    } else {
+      return this.serviceIdInParentRoute(route.parent);
+    }
+  }
+
+  private categoryIdInParentRoute(route: ActivatedRouteSnapshot) {
+    if (route.routeConfig.path === 'categories/:id') {
+      return route.params.id;
+    } else {
+      return this.categoryIdInParentRoute(route.parent);
+    }
   }
 }

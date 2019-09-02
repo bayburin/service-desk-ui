@@ -15,9 +15,9 @@ import { SearchSortingPipe } from '@shared/pipes/search-sorting/search-sorting.p
 })
 export class ServiceService implements BreadcrumbServiceI {
   service: Service;
+  service$ = new Subject<Service>();
   private loadServicesUri: string;
   private loadServiceUri: string;
-  private service$ = new Subject<Service>();
 
   constructor(private http: HttpClient, private searchSortingPipe: SearchSortingPipe) { }
 
