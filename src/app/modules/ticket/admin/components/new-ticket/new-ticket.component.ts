@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-new-ticket',
@@ -6,7 +8,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new-ticket.component.sass']
 })
 export class NewTicketComponent implements OnInit {
-  constructor() { }
+  modal: NgbModalRef;
+  @ViewChild('content', { static: true }) content: ElementRef;
 
-  ngOnInit() {}
+  constructor(private modalService: NgbModal, private router: Router, private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    this.modal = this.modalService.open(
+      this.content,
+      {
+        size: 'lg',
+        backdrop: 'static',
+        keyboard: false,
+        windowClass: 'modal-holder'
+      }
+    );
+  }
+
+  save() {
+    console.log('save');
+  }
+
+  cancel() {
+    this.modal.dismiss();
+    this.router.navigate(['../../../'], { relativeTo: this.route });
+  }
 }

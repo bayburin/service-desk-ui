@@ -7,7 +7,8 @@ import {
   NgbTooltipModule,
   NgbRatingModule,
   NgbTabsetModule,
-  NgbToastModule
+  NgbToastModule,
+  NgbModalModule
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoadingComponent } from './components/loading/loading.component';
@@ -51,7 +52,8 @@ import { AuthorizeDirective } from './directives/authorize/authorize.directive';
     NgbTooltipModule,
     NgbRatingModule,
     NgbTabsetModule,
-    NgbToastModule
+    NgbToastModule,
+    NgbModalModule
   ],
   exports: [
     CommonModule,
@@ -63,6 +65,7 @@ import { AuthorizeDirective } from './directives/authorize/authorize.directive';
     NgbRatingModule,
     NgbTabsetModule,
     NgbToastModule,
+    NgbModalModule,
     LoadingComponent,
     CaseCardListComponent,
     SectionHeaderComponent,
@@ -82,4 +85,5 @@ import { AuthorizeDirective } from './directives/authorize/authorize.directive';
     SearchSortingPipe
   ]
 })
-export class SharedModule { }
+export class
+SharedModule { }
