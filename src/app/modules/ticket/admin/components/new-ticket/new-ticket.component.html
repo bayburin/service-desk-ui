@@ -1,13 +1,28 @@
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h2 class="modal-title"><b>Новый вопрос</b></h2>
+    <h1 class="modal-title">Новый вопрос</h1>
   </div>
-  <div class="modal-body">
-    <h1>Здесь вопрос и варианты ответов на него</h1>
-  </div>
-  <div class="modal-footer">
-    <button type="button" (click)="cancel()" class="btn btn-gray-white">Отменить</button>
-    <button type="button" (click)="save()" class="btn btn-primary">Сохранить</button>
-  </div>
+  <form [formGroup]="ticketForm">
+    <div class="modal-body">
+      <div class="container">
+        <section>
+          <div class="form-group">
+            <textarea id="name" name="name" rows="3" formControlName="name" class="form-control"
+              placeholder="Введите вопрос или описание проблемы"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="tags">Теги</label>
+            <ng-select id="tags" [items]="tags | async" [addTag]="true" [hideSelected]="true" multiple="true" bindLabel="name"
+              [typeahead]="tagInput" [loading]="loading.tags" formControlName="tags_attributes" typeToSearchText="Введите тег"
+              addTagText="Добавить тег"></ng-select>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" (click)="cancel()" class="btn btn-gray-white">Отменить</button>
+      <button type="button" (click)="save()" class="btn btn-primary">Сохранить</button>
+    </div>
+  </form>
 </ng-template>
 

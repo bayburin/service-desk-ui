@@ -1,11 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpParams } from '@angular/common/http';
 
 import { environment } from 'environments/environment';
 import { TicketService } from './ticket.service';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketI } from '@interfaces/ticket.interface';
 import { AnswerAttachmentI } from '@interfaces/answer_attachment.interface';
+import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { TagI } from '@interfaces/tag.interface';
 
 describe('TicketService', () => {
   let httpTestingController: HttpTestingController;
@@ -59,6 +62,44 @@ describe('TicketService', () => {
         method: 'GET',
         url: downloadAttachmentUrl
       }).flush(expectedAttachment);
+    });
+  });
+
+  describe('#createTicket', () => {
+    const ticketI = { name: 'ТЕстовый вопрос', service_id: 1, ticket_type: 'question' } as TicketI;
+    const ticketUri = `${environment.serverUrl}/api/v1/services/${ticketI.service_id}/tickets`;
+    const expectedTicket = TicketFactory.create(ticketI);
+
+    it('should return Observable with created Ticket', () => {
+      ticketService.createTicket(ticketI as TicketI).subscribe(result => {
+        expect(result).toEqual(expectedTicket);
+      });
+
+      httpTestingController.expectOne({
+        method: 'POST',
+        url: ticketUri
+      }).flush(ticketI);
+    });
+  });
+
+  describe('#loadTags', () => {
+    const tagUri = `${environment.serverUrl}/api/v1/tags`;
+    const tags: TagI[] = [
+      { id: 1, name: 'tag 1' },
+      { id: 2, name: 'tag 2' }
+    ];
+    const term = 'term';
+    const searchParams = new HttpParams().set('search', term);
+
+    it('should return Observable with finded tags', () => {
+      ticketService.loadTags(term).subscribe(result => {
+        expect(result).toEqual(tags);
+      });
+
+      httpTestingController.expectOne({
+        method: 'GET',
+        url: `${tagUri}?${searchParams}`
+      }).flush(tags);
     });
   });
 });

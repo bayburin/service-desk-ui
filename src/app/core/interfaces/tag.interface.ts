@@ -1,0 +1,4 @@
+export class TagI {
+  id: number;
+  name: string;
+}
