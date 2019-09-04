@@ -15,6 +15,13 @@
             <ng-select id="tags" [items]="tags | async" [addTag]="true" [hideSelected]="true" multiple="true" bindLabel="name"
               [typeahead]="tagInput" [loading]="loading.tags" formControlName="tags_attributes" typeToSearchText="Введите тег"
               addTagText="Добавить тег"></ng-select>
+            <small class="form-text ">
+              Популярные теги для данной услуги:
+              <span *ngFor="let tag of serviceTags">
+                <span [innerHTML]=tag></span>
+                &nbsp;
+              </span>
+            </small>
           </div>
         </section>
       </div>

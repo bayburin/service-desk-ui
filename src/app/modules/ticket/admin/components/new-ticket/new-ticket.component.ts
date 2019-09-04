@@ -21,6 +21,7 @@ export class NewTicketComponent implements OnInit {
   ticketForm: FormGroup;
   tags: Observable<TagI[]>;
   tagInput = new Subject<string>();
+  serviceTags: string[];
   loading = {
     tags: false,
     form: false
@@ -45,6 +46,7 @@ export class NewTicketComponent implements OnInit {
     this.loadTags();
     this.openModal();
     this.buildForm();
+    this.loadServiceTags();
   }
 
   save() {
@@ -70,6 +72,12 @@ export class NewTicketComponent implements OnInit {
         })
       )
     );
+  }
+
+  private loadServiceTags() {
+    this.serviceService.loadTags().subscribe((tags: TagI[]) => {
+      this.serviceTags = tags.map(tag => `<span class="badge badge-secondary">${tag.name}</span>`);
+    });
   }
 
   private openModal() {

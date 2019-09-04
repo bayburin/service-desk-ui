@@ -7,6 +7,7 @@ export class StubServiceService {
 
   loadServices() {}
   loadService() {}
+  loadTags() { return of([]); }
   getParentNodeName() { return of('Программные комплексы (из сервиса)'); }
-  getNodeName() { return of('nanoCad');}
+  getNodeName() { return of('nanoCad'); }
 }

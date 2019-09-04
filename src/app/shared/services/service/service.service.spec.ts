@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpParams } from '@angular/common/http';
 
 import { environment } from 'environments/environment';
 import { TicketI } from '@interfaces/ticket.interface';
@@ -9,11 +10,18 @@ import { ServiceService } from './service.service';
 import { SearchSortingPipe } from '@shared/pipes/search-sorting/search-sorting.pipe';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { Service } from '@modules/ticket/models/service/service.model';
+import { Category } from '@modules/ticket/models/category/category.model';
+import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { TagI } from '@interfaces/tag.interface';
 
 describe('ServiceService', () => {
   let httpTestingController: HttpTestingController;
   let serviceService: ServiceService;
   let sortPipe: SearchSortingPipe;
+  let category: Category;
+  let serviceI: ServiceI;
+  let service: Service;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -24,6 +32,10 @@ describe('ServiceService', () => {
     httpTestingController = TestBed.get(HttpTestingController);
     serviceService = TestBed.get(ServiceService);
     sortPipe = TestBed.get(SearchSortingPipe);
+
+    category = CategoryFactory.create({ id: 1, name: 'My category' });
+    serviceI = { id: 2, category_id: category.id, name: 'My service' } as ServiceI;
+    service = ServiceFactory.create(serviceI);
   });
 
   afterEach(() => {
@@ -52,14 +64,17 @@ describe('ServiceService', () => {
   });
 
   describe('#loadService', () => {
-    const category = CategoryFactory.create({ id: 1, name: 'My category' });
-    const serviceI = { id: 2, category_id: category.id, name: 'My service' } as ServiceI;
-    const service = ServiceFactory.create(serviceI);
-    const ticketI = { id: 1, service_id: service.id, ticket_type: 'case', answers: [] } as TicketI;
-    const ticket = TicketFactory.create(ticketI);
-    serviceI.tickets = [ticketI];
-    service.tickets = [ticket];
-    const loadServiceUri = `${environment.serverUrl}/api/v1/categories/${category.id}/services/${service.id}`;
+    let loadServiceUri: string;
+    let ticketI: TicketI;
+    let ticket: Ticket;
+
+    beforeEach(() => {
+      loadServiceUri = `${environment.serverUrl}/api/v1/categories/${category.id}/services/${service.id}`;
+      ticketI = { id: 1, service_id: service.id, ticket_type: 'case', answers: [] } as TicketI;
+      ticket = TicketFactory.create(ticketI);
+      serviceI.tickets = [ticketI];
+      service.tickets = [ticket];
+    });
 
     it('should return Observable with Service data', () => {
       serviceService.loadService(category.id, service.id).subscribe(data => {
@@ -110,11 +125,32 @@ describe('ServiceService', () => {
     });
   });
 
+  describe('#loadTags', () => {
+    beforeEach(() => {
+      serviceService.service = service;
+    });
+
+    it('should return Observable with array of tags', () => {
+      const tagsUri = `${environment.serverUrl}/api/v1/tags/popularity`;
+      const params = new HttpParams().set('service_id', `${service.id}`);
+      const tags: TagI[] = [
+        { id: 1, name: 'Tag 1', popularity: 4 },
+        { id: 2, name: 'Tag 2', popularity: 1 }
+      ];
+
+      serviceService.loadTags().subscribe(result => {
+        expect(result).toEqual(tags);
+      });
+
+      httpTestingController.expectOne({
+        method: 'GET',
+        url: `${tagsUri}?${params}`
+      }).flush(tags);
+    });
+  });
+
   describe('#getNodeName', () => {
     it('should return Observale with service name when service exists', () => {
-      const serviceI = { id: 2, category_id: 1, name: 'My service' } as ServiceI;
-      const service = ServiceFactory.create(serviceI);
-
       serviceService.getNodeName().subscribe(result => {
         expect(result).toEqual(service.name);
       });
@@ -132,9 +168,9 @@ describe('ServiceService', () => {
   });
 
   describe('#getParentNodeName', () => {
-    const category = CategoryFactory.create({ id: 1, name: 'My category' });
-    const service = ServiceFactory.create({ id: 2, category_id: category.id, name: 'My service' });
-    service.category = category;
+    beforeEach(() => {
+      service.category = category;
+    });
 
     it('should return Observale with service name when service exists', () => {
       serviceService.getParentNodeName().subscribe(result => {

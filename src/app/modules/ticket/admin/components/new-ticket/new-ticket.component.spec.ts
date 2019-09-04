@@ -1,10 +1,10 @@
-import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
 
 import { NewTicketComponent } from './new-ticket.component';
 import { ServiceService } from '@shared/services/service/service.service';
@@ -13,6 +13,8 @@ import { TicketService } from '@shared/services/ticket/ticket.service';
 import { StubServiceService } from '@shared/services/service/service.service.stub';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceI } from '@interfaces/service.interface';
+import { TagI } from '@interfaces/tag.interface';
+import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 
 describe('NewTicketComponent', () => {
   let component: NewTicketComponent;
@@ -76,6 +78,17 @@ describe('NewTicketComponent', () => {
     component.tags.subscribe(result => {
       expect(result).toEqual([]);
     });
+  });
+
+  it('should create array of service tags', () => {
+    const tags: TagI[] = [
+      { id: 1, name: 'Tag 1', popularity: 5 },
+      { id: 2, name: 'Tag 2', popularity: 1 }
+    ];
+
+    spyOn(serviceService, 'loadTags').and.returnValue(of(tags));
+    fixture.detectChanges();
+    expect(component.serviceTags).toEqual(tags.map(tag => `<span class="badge badge-secondary">${tag.name}</span>`));
   });
 
   describe('save', () => {});

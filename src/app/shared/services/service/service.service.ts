@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -9,6 +9,7 @@ import { ServiceI } from '@interfaces/service.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
 import { SearchSortingPipe } from '@shared/pipes/search-sorting/search-sorting.pipe';
+import { TagI } from '@interfaces/tag.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,9 @@ export class ServiceService implements BreadcrumbServiceI {
   loadServices(): Observable<Service[]> {
     this.loadServicesUri = `${environment.serverUrl}/api/v1/services`;
 
-    return this.http.get(this.loadServicesUri).pipe(map((services: ServiceI[]) => services.map(service => ServiceFactory.create(service))));
+    return this.http.get(this.loadServicesUri).pipe(
+      map((services: ServiceI[]) => services.map(service => ServiceFactory.create(service)))
+    );
   }
 
   /**
@@ -51,6 +54,16 @@ export class ServiceService implements BreadcrumbServiceI {
         this.service = service;
       })
     );
+  }
+
+  /**
+   * Загружает список тегов для текущего сервиса, отсортированный по популярности.
+   */
+  loadTags(): Observable<TagI[]> {
+    const tagsUri = `${environment.serverUrl}/api/v1/tags/popularity`;
+    const httpParams = new HttpParams().set('service_id', `${this.service.id}`);
+
+    return this.http.get<TagI[]>(tagsUri, { params: httpParams });
   }
 
   getNodeName(): Observable<string> {
