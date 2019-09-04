@@ -9,11 +9,13 @@ import { TicketService } from '@shared/services/ticket/ticket.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { TagI } from '@interfaces/tag.interface';
+import { contentBlockAnimation } from '@animations/content.animation';
 
 @Component({
   selector: 'app-new-ticket',
   templateUrl: './new-ticket.component.html',
-  styleUrls: ['./new-ticket.component.sass']
+  styleUrls: ['./new-ticket.component.sass'],
+  animations: [contentBlockAnimation]
 })
 export class NewTicketComponent implements OnInit {
   modal: NgbModalRef;
@@ -24,7 +26,8 @@ export class NewTicketComponent implements OnInit {
   serviceTags: string[];
   loading = {
     tags: false,
-    form: false
+    form: false,
+    serviceTags: false
   };
   @ViewChild('content', { static: true }) content: ElementRef;
 
@@ -75,9 +78,12 @@ export class NewTicketComponent implements OnInit {
   }
 
   private loadServiceTags() {
-    this.serviceService.loadTags().subscribe((tags: TagI[]) => {
-      this.serviceTags = tags.map(tag => `<span class="badge badge-secondary">${tag.name}</span>`);
-    });
+    this.loading.serviceTags = true;
+    this.serviceService.loadTags()
+      .pipe(finalize(() => this.loading.serviceTags = false))
+      .subscribe((tags: TagI[]) => {
+        this.serviceTags = tags.map(tag => `<span class="badge badge-secondary">${tag.name}</span>`);
+      });
   }
 
   private openModal() {
