@@ -6,6 +6,11 @@
     <div class="modal-body">
       <div class="container">
         <section>
+          <div class="form-group align-items-center sd-icon-group pointer">
+            <i *ngIf="form.is_hidden.value" class="mdi mdi-toggle-switch-off mdi-24px" (click)="toggleHidden(ticketForm)"></i>
+            <i *ngIf="!form.is_hidden.value" class="mdi mdi-toggle-switch mdi-24px text-success" (click)="toggleHidden(ticketForm)"></i>
+            <span (click)="toggleHidden(ticketForm)">Показать вопрос пользователю</span>
+          </div>
           <div class="form-group">
             <textarea id="name" name="name" rows="3" formControlName="name" class="form-control"
               placeholder="Введите вопрос или описание проблемы"></textarea>
