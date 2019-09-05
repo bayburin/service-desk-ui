@@ -1,10 +1,12 @@
-import { ReactiveFormsModule } from '@angular/forms';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule, FormArray } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { NewTicketComponent } from './new-ticket.component';
 import { ServiceService } from '@shared/services/service/service.service';
@@ -26,8 +28,15 @@ describe('NewTicketComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, NgbModule, NgSelectModule, ReactiveFormsModule],
+      imports: [
+        RouterTestingModule,
+        NgbModule,
+        NgSelectModule,
+        ReactiveFormsModule,
+        NoopAnimationsModule
+      ],
       declarations: [NewTicketComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         NgbModal,
         { provide: ServiceService, useClass: StubServiceService },
@@ -85,10 +94,29 @@ describe('NewTicketComponent', () => {
       { id: 1, name: 'Tag 1', popularity: 5 },
       { id: 2, name: 'Tag 2', popularity: 1 }
     ];
-
     spyOn(serviceService, 'loadTags').and.returnValue(of(tags));
     fixture.detectChanges();
+
     expect(component.serviceTags).toEqual(tags.map(tag => `<span class="badge badge-secondary">${tag.name}</span>`));
+  });
+
+  describe('#addAnswer', () => {
+    it('should add formgroup to "answers_attributes" formarray', () => {
+      fixture.detectChanges();
+      component.addAnswer();
+
+      expect((component.form.answers_attributes as FormArray).controls.length).toEqual(2);
+    });
+  });
+
+  describe('#toggleHidden', () => {
+    it('should set "false" value to "is_hidden" attribute', () => {
+      fixture.detectChanges();
+      expect(component.form.is_hidden.value).toBeTruthy();
+      component.toggleHidden(component.ticketForm);
+
+      expect(component.form.is_hidden.value).toBeFalsy();
+    });
   });
 
   describe('save', () => {});

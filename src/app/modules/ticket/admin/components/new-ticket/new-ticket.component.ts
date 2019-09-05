@@ -1,9 +1,9 @@
 import { Observable, Subject, concat, of } from 'rxjs';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
-import { debounceTime, switchMap, tap, finalize, filter } from 'rxjs/operators';
+import { switchMap, tap, finalize, filter } from 'rxjs/operators';
 
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { ServiceService } from '@shared/services/service/service.service';
@@ -52,14 +52,48 @@ export class NewTicketComponent implements OnInit {
     this.loadServiceTags();
   }
 
-  save() {
-    console.log('save');
-    console.log(this.ticketForm.getRawValue());
+  /**
+   * Добавляет шаблон ответа к вопросу.
+   */
+  addAnswer() {
+    (this.form.answers_attributes as FormArray).push(this.createAnswer());
   }
 
+  /**
+   * Сохраняет вопрос.
+   */
+  save() {
+    console.log('save');
+    console.log(this.ticketForm);
+    console.log(this.ticketForm.getRawValue());
+
+    this.ticketService.createTicket(this.ticketForm.getRawValue())
+      .subscribe(
+        data => {
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  /**
+   * Возвращается к маршруту на уровень выше.
+   */
   cancel() {
     this.modal.dismiss();
     this.router.navigate(['../../../'], { relativeTo: this.route });
+  }
+
+  /**
+   * Переключает состояние "is_hidden" у указанного объекта.
+   *
+   * @param object - изменяемый объект
+   */
+  toggleHidden(object: FormGroup) {
+    const currentValue = object.controls.is_hidden.value;
+
+    object.controls.is_hidden.setValue(!currentValue);
   }
 
   private loadTags() {
@@ -67,7 +101,6 @@ export class NewTicketComponent implements OnInit {
       of([]),
       this.tagInput.pipe(
         filter(term => term && term.length >= 2),
-        debounceTime(300),
         tap(() => this.loading.tags = true),
         switchMap(term => {
           return this.ticketService.loadTags(term)
@@ -107,7 +140,16 @@ export class NewTicketComponent implements OnInit {
       sla: [null],
       to_approve: [false],
       popularity: [0],
-      tags_attributes: [[], Validators.required]
+      tags_attributes: [[], Validators.required],
+      answers_attributes: this.formBuilder.array([this.createAnswer()])
+    });
+  }
+
+  private createAnswer() {
+    return this.formBuilder.group({
+      answer: ['', Validators.required],
+      link: [''],
+      is_hidden: [true]
     });
   }
 }

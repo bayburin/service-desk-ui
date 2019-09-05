@@ -8,5 +8,6 @@ export interface AnswerI {
   answer: string;
   attachments: AnswerAttachmentI[];
   link: string;
+  is_hidden: boolean;
   ticket?: TicketI;
 }

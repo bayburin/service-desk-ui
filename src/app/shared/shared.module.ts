@@ -8,7 +8,8 @@ import {
   NgbRatingModule,
   NgbTabsetModule,
   NgbToastModule,
-  NgbModalModule
+  NgbModalModule,
+  NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoadingComponent } from './components/loading/loading.component';
@@ -53,7 +54,8 @@ import { AuthorizeDirective } from './directives/authorize/authorize.directive';
     NgbRatingModule,
     NgbTabsetModule,
     NgbToastModule,
-    NgbModalModule
+    NgbModalModule,
+    NgbAccordionModule
   ],
   exports: [
     CommonModule,
@@ -66,6 +68,7 @@ import { AuthorizeDirective } from './directives/authorize/authorize.directive';
     NgbTabsetModule,
     NgbToastModule,
     NgbModalModule,
+    NgbAccordionModule,
     LoadingComponent,
     CaseCardListComponent,
     SectionHeaderComponent,
