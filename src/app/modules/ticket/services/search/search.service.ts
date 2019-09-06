@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from 'environments/environment';
-import { ServiceTemplateCreator } from '@modules/ticket/core/service_template_creator/service_template_creator';
+import { ServiceTemplateCreator } from '@modules/ticket/core/service_template_creator/service-template-creator';
 import { SearchSortingPipe } from '@shared/pipes/search-sorting/search-sorting.pipe';
 
 @Injectable({

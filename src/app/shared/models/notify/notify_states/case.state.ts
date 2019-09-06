@@ -1,4 +1,4 @@
-import { AbstractNotifyState } from './abstract_notify_state';
+import { AbstractNotifyState } from './abstract-notify.state';
 
 export class CaseState implements AbstractNotifyState {
   getIconName(): string {

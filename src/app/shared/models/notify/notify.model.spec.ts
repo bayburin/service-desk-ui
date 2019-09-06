@@ -2,9 +2,9 @@ import { NotificationBodyI, NotificationI } from '@interfaces/notification.inter
 
 import { Notify } from '@shared/models/notify/notify.model';
 import { NotifyFactory } from '@shared/factories/notify.factory';
-import { BroadcastState } from './notify_states/broadcast_state';
-import { CaseState } from './notify_states/case_state';
-import { ErrorState } from './notify_states/error_state';
+import { BroadcastState } from './notify_states/broadcast.state';
+import { CaseState } from './notify_states/case.state';
+import { ErrorState } from './notify_states/error.state';
 
 describe('Notify', () => {
   const notifyBodyI: NotificationBodyI = { message: 'test message', case_id: 1, user_tn: 1 };

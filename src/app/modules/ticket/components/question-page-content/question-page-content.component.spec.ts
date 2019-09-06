@@ -7,7 +7,7 @@ import { QuestionPageContentComponent } from './question-page-content.component'
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
-import { AnswerAttachmentI } from '@interfaces/answer_attachment.interface';
+import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { AnswerI } from '@interfaces/answer.interface';
 import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
 

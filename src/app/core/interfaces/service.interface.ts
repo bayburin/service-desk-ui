@@ -1,4 +1,4 @@
-import { ResponsibleUserI } from './responsible_user.interface';
+import { ResponsibleUserI } from './responsible-user.interface';
 import { CategoryI } from './category.interface';
 import { TicketI } from './ticket.interface';
 

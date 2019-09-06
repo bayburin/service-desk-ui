@@ -3,7 +3,7 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { CommonServiceI } from '@interfaces/common-service.interface';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
-import { ResponsibleUserI } from '@interfaces/responsible_user.interface';
+import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { User } from '@shared/models/user/user.model';
 
 export class Service implements CommonServiceI {

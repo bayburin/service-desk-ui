@@ -5,7 +5,7 @@ import { first, switchMap, finalize } from 'rxjs/operators';
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { AnswerI } from '@interfaces/answer.interface';
-import { AnswerAttachmentI } from '@interfaces/answer_attachment.interface';
+import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { toggleAnswer } from '@modules/ticket/animations/toggle-answer.animation';
 
 @Component({

@@ -1,5 +1,5 @@
 import { UserFactory } from '@shared/factories/user.factory';
-import { ResponsibleUserI } from '@interfaces/responsible_user.interface';
+import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { Category } from '@modules/ticket/models/category/category.model';
 import { CategoryI } from '@interfaces/category.interface';
 import { Service } from './service.model';

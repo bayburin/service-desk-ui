@@ -7,7 +7,7 @@ import { Service } from '@modules/ticket/models/service/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { toggleQuestionList } from '@modules/ticket/animations/toggle-question-list.animation';
 import { contentBlockAnimation } from '@animations/content.animation';
-import { UserRecommendationI } from '@interfaces/user_recommendation.interface';
+import { UserRecommendationI } from '@interfaces/user-recommendation.interface';
 
 @Component({
   selector: 'app-dashboard-page',

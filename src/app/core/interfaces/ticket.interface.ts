@@ -1,6 +1,6 @@
 import { AnswerI } from './answer.interface';
 import { ServiceI } from '@interfaces/service.interface';
-import { ResponsibleUserI } from './responsible_user.interface';
+import { ResponsibleUserI } from './responsible-user.interface';
 
 export interface TicketI {
   id: number;

@@ -1,10 +1,10 @@
-import { ResponsibleUserI } from '@interfaces/responsible_user.interface';
-import { QuestionState } from './ticket_states/question_state';
+import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
+import { QuestionState } from './ticket_states/question.state';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { Ticket } from './ticket.model';
 import { ServiceI } from '@interfaces/service.interface';
 import { TicketI } from '@interfaces/ticket.interface';
-import { CaseState } from './ticket_states/case_state';
+import { CaseState } from './ticket_states/case.state';
 import { UserFactory } from '@shared/factories/user.factory';
 
 describe('Ticket', () => {

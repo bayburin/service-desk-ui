@@ -11,7 +11,7 @@ import { DashboardPageComponent } from './dashboard.page';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { TicketI } from '@interfaces/ticket.interface';
-import { UserRecommendationI } from '@interfaces/user_recommendation.interface';
+import { UserRecommendationI } from '@interfaces/user-recommendation.interface';
 import { StubDashboardService } from '@modules/ticket/services/dashboard/dashboard.service.stub';
 
 describe('DashboardComponent', () => {

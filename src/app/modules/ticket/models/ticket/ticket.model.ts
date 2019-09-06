@@ -2,11 +2,11 @@ import { User } from '@shared/models/user/user.model';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { CommonServiceI } from '@interfaces/common-service.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
-import { AbstractTicketState } from './ticket_states/abstract_ticket_state';
-import { QuestionState } from './ticket_states/question_state';
-import { CaseState } from './ticket_states/case_state';
+import { AbstractTicketState } from './ticket_states/abstract-ticket.state';
+import { QuestionState } from './ticket_states/question.state';
+import { CaseState } from './ticket_states/case.state';
 import { AnswerI } from '@interfaces/answer.interface';
-import { ResponsibleUserI } from '@interfaces/responsible_user.interface';
+import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 
 export class Ticket implements CommonServiceI {
   id: number;

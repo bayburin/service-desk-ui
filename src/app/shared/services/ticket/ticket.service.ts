@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { environment } from 'environments/environment';
 import { TicketI } from '@interfaces/ticket.interface';
-import { AnswerAttachmentI } from '@interfaces/answer_attachment.interface';
+import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { TagI } from '@interfaces/tag.interface';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 

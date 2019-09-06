@@ -1,4 +1,4 @@
-import { ServiceTemplateCreator } from './service_template_creator';
+import { ServiceTemplateCreator } from './service-template-creator';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { Category } from '@modules/ticket/models/category/category.model';

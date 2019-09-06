@@ -1,4 +1,4 @@
-import { AbstractTicketState } from './abstract_ticket_state';
+import { AbstractTicketState } from './abstract-ticket.state';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
 export class QuestionState extends AbstractTicketState {

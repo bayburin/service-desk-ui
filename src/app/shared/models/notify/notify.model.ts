@@ -1,7 +1,7 @@
-import { ErrorState } from './notify_states/error_state';
-import { CaseState } from './notify_states/case_state';
-import { BroadcastState } from './notify_states/broadcast_state';
-import { AbstractNotifyState } from './notify_states/abstract_notify_state';
+import { ErrorState } from './notify_states/error.state';
+import { CaseState } from './notify_states/case.state';
+import { BroadcastState } from './notify_states/broadcast.state';
+import { AbstractNotifyState } from './notify_states/abstract-notify.state';
 import { NotificationBodyI } from '@interfaces/notification.interface';
 
 export class Notify {

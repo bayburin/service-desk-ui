@@ -6,7 +6,7 @@ import { environment } from 'environments/environment';
 import { TicketService } from './ticket.service';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketI } from '@interfaces/ticket.interface';
-import { AnswerAttachmentI } from '@interfaces/answer_attachment.interface';
+import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { TagI } from '@interfaces/tag.interface';
 
