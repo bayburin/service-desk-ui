@@ -51,6 +51,10 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
       .subscribe(service => this.service = service);
   }
 
+  onActivate(component) {
+    component.ticketSaved.pipe(first()).subscribe(() => this.loadService());
+  }
+
   /**
    * Создает подписку для раскрытия выбранного вопроса после рендера страницы.
    */

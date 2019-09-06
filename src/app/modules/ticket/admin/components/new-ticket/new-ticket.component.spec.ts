@@ -1,5 +1,5 @@
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule, FormArray } from '@angular/forms';
+import { ReactiveFormsModule, FormArray, FormGroup } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
@@ -119,9 +119,61 @@ describe('NewTicketComponent', () => {
     });
   });
 
-  describe('save', () => {});
+  describe('#save', () => {
+    let ticketService: TicketService;
 
-  describe('cancel', () => {
+    beforeEach(() => {
+      ticketService = TestBed.get(TicketService);
+    });
+
+    describe('when form is invalid', () => {
+      it('should not save ticket', () => {
+        spyOn(ticketService, 'createTicket');
+        fixture.detectChanges();
+        component.save();
+
+        expect(ticketService.createTicket).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when form valid', () => {
+      beforeEach(() => {
+        fixture.detectChanges();
+        component.form.name.setValue('Тестовый вопрос');
+        ((component.form.answers_attributes as FormArray).controls[0] as FormGroup).controls.answer.setValue('Это ответ');
+        spyOn(ticketService, 'createTicket').and.returnValue(of({}));
+      });
+
+      it('should call "createTicket" method from TicketService with ticket params', () => {
+        component.save();
+
+        expect(ticketService.createTicket).toHaveBeenCalledWith(component.ticketForm.getRawValue());
+      });
+
+      it('should close modal', () => {
+        spyOn(component.modal, 'close');
+        component.save();
+
+        expect(component.modal.close).toHaveBeenCalled();
+      });
+
+      it('should redirect to parent page', inject([Router], (router: Router) => {
+        const spy = spyOn(router, 'navigate');
+        component.save();
+
+        expect(spy.calls.first().args[0]).toEqual(['../../../']);
+      }));
+
+      it('should emit to "ticketSaved" event', () => {
+        spyOn(component.ticketSaved, 'emit');
+        component.save();
+
+        expect(component.ticketSaved.emit).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('#cancel', () => {
     beforeEach(() => {
       fixture.detectChanges();
     });

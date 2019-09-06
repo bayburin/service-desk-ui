@@ -128,7 +128,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
    *
    * @param event - объект события.
    */
-  onCancel(event: any): void {
+  onCancel(event: Event): void {
     event.preventDefault();
     this.location.back();
   }

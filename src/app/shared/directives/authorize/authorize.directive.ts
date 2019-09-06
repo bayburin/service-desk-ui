@@ -21,10 +21,9 @@ export class AuthorizeDirective {
   @Input() set appAuthorize(policyData: [any, string]) {
     const policy = this.getPolicy(policyData[0]);
 
+    this.viewContainerRef.clear();
     if (policy.authorize(policyData[0], policyData[1])) {
       this.viewContainerRef.createEmbeddedView(this.templateRef);
-    } else {
-      this.viewContainerRef.clear();
     }
   }
 

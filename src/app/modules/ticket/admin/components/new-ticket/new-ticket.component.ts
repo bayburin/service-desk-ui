@@ -1,6 +1,6 @@
 import { Observable, Subject, concat, of } from 'rxjs';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { switchMap, tap, finalize, filter } from 'rxjs/operators';
@@ -18,6 +18,7 @@ import { contentBlockAnimation } from '@animations/content.animation';
   animations: [contentBlockAnimation]
 })
 export class NewTicketComponent implements OnInit {
+  submitted = false;
   modal: NgbModalRef;
   service: Service;
   ticketForm: FormGroup;
@@ -30,6 +31,7 @@ export class NewTicketComponent implements OnInit {
     serviceTags: false
   };
   @ViewChild('content', { static: true }) content: ElementRef;
+  @Output() ticketSaved = new EventEmitter();
 
   constructor(
     private modalService: NgbModal,
@@ -38,7 +40,7 @@ export class NewTicketComponent implements OnInit {
     private formBuilder: FormBuilder,
     private serviceService: ServiceService,
     private ticketService: TicketService
-  ) { }
+  ) {}
 
   get form() {
     return this.ticketForm.controls;
@@ -63,18 +65,22 @@ export class NewTicketComponent implements OnInit {
    * Сохраняет вопрос.
    */
   save() {
-    console.log('save');
-    console.log(this.ticketForm);
-    console.log(this.ticketForm.getRawValue());
+    this.submitted = true;
+    if (this.ticketForm.invalid) {
+      return;
+    }
 
+    this.loading.form = true;
     this.ticketService.createTicket(this.ticketForm.getRawValue())
+      .pipe(finalize(() => this.loading.form = false))
       .subscribe(
-        data => {
-          console.log(data);
+        () => {
+          this.modal.close();
+          this.redirectToService();
+          this.ticketSaved.emit();
         },
-        error => {
-          console.log(error);
-        });
+        error => console.log(error)
+      );
   }
 
   /**
@@ -82,7 +88,7 @@ export class NewTicketComponent implements OnInit {
    */
   cancel() {
     this.modal.dismiss();
-    this.router.navigate(['../../../'], { relativeTo: this.route });
+    this.redirectToService();
   }
 
   /**
@@ -140,7 +146,7 @@ export class NewTicketComponent implements OnInit {
       sla: [null],
       to_approve: [false],
       popularity: [0],
-      tags_attributes: [[], Validators.required],
+      tags_attributes: [[]],
       answers_attributes: this.formBuilder.array([this.createAnswer()])
     });
   }
@@ -151,5 +157,9 @@ export class NewTicketComponent implements OnInit {
       link: [''],
       is_hidden: [true]
     });
+  }
+
+  private redirectToService() {
+    this.router.navigate(['../../../'], { relativeTo: this.route });
   }
 }

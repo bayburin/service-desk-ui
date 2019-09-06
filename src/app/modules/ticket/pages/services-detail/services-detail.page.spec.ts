@@ -1,5 +1,6 @@
-import { Directive, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Service } from '@modules/ticket/models/service/service.model';
+import { Directive, Input, Component, Output, EventEmitter } from '@angular/core';
+import { async, ComponentFixture, TestBed, flush, fakeAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
@@ -21,10 +22,18 @@ class StubAuthorizeDirective extends AuthorizeDirective {
   @Input() set appAuthorize(policyData: [any, string]) {}
 }
 
+@Component({
+  template: ''
+})
+class TestComponent {
+  @Output() ticketSaved = new EventEmitter();
+}
+
 describe('ServicesDetailPageComponent', () => {
   let component: ServicesDetailPageComponent;
   let fixture: ComponentFixture<ServicesDetailPageComponent>;
   let serviceService: ServiceService;
+  let loadServiceSpy;
   const tickets = [
     { id: 1, service_id: 2, name: 'Тестовый вопрос 1', ticket_type: 'question' } as TicketI,
     { id: 2, service_id: 2, name: 'Тестовый вопрос 2', ticket_type: 'question' } as TicketI,
@@ -49,7 +58,12 @@ describe('ServicesDetailPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, NoopAnimationsModule],
-      declarations: [ServicesDetailPageComponent, ServiceDetailComponent, StubAuthorizeDirective],
+      declarations: [
+        ServicesDetailPageComponent,
+        ServiceDetailComponent,
+        StubAuthorizeDirective,
+        TestComponent
+      ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
@@ -63,7 +77,8 @@ describe('ServicesDetailPageComponent', () => {
     fixture = TestBed.createComponent(ServicesDetailPageComponent);
     component = fixture.componentInstance;
     serviceService = TestBed.get(ServiceService);
-    spyOn(serviceService, 'loadService').and.returnValue(of(service));
+    loadServiceSpy = spyOn(serviceService, 'loadService');
+    loadServiceSpy.and.returnValue(of(service));
     fixture.detectChanges();
   });
 
@@ -86,4 +101,15 @@ describe('ServicesDetailPageComponent', () => {
   it('should render app-service-detail component', () => {
     expect(fixture.debugElement.nativeElement.querySelector('app-service-detail')).toBeTruthy();
   });
+
+  it('should subscribe to "ticketSaved" event', fakeAsync(() => {
+    const testFixture = TestBed.createComponent(TestComponent);
+    const testComponent = testFixture.componentInstance;
+    const newService = { name: 'new service' } as Service;
+    loadServiceSpy.and.returnValue(of(newService));
+    component.onActivate(testComponent);
+    testComponent.ticketSaved.emit();
+    flush();
+    expect(component.service).toEqual(newService);
+  }));
 });
