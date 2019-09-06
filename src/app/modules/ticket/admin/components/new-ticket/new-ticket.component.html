@@ -43,10 +43,12 @@
               <ngb-panel *ngFor="let answer of form.answers_attributes.controls; let i = index;" [formGroupName]="i">
                 <ng-template ngbPanelHeader>
                   <div class="d-flex align-items-center">
-                    <button ngbPanelToggle class="btn btn-link p-0 mr-auto">Ответ {{ i + 1 }}</button>
                     <i *ngIf="answer.value.is_hidden" class="mdi mdi-eye-off mdi-24px" ngbTooltip="Ответ скрыт от пользователей"
                       container="body"></i>
                     <i *ngIf="!answer.value.is_hidden" class="mdi mdi-eye mdi-24px text-success" ngbTooltip="Ответ виден пользователям"
+                      container="body"></i>
+                    <button ngbPanelToggle class="btn btn-link p-0 mr-auto ml-1">Ответ {{ i + 1 }}</button>
+                    <i class="mdi mdi-delete mdi-24px text-danger pointer" (click)="deleteAnswer(answer)" ngbTooltip="Удалить ответ"
                       container="body"></i>
                   </div>
                 </ng-template>

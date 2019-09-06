@@ -102,6 +102,16 @@ export class NewTicketComponent implements OnInit {
     object.controls.is_hidden.setValue(!currentValue);
   }
 
+  /**
+   * Удаляет ответ.
+   *
+   * @param answer - ответ
+   */
+  deleteAnswer(answer: FormGroup) {
+    const index = (this.form.answers_attributes as FormArray).controls.indexOf(answer);
+    (this.form.answers_attributes as FormArray).removeAt(index);
+  }
+
   private loadTags() {
     this.tags = concat(
       of([]),

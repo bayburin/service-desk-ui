@@ -119,6 +119,16 @@ describe('NewTicketComponent', () => {
     });
   });
 
+  describe('#deleteAnswer', () => {
+    it('should delete answer from answers_attributes', () => {
+      fixture.detectChanges();
+      const answer = (component.form.answers_attributes as FormArray).controls[0] as FormGroup;
+      answer.controls.answer.setValue('Это ответ');
+      component.deleteAnswer(answer);
+      expect((component.form.answers_attributes as FormArray).length).toEqual(0);
+    });
+  });
+
   describe('#save', () => {
     let ticketService: TicketService;
 
