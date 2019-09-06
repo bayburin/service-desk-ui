@@ -3,6 +3,7 @@
     <div class="sd-icon-group sd-link text-body" (click)="toggleTicket()">
       <i *ngIf="!standaloneLink" class="mdi mdi-24px" [ngClass]="data.open ? 'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'"></i>
       <span [innerHtml]="data.name"></span>
+      <span *ngIf="data.isDraftState()" class="badge badge-secondary ml-1">Черновик</span>
     </div>
   </div>
   <div class="overflow-hidden" [@ToggleAnswer]="data.open ? 'expanded' : 'collapsed'">

@@ -13,6 +13,7 @@ export class Ticket implements CommonServiceI {
   serviceId: number;
   name: string;
   ticketType: string;
+  state: string;
   isHidden: boolean;
   sla: number;
   popularity: number;
@@ -20,13 +21,14 @@ export class Ticket implements CommonServiceI {
   open: boolean;
   answers: AnswerI[];
   responsibleUsers: ResponsibleUserI[];
-  private state: AbstractTicketState;
+  private type: AbstractTicketState;
 
   constructor(ticket: any = {}) {
     this.id = ticket.id;
     this.serviceId = ticket.service_id;
     this.name = ticket.name;
     this.ticketType = ticket.ticket_type;
+    this.state = ticket.state;
     this.isHidden = ticket.is_hidden;
     this.sla = ticket.sla;
     this.popularity = ticket.popularity;
@@ -37,28 +39,42 @@ export class Ticket implements CommonServiceI {
       this.service = ServiceFactory.create(ticket.service);
     }
 
-    this.createState();
+    this.createTypeState();
   }
 
   getShowLink(): string {
-    return this.state.getShowLink(this);
+    return this.type.getShowLink(this);
   }
 
   pageComponent(): string {
-    return this.state.getPageContentComponent();
+    return this.type.getPageContentComponent();
+  }
+
+  /**
+   * Проверяет, является ли объект черновым.
+   */
+  isDraftState(): boolean {
+    return this.state === 'draft';
+  }
+
+  /**
+   * Проверяет, является ли объект готовым.
+   */
+  isPublishedState(): boolean {
+    return this.state === 'published';
   }
 
   /**
    * Проверяет, является ли экземпляр вопросом.
    */
-  isQuestion(): boolean {
+  isQuestionTicketType(): boolean {
     return this.ticketType === 'question';
   }
 
   /**
    * Проверяет, является ли экземпляр заявкой.
    */
-  isCase(): boolean {
+  isCaseTicketType(): boolean {
     return this.ticketType === 'case';
   }
 
@@ -72,11 +88,11 @@ export class Ticket implements CommonServiceI {
   /**
    * Установить состояние класса взависимости от типа ticketType.
    */
-  private createState(): void {
-    if (this.isQuestion()) {
-      this.state = new QuestionState();
-    } else if (this.isCase()) {
-      this.state = new CaseState();
+  private createTypeState(): void {
+    if (this.isQuestionTicketType()) {
+      this.type = new QuestionState();
+    } else if (this.isCaseTicketType()) {
+      this.type = new CaseState();
     } else {
       throw new Error('Unknown ticketType');
     }

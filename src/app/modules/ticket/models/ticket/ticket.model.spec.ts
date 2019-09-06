@@ -31,6 +31,7 @@ describe('Ticket', () => {
       service_id: 1,
       name: 'Тестовый вопрос',
       ticket_type: 'question',
+      state: 'draft',
       is_hidden: false,
       sla: 2,
       popularity: 34,
@@ -66,14 +67,14 @@ describe('Ticket', () => {
     it('should create QuestionState if ticket_type is equal "question"', () => {
       ticket = new Ticket(ticketI);
 
-      expect((ticket as any).state instanceof QuestionState).toBeTruthy();
+      expect((ticket as any).type instanceof QuestionState).toBeTruthy();
     });
 
     it('should create CaseState if ticket_type is equal "case"', () => {
       ticketI.ticket_type = 'case';
       ticket = new Ticket(ticketI);
 
-      expect((ticket as any).state instanceof CaseState).toBeTruthy();
+      expect((ticket as any).type instanceof CaseState).toBeTruthy();
     });
   });
 
@@ -84,32 +85,46 @@ describe('Ticket', () => {
 
     describe('#getShowLink', () => {
       it('should call "getShowLink" method on "state" object', () => {
-        spyOn((ticket as any).state, 'getShowLink');
+        spyOn((ticket as any).type, 'getShowLink');
         ticket.getShowLink();
 
-        expect((ticket as any).state.getShowLink).toHaveBeenCalledWith(ticket);
+        expect((ticket as any).type.getShowLink).toHaveBeenCalledWith(ticket);
       });
     });
 
     describe('#pageComponent', () => {
       it('should call "getPageContentComponent" method on "state" object', () => {
-        spyOn((ticket as any).state, 'getPageContentComponent');
+        spyOn((ticket as any).type, 'getPageContentComponent');
         ticket.pageComponent();
 
-        expect((ticket as any).state.getPageContentComponent).toHaveBeenCalled();
+        expect((ticket as any).type.getPageContentComponent).toHaveBeenCalled();
       });
     });
 
-    describe('#isQuestion', () => {
+    describe('#isDraftState', () => {
+      it('should return true if state is equal "draft"', () => {
+        expect(ticket.isDraftState()).toBeTruthy();
+      });
+    });
+
+    describe('#isPublishedState', () => {
+      it('should return true if state is equal "draft"', () => {
+        ticket.state = 'published';
+
+        expect(ticket.isPublishedState()).toBeTruthy();
+      });
+    });
+
+    describe('#isQuestionTicketType', () => {
       it('should return true if ticket_type is equal "question"', () => {
-        expect(ticket.isQuestion()).toBeTruthy();
+        expect(ticket.isQuestionTicketType()).toBeTruthy();
       });
     });
 
-    describe('#isCase', () => {
+    describe('#isCaseTicketType', () => {
       it('should return true if ticket_type is equal "case"', () => {
         ticket.ticketType = 'case';
-        expect(ticket.isCase()).toBeTruthy();
+        expect(ticket.isCaseTicketType()).toBeTruthy();
       });
     });
   });

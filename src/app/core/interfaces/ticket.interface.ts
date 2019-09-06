@@ -7,6 +7,7 @@ export interface TicketI {
   service_id: number;
   name: string;
   ticket_type: string;
+  state: string;
   is_hidden: boolean;
   sla: number;
   popularity: number;
