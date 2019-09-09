@@ -109,17 +109,21 @@ describe('QuestionPageContentComponent', () => {
 
     it('should show answers', () => {
       ticket.answers.forEach(answer => {
-        expect(fixture.debugElement.nativeElement.textContent).toContain(answer.answer);
+        expect(fixture.debugElement.nativeElement.textContent).not.toContain(answer.answer);
       });
 
-      const element = fixture.debugElement.nativeElement.querySelector('.overflow-hidden');
-      expect(element.getAttribute('style')).toContain('height:0px');
       fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-link').click();
       fixture.detectChanges();
-      expect(element.getAttribute('style')).not.toContain('height:0px');
+
+      ticket.answers.forEach(answer => {
+        expect(fixture.debugElement.nativeElement.textContent).toContain(answer.answer);
+      });
     });
 
     it('should show attachments', () => {
+      fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-link').click();
+      fixture.detectChanges();
+
       expect(fixture.debugElement.nativeElement.querySelector('#attachmentFile')).toBeTruthy();
     });
 

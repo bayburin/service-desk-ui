@@ -1,7 +1,11 @@
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { trigger, style, transition, animate } from '@angular/animations';
 
 export const toggleAnswer = trigger('ToggleAnswer', [
-  state('expanded', style({ height: '*' })),
-  state('collapsed', style({ height: 0 })),
-  transition('expanded <=> collapsed', animate(100))
+  transition(':enter', [
+    style({ height: 0 }),
+    animate(100, style({ height: '*' }))
+  ]),
+  transition(':leave', [
+    animate(100, style({ height: 0 }))
+  ])
 ]);

@@ -6,7 +6,7 @@
       <span *ngIf="data.isDraftState()" class="badge badge-secondary ml-1">Черновик</span>
     </div>
   </div>
-  <div class="overflow-hidden" [@ToggleAnswer]="data.open ? 'expanded' : 'collapsed'">
+  <div *ngIf="data.open" class="overflow-hidden" @ToggleAnswer>
     <div *ngFor="let answer of data.answers; trackBy: trackByAnswer" class="sd-list-answer ml-5">
       <div class="row d-flex align-items-center">
         <div class="col-sm-9 col-md-10" [innerHtml]="answer.answer"></div>
