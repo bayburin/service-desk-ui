@@ -89,17 +89,6 @@ describe('NewTicketComponent', () => {
     });
   });
 
-  it('should create array of service tags', () => {
-    const tags: TagI[] = [
-      { id: 1, name: 'Tag 1', popularity: 5 },
-      { id: 2, name: 'Tag 2', popularity: 1 }
-    ];
-    spyOn(serviceService, 'loadTags').and.returnValue(of(tags));
-    fixture.detectChanges();
-
-    expect(component.serviceTags).toEqual(tags.map(tag => `<span class="badge badge-secondary">${tag.name}</span>`));
-  });
-
   describe('#addAnswer', () => {
     it('should add formgroup to "answers_attributes" formarray', () => {
       fixture.detectChanges();
@@ -128,6 +117,70 @@ describe('NewTicketComponent', () => {
       expect((component.form.answers_attributes as FormArray).length).toEqual(0);
     });
   });
+
+  describe('Tag features', () => {
+    let tags: TagI[];
+
+    beforeEach(() => {
+      tags = [
+        { id: 1, name: 'Tag 1', popularity: 5, selected: false },
+        { id: 2, name: 'Tag 2', popularity: 1, selected: true }
+      ];
+      spyOn(serviceService, 'loadTags').and.returnValue(of(tags));
+      fixture.detectChanges();
+    });
+
+    it('should create array of service tags', () => {
+      const result = tags.map(tag => {
+        return {
+          data: tag,
+          htmlString: `<span class="badge badge-secondary">${tag.name}</span>`
+        };
+      });
+      expect(component.serviceTags).toEqual(result);
+    });
+
+    describe('#addTag', () => {
+      let tag: TagI;
+
+      beforeEach(() => {
+        tag = tags[0];
+        fixture.detectChanges();
+        component.addTag(tag);
+      });
+
+      it('should add tag to "tags_attributes" array', () => {
+        expect(component.form.tags_attributes.value.length).toEqual(1);
+      });
+
+      describe('when tag already in array', () => {
+        it('should not add tag', () => {
+          component.addTag(tag);
+
+          expect(component.form.tags_attributes.value.length).toEqual(1);
+        });
+      });
+    });
+
+    describe('#hideTag', () => {
+      it('should set true value into "selected" attribute', () => {
+        const tag = tags[0];
+        component.hideTag(tag);
+
+        expect(tag.selected).toBeTruthy();
+      });
+    });
+
+    describe('#showTag', () => {
+      it('should set false value into "selected" attribute', () => {
+        const tag = tags[1];
+        component.showTag({ value: tag });
+
+        expect(tag.selected).toBeFalsy();
+      });
+    });
+  });
+
 
   describe('#save', () => {
     let ticketService: TicketService;

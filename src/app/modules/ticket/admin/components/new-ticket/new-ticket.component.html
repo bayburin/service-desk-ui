@@ -23,14 +23,16 @@
             <label for="tags">Теги</label>
             <ng-select id="tags" [items]="tags | async" [addTag]="!loading.tags" [hideSelected]="true" multiple="true" bindLabel="name"
               [typeahead]="tagInput" [loading]="loading.tags" formControlName="tags_attributes" typeToSearchText="Введите тег"
-              addTagText="Добавить тег" placeholder="Укажите теги"></ng-select>
+              addTagText="Добавить тег" placeholder="Укажите теги" (add)="hideTag($event)" (remove)="showTag($event)"></ng-select>
             <small class="form-text">
               <div class="d-flex align-items-center flex-wrap">
                 Популярные теги для данной услуги:
                 <app-loading class="ml-2 mr-2" [loading]="loading.serviceTags" size="18px"></app-loading>
                 <span *ngFor="let tag of serviceTags" @contentBlockAnimation>
-                  <span [innerHTML]=tag></span>
-                  &nbsp;
+                  <span *ngIf="!tag.data.selected">
+                    <span class="pointer" [innerHTML]="tag.htmlString" (click)="addTag(tag.data)"></span>
+                    &nbsp;
+                  </span>
                 </span>
               </div>
             </small>

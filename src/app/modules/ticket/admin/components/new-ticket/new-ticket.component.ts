@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
-import { switchMap, tap, finalize, filter } from 'rxjs/operators';
+import { switchMap, tap, finalize, filter, debounceTime } from 'rxjs/operators';
 
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { ServiceService } from '@shared/services/service/service.service';
@@ -24,7 +24,7 @@ export class NewTicketComponent implements OnInit {
   ticketForm: FormGroup;
   tags: Observable<TagI[]>;
   tagInput = new Subject<string>();
-  serviceTags: string[];
+  serviceTags: { data: TagI, htmlString: string }[];
   loading = {
     tags: false,
     form: false,
@@ -57,14 +57,14 @@ export class NewTicketComponent implements OnInit {
   /**
    * Добавляет шаблон ответа к вопросу.
    */
-  addAnswer() {
+  addAnswer(): void {
     (this.form.answers_attributes as FormArray).push(this.createAnswer());
   }
 
   /**
    * Сохраняет вопрос.
    */
-  save() {
+  save(): void {
     this.submitted = true;
     if (this.ticketForm.invalid) {
       return;
@@ -86,7 +86,7 @@ export class NewTicketComponent implements OnInit {
   /**
    * Возвращается к маршруту на уровень выше.
    */
-  cancel() {
+  cancel(): void {
     this.modal.dismiss();
     this.redirectToService();
   }
@@ -96,7 +96,7 @@ export class NewTicketComponent implements OnInit {
    *
    * @param object - изменяемый объект
    */
-  toggleHidden(object: FormGroup) {
+  toggleHidden(object: FormGroup): void {
     const currentValue = object.controls.is_hidden.value;
 
     object.controls.is_hidden.setValue(!currentValue);
@@ -107,9 +107,50 @@ export class NewTicketComponent implements OnInit {
    *
    * @param answer - ответ
    */
-  deleteAnswer(answer: FormGroup) {
+  deleteAnswer(answer: FormGroup): void {
     const index = (this.form.answers_attributes as FormArray).controls.indexOf(answer);
     (this.form.answers_attributes as FormArray).removeAt(index);
+  }
+
+  /**
+   * Добавляет тег к вопросу.
+   *
+   * @params tag - тег
+   */
+  addTag(tag: TagI): void {
+    const tags: TagI[] = this.form.tags_attributes.value.slice();
+
+    if (!tags.some(el => el.name === tag.name)) {
+      tag.selected = true;
+      tags.push(tag);
+      this.form.tags_attributes.setValue(tags);
+    }
+  }
+
+  /**
+   * Спрятать тег в списке.
+   *
+   * @params tag - тег
+   */
+  hideTag(tag: TagI) {
+    const serviceTag = this.serviceTags.find(el => el.data.name === tag.name);
+
+    if (serviceTag) {
+      serviceTag.data.selected = true;
+    }
+  }
+
+  /**
+   * Показать тег в списке.
+   *
+   * @param data -данные, содержащие тег в поле value
+   */
+  showTag(data: any): void {
+    const serviceTag = this.serviceTags.find(el => el.data.name === data.value.name);
+
+    if (serviceTag) {
+      serviceTag.data.selected = false;
+    }
   }
 
   private loadTags() {
@@ -117,6 +158,7 @@ export class NewTicketComponent implements OnInit {
       of([]),
       this.tagInput.pipe(
         filter(term => term && term.length >= 2),
+        debounceTime(300),
         tap(() => this.loading.tags = true),
         switchMap(term => {
           return this.ticketService.loadTags(term)
@@ -131,7 +173,12 @@ export class NewTicketComponent implements OnInit {
     this.serviceService.loadTags()
       .pipe(finalize(() => this.loading.serviceTags = false))
       .subscribe((tags: TagI[]) => {
-        this.serviceTags = tags.map(tag => `<span class="badge badge-secondary">${tag.name}</span>`);
+        this.serviceTags = tags.map(tag => {
+          return {
+            data: tag,
+            htmlString: `<span class="badge badge-secondary">${tag.name}</span>`
+          };
+        });
       });
   }
 
