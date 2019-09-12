@@ -12,7 +12,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
     const jsonRequest = req.clone({
       setHeaders: {
-        ContentType: 'application/json',
+        'Content-Type': 'application/json',
         Accept: 'application/json'
       }
     });
