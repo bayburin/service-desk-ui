@@ -39,7 +39,7 @@ describe('ServicesDetailPageComponent', () => {
     { id: 2, service_id: 2, name: 'Тестовый вопрос 2', ticket_type: 'question' } as TicketI,
   ];
   const service = ServiceFactory.create({ id: 2, name: 'Тестовая заявка', category_id: 3, tickets: tickets });
-  const stubRoute = jasmine.createSpyObj<ActivatedRoute>('ActivatedRoute', ['snapshot', 'parent']);
+  const stubRoute = jasmine.createSpyObj<ActivatedRoute>('ActivatedRoute', ['snapshot', 'parent', 'children']);
   const stubRouteProxy = new Proxy(stubRoute, {
     get(target, prop) {
       if (prop === 'snapshot') {
@@ -51,6 +51,8 @@ describe('ServicesDetailPageComponent', () => {
         return {
           snapshot: { params: { id: '3' } }
         };
+      } else if (prop === 'children') {
+        return [];
       }
     }
   });
@@ -79,6 +81,7 @@ describe('ServicesDetailPageComponent', () => {
     serviceService = TestBed.get(ServiceService);
     loadServiceSpy = spyOn(serviceService, 'loadService');
     loadServiceSpy.and.returnValue(of(service));
+
     fixture.detectChanges();
   });
 
@@ -101,15 +104,4 @@ describe('ServicesDetailPageComponent', () => {
   it('should render app-service-detail component', () => {
     expect(fixture.debugElement.nativeElement.querySelector('app-service-detail')).toBeTruthy();
   });
-
-  it('should subscribe to "ticketSaved" event', fakeAsync(() => {
-    const testFixture = TestBed.createComponent(TestComponent);
-    const testComponent = testFixture.componentInstance;
-    const newService = { name: 'new service' } as Service;
-    loadServiceSpy.and.returnValue(of(newService));
-    component.onActivate(testComponent);
-    testComponent.ticketSaved.emit();
-    flush();
-    expect(component.service).toEqual(newService);
-  }));
 });

@@ -9,12 +9,26 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { TagI } from '@interfaces/tag.interface';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { Service } from '@modules/ticket/models/service/service.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TicketService {
   constructor(private http: HttpClient) {}
+
+  /**
+   * Загружает список черновых вопросов для указанной услуги.
+   *
+   * @param service - услуга.
+   */
+  loadDraftTicketsFor(service: Service): Observable<Ticket[]> {
+    const ticketsUri = `${environment.serverUrl}/api/v1/services/${service.id}/tickets`;
+    const httpParams = new HttpParams().set('state', 'draft');
+
+    return this.http.get(ticketsUri, { params:  httpParams })
+      .pipe(map((tickets: TicketI[]) => tickets.map(ticket => TicketFactory.create(ticket))));
+  }
 
   /**
    * Отправляет запрос на сервер на изменение рейтинга указанного вопроса.

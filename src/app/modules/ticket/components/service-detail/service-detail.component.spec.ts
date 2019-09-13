@@ -66,11 +66,11 @@ describe('ServiceDetailComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should redirect to form to create a new question', inject([Router], (router: Router) => {
+    it('should open admin mode', inject([Router], (router: Router) => {
       const spy = spyOn(router, 'navigateByUrl');
-      fixture.debugElement.nativeElement.querySelector('#newTicket').click();
+      fixture.debugElement.nativeElement.querySelector('#adminMode').click();
 
-      expect(`${spy.calls.first().args[0]}`).toEqual('/admin/services/new_ticket');
+      expect(`${spy.calls.first().args[0]}`).toEqual('/admin/tickets');
     }));
   });
 });

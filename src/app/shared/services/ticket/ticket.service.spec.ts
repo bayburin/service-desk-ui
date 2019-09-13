@@ -9,6 +9,7 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { TagI } from '@interfaces/tag.interface';
+import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 
 describe('TicketService', () => {
   let httpTestingController: HttpTestingController;
@@ -29,6 +30,25 @@ describe('TicketService', () => {
 
   it('should be created', () => {
     expect(ticketService).toBeTruthy();
+  });
+
+  describe('#loadDraftTicketsFor', () => {
+    const service = ServiceFactory.create({ id: 1, name: 'Тестовая услуга' });
+    const loadedTicket = { id: 1, name: 'Вопрос 1', ticket_type: 'question' } as TicketI;
+    const expectedTicket = TicketFactory.create(loadedTicket);
+    const loadDraftTicketsForUrl = `${environment.serverUrl}/api/v1/services/${service.id}/tickets`;
+    const httpParams = new HttpParams().set('state', 'draft');
+
+    it('should return Observable with tickets array', () => {
+      ticketService.loadDraftTicketsFor(service).subscribe(data => {
+        expect(data).toEqual([expectedTicket]);
+      });
+
+      httpTestingController.expectOne({
+        method: 'GET',
+        url: `${loadDraftTicketsForUrl}?${httpParams}`
+      }).flush([loadedTicket]);
+    });
   });
 
   describe('#raiseRating', () => {

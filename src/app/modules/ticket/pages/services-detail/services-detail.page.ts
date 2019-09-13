@@ -20,7 +20,7 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
   private questionStream = new Subject();
   private ticketId: number;
 
-  constructor(private serviceService: ServiceService, private route: ActivatedRoute) {}
+  constructor(private serviceService: ServiceService, public route: ActivatedRoute) {}
 
   ngOnInit() {
     this.ticketId = this.route.snapshot.queryParams.ticket;
@@ -29,12 +29,11 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    if (!this.ticketId) {
+    if (!this.ticketId || !this.serviceDetailComponent) {
       return;
     }
 
     const dynamicTemplateComponentArr = this.serviceDetailComponent.dynamicTemplateComponent.toArray();
-
     this.questionStream.next(dynamicTemplateComponentArr);
   }
 
@@ -49,10 +48,6 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
     this.serviceService.loadService(categoryId, serviceId)
       .pipe(finalize(() => this.loading = false))
       .subscribe(service => this.service = service);
-  }
-
-  onActivate(component) {
-    component.ticketSaved.pipe(first()).subscribe(() => this.loadService());
   }
 
   /**
