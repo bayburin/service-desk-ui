@@ -72,6 +72,18 @@ describe('Service', () => {
 
       expect(service.category instanceof Category).toBeTruthy();
     });
+
+    describe('when tickets is undefined', () => {
+      beforeEach(() => {
+        serviceI.tickets = undefined;
+      });
+
+      it('should create empty array', () => {
+        service = new Service(serviceI);
+
+        expect(service.tickets.length).toEqual(0);
+      });
+    });
   });
 
   describe('For existing service', () => {

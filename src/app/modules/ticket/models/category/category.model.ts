@@ -21,14 +21,8 @@ export class Category implements CommonServiceI {
     this.shortDescription = category.short_description || '';
     this.popularity = category.popularity || 0;
     this.iconName = category.icon_name;
-
-    if (category.services) {
-      this.services = category.services.map((service: ServiceI) => ServiceFactory.create(service)) || [];
-    }
-
-    if (category.faq) {
-      this.tickets = category.faq.map((ticket: TicketI) => TicketFactory.create(ticket)) || [];
-    }
+    this.buildServices(category.services);
+    this.buildFaq(category.faq);
   }
 
   getShowLink(): string {
@@ -37,5 +31,25 @@ export class Category implements CommonServiceI {
 
   pageComponent(): string {
     return 'app-category-page-content';
+  }
+
+  private buildServices(services: ServiceI[]): void {
+    if (!services || !services.length) {
+      this.services = [];
+
+      return;
+    }
+
+    this.services = services.map(service => ServiceFactory.create(service)) || [];
+  }
+
+  private buildFaq(tickets: TicketI[]) {
+    if (!tickets || !tickets.length) {
+      this.tickets = [];
+
+      return;
+    }
+
+    this.tickets = tickets.map(ticket => TicketFactory.create(ticket)) || [];
   }
 }

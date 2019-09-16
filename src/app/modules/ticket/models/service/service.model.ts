@@ -5,6 +5,7 @@ import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { User } from '@shared/models/user/user.model';
+import { TicketI } from '@interfaces/ticket.interface';
 
 export class Service implements CommonServiceI {
   id: number;
@@ -30,10 +31,7 @@ export class Service implements CommonServiceI {
     this.hasCommonCase = service.has_common_case;
     this.popularity = service.popularity;
     this.responsibleUsers = service.responsible_users || [];
-
-    if (service.tickets) {
-      this.tickets = service.tickets.map(ticket => TicketFactory.create(ticket)) || [];
-    }
+    this.buildTickets(service.tickets);
 
     if (service.category) {
       this.category = CategoryFactory.create(service.category);
@@ -66,5 +64,15 @@ export class Service implements CommonServiceI {
    */
   isBelongsByTicketTo(user: User): boolean {
     return this.tickets.some(ticket => ticket.isBelongsTo(user));
+  }
+
+  private buildTickets(tickets: TicketI[]): void {
+    if (!tickets || !tickets.length) {
+      this.tickets = [];
+
+      return;
+    }
+
+    this.tickets = tickets.map(ticket => TicketFactory.create(ticket)) || [];
   }
 }
