@@ -14,17 +14,20 @@ const routes: Routes = [
     data: {
       policy: ServicePolicy,
       action: 'newTicket'
-    }
-  }
-  // {
-  //   path: 'services/new_ticket',
-  //   component: NewTicketComponent,
-  //   canActivate: [ResponsibleGuard],
-  //   data: {
-  //     policy: ServicePolicy,
-  //     action: 'newTicket'
-  //   }
-  // }
+    },
+    children: [
+      {
+        path: 'new',
+        component: NewTicketComponent,
+        canActivate: [ResponsibleGuard],
+        data: {
+          policy: ServicePolicy,
+          action: 'newTicket'
+        }
+      }
+    ]
+  },
+
 ];
 
 @NgModule({

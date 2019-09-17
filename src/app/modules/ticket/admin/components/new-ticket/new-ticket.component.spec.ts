@@ -224,7 +224,7 @@ describe('NewTicketComponent', () => {
         const spy = spyOn(router, 'navigate');
         component.save();
 
-        expect(spy.calls.first().args[0]).toEqual(['../../../']);
+        expect(spy.calls.first().args[0]).toEqual(['../']);
       }));
 
       it('should emit to "ticketSaved" event', () => {
@@ -253,7 +253,7 @@ describe('NewTicketComponent', () => {
       spyOn(component.modal, 'dismiss');
       component.cancel();
 
-      expect(spy.calls.first().args[0]).toEqual(['../../../']);
+      expect(spy.calls.first().args[0]).toEqual(['../']);
     }));
   });
 });

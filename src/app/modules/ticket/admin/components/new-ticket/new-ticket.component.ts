@@ -132,7 +132,7 @@ export class NewTicketComponent implements OnInit {
    *
    * @params tag - тег
    */
-  hideTag(tag: TagI) {
+  hideTag(tag: TagI): void {
     const serviceTag = this.serviceTags.find(el => el.data.name === tag.name);
 
     if (serviceTag) {
@@ -153,7 +153,7 @@ export class NewTicketComponent implements OnInit {
     }
   }
 
-  private loadTags() {
+  private loadTags(): void {
     this.tags = concat(
       of([]),
       this.tagInput.pipe(
@@ -168,7 +168,7 @@ export class NewTicketComponent implements OnInit {
     );
   }
 
-  private loadServiceTags() {
+  private loadServiceTags(): void {
     this.loading.serviceTags = true;
     this.serviceService.loadTags()
       .pipe(finalize(() => this.loading.serviceTags = false))
@@ -182,7 +182,7 @@ export class NewTicketComponent implements OnInit {
       });
   }
 
-  private openModal() {
+  private openModal(): void {
     this.modal = this.modalService.open(
       this.content,
       {
@@ -194,7 +194,7 @@ export class NewTicketComponent implements OnInit {
     );
   }
 
-  private buildForm() {
+  private buildForm(): void {
     this.ticketForm = this.formBuilder.group({
       service_id: [this.service.id],
       name: ['', Validators.required],
@@ -208,7 +208,7 @@ export class NewTicketComponent implements OnInit {
     });
   }
 
-  private createAnswer() {
+  private createAnswer(): FormGroup {
     return this.formBuilder.group({
       answer: ['', Validators.required],
       link: [''],
@@ -216,7 +216,7 @@ export class NewTicketComponent implements OnInit {
     });
   }
 
-  private redirectToService() {
-    this.router.navigate(['../../../'], { relativeTo: this.route });
+  private redirectToService(): void {
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }

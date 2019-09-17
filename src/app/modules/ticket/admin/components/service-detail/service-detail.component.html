@@ -2,10 +2,12 @@
   <div class="container">
     <div class="d-flex flex-row align-items-start">
       <app-section-header [header]="service.name + ' - администрирование'" [addClass]="'text-danger'" class="mr-auto"></app-section-header>
-      <a id="userMode" [routerLink]="['../../']" class="btn btn-gray-white">Режим пользователя</a>
+      <a id="newQuestion" routerLink="new" class="btn btn-gray-white">Новый вопрос</a>
+      <a id="userMode" [routerLink]="['../../']" class="btn btn-gray-white ml-2">Режим пользователя</a>
     </div>
     <div class="sd-dlist-divider-b">
       <app-question *ngFor="let ticket of service.tickets; trackBy: trackByTicket" [question]="ticket"></app-question>
     </div>
   </div>
 </section>
+<router-outlet></router-outlet>
