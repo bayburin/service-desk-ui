@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SectionHeaderComponent } from './section-header.component';
+import { By } from '@angular/platform-browser';
 
 describe('SectionHeaderComponent', () => {
   let component: SectionHeaderComponent;
@@ -24,6 +25,7 @@ describe('SectionHeaderComponent', () => {
 
   it('should create', () => {
     fixture.detectChanges();
+
     expect(component).toBeTruthy();
   });
 
@@ -33,5 +35,13 @@ describe('SectionHeaderComponent', () => {
     fixture.detectChanges();
 
     expect(fixture.debugElement.nativeElement.textContent).toContain(myHeader);
+  });
+
+  it('should add apply received class', () => {
+    component.addClass = 'test';
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('h2'));
+
+    expect(el.nativeElement.getAttribute('class')).toContain('test');
   });
 });

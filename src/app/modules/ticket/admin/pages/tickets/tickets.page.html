@@ -1,6 +1,4 @@
 <section class="sd-pb-6" *ngIf="service" @contentBlockAnimation>
   <app-loading [loading]="loading" size="48px"></app-loading>
-  <!-- <pre>
-    {{ service.tickets | json }}
-  </pre> -->
+  <app-service-detail [service]="service"></app-service-detail>
 </section>

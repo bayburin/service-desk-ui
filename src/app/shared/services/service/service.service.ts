@@ -10,6 +10,7 @@ import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
 import { SearchSortingPipe } from '@shared/pipes/search-sorting/search-sorting.pipe';
 import { TagI } from '@interfaces/tag.interface';
+import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,24 @@ export class ServiceService implements BreadcrumbServiceI {
     const httpParams = new HttpParams().set('service_id', `${this.service.id}`);
 
     return this.http.get<TagI[]>(tagsUri, { params: httpParams });
+  }
+
+  /**
+   * Добавить вопросы к услуге.
+   *
+   * @param tickets - вопросы.
+   */
+  addTickets(tickets: Ticket[]): void {
+    this.service.tickets = tickets.concat(this.service.tickets);
+  }
+
+  /**
+   * Удалить вопросы из услуги.
+   *
+   * @param tickets - вопросы.
+   */
+  removeTickets(tickets: Ticket[]): void {
+    this.service.tickets = this.service.tickets.filter(el => !tickets.find(draft => draft.id === el.id));
   }
 
   getNodeName(): Observable<string> {

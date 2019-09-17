@@ -1,0 +1,23 @@
+<div class="sd-list-item" [ngClass]="{ 'active-item': question.open }" [id]="question.id">
+  <div class="sd-list-question">
+    <div class="sd-icon-group text-body">
+      <i *ngIf="!standaloneLink" class="mdi mdi-24px pointer" [ngClass]="question.open ?
+        'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'" (click)="toggleQuestion()"></i>
+      <div class="d-flex flex-column">
+        <div>
+          <span [innerHtml]="question.name"></span>
+          <span *ngIf="question.isDraftState()" class="badge bg-blue-100 ml-1">Черновик</span>
+        </div>
+        <div class="mt-1">
+          Теги:
+          <span *ngFor="let tag of question.tags" class="badge ml-1 bg-blue-100">{{ tag.name }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="question.open" class="overflow-hidden" @ToggleAnswer>
+    <div *ngFor="let answer of question.answers; trackBy: trackByAnswer" class="sd-list-answer ml-5">
+      <app-answer [answer]="answer"></app-answer>
+    </div>
+  </div>
+</div>

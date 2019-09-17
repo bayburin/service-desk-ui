@@ -2,7 +2,7 @@
   <div class="container">
     <div class="d-flex flex-row align-items-start">
       <app-section-header [header]="service.name" class="mr-auto"></app-section-header>
-      <a id="adminMode" *appAuthorize="[service, 'newTicket']" routerLink="admin/tickets" class="btn btn-danger">Режим администрирования</a>
+      <a id="adminMode" *appAuthorize="[service, 'newTicket']" routerLink="admin/tickets" class="btn btn-danger">Режим администратора</a>
     </div>
     <div class="sd-dlist-divider-b">
       <app-dynamic-template-content *ngFor="let ticket of service.tickets; trackBy: trackByTicket" [data]="ticket"></app-dynamic-template-content>

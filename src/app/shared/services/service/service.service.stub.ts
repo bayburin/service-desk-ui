@@ -8,6 +8,8 @@ export class StubServiceService {
   loadServices() {}
   loadService() {}
   loadTags() { return of([]); }
+  addTickets() {}
+  removeTickets() {}
   getParentNodeName() { return of('Программные комплексы (из сервиса)'); }
   getNodeName() { return of('nanoCad'); }
 }

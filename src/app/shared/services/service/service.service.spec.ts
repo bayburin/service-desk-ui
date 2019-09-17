@@ -149,6 +149,30 @@ describe('ServiceService', () => {
     });
   });
 
+  describe('Operations with tickets', () => {
+    let newTicket: Ticket;
+
+    beforeEach(() => {
+      newTicket = TicketFactory.create({ id: 10, name: 'Новый вопрос', ticket_type: 'question' });
+      serviceService.service = service;
+      serviceService.addTickets([newTicket]);
+    });
+
+    describe('#addTickets', () => {
+      it('should add tickets to "tickets" array', () => {
+        expect(serviceService.service.tickets).toContain(newTicket);
+      });
+    });
+
+    describe('#removeTickets', () => {
+      it('should remove tickets from "tickets" array', () => {
+        serviceService.removeTickets([newTicket]);
+
+        expect(serviceService.service.tickets).not.toContain(newTicket);
+      });
+    });
+  });
+
   describe('#getNodeName', () => {
     it('should return Observale with service name when service exists', () => {
       serviceService.getNodeName().subscribe(result => {

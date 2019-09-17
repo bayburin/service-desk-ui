@@ -49,6 +49,17 @@ describe('TicketService', () => {
         url: `${loadDraftTicketsForUrl}?${httpParams}`
       }).flush([loadedTicket]);
     });
+
+    it('should save loaded data into "draftTickets" attribute', () => {
+      ticketService.loadDraftTicketsFor(service).subscribe(() => {
+        expect(ticketService.draftTickets).toEqual([expectedTicket]);
+      });
+
+      httpTestingController.expectOne({
+        method: 'GET',
+        url: `${loadDraftTicketsForUrl}?${httpParams}`
+      }).flush([loadedTicket]);
+    });
   });
 
   describe('#raiseRating', () => {

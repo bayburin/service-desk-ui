@@ -1,0 +1,17 @@
+<div class="row d-flex align-items-center">
+  <div class="col-sm-9 col-md-10" [innerHtml]="answer.answer"></div>
+  <div class="col-sm-3 col-md-2">
+    <div class="sd-link sd-icon-group justify-content-center">
+      <!-- <div *ngFor="let attachment of answer.attachments">
+        <ng-template #filename>{{ attachment.filename }}</ng-template>
+        <app-loading [loading]="attachment.loading" size="24px" class="text-secondary"></app-loading>
+        <div id="attachmentFile" *ngIf="!attachment.loading" [ngbTooltip]="filename" container="body">
+          <i class="mdi mdi-file-download mdi-24px" (click)="downloadAttachment(attachment)"></i>
+        </div>
+      </div> -->
+      <div *ngIf="answer.link" ngbTooltip="Перейти по ссылке" container="body">
+        <a id="attachmentLink" [href]="answer.link" target="_blank"><i class="mdi mdi-open-in-new mdi-24px"></i></a>
+      </div>
+    </div>
+  </div>
+</div>

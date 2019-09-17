@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { environment } from 'environments/environment';
@@ -15,6 +15,8 @@ import { Service } from '@modules/ticket/models/service/service.model';
   providedIn: 'root'
 })
 export class TicketService {
+  draftTickets: Ticket[];
+
   constructor(private http: HttpClient) {}
 
   /**
@@ -27,7 +29,10 @@ export class TicketService {
     const httpParams = new HttpParams().set('state', 'draft');
 
     return this.http.get(ticketsUri, { params:  httpParams })
-      .pipe(map((tickets: TicketI[]) => tickets.map(ticket => TicketFactory.create(ticket))));
+      .pipe(
+        map((tickets: TicketI[]) => tickets.map(ticket => TicketFactory.create(ticket))),
+        tap(tickets => this.draftTickets = tickets)
+      );
   }
 
   /**

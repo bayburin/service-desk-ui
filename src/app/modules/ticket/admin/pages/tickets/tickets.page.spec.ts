@@ -3,15 +3,16 @@ import { TicketsPageComponent } from './tickets.page';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { ServiceService } from '@shared/services/service/service.service';
-import { StubServicePolicy } from '@shared/policies/service/service.policy.stub';
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
+import { StubServiceService } from '@shared/services/service/service.service.stub';
 
 describe('TicketsPageComponent', () => {
   let component: TicketsPageComponent;
@@ -23,11 +24,11 @@ describe('TicketsPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule],
+      imports: [NoopAnimationsModule, RouterTestingModule],
       declarations: [TicketsPageComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
-        { provide: ServiceService, useClass: StubServicePolicy },
+        { provide: ServiceService, useClass: StubServiceService },
         { provide: TicketService, useClass: StubTicketService }
       ]
     })
@@ -49,10 +50,10 @@ describe('TicketsPageComponent', () => {
       name: 'Тестовая услуга',
       tickets: [{ id: 1, name: 'Вопрос 1', ticket_type: 'question' }]
     });
-
     serviceService.service = service;
 
     spyOn(ticketService, 'loadDraftTicketsFor').and.returnValue(of(tickets));
+    spyOn(serviceService, 'addTickets');
     fixture.detectChanges();
   });
 
@@ -61,10 +62,17 @@ describe('TicketsPageComponent', () => {
   });
 
   it('should loads tickets with draft state from server', () => {
-    expect(component.draftTickets).toEqual(tickets);
+    expect(ticketService.loadDraftTicketsFor).toHaveBeenCalledWith(component.service);
   });
 
-  it ('should concat loaded tickets with current tickets', () => {
-    expect(component.service.tickets.length).toEqual(3);
+  it('should call "addTickets" method with received tickets', () => {
+    expect(serviceService.addTickets).toHaveBeenCalledWith(tickets);
+  });
+
+  it('should call "removeTickets" method with draft tickets if user leaves the admin module', () => {
+    spyOn(serviceService, 'removeTickets');
+    (component as any).router.navigateByUrl('/');
+
+    expect(serviceService.removeTickets).toHaveBeenCalledWith(ticketService.draftTickets);
   });
 });

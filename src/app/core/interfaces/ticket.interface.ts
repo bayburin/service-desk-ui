@@ -1,6 +1,7 @@
 import { AnswerI } from './answer.interface';
 import { ServiceI } from '@interfaces/service.interface';
 import { ResponsibleUserI } from './responsible-user.interface';
+import { TagI } from './tag.interface';
 
 export interface TicketI {
   id: number;
@@ -12,6 +13,7 @@ export interface TicketI {
   sla: number;
   popularity: number;
   answers?: AnswerI[];
+  tags?: TagI[];
   service?: ServiceI;
   responsible_users?: ResponsibleUserI[];
   open?: boolean;
