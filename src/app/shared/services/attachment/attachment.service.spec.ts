@@ -73,4 +73,21 @@ describe('AttachmentService', () => {
       }).flush(expectedAttachment);
     });
   });
+
+  describe('#removeAttachment', () => {
+    const attachment = { id: 1, answer_id: 2 } as AnswerAttachmentI;
+    const removeAttachmentUrl = `${environment.serverUrl}/api/v1/answers/${attachment.answer_id}/answer_attachments/${attachment.id}`;
+    const expectedAttachment = { id: 2, answer_id: 1, filename: 'Тестовое имя файла' };
+
+    it('should return Observable with removed attachment object', () => {
+      service.removeAttachment(attachment).subscribe(data => {
+        expect(data).toEqual(expectedAttachment);
+      });
+
+      httpTestingController.expectOne({
+        method: 'DELETE',
+        url: removeAttachmentUrl
+      }).flush(expectedAttachment);
+    });
+  });
 });

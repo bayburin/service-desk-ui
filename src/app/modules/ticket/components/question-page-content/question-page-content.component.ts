@@ -47,9 +47,9 @@ export class QuestionPageContentComponent implements OnInit {
    * Загружает выбранный файл с сервера.
    */
   downloadAttachment(attachment: AnswerAttachmentI): void {
-    attachment.loading = true;
+    attachment.loadingDownload = true;
     this.attachmentService.downloadAttachment(attachment)
-      .pipe(finalize(() => attachment.loading = false))
+      .pipe(finalize(() => attachment.loadingDownload = false))
       .subscribe(
         fileData => {
           const url = window.URL.createObjectURL(fileData);

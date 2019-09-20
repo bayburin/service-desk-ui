@@ -121,7 +121,7 @@ describe('AnswerComponent', () => {
     it('should calculate progress of upload');
   });
 
-  describe('#downloadDocument', () => {
+  describe('#downloadAttachment', () => {
     const attachment = {
       id: 1,
       answer_id: 1,
@@ -133,6 +133,22 @@ describe('AnswerComponent', () => {
       component.downloadAttachment(attachment);
 
       expect(attachmentService.downloadAttachment).toHaveBeenCalledWith(attachment);
+    });
+  });
+
+  describe('#removeAttachment', () => {
+    const attachment = {
+      id: 1,
+      answer_id: 1,
+      filename: 'test file'
+    } as AnswerAttachmentI;
+
+    it('should call "removeAttachment" method for AttachmentService', () => {
+      spyOn(window, 'confirm').and.returnValue(true);
+      spyOn(attachmentService, 'removeAttachment').and.returnValue(of(attachment));
+      component.removeAttachment(attachment);
+
+      expect(attachmentService.removeAttachment).toHaveBeenCalledWith(attachment);
     });
   });
 

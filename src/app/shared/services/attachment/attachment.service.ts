@@ -36,4 +36,13 @@ export class AttachmentService {
 
     return this.http.get(downloadAttachmentUrl, { responseType: 'blob' });
   }
+
+  /**
+   * Удалить файл
+   */
+  removeAttachment(attachment: AnswerAttachmentI) {
+    const removeAttachmentUrl = `${environment.serverUrl}/api/v1/answers/${attachment.answer_id}/answer_attachments/${attachment.id}`;
+
+    return this.http.delete(removeAttachmentUrl);
+  }
 }

@@ -15,8 +15,8 @@
           <div class="sd-link sd-icon-group justify-content-center">
             <div *ngFor="let attachment of answer.attachments">
               <ng-template #filename>{{ attachment.filename }}</ng-template>
-              <app-loading [loading]="attachment.loading" size="24px" class="text-secondary"></app-loading>
-              <div id="attachmentFile" *ngIf="!attachment.loading" [ngbTooltip]="filename" container="body">
+              <app-loading [loading]="attachment.loadingDownload" size="24px" class="text-secondary"></app-loading>
+              <div id="attachmentFile" *ngIf="!attachment.loadingDownload" [ngbTooltip]="filename" container="body">
                 <i class="mdi mdi-file-download mdi-24px" (click)="downloadAttachment(attachment)"></i>
               </div>
             </div>

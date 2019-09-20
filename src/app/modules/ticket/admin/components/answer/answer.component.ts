@@ -65,9 +65,9 @@ export class AnswerComponent implements OnInit, OnDestroy {
    * @param attachment - объект, содержащий имя файла
    */
   downloadAttachment(attachment: AnswerAttachmentI): void {
-    attachment.loading = true;
+    attachment.loadingDownload = true;
     this.attachmentService.downloadAttachment(attachment)
-      .pipe(finalize(() => attachment.loading = false))
+      .pipe(finalize(() => attachment.loadingDownload = false))
       .subscribe(
         fileData => {
           const url = window.URL.createObjectURL(fileData);
@@ -83,6 +83,22 @@ export class AnswerComponent implements OnInit, OnDestroy {
             link.remove();
           }, 100);
         });
+  }
+
+  /**
+   * Удаляет указанный файл.
+   *
+   * @param attachment - объект, содержащий имя файла.
+   */
+  removeAttachment(attachment: AnswerAttachmentI): void {
+    if (!confirm(`Вы действительно хотите удалить файл ${attachment.filename}?`)) {
+      return;
+    }
+
+    attachment.loadingRemove = true;
+    this.attachmentService.removeAttachment(attachment)
+      .pipe(finalize(() => attachment.loadingRemove = false))
+      .subscribe();
   }
 
   ngOnDestroy() {

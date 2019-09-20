@@ -3,5 +3,6 @@ export interface AnswerAttachmentI {
   answer_id: number;
   filename: string;
   document?: File;
-  loading?: boolean;
+  loadingDownload?: boolean;
+  loadingRemove?: boolean;
 }
