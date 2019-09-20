@@ -6,7 +6,6 @@ import { environment } from 'environments/environment';
 import { TicketService } from './ticket.service';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketI } from '@interfaces/ticket.interface';
-import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { TagI } from '@interfaces/tag.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
@@ -76,23 +75,6 @@ describe('TicketService', () => {
         method: 'GET',
         url: raiseRatingUrl
       }).flush(expectedTicket);
-    });
-  });
-
-  describe('#downloadAttachmentFromAnswer', () => {
-    const attachment = { id: 1, answer_id: 2 } as AnswerAttachmentI;
-    const downloadAttachmentUrl = `${environment.serverUrl}/api/v1/answers/${attachment.answer_id}/attachments/${attachment.id}`;
-    const expectedAttachment = new Blob(['test'], { type: 'application/json' });
-
-    it('should return Observable with blob data', () => {
-      ticketService.downloadAttachmentFromAnswer(attachment).subscribe(data => {
-        expect(data).toEqual(expectedAttachment);
-      });
-
-      httpTestingController.expectOne({
-        method: 'GET',
-        url: downloadAttachmentUrl
-      }).flush(expectedAttachment);
     });
   });
 

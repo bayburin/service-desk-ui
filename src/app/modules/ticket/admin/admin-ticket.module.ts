@@ -9,6 +9,7 @@ import { TicketsPageComponent } from './pages/tickets/tickets.page';
 import { QuestionComponent } from './components/question/question.component';
 import { ServiceDetailComponent } from './components/service-detail/service-detail.component';
 import { AnswerComponent } from './components/answer/answer.component';
+import { AttachmentComponent } from './components/attachment/attachment.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { AnswerComponent } from './components/answer/answer.component';
     TicketsPageComponent,
     QuestionComponent,
     ServiceDetailComponent,
-    AnswerComponent
+    AnswerComponent,
+    AttachmentComponent
   ],
   imports: [
     CommonModule,

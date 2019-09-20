@@ -10,12 +10,15 @@ import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { AnswerI } from '@interfaces/answer.interface';
 import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
+import { AttachmentService } from '@shared/services/attachment/attachment.service';
+import { StubAttachmentService } from '@shared/services/attachment/attachment.service.stub';
 
 describe('QuestionPageContentComponent', () => {
   let component: QuestionPageContentComponent;
   let fixture: ComponentFixture<QuestionPageContentComponent>;
   let ticket: Ticket;
   let ticketService: TicketService;
+  let attachmentService: AttachmentService;
   const attachment = {
     id: 1,
     filename: 'Тестовый файл'
@@ -30,7 +33,10 @@ describe('QuestionPageContentComponent', () => {
       imports: [NoopAnimationsModule],
       declarations: [QuestionPageContentComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [{ provide: TicketService, useClass: StubTicketService }]
+      providers: [
+        { provide: TicketService, useClass: StubTicketService },
+        { provide: AttachmentService, useClass: StubAttachmentService }
+      ]
     })
     .compileComponents();
   }));
@@ -41,6 +47,7 @@ describe('QuestionPageContentComponent', () => {
     ticket = TicketFactory.create({ id: 1, name: 'Тестовый вопрос', ticket_type: 'question', answers: answers });
     component.data = ticket;
     ticketService = TestBed.get(TicketService);
+    attachmentService = TestBed.get(AttachmentService);
     fixture.detectChanges();
   });
 
@@ -91,10 +98,10 @@ describe('QuestionPageContentComponent', () => {
     } as AnswerAttachmentI;
 
     it('should call "downloadAttachmentFromAnswer" method for TicketService', () => {
-      spyOn(ticketService, 'downloadAttachmentFromAnswer').and.returnValue(of(new Blob()));
+      spyOn(attachmentService, 'downloadAttachment').and.returnValue(of(new Blob()));
       component.downloadAttachment(attachment);
 
-      expect(ticketService.downloadAttachmentFromAnswer).toHaveBeenCalledWith(attachment);
+      expect(attachmentService.downloadAttachment).toHaveBeenCalledWith(attachment);
     });
   });
 

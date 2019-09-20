@@ -1,0 +1,6 @@
+<div class="d-flex flex-row align-items-center">
+  <button class="btn btn-outline-primary btn-sm" (click)="chooseFile()" [disabled]="loading">Загрузить новый файл</button>
+  <ngb-progressbar class="ml-2 flex-fill" [value]="progress" [striped]="progress == 100" [type]="control && control.errors ? 'danger' : ''"
+    [animated]="progress == 100 && !control?.errors">{{ message }}</ngb-progressbar>
+</div>
+<input type="file" id="attachment" [hidden]="true" (change)="onChangeAttachment($event)"/>

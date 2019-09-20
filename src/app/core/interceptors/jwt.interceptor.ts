@@ -9,22 +9,31 @@ export class JwtInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const currentToken = this.authService.getToken();
-
-    const jsonRequest = req.clone({
-      setHeaders: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      }
-    });
+    req = this.interceptJSONRequest(req);
 
     if (currentToken && currentToken.access_token) {
-      const requestWithToken = jsonRequest.clone({
+      const requestWithToken = req.clone({
         setHeaders: { Authorization: `Bearer ${currentToken.access_token}` }
       });
 
       return next.handle(requestWithToken);
     }
 
-    return next.handle(jsonRequest);
+    return next.handle(req);
+  }
+
+  private interceptJSONRequest(req: HttpRequest<any>): HttpRequest<any> {
+    if (req.headers.has('InterceptorSkipJSONHeaders')) {
+      const headers = req.headers.delete('InterceptorSkipJSONHeaders');
+
+      return req.clone({ headers });
+    } else {
+      return req.clone({
+        setHeaders: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        }
+      });
+    }
   }
 }

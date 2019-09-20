@@ -9,7 +9,9 @@ import {
   NgbTabsetModule,
   NgbToastModule,
   NgbModalModule,
-  NgbAccordionModule
+  NgbAccordionModule,
+  NgbDropdownModule,
+  NgbProgressbarModule
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoadingComponent } from './components/loading/loading.component';
@@ -55,7 +57,9 @@ import { AuthorizeDirective } from './directives/authorize/authorize.directive';
     NgbTabsetModule,
     NgbToastModule,
     NgbModalModule,
-    NgbAccordionModule
+    NgbAccordionModule,
+    NgbDropdownModule,
+    NgbProgressbarModule
   ],
   exports: [
     CommonModule,
@@ -69,6 +73,8 @@ import { AuthorizeDirective } from './directives/authorize/authorize.directive';
     NgbToastModule,
     NgbModalModule,
     NgbAccordionModule,
+    NgbDropdownModule,
+    NgbProgressbarModule,
     LoadingComponent,
     CaseCardListComponent,
     SectionHeaderComponent,

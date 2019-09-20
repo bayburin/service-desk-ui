@@ -6,7 +6,6 @@ import { map, tap } from 'rxjs/operators';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { environment } from 'environments/environment';
 import { TicketI } from '@interfaces/ticket.interface';
-import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { TagI } from '@interfaces/tag.interface';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { Service } from '@modules/ticket/models/service/service.model';
@@ -42,15 +41,6 @@ export class TicketService {
     const raiseRatingUrl = `${environment.serverUrl}/api/v1/services/${ticket.serviceId}/tickets/${ticket.id}`;
 
     return this.http.get<TicketI>(raiseRatingUrl);
-  }
-
-  /**
-   * Загружает с сервера указанный файл.
-   */
-  downloadAttachmentFromAnswer(attachment: AnswerAttachmentI): Observable<Blob> {
-    const downloadAttachmentUrl = `${environment.serverUrl}/api/v1/answers/${attachment.answer_id}/attachments/${attachment.id}`;
-
-    return this.http.get(downloadAttachmentUrl, { responseType: 'blob' });
   }
 
   /**

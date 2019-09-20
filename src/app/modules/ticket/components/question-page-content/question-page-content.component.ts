@@ -7,6 +7,7 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { AnswerI } from '@interfaces/answer.interface';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { toggleAnswer } from '@modules/ticket/animations/toggle-answer.animation';
+import { AttachmentService } from '@shared/services/attachment/attachment.service';
 
 @Component({
   selector: 'app-question-page-content',
@@ -19,7 +20,7 @@ export class QuestionPageContentComponent implements OnInit {
   @Input() standaloneLink: boolean;
   ratingStream = new Subject<Ticket>();
 
-  constructor(private ticketService: TicketService) { }
+  constructor(private ticketService: TicketService, private attachmentService: AttachmentService) { }
 
   ngOnInit() {
     this.ratingStream
@@ -43,11 +44,11 @@ export class QuestionPageContentComponent implements OnInit {
   }
 
   /**
-   * Загружает выбранный файл.
+   * Загружает выбранный файл с сервера.
    */
   downloadAttachment(attachment: AnswerAttachmentI): void {
     attachment.loading = true;
-    this.ticketService.downloadAttachmentFromAnswer(attachment)
+    this.attachmentService.downloadAttachment(attachment)
       .pipe(finalize(() => attachment.loading = false))
       .subscribe(
         fileData => {
