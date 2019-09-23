@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, shareReplay } from 'rxjs/operators';
 
 import { environment } from 'environments/environment';
 import { Service } from '@modules/ticket/models/service/service.model';
@@ -20,6 +20,9 @@ export class ServiceService implements BreadcrumbServiceI {
   service$ = new Subject<Service>();
   private loadServicesUri: string;
   private loadServiceUri: string;
+  private returnCached: boolean;
+  private cache: Observable<Service>;
+  private readonly CACHE_SIZE = 1;
 
   constructor(private http: HttpClient, private searchSortingPipe: SearchSortingPipe) { }
 
@@ -39,22 +42,25 @@ export class ServiceService implements BreadcrumbServiceI {
    *
    * @param categoryId - id категории
    * @param serviceId - id услуги
+   * @param caching - флаг кеширования. Если true - запрос будет закеширован на количество запросов, равное константе CACHE_SIZE.
    */
-  loadService(categoryId: number, serviceId: number): Observable<Service> {
+  loadService(categoryId: number, serviceId: number, caching = false): Observable<Service> {
     this.loadServiceUri = `${environment.serverUrl}/api/v1/categories/${categoryId}/services/${serviceId}`;
+    if (caching) {
+      this.cache = this.getServiceObservable().pipe(
+        tap(() => this.returnCached = true),
+        shareReplay(this.CACHE_SIZE)
+      );
 
-    return this.http.get(this.loadServiceUri).pipe(
-      map((data: ServiceI) => {
-        const service = ServiceFactory.create(data);
-        service.tickets = this.searchSortingPipe.transform(service.tickets);
-
-        return service;
-      }),
-      tap(service => {
-        this.service$.next(service);
-        this.service = service;
-      })
-    );
+      return this.cache;
+    } else if (this.returnCached) {
+      return this.cache.pipe(tap(() => {
+        this.returnCached = false;
+        this.service$.next(this.service);
+      }));
+    } else {
+      return this.getServiceObservable();
+    }
   }
 
   /**
@@ -94,6 +100,21 @@ export class ServiceService implements BreadcrumbServiceI {
   getParentNodeName(): Observable<string> {
     return this.service$.asObservable().pipe(
       map((service: Service) => service ? service.category.name : '')
+    );
+  }
+
+  private getServiceObservable(): Observable<Service> {
+    return this.http.get(this.loadServiceUri).pipe(
+      map((data: ServiceI) => {
+        const service = ServiceFactory.create(data);
+        service.tickets = this.searchSortingPipe.transform(service.tickets);
+
+        return service;
+      }),
+      tap(service => {
+        this.service$.next(service);
+        this.service = service;
+      })
     );
   }
 }

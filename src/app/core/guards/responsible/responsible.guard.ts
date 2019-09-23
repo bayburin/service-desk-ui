@@ -37,7 +37,7 @@ export class ResponsibleGuard implements CanLoad, CanActivate {
       const serviceId = this.serviceIdInParentRoute(next);
       const categoryId = this.categoryIdInParentRoute(next);
 
-      return this.service.loadService(categoryId, serviceId)
+      return this.service.loadService(categoryId, serviceId, true)
         .pipe(map(service => policy.authorize(service, action)));
     }
   }

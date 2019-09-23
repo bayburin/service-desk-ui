@@ -123,6 +123,56 @@ describe('ServiceService', () => {
         url: loadServiceUri
       }).flush(serviceI);
     });
+
+
+    describe('with "caching" flag', () => {
+      it('should set into "returnCached" attribute true value', () => {
+        serviceService.loadService(category.id, service.id, true).subscribe(data => {
+          expect(data).toEqual(service);
+          expect((serviceService as any).returnCached).toBeTruthy();
+        });
+
+        httpTestingController.expectOne({
+          method: 'GET',
+          url: loadServiceUri
+        }).flush(serviceI);
+      });
+    });
+
+    describe('with "returnCache" attribute', () => {
+      beforeEach(() => {
+        serviceService.loadService(category.id, service.id, true).subscribe();
+        httpTestingController.expectOne({
+          method: 'GET',
+          url: loadServiceUri
+        }).flush(serviceI);
+      });
+
+      it('should return cached service', () => {
+        serviceService.loadService(category.id, service.id).subscribe(data => {
+          expect(data).toEqual(service);
+        });
+
+        httpTestingController.expectNone({
+          method: 'GET',
+          url: loadServiceUri
+        });
+      });
+
+      it('should set into "returnCached" attribute false value', () => {
+        serviceService.loadService(category.id, service.id).subscribe(() => {
+          expect((serviceService as any).returnCached).toBeFalsy();
+        });
+      });
+
+      it('should emit Service data to service subject', () => {
+        const spy = spyOn((serviceService as any).service$, 'next');
+
+        serviceService.loadService(category.id, service.id).subscribe(data => {
+          expect(spy).toHaveBeenCalledWith(data);
+        });
+      });
+    });
   });
 
   describe('#loadTags', () => {
