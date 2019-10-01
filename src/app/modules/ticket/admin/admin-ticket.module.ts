@@ -10,6 +10,7 @@ import { QuestionComponent } from './components/question/question.component';
 import { ServiceDetailComponent } from './components/service-detail/service-detail.component';
 import { AnswerComponent } from './components/answer/answer.component';
 import { AttachmentComponent } from './components/attachment/attachment.component';
+import { EditTicketComponent } from './components/edit-ticket/edit-ticket.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { AttachmentComponent } from './components/attachment/attachment.componen
     QuestionComponent,
     ServiceDetailComponent,
     AnswerComponent,
-    AttachmentComponent
+    AttachmentComponent,
+    EditTicketComponent
   ],
   imports: [
     CommonModule,

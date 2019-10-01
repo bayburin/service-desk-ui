@@ -6,4 +6,6 @@ export class StubTicketService {
   downloadAttachmentFromAnswer() { return of(''); }
   createTicket() { return of({}); }
   loadTags() { return of([]); }
+  loadTicket() { return of({}); }
+  updateTicket() { return of({}); }
 }

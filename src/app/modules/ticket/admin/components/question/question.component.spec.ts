@@ -1,6 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 
 import { QuestionComponent } from './question.component';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
@@ -13,7 +15,7 @@ describe('QuestionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule],
+      imports: [NoopAnimationsModule, RouterTestingModule],
       declarations: [QuestionComponent],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -26,6 +28,14 @@ describe('QuestionComponent', () => {
     question = TicketFactory.create({
       id: 1,
       service_id: 2,
+      correction: {
+        id: 3,
+        service_id: 2,
+        name: 'Измененный вопрос',
+        original_id: 1,
+        ticket_type: 'question',
+        open: false
+      },
       name: 'Тестовый вопрос',
       ticket_type: 'question',
       tags: [
@@ -45,27 +55,65 @@ describe('QuestionComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should replace question by correction if it is exist', () => {
+    expect(component.question).toEqual(question.correction);
+  });
+
   describe('#toggleQuestion', () => {
     it('should change "open" attribute', () => {
       component.toggleQuestion();
 
-      expect(question.open).toEqual(true);
+      expect(component.question.open).toEqual(true);
     });
   });
 
-  it('should show question', () => {
-    expect(fixture.debugElement.nativeElement.textContent).toContain(question.name);
+  describe('#editQuestion', () => {
+    it('should redirect to admin page', inject([Router], (router: Router) => {
+      const spy = spyOn(router, 'navigate');
+      component.editQuestion();
+
+      expect(spy.calls.first().args[0]).toEqual([component.question.id, 'edit']);
+    }));
   });
 
-  it('should show tags', () => {
-    question.tags.forEach(tag => {
-      expect(fixture.debugElement.nativeElement.textContent).toContain(tag.name);
+  describe('#showCorrection', () => {
+    it('should replace question by correction', () => {
+      component.question = question;
+      component.showCorrection();
+
+      expect(component.question).toEqual(question.correction);
     });
   });
 
-  it('should show app-answer-component on each answer', () => {
-    question.open = true;
-    fixture.detectChanges();
-    expect(fixture.debugElement.nativeElement.querySelectorAll('app-answer').length).toEqual(question.answers.length);
+  describe('#showOriginal', () => {
+    it('should replace correction by original', () => {
+      component.showOriginal();
+
+      expect(component.question).toEqual(question);
+    });
+  });
+
+  describe('Original question', () => {
+    beforeEach(() => {
+      component.showOriginal();
+      fixture.detectChanges();
+    });
+
+    it('should show question', () => {
+      expect(fixture.debugElement.nativeElement.textContent).toContain(question.name);
+    });
+
+    it('should show tags', () => {
+      question.tags.forEach(tag => {
+        expect(fixture.debugElement.nativeElement.textContent).toContain(tag.name);
+      });
+    });
+
+    it('should show app-answer-component on each answer', () => {
+      question.open = true;
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.nativeElement.querySelectorAll('app-answer').length).toEqual(question.answers.length);
+    });
   });
 });

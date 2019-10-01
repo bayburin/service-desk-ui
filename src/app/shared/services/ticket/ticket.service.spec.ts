@@ -63,7 +63,7 @@ describe('TicketService', () => {
 
   describe('#raiseRating', () => {
     const ticket = new Ticket({ id: 1, serviceId: 2, popularity: 1, ticket_type: 'question' });
-    const raiseRatingUrl = `${environment.serverUrl}/api/v1/services/${ticket.serviceId}/tickets/${ticket.id}`;
+    const raiseRatingUrl = `${environment.serverUrl}/api/v1/services/${ticket.serviceId}/tickets/${ticket.id}/raise_rating`;
     const expectedTicket: TicketI = { id: 1, popularity: 2 } as TicketI;
 
     it('should return Observable with ticket data', () => {
@@ -72,14 +72,14 @@ describe('TicketService', () => {
       });
 
       httpTestingController.expectOne({
-        method: 'GET',
+        method: 'POST',
         url: raiseRatingUrl
       }).flush(expectedTicket);
     });
   });
 
   describe('#createTicket', () => {
-    const ticketI = { name: 'ТЕстовый вопрос', service_id: 1, ticket_type: 'question' } as TicketI;
+    const ticketI = { name: 'Тестовый вопрос', service_id: 1, ticket_type: 'question' } as TicketI;
     const ticketUri = `${environment.serverUrl}/api/v1/services/${ticketI.service_id}/tickets`;
     const expectedTicket = TicketFactory.create(ticketI);
 
@@ -113,6 +113,40 @@ describe('TicketService', () => {
         method: 'GET',
         url: `${tagUri}?${searchParams}`
       }).flush(tags);
+    });
+  });
+
+  describe('#loadTicket', () => {
+    const ticketI = { id: 2, name: 'Тестовый вопрос', service_id: 1, ticket_type: 'question' } as TicketI;
+    const ticketUri = `${environment.serverUrl}/api/v1/services/${ticketI.service_id}/tickets/${ticketI.id}`;
+    const expectedTicket = TicketFactory.create(ticketI);
+
+    it('should return Observable with Ticket', () => {
+      ticketService.loadTicket(ticketI.service_id, ticketI.id).subscribe(result => {
+        expect(result).toEqual(expectedTicket);
+      });
+
+      httpTestingController.expectOne({
+        method: 'GET',
+        url: ticketUri
+      }).flush(ticketI);
+    });
+  });
+
+  describe('#updateTicket', () => {
+    const ticketI = { id: 2, name: 'Тестовый вопрос', service_id: 1, ticket_type: 'question' } as TicketI;
+    const ticketUri = `${environment.serverUrl}/api/v1/services/${ticketI.service_id}/tickets/${ticketI.id}`;
+    const ticket = TicketFactory.create(ticketI);
+
+    it('should return Observable with Ticket', () => {
+      ticketService.updateTicket(ticket, {}).subscribe(result => {
+        expect(result).toEqual(ticket);
+      });
+
+      httpTestingController.expectOne({
+        method: 'PUT',
+        url: ticketUri
+      }).flush(ticketI);
     });
   });
 });

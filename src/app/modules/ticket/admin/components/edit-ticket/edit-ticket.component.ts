@@ -1,26 +1,29 @@
-import { Observable, Subject, concat, of } from 'rxjs';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { AnswerI } from '@interfaces/answer.interface';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute } from '@angular/router';
-import { switchMap, tap, finalize, filter, debounceTime } from 'rxjs/operators';
+import { Observable, Subject, of, concat } from 'rxjs';
+import { filter, finalize, switchMap, tap, debounceTime, map } from 'rxjs/operators';
 
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { ServiceService } from '@shared/services/service/service.service';
-import { Service } from '@modules/ticket/models/service/service.model';
 import { TagI } from '@interfaces/tag.interface';
+import { Service } from '@modules/ticket/models/service/service.model';
+import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { contentBlockAnimation } from '@animations/content.animation';
 
 @Component({
-  selector: 'app-new-ticket',
-  templateUrl: './new-ticket.component.html',
-  styleUrls: ['./new-ticket.component.sass'],
+  selector: 'app-edit-ticket',
+  templateUrl: './edit-ticket.component.html',
+  styleUrls: ['./edit-ticket.component.sass'],
   animations: [contentBlockAnimation]
 })
-export class NewTicketComponent implements OnInit {
+export class EditTicketComponent implements OnInit {
   submitted = false;
   modal: NgbModalRef;
   service: Service;
+  ticket: Ticket;
   ticketForm: FormGroup;
   tags: Observable<TagI[]>;
   tagInput = new Subject<string>();
@@ -39,7 +42,7 @@ export class NewTicketComponent implements OnInit {
     private formBuilder: FormBuilder,
     private serviceService: ServiceService,
     private ticketService: TicketService
-  ) {}
+  ) { }
 
   get form() {
     return this.ticketForm.controls;
@@ -47,33 +50,32 @@ export class NewTicketComponent implements OnInit {
 
   ngOnInit() {
     this.service = this.serviceService.service;
+    this.route.data.subscribe(data => {
+      this.ticket = data.ticket;
+      this.buildForm();
+      this.openModal();
+      console.log('Edit ticket ', this.ticket);
+    });
     this.loadTags();
-    this.openModal();
-    this.buildForm();
     this.loadServiceTags();
-  }
-
-  /**
-   * Добавляет шаблон ответа к вопросу.
-   */
-  addAnswer(): void {
-    (this.form.answers as FormArray).push(this.createAnswer());
   }
 
   /**
    * Сохраняет вопрос.
    */
-  save(): void {
+  save(event: Event): void {
+    event.stopPropagation();
     this.submitted = true;
     if (this.ticketForm.invalid) {
       return;
     }
 
     this.loading.form = true;
-    this.ticketService.createTicket(this.ticketForm.getRawValue())
+    this.ticketService.updateTicket(this.ticket, this.ticketForm.getRawValue())
       .pipe(finalize(() => this.loading.form = false))
       .subscribe(
-        () => {
+        (data) => {
+          console.log('success! ', data);
           this.modal.close();
           this.redirectToService();
         },
@@ -84,7 +86,8 @@ export class NewTicketComponent implements OnInit {
   /**
    * Возвращается к маршруту на уровень выше.
    */
-  cancel(): void {
+  cancel(event: Event): void {
+    event.stopPropagation();
     this.modal.dismiss();
     this.redirectToService();
   }
@@ -101,11 +104,26 @@ export class NewTicketComponent implements OnInit {
   }
 
   /**
+   * Добавляет шаблон ответа к вопросу.
+   */
+  addAnswer(): void {
+    (this.form.answers as FormArray).push(this.createAnswer());
+  }
+
+  /**
    * Удаляет ответ.
    *
    * @param answer - ответ
    */
   deleteAnswer(answer: FormGroup): void {
+    if (answer.value.id) {
+      console.log('here');
+      answer.controls._destroy.setValue(true);
+      console.log(answer);
+
+      return;
+    }
+
     const index = (this.form.answers as FormArray).controls.indexOf(answer);
     (this.form.answers as FormArray).removeAt(index);
   }
@@ -151,6 +169,7 @@ export class NewTicketComponent implements OnInit {
     }
   }
 
+
   private loadTags(): void {
     this.tags = concat(
       of([]),
@@ -172,6 +191,8 @@ export class NewTicketComponent implements OnInit {
       .pipe(finalize(() => this.loading.serviceTags = false))
       .subscribe((tags: TagI[]) => {
         this.serviceTags = tags.map(tag => {
+          tag.selected = this.ticket.tags.some(ticketTag => ticketTag.id === tag.id);
+
           return {
             data: tag,
             htmlString: `<span class="badge badge-secondary">${tag.name}</span>`
@@ -194,27 +215,34 @@ export class NewTicketComponent implements OnInit {
 
   private buildForm(): void {
     this.ticketForm = this.formBuilder.group({
-      service_id: [this.service.id],
-      name: ['', Validators.required],
-      ticket_type: ['question'],
-      is_hidden: [true],
-      sla: [null],
-      to_approve: [false],
-      popularity: [0],
-      tags: [[]],
-      answers: this.formBuilder.array([this.createAnswer()])
+      id: [this.ticket.id],
+      service_id: [this.ticket.serviceId],
+      name: [this.ticket.name, Validators.required],
+      ticket_type: [this.ticket.ticketType],
+      is_hidden: [this.ticket.isHidden],
+      sla: [this.ticket.sla],
+      to_approve: [this.ticket.toApprove],
+      popularity: [this.ticket.popularity],
+      tags: [this.ticket.tags],
+      answers: this.formBuilder.array([])
     });
+
+    this.ticket.answers.forEach(answer => (this.form.answers as FormArray).push(this.createAnswer(answer)));
   }
 
-  private createAnswer(): FormGroup {
+  private createAnswer(answer: AnswerI = {} as AnswerI): FormGroup {
     return this.formBuilder.group({
-      answer: ['', Validators.required],
-      link: [''],
-      is_hidden: [true]
+      id: [answer.id],
+      ticket_id: [answer.ticket_id],
+      reason: [answer.reason],
+      answer: [answer.answer, Validators.required],
+      link: [answer.link],
+      is_hidden: [answer.is_hidden],
+      _destroy: [false]
     });
   }
 
   private redirectToService(): void {
-    this.router.navigate(['../'], { relativeTo: this.route });
+    this.router.navigate(['../../'], { relativeTo: this.route });
   }
 }

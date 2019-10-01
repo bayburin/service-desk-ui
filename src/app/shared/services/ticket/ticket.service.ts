@@ -38,9 +38,9 @@ export class TicketService {
    * Отправляет запрос на сервер на изменение рейтинга указанного вопроса.
    */
   raiseRating(ticket: Ticket): Observable<TicketI> {
-    const raiseRatingUrl = `${environment.serverUrl}/api/v1/services/${ticket.serviceId}/tickets/${ticket.id}`;
+    const raiseRatingUrl = `${environment.serverUrl}/api/v1/services/${ticket.serviceId}/tickets/${ticket.id}/raise_rating`;
 
-    return this.http.get<TicketI>(raiseRatingUrl);
+    return this.http.post<TicketI>(raiseRatingUrl, {});
   }
 
   /**
@@ -65,5 +65,30 @@ export class TicketService {
     const httpParams = new HttpParams().set('search', term);
 
     return this.http.get<TagI[]>(tagUri, { params: httpParams });
+  }
+
+  /**
+   * Загрузить вопрос.
+   *
+   * @param serviceId - id услуги.
+   * @param ticketId - id вопроса.
+   */
+  loadTicket(serviceId: number, ticketId: number): Observable<Ticket> {
+    const ticketUri = `${environment.serverUrl}/api/v1/services/${serviceId}/tickets/${ticketId}`;
+
+    return this.http.get(ticketUri).pipe(map((ticket: TicketI) => TicketFactory.create(ticket)));
+  }
+
+  /**
+   * Обновить вопрос.
+   *
+   * @params ticket - объект Ticket
+   * @params data - новые данные.
+   */
+  updateTicket(ticket: Ticket, data: any): Observable<Ticket> {
+    const ticketUri = `${environment.serverUrl}/api/v1/services/${ticket.serviceId}/tickets/${ticket.id}`;
+
+    return this.http.put(ticketUri, { ticket: data })
+      .pipe(map((ticketI: TicketI) => TicketFactory.create(ticketI)));
   }
 }

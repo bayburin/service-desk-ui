@@ -6,12 +6,14 @@ import { ServiceI } from '@interfaces/service.interface';
 import { TicketI } from '@interfaces/ticket.interface';
 import { CaseState } from './ticket_states/case.state';
 import { UserFactory } from '@shared/factories/user.factory';
+import { ɵDomRendererFactory2 } from '@angular/platform-browser';
 
 describe('Ticket', () => {
   let serviceI: ServiceI;
   let ticketI: TicketI;
   let responsibleUserI;
   let ticket: Ticket;
+  let correctionI: TicketI;
 
   beforeEach(() => {
     responsibleUserI = {
@@ -26,17 +28,28 @@ describe('Ticket', () => {
       category_id: 3,
       responsible_users: [responsibleUserI]
     } as ServiceI;
+    correctionI = {
+      id: 2,
+      service_id: 1,
+      original_id: 1,
+      name: 'Исправленный вопрос',
+      ticket_type: 'question',
+      state: 'draft',
+    } as TicketI;
     ticketI = {
       id: 1,
       service_id: 1,
+      original_id: 0,
       name: 'Тестовый вопрос',
       ticket_type: 'question',
       state: 'draft',
       is_hidden: false,
       sla: 2,
+      to_approve: false,
       popularity: 34,
       service: serviceI,
-      responsible_users: [responsibleUserI]
+      responsible_users: [responsibleUserI],
+      correction: correctionI
     };
   });
 
@@ -75,6 +88,18 @@ describe('Ticket', () => {
       ticket = new Ticket(ticketI);
 
       expect((ticket as any).type instanceof CaseState).toBeTruthy();
+    });
+
+    it('should create correction object', () => {
+      ticket = new Ticket(ticketI);
+
+      expect(ticket.correction.id).toEqual(correctionI.id);
+    });
+
+    it('should create original object into correction', () => {
+      ticket = new Ticket(ticketI);
+
+      expect(ticket.correction.original).toEqual(ticket);
     });
   });
 
