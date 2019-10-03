@@ -50,7 +50,7 @@ export class CasesPageContentComponent implements OnInit {
    * Проверяет, существуют ли какие-либо кейсы у текущего пользователя.
    */
   isAnyCasesExists() {
-    return this.statuses.some(status => status.count !== 0);
+    return this.statuses.some(status => status.count != 0);
   }
 
   /**
