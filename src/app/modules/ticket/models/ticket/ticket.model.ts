@@ -3,9 +3,9 @@ import { User } from '@shared/models/user/user.model';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { CommonServiceI } from '@interfaces/common-service.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
-import { AbstractTicketState } from './ticket_states/abstract-ticket.state';
-import { QuestionState } from './ticket_states/question.state';
-import { CaseState } from './ticket_states/case.state';
+import { AbstractTicketType } from './ticket_types/abstract-ticket.type';
+import { QuestionType } from './ticket_types/question.type';
+import { CaseType } from './ticket_types/case.type';
 import { AnswerI } from '@interfaces/answer.interface';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { TagI } from '@interfaces/tag.interface';
@@ -30,7 +30,7 @@ export class Ticket implements CommonServiceI {
   responsibleUsers: ResponsibleUserI[];
   tags: TagI[];
   loading = false;
-  private type: AbstractTicketState;
+  private type: AbstractTicketType;
 
   constructor(ticket: any = {}) {
     this.id = ticket.id;
@@ -105,9 +105,9 @@ export class Ticket implements CommonServiceI {
    */
   private createTypeState(): void {
     if (this.isQuestionTicketType()) {
-      this.type = new QuestionState();
+      this.type = new QuestionType();
     } else if (this.isCaseTicketType()) {
-      this.type = new CaseState();
+      this.type = new CaseType();
     } else {
       throw new Error('Unknown ticketType');
     }

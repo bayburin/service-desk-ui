@@ -1,17 +1,16 @@
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
-import { QuestionState } from './ticket_states/question.state';
+import { QuestionType } from './ticket_types/question.type';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { Ticket } from './ticket.model';
 import { ServiceI } from '@interfaces/service.interface';
 import { TicketI } from '@interfaces/ticket.interface';
-import { CaseState } from './ticket_states/case.state';
+import { CaseType } from './ticket_types/case.type';
 import { UserFactory } from '@shared/factories/user.factory';
-import { ɵDomRendererFactory2 } from '@angular/platform-browser';
 
 describe('Ticket', () => {
   let serviceI: ServiceI;
   let ticketI: TicketI;
-  let responsibleUserI;
+  let responsibleUserI: ResponsibleUserI;
   let ticket: Ticket;
   let correctionI: TicketI;
 
@@ -80,14 +79,14 @@ describe('Ticket', () => {
     it('should create QuestionState if ticket_type is equal "question"', () => {
       ticket = new Ticket(ticketI);
 
-      expect((ticket as any).type instanceof QuestionState).toBeTruthy();
+      expect((ticket as any).type instanceof QuestionType).toBeTruthy();
     });
 
-    it('should create CaseState if ticket_type is equal "case"', () => {
+    it('should create CaseType if ticket_type is equal "case"', () => {
       ticketI.ticket_type = 'case';
       ticket = new Ticket(ticketI);
 
-      expect((ticket as any).type instanceof CaseState).toBeTruthy();
+      expect((ticket as any).type instanceof CaseType).toBeTruthy();
     });
 
     it('should create correction object', () => {

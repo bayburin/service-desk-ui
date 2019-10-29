@@ -1,7 +1,7 @@
-import { AbstractTicketState } from './abstract-ticket.state';
+import { AbstractTicketType } from './abstract-ticket.type';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
-export class CaseState extends AbstractTicketState {
+export class CaseType extends AbstractTicketType {
   getShowLink(ticket: Ticket): string {
     return 'Need implementation';
   }
