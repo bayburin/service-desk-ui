@@ -10,22 +10,7 @@
           <div class="d-flex flex-row align-items-center">
             <span [innerHtml]="question.name"></span>
             <span class="d-flex flex-row flex-grow-1">
-              <span *ngIf="question.isPublishedState()" ngbTooltip="Опубликован" container="body">
-                <i class="mdi mdi-file-check-outline mdi-18px ml-1 text-success"></i>
-              </span>
-              <span *ngIf="question.isDraftState()" ngbTooltip="Черновик" container="body">
-                <i class="mdi mdi-file-settings-variant-outline mdi-18px ml-1" ></i>
-              </span>
-              <span *ngIf="!question.isHidden" ngbTooltip="Виден пользователю" container="body">
-                <i class="mdi mdi-eye-outline mdi-18px ml-1 text-success" ></i>
-              </span>
-              <span *ngIf="question.isHidden" ngbTooltip="Скрыт от пользователя" container="body">
-                <i class="mdi mdi-eye-off-outline mdi-18px ml-1"></i>
-              </span>
-              <span *ngIf="question.correction || question.original" ngbTooltip="Имеются неподтвержденные правки"
-                container="body">
-                <i class="mdi mdi-pencil-plus-outline mdi-18px ml-1 text-warning"></i>
-              </span>
+              <app-question-flags [question]="question"></app-question-flags>
             </span>
             <span class="ml-3">
               <button *ngIf="question.correction" class="btn btn-sm btn-outline-primary toggle-correction"

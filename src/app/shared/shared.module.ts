@@ -28,6 +28,7 @@ import { CasesPageContentComponent } from './components/cases-page-content/cases
 import { NotifyComponent } from './components/notify/notify.component';
 import { UserDashboardMenuComponent } from './components/user-dashboard-menu/user-dashboard-menu.component';
 import { AuthorizeDirective } from './directives/authorize/authorize.directive';
+import { QuestionFlagsComponent } from './components/question-flags/question-flags.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { AuthorizeDirective } from './directives/authorize/authorize.directive';
     CasesPageContentComponent,
     NotifyComponent,
     UserDashboardMenuComponent,
-    AuthorizeDirective
+    AuthorizeDirective,
+    QuestionFlagsComponent
   ],
   imports: [
     CommonModule,
@@ -87,7 +89,8 @@ import { AuthorizeDirective } from './directives/authorize/authorize.directive';
     CasesPageContentComponent,
     NotifyComponent,
     UserDashboardMenuComponent,
-    AuthorizeDirective
+    AuthorizeDirective,
+    QuestionFlagsComponent
   ],
   providers: [
     FilterByClassPipe,
