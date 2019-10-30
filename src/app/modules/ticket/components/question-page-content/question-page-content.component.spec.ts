@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
 import { QuestionPageContentComponent } from './question-page-content.component';
 import { TicketService } from '@shared/services/ticket/ticket.service';
@@ -139,6 +140,14 @@ describe('QuestionPageContentComponent', () => {
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.querySelector('#attachmentLink')).toBeTruthy();
       expect(fixture.debugElement.nativeElement.querySelector('#attachmentLink').getAttribute('href')).toEqual(selectedAnswer.link);
+    });
+
+    it('should show app-visible-flag component if showFlags is equal true', () => {
+      expect(fixture.debugElement.query(By.css('app-visible-flag'))).toBeFalsy();
+      component.showFlags = true;
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('app-visible-flag'))).toBeTruthy();
     });
   });
 });

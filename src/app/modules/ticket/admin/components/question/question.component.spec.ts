@@ -3,6 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import { By } from '@angular/platform-browser';
 
 import { QuestionComponent } from './question.component';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
@@ -57,6 +58,10 @@ describe('QuestionComponent', () => {
 
   it('should replace question by correction if it is exist', () => {
     expect(component.question).toEqual(question.correction);
+  });
+
+  it('should show app-question-flags component', () => {
+    expect(fixture.debugElement.query(By.css('app-question-flags'))).toBeTruthy();
   });
 
   describe('#toggleQuestion', () => {
