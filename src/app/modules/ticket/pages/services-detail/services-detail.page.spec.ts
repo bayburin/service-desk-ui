@@ -1,6 +1,5 @@
-import { Service } from '@modules/ticket/models/service/service.model';
 import { Directive, Input, Component, Output, EventEmitter } from '@angular/core';
-import { async, ComponentFixture, TestBed, flush, fakeAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
@@ -14,29 +13,30 @@ import { ServiceDetailComponent } from '@modules/ticket/components/service-detai
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { TicketI } from '@interfaces/ticket.interface';
 import { StubServiceService } from '@shared/services/service/service.service.stub';
+import { UserService } from '@shared/services/user/user.service';
+import { StubUserService } from '@shared/services/user/user.service.stub';
 
-@Directive({
-  selector: '[appAuthorize]'
-})
-class StubAuthorizeDirective extends AuthorizeDirective {
-  @Input() set appAuthorize(policyData: [any, string]) {}
-}
+// @Directive({
+//   selector: '[appAuthorize]'
+// })
+// class StubAuthorizeDirective extends AuthorizeDirective {
+//   @Input() set appAuthorize(policyData: [any, string]) {}
+// }
 
-@Component({
-  template: ''
-})
-class TestComponent {
-  @Output() ticketSaved = new EventEmitter();
-}
+// @Component({
+//   template: ''
+// })
+// class TestComponent {
+//   @Output() ticketSaved = new EventEmitter();
+// }
 
 describe('ServicesDetailPageComponent', () => {
   let component: ServicesDetailPageComponent;
   let fixture: ComponentFixture<ServicesDetailPageComponent>;
   let serviceService: ServiceService;
-  let loadServiceSpy;
   const tickets = [
     { id: 1, service_id: 2, name: 'Тестовый вопрос 1', ticket_type: 'question' } as TicketI,
-    { id: 2, service_id: 2, name: 'Тестовый вопрос 2', ticket_type: 'question' } as TicketI,
+    { id: 2, service_id: 2, name: 'Тестовый вопрос 2', ticket_type: 'question' } as TicketI
   ];
   const service = ServiceFactory.create({ id: 2, name: 'Тестовая заявка', category_id: 3, tickets: tickets });
   const stubRoute = jasmine.createSpyObj<ActivatedRoute>('ActivatedRoute', ['snapshot', 'parent', 'children']);
@@ -62,14 +62,15 @@ describe('ServicesDetailPageComponent', () => {
       imports: [RouterTestingModule, NoopAnimationsModule],
       declarations: [
         ServicesDetailPageComponent,
-        ServiceDetailComponent,
-        StubAuthorizeDirective,
-        TestComponent
+        // ServiceDetailComponent
+        // StubAuthorizeDirective,
+        // TestComponent
       ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
-        { provide: ActivatedRoute, useValue: stubRouteProxy }
+        { provide: ActivatedRoute, useValue: stubRouteProxy },
+        // { provide: UserService, useClass: StubUserService }
       ]
     })
     .compileComponents();
@@ -79,8 +80,7 @@ describe('ServicesDetailPageComponent', () => {
     fixture = TestBed.createComponent(ServicesDetailPageComponent);
     component = fixture.componentInstance;
     serviceService = TestBed.get(ServiceService);
-    loadServiceSpy = spyOn(serviceService, 'loadService');
-    loadServiceSpy.and.returnValue(of(service));
+    spyOn(serviceService, 'loadService').and.returnValue(of(service));
 
     fixture.detectChanges();
   });

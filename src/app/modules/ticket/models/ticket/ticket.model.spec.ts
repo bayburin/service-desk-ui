@@ -172,4 +172,18 @@ describe('Ticket', () => {
       expect(ticket.isBelongsTo(user)).toBeFalsy();
     });
   });
+
+  describe('#isBelongsByServiceTo', () => {
+    const user = UserFactory.create({ tn: 1 });
+
+    beforeEach(() => {
+      ticket = new Ticket(ticketI);
+    });
+
+    it('should return true if "isBelongsTo" method for service returns true', () => {
+      spyOn(ticket.service, 'isBelongsTo').and.returnValue(true);
+
+      expect(ticket.isBelongsByServiceTo(user)).toBeTruthy();
+    })
+  });
 });

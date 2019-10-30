@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular//core';
 import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -12,7 +13,8 @@ describe('QuestionFlagsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [QuestionFlagsComponent]
+      declarations: [QuestionFlagsComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   }));
@@ -44,18 +46,10 @@ describe('QuestionFlagsComponent', () => {
     expect(fixture.debugElement.query(By.css('.mdi-file-settings-variant-outline'))).toBeTruthy();
   });
 
-  it('should "mdi-eye-outline" icon if "hidden" attribute is equal false', () => {
-    question.isHidden = false;
+  it('should show app-visible-flag component', () => {
     fixture.detectChanges();
 
-    expect(fixture.debugElement.query(By.css('.mdi-eye-outline'))).toBeTruthy();
-  });
-
-  it('should "mdi-eye-off-outline" icon if "hidden" attribute is euqal true', () => {
-    question.isHidden = true;
-    fixture.detectChanges();
-
-    expect(fixture.debugElement.query(By.css('.mdi-eye-off-outline'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('app-visible-flag'))).toBeTruthy();
   });
 
   it('should "mdi-pencil-plus-outline" icon if question has correction', () => {

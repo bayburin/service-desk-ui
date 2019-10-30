@@ -5,7 +5,8 @@
       <a id="adminMode" *appAuthorize="[service, 'newTicket']" routerLink="admin/tickets" class="btn btn-danger">Режим администратора</a>
     </div>
     <div class="sd-dlist-divider-b">
-      <app-dynamic-template-content *ngFor="let ticket of service.tickets; trackBy: trackByTicket" [data]="ticket"></app-dynamic-template-content>
+      <app-dynamic-template-content *ngFor="let ticket of service.tickets; trackBy: trackByTicket" [data]="ticket"
+        [showFlags]="showTicketFlags"></app-dynamic-template-content>
     </div>
   </div>
 </section>

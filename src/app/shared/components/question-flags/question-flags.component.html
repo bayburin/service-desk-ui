@@ -4,12 +4,7 @@
 <span *ngIf="question.isDraftState()" ngbTooltip="Черновик" container="body">
   <i class="mdi mdi-file-settings-variant-outline mdi-18px ml-1" ></i>
 </span>
-<span *ngIf="!question.isHidden" ngbTooltip="Виден пользователю" container="body">
-  <i class="mdi mdi-eye-outline mdi-18px ml-1 text-success"></i>
-</span>
-<span *ngIf="question.isHidden" ngbTooltip="Скрыт от пользователя" container="body">
-  <i class="mdi mdi-eye-off-outline mdi-18px ml-1"></i>
-</span>
+<app-visible-flag [data]="question"></app-visible-flag>
 <span *ngIf="question.correction || question.original" ngbTooltip="Имеются неподтвержденные правки" container="body">
   <i class="mdi mdi-pencil-plus-outline mdi-18px ml-1 text-warning"></i>
 </span>

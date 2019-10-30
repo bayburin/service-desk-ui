@@ -13,4 +13,12 @@ export class ServicePolicy extends ApplicationPolicy {
       return this.user.hasRole('content_manager');
     }
   }
+
+  showFlags(): boolean {
+    if (this.user.hasRole('service_responsible')) {
+      return this.object.isBelongsTo(this.user) || this.object.isBelongsByTicketTo(this.user);
+    } else {
+      return this.user.hasRole('content_manager') || this.user.hasRole('operator');
+    }
+  }
 }

@@ -1,8 +1,8 @@
 <div class="sd-search-index-form" #globalSearch>
   <div class="input-group border border-color-gray-base">
-    <input id="typeahead-basic" type="text" class="form-control border-0" [formControl]="serviceCtrl" [ngbTypeahead]="search" [resultTemplate]="rt"
-    [inputFormatter]="formatter" autocomplete="off" (keyup.enter)="onSearch()" [focusFirst]="false"
-    placeholder="Введите название услуги или проблемный вопрос">
+    <input id="typeahead-basic" type="text" class="form-control border-0" [formControl]="serviceCtrl" [ngbTypeahead]="search"
+      [resultTemplate]="rt" [inputFormatter]="formatter" autocomplete="off" (keyup.enter)="onSearch()" [focusFirst]="false"
+      placeholder="Введите название услуги или проблемный вопрос" />
     <div class="input-group-append">
       <button type="button" (click)="onSearch()" class="btn btn-gray-white sd-btn-icon-24 border border-white">
         <i *ngIf="!loading" class="mdi mdi-magnify mdi-24px"></i>

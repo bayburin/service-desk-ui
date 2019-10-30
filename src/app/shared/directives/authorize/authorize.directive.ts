@@ -1,9 +1,6 @@
-import { Directive, TemplateRef, ViewContainerRef, Input, Injector } from '@angular/core';
+import { Directive, TemplateRef, ViewContainerRef, Input } from '@angular/core';
 
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
-import { Service } from '@modules/ticket/models/service/service.model';
-import { ServicePolicy } from '@shared/policies/service/service.policy';
+import { PolicyFactory } from '@shared/factories/policy.factory';
 
 @Directive({
   selector: '[appAuthorize]'
@@ -12,28 +9,18 @@ export class AuthorizeDirective {
   constructor(
     private templateRef: TemplateRef<any>,
     private viewContainerRef: ViewContainerRef,
-    private injector: Injector
+    private policyFactory: PolicyFactory
   ) { }
 
   /**
    * @param policyData - кортеж ['объект, к которому проверяется доступ', 'имя метода, проверяющего доступ']
    */
   @Input() set appAuthorize(policyData: [any, string]) {
-    const policy = this.getPolicy(policyData[0]);
+    const policy = this.policyFactory.getPolicyBy(policyData[0]);
 
     this.viewContainerRef.clear();
     if (policy.authorize(policyData[0], policyData[1])) {
       this.viewContainerRef.createEmbeddedView(this.templateRef);
-    }
-  }
-
-  private getPolicy(object: any) {
-    if (object instanceof Ticket) {
-      return this.injector.get(TicketPolicy);
-    } else if (object instanceof Service) {
-      return this.injector.get(ServicePolicy);
-    } else {
-      throw new Error('Unknown policy type');
     }
   }
 }

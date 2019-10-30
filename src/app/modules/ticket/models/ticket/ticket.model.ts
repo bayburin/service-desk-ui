@@ -95,9 +95,20 @@ export class Ticket implements CommonServiceI {
 
   /**
    * Проверяет, есть ли указанные пользователь в списке ответственных за ticket.
+   *
+   * @param user - пользователь
    */
   isBelongsTo(user: User): boolean {
     return this.responsibleUsers.some(responsible => responsible.tn === user.tn);
+  }
+
+  /**
+   * Проверяет, есть ли указанный пользователь в списке ответственных за услугу.
+   *
+   * @param user - пользователь
+   */
+  isBelongsByServiceTo(user: User): boolean {
+    return this.service.isBelongsTo(user);
   }
 
   /**

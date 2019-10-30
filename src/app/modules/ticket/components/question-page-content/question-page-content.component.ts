@@ -18,6 +18,7 @@ import { AttachmentService } from '@shared/services/attachment/attachment.servic
 export class QuestionPageContentComponent implements OnInit {
   @Input() data: Ticket;
   @Input() standaloneLink: boolean;
+  @Input() showFlags: boolean;
   ratingStream = new Subject<Ticket>();
 
   constructor(private ticketService: TicketService, private attachmentService: AttachmentService) { }

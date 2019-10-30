@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
@@ -9,7 +9,9 @@ import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { TicketI } from '@interfaces/ticket.interface';
 import { UserService } from '@shared/services/user/user.service';
 import { AuthorizeDirective } from '@shared/directives/authorize/authorize.directive';
-import { StubUserService, roleI, user } from '@shared/services/user/user.service.stub';
+import { StubUserService, user } from '@shared/services/user/user.service.stub';
+import { ServicePolicy } from '@shared/policies/service/service.policy';
+import { StubServicePolicy } from '@shared/policies/service/service.policy.stub';
 
 describe('ServiceDetailComponent', () => {
   let component: ServiceDetailComponent;
@@ -31,7 +33,10 @@ describe('ServiceDetailComponent', () => {
       imports: [NoopAnimationsModule, RouterTestingModule],
       declarations: [ServiceDetailComponent, AuthorizeDirective],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [{ provide: UserService, useClass: StubUserService }]
+      providers: [
+        { provide: ServicePolicy, useClass: StubServicePolicy },
+        { provide: UserService, useClass: StubUserService }
+      ]
     })
     .compileComponents();
   }));
@@ -60,9 +65,12 @@ describe('ServiceDetailComponent', () => {
     expect(fixture.debugElement.nativeElement.querySelectorAll('app-dynamic-template-content').length).toEqual(tickets.length);
   });
 
-  describe('when user has "content_manager" role or responsible for this service', () => {
+  describe('when appAuthorize directive returns true', () => {
     beforeEach(() => {
       user.role.name = 'content_manager';
+      const servicePolicy = TestBed.get(ServicePolicy);
+      spyOn(servicePolicy, 'authorize').and.returnValue(true);
+
       fixture.detectChanges();
     });
 
@@ -72,5 +80,16 @@ describe('ServiceDetailComponent', () => {
 
       expect(`${spy.calls.first().args[0]}`).toEqual('/admin/tickets');
     }));
+  });
+
+  it('should change showTicketFlags attribute', () => {
+    const policy = TestBed.get(ServicePolicy);
+    spyOn(policy, 'authorize').and.returnValue(true);
+    component.ngOnChanges({
+      service: new SimpleChange(null, service, true)
+    });
+    fixture.detectChanges();
+
+    expect(component.showTicketFlags).toBeTruthy();
   });
 });

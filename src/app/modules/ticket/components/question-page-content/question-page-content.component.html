@@ -4,6 +4,9 @@
       <i *ngIf="!standaloneLink" class="mdi mdi-24px" [ngClass]="data.open ? 'mdi-arrow-up-drop-circle-outline' :
         'mdi-arrow-down-drop-circle-outline'"></i>
       <span [innerHtml]="data.name"></span>
+      <span *ngIf="showFlags" class="d-flex flex-row flex-grow-1">
+        <app-visible-flag [data]="data"></app-visible-flag>
+      </span>
     </div>
   </div>
   <div *ngIf="data.open" class="overflow-hidden" @ToggleAnswer>

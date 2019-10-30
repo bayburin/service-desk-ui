@@ -72,4 +72,56 @@ describe('ServicePolicy', () => {
       });
     });
   });
+
+  describe('#showFlags', () => {
+    describe('when user has "service_responsible" role', () => {
+      beforeEach(() => { user.role.name = 'service_responsible'; });
+
+      describe('and when service belongs to user', () => {
+        it('should grant access', () => {
+          expect(servicePolicy.showFlags()).toBeTruthy();
+        });
+      });
+
+      describe('when one of tickets belongs in service belongs to user' , () => {
+        beforeEach(() => serviceResponsible.tn = 1);
+
+        it('should grant access', () => {
+          expect(servicePolicy.showFlags()).toBeTruthy();
+        });
+      });
+
+      describe('and when service not belongs to user', () => {
+        beforeEach(() => user.tn = 2);
+
+        it('should deny access', () => {
+          expect(servicePolicy.showFlags()).toBeFalsy();
+        });
+      });
+    });
+
+    describe('when user has "content_manager" role', () => {
+      beforeEach(() => user.role.name = 'content_manager');
+
+      it('should grant access', () => {
+        expect(servicePolicy.showFlags()).toBeTruthy();
+      });
+    });
+
+    describe('when user has "operator" role', () => {
+      beforeEach(() => user.role.name = 'operator');
+
+      it('should grant access', () => {
+        expect(servicePolicy.showFlags()).toBeTruthy();
+      });
+    });
+
+    describe('when user has another role', () => {
+      beforeEach(() => { user.role.name = 'guest'; });
+
+      it('should deny access', () => {
+        expect(servicePolicy.showFlags()).toBeFalsy();
+      });
+    });
+  });
 });
