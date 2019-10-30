@@ -52,9 +52,7 @@ export class Service implements CommonServiceI {
    * @param user - пользователь
    */
   isBelongsTo(user: User): boolean {
-    return this.responsibleUsers.some(responsible => {
-      return responsible.tn === user.tn;
-    });
+    return this.responsibleUsers.some(responsible => responsible.tn === user.tn);
   }
 
   /**

@@ -13,6 +13,8 @@ import { AnswerI } from '@interfaces/answer.interface';
 import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
 import { AttachmentService } from '@shared/services/attachment/attachment.service';
 import { StubAttachmentService } from '@shared/services/attachment/attachment.service.stub';
+import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
+import { StubTicketPolicy } from '@shared/policies/ticket/ticket.policy.stub';
 
 describe('QuestionPageContentComponent', () => {
   let component: QuestionPageContentComponent;
@@ -36,7 +38,8 @@ describe('QuestionPageContentComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: TicketService, useClass: StubTicketService },
-        { provide: AttachmentService, useClass: StubAttachmentService }
+        { provide: AttachmentService, useClass: StubAttachmentService },
+        { provide: TicketPolicy, useClass: StubTicketPolicy }
       ]
     })
     .compileComponents();

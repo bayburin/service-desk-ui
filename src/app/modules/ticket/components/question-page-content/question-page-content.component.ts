@@ -8,6 +8,7 @@ import { AnswerI } from '@interfaces/answer.interface';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { toggleAnswer } from '@modules/ticket/animations/toggle-answer.animation';
 import { AttachmentService } from '@shared/services/attachment/attachment.service';
+import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
 
 @Component({
   selector: 'app-question-page-content',
@@ -21,7 +22,11 @@ export class QuestionPageContentComponent implements OnInit {
   @Input() showFlags: boolean;
   ratingStream = new Subject<Ticket>();
 
-  constructor(private ticketService: TicketService, private attachmentService: AttachmentService) { }
+  constructor(
+    private ticketService: TicketService,
+    private attachmentService: AttachmentService,
+    private policy: TicketPolicy
+  ) { }
 
   ngOnInit() {
     this.ratingStream
@@ -30,6 +35,10 @@ export class QuestionPageContentComponent implements OnInit {
         switchMap(() => this.ticketService.raiseRating(this.data))
       )
       .subscribe();
+
+    if (this.showFlags === undefined) {
+      this.showFlags = this.policy.authorize(this.data, 'showFlags');
+    }
   }
 
   /**
