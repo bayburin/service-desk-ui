@@ -9,6 +9,7 @@ import { Service } from '@modules/ticket/models/service/service.model';
 })
 export class ServicePageContentComponent implements OnInit {
   @Input() data: Service;
+  @Input() showFlags: boolean;
 
   constructor() { }
 

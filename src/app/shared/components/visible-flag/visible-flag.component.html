@@ -1,6 +1,8 @@
-<span *ngIf="!data.isHidden" ngbTooltip="Виден пользователю" container="body">
-  <i class="mdi mdi-eye-outline mdi-18px ml-1 text-success"></i>
-</span>
-<span *ngIf="data.isHidden" ngbTooltip="Скрыт от пользователя" container="body">
-  <i class="mdi mdi-eye-off-outline mdi-18px ml-1"></i>
+<span class="pointer">
+  <span *ngIf="!data.isHidden" ngbTooltip="Виден пользователю" container="body">
+    <i class="mdi mdi-eye-outline mdi-18px ml-1 text-success"></i>
+  </span>
+  <span *ngIf="data.isHidden" ngbTooltip="Скрыт от пользователя" container="body">
+    <i class="mdi mdi-eye-off-outline mdi-18px ml-1"></i>
+  </span>
 </span>
