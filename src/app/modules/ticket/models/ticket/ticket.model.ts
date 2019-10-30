@@ -108,7 +108,7 @@ export class Ticket implements CommonServiceI {
    * @param user - пользователь
    */
   isBelongsByServiceTo(user: User): boolean {
-    return this.service.isBelongsTo(user);
+    return this.service && this.service.isBelongsTo(user);
   }
 
   /**

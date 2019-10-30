@@ -180,6 +180,12 @@ describe('Ticket', () => {
       ticket = new Ticket(ticketI);
     });
 
+    it('should return false if service is null', () => {
+      ticket.service = null;
+
+      expect(ticket.isBelongsByServiceTo(user)).toBeFalsy();
+    });
+
     it('should return true if "isBelongsTo" method for service returns true', () => {
       spyOn(ticket.service, 'isBelongsTo').and.returnValue(true);
 
