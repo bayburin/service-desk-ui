@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { toggleAnswer } from '@modules/ticket/animations/toggle-answer.animation';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { AnswerI } from '@interfaces/answer.interface';
+import { Answer } from '@modules/ticket/models/answer/answer.model';
 
 @Component({
   selector: 'app-question',
@@ -29,7 +29,7 @@ export class QuestionComponent implements OnInit {
     this.question.open = !this.question.open;
   }
 
-  trackByAnswer(index, answer: AnswerI) {
+  trackByAnswer(index, answer: Answer) {
     return answer.id;
   }
 

@@ -1,3 +1,5 @@
+import { Answer } from '@modules/ticket/models/answer/answer.model';
+import { AnswerI } from '@interfaces/answer.interface';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { QuestionType } from './ticket_types/question.type';
 import { Service } from '@modules/ticket/models/service/service.model';
@@ -75,6 +77,15 @@ describe('Ticket', () => {
       expect(ticket.popularity).toEqual(ticketI.popularity);
       expect(ticket.responsibleUsers).toEqual([responsibleUserI]);
     });
+
+    it('should create instances of nested answers', () => {
+      const answers = [{ id: 1, answer: 'Тестовый ответ' } as AnswerI];
+      ticketI.answers = answers;
+      ticket = new Ticket(ticketI);
+
+      expect(ticket.answers[0] instanceof Answer).toBeTruthy();
+    });
+
 
     it('should create QuestionState if ticket_type is equal "question"', () => {
       ticket = new Ticket(ticketI);

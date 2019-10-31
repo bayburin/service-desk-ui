@@ -4,7 +4,7 @@ import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 import { Subscription, of } from 'rxjs';
 import { catchError, tap, takeWhile, switchMap, finalize, filter } from 'rxjs/operators';
 
-import { AnswerI } from '@interfaces/answer.interface';
+import { Answer } from '@modules/ticket/models/answer/answer.model';
 import { AttachmentService } from '@shared/services/attachment/attachment.service';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 
@@ -14,7 +14,7 @@ import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
   styleUrls: ['./answer.component.sass']
 })
 export class AnswerComponent implements OnInit, OnDestroy {
-  @Input() answer: AnswerI;
+  @Input() answer: Answer;
   uploadForm: FormGroup;
   progress = 0;
   loadForm: Subscription;

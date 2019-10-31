@@ -10,6 +10,8 @@ import { AnswerI } from '@interfaces/answer.interface';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { TagI } from '@interfaces/tag.interface';
 import { TicketI } from '@interfaces/ticket.interface';
+import { Answer } from '@modules/ticket/models/answer/answer.model';
+import { AnswerFactory } from '@modules/ticket/factories/answer.factory';
 
 export class Ticket implements CommonServiceI {
   id: number;
@@ -26,7 +28,7 @@ export class Ticket implements CommonServiceI {
   correction: Ticket;
   original: Ticket;
   open: boolean;
-  answers: AnswerI[];
+  answers: Answer[];
   responsibleUsers: ResponsibleUserI[];
   tags: TagI[];
   loading = false;
@@ -42,9 +44,9 @@ export class Ticket implements CommonServiceI {
     this.sla = ticket.sla;
     this.toApprove = ticket.to_approve;
     this.popularity = ticket.popularity;
-    this.answers = ticket.answers || [];
     this.responsibleUsers = ticket.responsible_users || [];
     this.tags = ticket.tags || [];
+    this.buildAnswers(ticket.answers);
 
     if (ticket.service) {
       this.service = ServiceFactory.create(ticket.service);
@@ -127,5 +129,15 @@ export class Ticket implements CommonServiceI {
   private initializeCorrection(correction: TicketI) {
     this.correction = TicketFactory.create(correction);
     this.correction.original = this;
+  }
+
+  private buildAnswers(answers: AnswerI[]) {
+    if (!answers || !answers.length) {
+      this.answers = [];
+
+      return;
+    }
+
+    this.answers = answers.map(answer => AnswerFactory.create(answer)) || [];
   }
 }

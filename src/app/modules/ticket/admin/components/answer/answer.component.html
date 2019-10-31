@@ -1,5 +1,12 @@
 <div class="row d-flex align-items-center">
-  <div class="col-sm-9 col-md-10" [innerHtml]="answer.answer"></div>
+  <div class="col-sm-9 col-md-10">
+    <div class="d-flex align-items-center">
+      <span [innerHtml]="answer.answer"></span>
+      <span class="d-flex flex-row flex-grow-1">
+        <app-visible-flag [data]="answer"></app-visible-flag>
+      </span>
+    </div>
+  </div>
   <div class="col-sm-3 col-md-2">
     <div class="sd-link sd-icon-group justify-content-center">
 

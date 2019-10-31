@@ -1,7 +1,7 @@
 import { Component, Input, forwardRef, OnChanges, SimpleChanges, SimpleChange, AfterViewInit, Injector, ElementRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, FormControl } from '@angular/forms';
 
-import { AnswerI } from '@interfaces/answer.interface';
+import { Answer } from '@modules/ticket/models/answer/answer.model';
 
 @Component({
   selector: 'app-attachment',
@@ -16,7 +16,7 @@ import { AnswerI } from '@interfaces/answer.interface';
   ]
 })
 export class AttachmentComponent implements ControlValueAccessor, AfterViewInit, OnChanges {
-  @Input() answer: AnswerI;
+  @Input() answer: Answer;
   @Input() progress: number;
   @Input() loading: boolean;
   file: File;

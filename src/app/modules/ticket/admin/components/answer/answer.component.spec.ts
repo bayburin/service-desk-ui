@@ -5,11 +5,12 @@ import { NO_ERRORS_SCHEMA, Component, forwardRef } from '@angular/core';
 import { of, throwError } from 'rxjs';
 
 import { AnswerComponent } from './answer.component';
-import { AnswerI } from '@interfaces/answer.interface';
+import { Answer } from '@modules/ticket/models/answer/answer.model';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { AttachmentService } from '@shared/services/attachment/attachment.service';
 import { StubAttachmentService } from '@shared/services/attachment/attachment.service.stub';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AnswerFactory } from '@modules/ticket/factories/answer.factory';
 
 @Component({
   selector: 'app-attachment',
@@ -31,7 +32,7 @@ class StubAttachmentComponent implements ControlValueAccessor {
 describe('AnswerComponent', () => {
   let component: AnswerComponent;
   let fixture: ComponentFixture<AnswerComponent>;
-  let answer: AnswerI;
+  let answer: Answer;
   let attachmentService: AttachmentService;
 
   beforeEach(async(() => {
@@ -48,7 +49,7 @@ describe('AnswerComponent', () => {
     fixture = TestBed.createComponent(AnswerComponent);
     component = fixture.componentInstance;
     attachmentService = TestBed.get(AttachmentService);
-    answer = {
+    answer = AnswerFactory.create({
       id: 1,
       ticket_id: 2,
       answer: 'Тестовый ответ',
@@ -56,7 +57,7 @@ describe('AnswerComponent', () => {
         { id: 2, answer_id: 2, filename: 'file 1.txt' },
         { id: 3, answer_id: 2, filename: 'file 2.txt' }
       ]
-    } as AnswerI;
+    });
     component.answer = answer;
     fixture.detectChanges();
   });

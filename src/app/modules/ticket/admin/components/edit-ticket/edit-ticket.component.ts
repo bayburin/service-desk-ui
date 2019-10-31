@@ -1,4 +1,3 @@
-import { AnswerI } from '@interfaces/answer.interface';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
@@ -12,6 +11,7 @@ import { TagI } from '@interfaces/tag.interface';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { contentBlockAnimation } from '@animations/content.animation';
+import { Answer } from '@modules/ticket/models/answer/answer.model';
 
 @Component({
   selector: 'app-edit-ticket',
@@ -230,14 +230,14 @@ export class EditTicketComponent implements OnInit {
     this.ticket.answers.forEach(answer => (this.form.answers as FormArray).push(this.createAnswer(answer)));
   }
 
-  private createAnswer(answer: AnswerI = {} as AnswerI): FormGroup {
+  private createAnswer(answer: Answer = {} as Answer): FormGroup {
     return this.formBuilder.group({
       id: [answer.id],
-      ticket_id: [answer.ticket_id],
+      ticket_id: [answer.ticketId],
       reason: [answer.reason],
       answer: [answer.answer, Validators.required],
       link: [answer.link],
-      is_hidden: [answer.is_hidden],
+      is_hidden: [answer.isHidden],
       _destroy: [false]
     });
   }
