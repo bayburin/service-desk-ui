@@ -64,4 +64,29 @@ describe('Answer', () => {
       expect(answer.isHidden).toEqual(answerI.is_hidden);
     });
   });
+
+  describe('#addAttachment', () => {
+    beforeEach(() => answer = new Answer(answerI));
+
+    it('should add object to "attachments" array', () => {
+      const newAttachment = { id: 22, answer_id: answer.id, filename: 'Новый файл' };
+
+      answer.addAttachment(newAttachment);
+
+      expect(answer.attachments.find(el => el === newAttachment)).toBeTruthy();
+    });
+  });
+
+  describe('#removeAttachment', () => {
+    beforeEach(() => answer = new Answer(answerI));
+
+    it('should remove object from "attachment" array', () => {
+      const newAttachment = { id: 22, answer_id: answer.id, filename: 'Новый файл' };
+
+      answer.addAttachment(newAttachment);
+      answer.removeAttachment(newAttachment);
+
+      expect(answer.attachments.find(el => el === newAttachment)).toBeFalsy();
+    });
+  });
 });

@@ -75,6 +75,7 @@ export class AttachmentComponent implements ControlValueAccessor, AfterViewInit,
 
   ngAfterViewInit(): void {
     const ngControl: NgControl = this.injector.get(NgControl, null);
+
     if (ngControl) {
       this.control = ngControl.control as FormControl;
       this.control.statusChanges.subscribe(status => {
@@ -85,16 +86,23 @@ export class AttachmentComponent implements ControlValueAccessor, AfterViewInit,
 
   ngOnChanges(changes: SimpleChanges) {
     const currentProgress: SimpleChange = changes.progress;
+    const loading: SimpleChange = changes.loading;
+
     if (currentProgress && currentProgress.currentValue) {
       this.setMessage(currentProgress.currentValue);
+    }
+    if (loading && this.control) {
+      this.setMessage();
     }
   }
 
   private setMessage(progress = 0) {
     if (this.control.invalid) {
       this.message = 'Ошибка';
-    } else if (progress === 100) {
+    } else if (progress === 100 && this.loading) {
       this.message = 'Загрузка...';
+    } else if (!this.loading) {
+      this.message = 'Готово';
     } else {
       this.message = '';
     }

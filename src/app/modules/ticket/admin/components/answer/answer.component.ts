@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
+import { HttpEventType, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Subscription, of } from 'rxjs';
 import { catchError, tap, takeWhile, switchMap, finalize, filter } from 'rxjs/operators';
 
@@ -54,6 +54,8 @@ export class AnswerComponent implements OnInit, OnDestroy {
         data => {
           if (data.type === HttpEventType.UploadProgress) {
             this.progress = Math.round((100 * data.loaded) / data.total);
+          } else if (data instanceof HttpResponse) {
+            this.answer.addAttachment(data.body);
           }
         },
       );
@@ -98,7 +100,7 @@ export class AnswerComponent implements OnInit, OnDestroy {
     attachment.loadingRemove = true;
     this.attachmentService.removeAttachment(attachment)
       .pipe(finalize(() => attachment.loadingRemove = false))
-      .subscribe();
+      .subscribe(() => this.answer.removeAttachment(attachment));
   }
 
   ngOnDestroy() {

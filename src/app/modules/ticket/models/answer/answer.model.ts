@@ -25,4 +25,22 @@ export class Answer {
       this.ticket = TicketFactory.create(answer.ticket);
     }
   }
+
+  /**
+   * Добавляет объект AnswerAttachmentI к списку файлов.
+   *
+   * @param atttachment - добавляемый объект.
+   */
+  addAttachment(attachment: AnswerAttachmentI) {
+    this.attachments.push(attachment);
+  }
+
+  /**
+   * Удаляет объект AnswerAttachmentI из списка файлов.
+   *
+   * @param attachment - удаляемый объект.
+   */
+  removeAttachment(attachment: AnswerAttachmentI) {
+    this.attachments.splice(this.attachments.indexOf(attachment), 1);
+  }
 }

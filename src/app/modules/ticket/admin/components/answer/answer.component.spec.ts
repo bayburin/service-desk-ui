@@ -9,7 +9,7 @@ import { Answer } from '@modules/ticket/models/answer/answer.model';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { AttachmentService } from '@shared/services/attachment/attachment.service';
 import { StubAttachmentService } from '@shared/services/attachment/attachment.service.stub';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { AnswerFactory } from '@modules/ticket/factories/answer.factory';
 
 @Component({
@@ -34,6 +34,7 @@ describe('AnswerComponent', () => {
   let fixture: ComponentFixture<AnswerComponent>;
   let answer: Answer;
   let attachmentService: AttachmentService;
+  let attachment: AnswerAttachmentI;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -49,12 +50,13 @@ describe('AnswerComponent', () => {
     fixture = TestBed.createComponent(AnswerComponent);
     component = fixture.componentInstance;
     attachmentService = TestBed.get(AttachmentService);
+    attachment = { id: 2, answer_id: 2, filename: 'file 1.txt' };
     answer = AnswerFactory.create({
       id: 1,
       ticket_id: 2,
       answer: 'Тестовый ответ',
       attachments: [
-        { id: 2, answer_id: 2, filename: 'file 1.txt' },
+        attachment,
         { id: 3, answer_id: 2, filename: 'file 2.txt' }
       ]
     });
@@ -119,16 +121,16 @@ describe('AnswerComponent', () => {
       expect(component.form.document.errors.serverError).toEqual(errors);
     });
 
-    it('should calculate progress of upload');
+    it('should add uploaded attachment to answer', () => {
+      const newAttachment = { id: 23, answer_id: answer.id, filename: 'Новый файл' };
+      spyOn(attachmentService, 'uploadAttachment').and.returnValue(of(new HttpResponse({ body: newAttachment })));
+      component.form.document.setValue(file);
+
+      expect(answer.attachments.find(el => el === newAttachment)).toBeTruthy();
+    });
   });
 
   describe('#downloadAttachment', () => {
-    const attachment = {
-      id: 1,
-      answer_id: 1,
-      filename: 'test file'
-    } as AnswerAttachmentI;
-
     it('should call "downloadAttachment" method for AttachmentService', () => {
       spyOn(attachmentService, 'downloadAttachment').and.returnValue(of(new Blob()));
       component.downloadAttachment(attachment);
@@ -138,18 +140,18 @@ describe('AnswerComponent', () => {
   });
 
   describe('#removeAttachment', () => {
-    const attachment = {
-      id: 1,
-      answer_id: 1,
-      filename: 'test file'
-    } as AnswerAttachmentI;
-
-    it('should call "removeAttachment" method for AttachmentService', () => {
+    beforeEach(() => {
       spyOn(window, 'confirm').and.returnValue(true);
       spyOn(attachmentService, 'removeAttachment').and.returnValue(of(attachment));
       component.removeAttachment(attachment);
+    });
 
+    it('should call "removeAttachment" method for AttachmentService', () => {
       expect(attachmentService.removeAttachment).toHaveBeenCalledWith(attachment);
+    });
+
+    it('should remove attachment from answer', () => {
+      expect(answer.attachments.find(el => el === attachment)).toBeFalsy();
     });
   });
 

@@ -35,7 +35,8 @@ describe('AttachmentComponent', () => {
   });
 
   describe('Upload progress' , () => {
-    it('should set message "Загрузка..." if progress is equal 100', () => {
+    it('should set message "Загрузка..." if progress is equal 100 and attribute "loading" is equal true', () => {
+      component.loading = true;
       component.ngOnChanges({
         progress: new SimpleChange(null, 100, true)
       });
@@ -54,7 +55,18 @@ describe('AttachmentComponent', () => {
       expect(component.message).toEqual('Ошибка');
     });
 
-    it('should set message empty message in another cases', () => {
+    it('should set message "Готово" if "loading" attribute is equal false', () => {
+      component.loading = false;
+      component.ngOnChanges({
+        progress: new SimpleChange(null, 90, true)
+      });
+      fixture.detectChanges();
+
+      expect(component.message).toEqual('Готово');
+    });
+
+    it('should set empty message in another cases', () => {
+      component.loading = true;
       component.ngOnChanges({
         progress: new SimpleChange(null, 90, true)
       });
