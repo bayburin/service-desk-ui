@@ -5,91 +5,14 @@
   <form [formGroup]="ticketForm">
     <div class="modal-body">
       <div class="container">
-        <section>
-          <div class="form-group align-items-center sd-icon-group pointer">
-            <i *ngIf="form.is_hidden.value" class="mdi mdi-toggle-switch-off mdi-24px" (click)="toggleHidden(ticketForm)"></i>
-            <i *ngIf="!form.is_hidden.value" class="mdi mdi-toggle-switch mdi-24px text-success" (click)="toggleHidden(ticketForm)"></i>
-            <span (click)="toggleHidden(ticketForm)">Вопрос должен быть виден пользователю</span>
-          </div>
-          <div class="form-group">
-            <textarea id="name" name="name" rows="3" formControlName="name" class="form-control"
-              placeholder="Введите вопрос или описание проблемы" [ngClass]="{ 'is-invalid': (form.name.touched || submitted) &&
-              form.name.errors, 'is-valid': form.name.touched && form.name.valid }"></textarea>
-            <div class="invalid-feedback">
-              <span *ngIf="form.name.errors?.required">Не может быть пустым</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="tags">Теги</label>
-            <ng-select id="tags" [items]="tags | async" [addTag]="!loading.tags" [hideSelected]="true" multiple="true" bindLabel="name"
-              [typeahead]="tagInput" [loading]="loading.tags" formControlName="tags" typeToSearchText="Введите тег"
-              addTagText="Добавить тег" placeholder="Укажите теги" (add)="hideTag($event)" (remove)="showTag($event)"></ng-select>
-            <small class="form-text">
-              <div class="d-flex align-items-center flex-wrap">
-                Популярные теги для данной услуги:
-                <app-loading class="ml-2 mr-2" [loading]="loading.serviceTags" size="18px"></app-loading>
-                <span *ngFor="let tag of serviceTags" @contentBlockAnimation>
-                  <span *ngIf="!tag.data.selected">
-                    <span class="pointer" [innerHTML]="tag.htmlString" (click)="addTag(tag.data)"></span>
-                    &nbsp;
-                  </span>
-                </span>
-              </div>
-            </small>
-          </div>
-        </section>
-        <section>
-          <button class="btn btn-outline-primary mb-3" (click)="addAnswer()">Новый ответ</button>
-          <div formArrayName="answers">
-            <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-              <ngb-panel *ngFor="let answer of form.answers.controls; let i = index;" [formGroupName]="i">
-                <ng-template ngbPanelHeader>
-                  <div class="d-flex align-items-center">
-                    <i *ngIf="answer.value.is_hidden" class="mdi mdi-eye-off mdi-24px" ngbTooltip="Ответ скрыт от пользователей"
-                      container="body"></i>
-                    <i *ngIf="!answer.value.is_hidden" class="mdi mdi-eye mdi-24px text-success" ngbTooltip="Ответ виден пользователям"
-                      container="body"></i>
-                    <button ngbPanelToggle class="btn btn-link p-0 mr-auto ml-3">Ответ {{ i + 1 }}</button>
-                    <i class="mdi mdi-delete mdi-24px text-danger pointer" (click)="deleteAnswer(answer)" ngbTooltip="Удалить ответ"
-                      container="body"></i>
-                  </div>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                  <div class="container">
-                    <div class="row align-items-center sd-icon-group pointer">
-                      <i *ngIf="answer.value.is_hidden" class="mdi mdi-toggle-switch-off mdi-24px" (click)="toggleHidden(answer)"></i>
-                      <i *ngIf="!answer.value.is_hidden" class="mdi mdi-toggle-switch mdi-24px text-success"
-                        (click)="toggleHidden(answer)"></i>
-                      <span (click)="toggleHidden(answer)">Ответ должен быть виден пользователю</span>
-                    </div>
-                    <div class="form-group row">
-                      <textarea [id]="'answer' + i" name="answer" rows="3" formControlName="answer" class="form-control"
-                        placeholder="Введите ответ" [ngClass]="{ 'is-invalid': (answer.controls.answer.touched || submitted) &&
-                          answer.controls.answer.errors, 'is-valid': answer.controls.answer.touched && answer.controls.answer.valid }">
-                      </textarea>
-                      <div class="invalid-feedback">
-                        <span *ngIf="answer.controls.answer.errors?.required">Не может быть пустым</span>
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label [for]="'link' + i" class="col-md-2 col-form-label text-primary col-form-label">Ссылка</label>
-                      <div class="col-md">
-                        <input [id]="'link' + i" name="link" formControlName="link" class="form-control" placeholder="Вставьте ссылку" />
-                      </div>
-                    </div>
-                  </div>
-                </ng-template>
-              </ngb-panel>
-            </ngb-accordion>
-          </div>
-        </section>
+        <app-ticket-form [parentForm]="ticketForm"></app-ticket-form>
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" (click)="cancel()" class="btn btn-gray-white">Отменить</button>
-      <button type="button" ngbAutofocus (click)="save()" [disabled]="loading.form" class="btn btn-primary">
+      <button type="button" ngbAutofocus (click)="save()" [disabled]="loading" class="btn btn-primary">
         <span class="d-flex justify-content-center">
-          <app-loading [loading]="loading.form" class="mr-1 text-body"></app-loading>Сохранить
+          <app-loading [loading]="loading" class="mr-1 text-body"></app-loading>Сохранить
         </span>
       </button>
     </div>

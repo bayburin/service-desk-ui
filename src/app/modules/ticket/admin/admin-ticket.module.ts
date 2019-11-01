@@ -11,6 +11,7 @@ import { ServiceDetailComponent } from './components/service-detail/service-deta
 import { AnswerComponent } from './components/answer/answer.component';
 import { AttachmentComponent } from './components/attachment/attachment.component';
 import { EditTicketComponent } from './components/edit-ticket/edit-ticket.component';
+import { TicketFormComponent } from './components/ticket-form/ticket-form.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { EditTicketComponent } from './components/edit-ticket/edit-ticket.compon
     ServiceDetailComponent,
     AnswerComponent,
     AttachmentComponent,
-    EditTicketComponent
+    EditTicketComponent,
+    TicketFormComponent
   ],
   imports: [
     CommonModule,

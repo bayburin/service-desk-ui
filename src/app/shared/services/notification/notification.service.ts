@@ -25,6 +25,15 @@ export class NotificationService {
   ) {}
 
   /**
+   * Создать локальное уведомление на основе сообщения.
+   */
+  setMessage(msg: string, params = {}) {
+    const notification = NotifyFactory.create({ ...params });
+    notification.message = msg;
+    this.showNotify(notification);
+  }
+
+  /**
    * Добавить сообщение в массив уведомлений.
    *
    * @param notification - объект уведомления.

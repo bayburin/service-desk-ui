@@ -83,6 +83,20 @@ export class ServiceService implements BreadcrumbServiceI {
   }
 
   /**
+   * Находит ticket в списке и заменяет указанным.
+   *
+   * @param ticketId - id заменяемого объекта Ticket.
+   * @param ticket - новый объект Ticket.
+   */
+  replaceTicket(ticketId: number, newTicket: Ticket): void {
+    const index = this.service.tickets.findIndex(ticket => ticket.id === ticketId);
+
+    if (index !== -1) {
+      this.service.tickets.splice(index, 1, newTicket);
+    }
+  }
+
+  /**
    * Удалить вопросы из услуги.
    *
    * @param tickets - вопросы.

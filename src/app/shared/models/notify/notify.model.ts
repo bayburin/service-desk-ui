@@ -1,3 +1,4 @@
+import { LocalState } from './notify_states/local.state';
 import { ErrorState } from './notify_states/error.state';
 import { CaseState } from './notify_states/case.state';
 import { BroadcastState } from './notify_states/broadcast.state';
@@ -81,7 +82,7 @@ export class Notify {
     } else if (this.isErrorEvent()) {
       this.state = new ErrorState();
     } else {
-      throw new Error('Неизвестный eventType');
+      this.state = new LocalState();
     }
   }
 }

@@ -26,6 +26,24 @@ describe('NotificationService', () => {
     expect(notifyService).toBeTruthy();
   });
 
+  describe('#setMessage', () => {
+    const message = 'Тестовое сообщение';
+    const notification = NotifyFactory.create();
+
+    beforeEach(() => {
+      spyOn(NotifyFactory, 'create').and.returnValue(notification);
+      notifyService.setMessage(message);
+    });
+
+    it('should create instance of specified message', () => {
+      expect(notifyService.notifications[0].message).toEqual(message);
+    });
+
+    it('should add notification to notifications array', () => {
+      expect(notifyService.notifications).toEqual([notification]);
+    });
+  });
+
   describe('#notify', () => {
     let notification = NotifyFactory.create({ event_type: 'broadcast'});
     notification.message = 'Test notification';

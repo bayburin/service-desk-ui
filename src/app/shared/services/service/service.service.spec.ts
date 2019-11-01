@@ -214,6 +214,36 @@ describe('ServiceService', () => {
       });
     });
 
+    describe('#replaceTickets', () => {
+      let ticket: Ticket;
+
+      beforeEach(() => {
+        ticket = TicketFactory.create({
+          id: 1,
+          ticket_type: 'question',
+          name: 'Тестовый вопрос'
+        });
+        newTicket = TicketFactory.create({
+          id: ticket.id,
+          ticket_type: 'question',
+          name: 'Тестовый вопрос. Новая редакция'
+        });
+        service.tickets = [ticket];
+      });
+
+      it('should replace ticket', () => {
+        serviceService.replaceTicket(ticket.id, newTicket);
+
+        expect(service.tickets[0]).toEqual(newTicket);
+      });
+
+      it('should not replace ticket if its not found', () => {
+        serviceService.replaceTicket(ticket.id + 1, newTicket);
+
+        expect(service.tickets[0]).not.toEqual(newTicket);
+      });
+    });
+
     describe('#removeTickets', () => {
       it('should remove tickets from "tickets" array', () => {
         serviceService.removeTickets([newTicket]);
