@@ -2,10 +2,11 @@
   <div class="sd-list-question">
     <div class="question">
       <div class="sd-icon-group text-body">
-        <i *ngIf="!standaloneLink" class="mdi mdi-24px pointer" [ngClass]="question.open ?
-          'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'" (click)="toggleQuestion()"></i>
-        <i class="mdi mdi-file-document-edit-outline mdi-24px pointer" ngbTooltip="Редактировать вопрос"
-          (click)="editQuestion()"></i>
+        <i *ngIf="!standaloneLink" class="mdi mdi-24px pointer" [ngClass]="question.open ? 'mdi-arrow-up-drop-circle-outline' :
+          'mdi-arrow-down-drop-circle-outline'" (click)="toggleQuestion()"></i>
+        <i class="mdi mdi-file-document-edit-outline mdi-24px pointer" (click)="editQuestion()" ngbTooltip="Редактировать вопрос"></i>
+        <i *appAuthorize="[question, 'publish']" class="mdi mdi-checkbox-marked-circle-outline mdi-24px pointer"
+          (click)="publishQuestion()" ngbTooltip="Подтвердить изменения и опубликовать вопрос"></i>
         <div class="d-flex flex-column question-block">
           <div class="d-flex flex-row align-items-center">
             <span [innerHtml]="question.name"></span>

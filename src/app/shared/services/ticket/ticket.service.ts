@@ -91,4 +91,19 @@ export class TicketService {
     return this.http.put(ticketUri, { ticket: data })
       .pipe(map((ticketI: TicketI) => TicketFactory.create(ticketI)));
   }
+
+  /**
+   * Утвердить изменения в указанных вопросах.
+   *
+   * @param serviceId - id услуги.
+   * @param tickets - список вопросов для утверждения изменений.
+   */
+  publishTickets(tickets: Ticket[]): Observable<Ticket[]> {
+    const ticketUri = `${environment.serverUrl}/api/v1/tickets/publish`;
+    const ticketIds = tickets.map(t => t.correction ? t.correction.id : t.id);
+    const httpParams = new HttpParams().append('ids', `${[ticketIds]}`);
+
+    return this.http.post(ticketUri, {}, { params: httpParams })
+      .pipe(map((ticketsI: TicketI[]) => ticketsI.map(t => TicketFactory.create(t))));
+  }
 }

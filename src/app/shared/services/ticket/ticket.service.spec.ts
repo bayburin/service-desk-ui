@@ -149,4 +149,26 @@ describe('TicketService', () => {
       }).flush(ticketI);
     });
   });
+
+  describe('#publishTickets', () => {
+    const ticketUri = `${environment.serverUrl}/api/v1/tickets/publish`;
+    const correction = { id: 3, name: 'Тестовый вопрос 3', ticket_type: 'question' };
+    const ticketsI = [
+      { id: 1, service_id: 2, name: 'Тестовый вопрос 1', ticket_type: 'question', correction },
+      { id: 2, service_id: 2, name: 'Тестовый вопрос 2', ticket_type: 'question' }
+    ];
+    const tickets = ticketsI.map(ticketI => TicketFactory.create(ticketI));
+    const httpParams = new HttpParams().append('ids', `${ticketsI.map(t => t.correction ? t.correction.id : t.id)}`);
+
+    it('should return Observable with Ticket array', () => {
+      ticketService.publishTickets(tickets).subscribe(result => {
+        expect(result).toEqual(tickets);
+      });
+
+      httpTestingController.expectOne({
+        method: 'POST',
+        url: `${ticketUri}?${httpParams}`
+      }).flush(ticketsI);
+    });
+  });
 });

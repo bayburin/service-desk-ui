@@ -4,21 +4,42 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
 
 import { QuestionComponent } from './question.component';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { ServiceService } from '@shared/services/service/service.service';
+import { StubServiceService } from '@shared/services/service/service.service.stub';
+import { TicketService } from '@shared/services/ticket/ticket.service';
+import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
+import { NotificationService } from '@shared/services/notification/notification.service';
+import { StubNotificationService } from '@shared/services/notification/notification.service.stub';
+import { TicketI } from '@interfaces/ticket.interface';
+import { AuthorizeDirective } from '@shared/directives/authorize/authorize.directive';
+import { UserService } from '@shared/services/user/user.service';
+import { StubUserService } from '@shared/services/user/user.service.stub';
 
 describe('QuestionComponent', () => {
   let component: QuestionComponent;
   let fixture: ComponentFixture<QuestionComponent>;
   let question: Ticket;
+  let serviceService: ServiceService;
+  let ticketService: TicketService;
+  let correction: TicketI;
+  let notifyService: NotificationService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule, RouterTestingModule],
-      declarations: [QuestionComponent],
-      schemas: [NO_ERRORS_SCHEMA]
+      declarations: [QuestionComponent, AuthorizeDirective],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [
+        { provide: ServiceService, useClass: StubServiceService },
+        { provide: TicketService, useClass: StubTicketService },
+        { provide: NotificationService, useClass: StubNotificationService },
+        { provide: UserService, useClass: StubUserService }
+      ]
     })
     .compileComponents();
   }));
@@ -26,19 +47,22 @@ describe('QuestionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuestionComponent);
     component = fixture.componentInstance;
+    correction = {
+      id: 3,
+      service_id: 2,
+      name: 'Измененный вопрос',
+      original_id: 1,
+      ticket_type: 'question',
+      state: 'draft',
+      open: false
+    } as TicketI;
     question = TicketFactory.create({
       id: 1,
       service_id: 2,
-      correction: {
-        id: 3,
-        service_id: 2,
-        name: 'Измененный вопрос',
-        original_id: 1,
-        ticket_type: 'question',
-        open: false
-      },
+      correction,
       name: 'Тестовый вопрос',
       ticket_type: 'question',
+      state: 'published',
       tags: [
         { id: 1, name: 'Тег 1' },
         { id: 2, name: 'Тег 2' }
@@ -95,6 +119,53 @@ describe('QuestionComponent', () => {
       component.showOriginal();
 
       expect(component.question).toEqual(question);
+    });
+  });
+
+  describe('#publishQuestion', () => {
+    let result: Ticket;
+
+    beforeEach(() => {
+      serviceService = TestBed.get(ServiceService);
+      ticketService = TestBed.get(TicketService);
+      notifyService = TestBed.get(NotificationService);
+
+      spyOn(window, 'confirm').and.returnValue(true);
+      spyOn(serviceService, 'replaceTicket');
+    });
+
+    describe('when question has original', () => {
+      beforeEach(() => {
+        question = question.correction;
+        result = TicketFactory.create(correction);
+        result.state = 'published';
+        spyOn(ticketService, 'publishTickets').and.returnValue(of([result]));
+        spyOn(notifyService, 'setMessage');
+        component.publishQuestion();
+      });
+
+      it('should call "publishTickets" method', () => {
+        expect(ticketService.publishTickets).toHaveBeenCalledWith([question]);
+      });
+
+      it('should call "replaceTicket" method', () => {
+        expect(serviceService.replaceTicket).toHaveBeenCalledWith(question.original.id, result);
+      });
+
+      it('should call "setMessage" method', () => {
+        expect(notifyService.setMessage).toHaveBeenCalled();
+      });
+    });
+
+    describe('when server returns empty array', () => {
+      beforeEach(() => {
+        spyOn(ticketService, 'publishTickets').and.returnValue(of([]));
+        component.publishQuestion();
+      });
+
+      it('should exit from method', () => {
+        expect(serviceService.replaceTicket).not.toHaveBeenCalled();
+      });
     });
   });
 

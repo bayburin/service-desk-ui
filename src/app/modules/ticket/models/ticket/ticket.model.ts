@@ -1,3 +1,5 @@
+import { PublishedState } from './states/published.state';
+import { DraftState } from './states/draft.state';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { User } from '@shared/models/user/user.model';
 import { Service } from '@modules/ticket/models/service/service.model';
@@ -12,6 +14,7 @@ import { TagI } from '@interfaces/tag.interface';
 import { TicketI } from '@interfaces/ticket.interface';
 import { Answer } from '@modules/ticket/models/answer/answer.model';
 import { AnswerFactory } from '@modules/ticket/factories/answer.factory';
+import { AbstractState } from './states/abstract.state';
 
 export class Ticket implements CommonServiceI {
   id: number;
@@ -19,7 +22,6 @@ export class Ticket implements CommonServiceI {
   originalId: number;
   name: string;
   ticketType: string;
-  state: string;
   isHidden: boolean;
   sla: number;
   toApprove: boolean;
@@ -32,7 +34,18 @@ export class Ticket implements CommonServiceI {
   responsibleUsers: ResponsibleUserI[];
   tags: TagI[];
   loading = false;
+  private _state: string;
   private type: AbstractTicketType;
+  private questionState: AbstractState;
+
+  get state(): string {
+    return this._state;
+  }
+
+  set state(s: string) {
+    this._state = s;
+    this.createQuestionState();
+  }
 
   constructor(ticket: any = {}) {
     this.id = ticket.id;
@@ -114,6 +127,13 @@ export class Ticket implements CommonServiceI {
   }
 
   /**
+   * Публикация вопроса.
+   */
+  publish() {
+    this.questionState.publish(this);
+  }
+
+  /**
    * Установить состояние класса взависимости от типа ticketType.
    */
   private createTypeState(): void {
@@ -122,7 +142,15 @@ export class Ticket implements CommonServiceI {
     } else if (this.isCaseTicketType()) {
       this.type = new CaseType();
     } else {
-      throw new Error('Unknown ticketType');
+      throw new Error('Неизвестный ticketType');
+    }
+  }
+
+  private createQuestionState() {
+    if (this.isPublishedState()) {
+      this.questionState = new PublishedState();
+    } else {
+      this.questionState = new DraftState();
     }
   }
 

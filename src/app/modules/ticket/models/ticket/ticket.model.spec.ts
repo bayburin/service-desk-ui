@@ -8,6 +8,8 @@ import { ServiceI } from '@interfaces/service.interface';
 import { TicketI } from '@interfaces/ticket.interface';
 import { CaseType } from './ticket_types/case.type';
 import { UserFactory } from '@shared/factories/user.factory';
+import { PublishedState } from './states/published.state';
+import { DraftState } from './states/draft.state';
 
 describe('Ticket', () => {
   let serviceI: ServiceI;
@@ -113,6 +115,28 @@ describe('Ticket', () => {
     });
   });
 
+  describe('"state" attribute', () => {
+    beforeEach(() => {
+      ticket = new Ticket(ticketI);
+    });
+
+    it('should set PublishedState', () => {
+      ticket.state = 'published';
+
+      expect(ticket.state).toEqual('published');
+      expect(ticket.isPublishedState()).toBeTruthy();
+      expect((ticket as any).questionState instanceof PublishedState).toBeTruthy();
+    });
+
+    it('should set DraftState', () => {
+      ticket.state = 'draft';
+
+      expect(ticket.state).toEqual('draft');
+      expect(ticket.isDraftState()).toBeTruthy();
+      expect((ticket as any).questionState instanceof DraftState).toBeTruthy();
+    });
+  });
+
   describe('For existing ticket', () => {
     beforeEach(() => {
       ticket = new Ticket(ticketI);
@@ -201,6 +225,19 @@ describe('Ticket', () => {
       spyOn(ticket.service, 'isBelongsTo').and.returnValue(true);
 
       expect(ticket.isBelongsByServiceTo(user)).toBeTruthy();
-    })
+    });
+  });
+
+  describe('#publish', () => {
+    beforeEach(() => {
+      ticket = new Ticket(ticketI);
+      ticket.state = 'draft';
+    });
+
+    it('should change state to "published"', () => {
+      ticket.publish();
+
+      expect(ticket.isPublishedState).toBeTruthy();
+    });
   });
 });

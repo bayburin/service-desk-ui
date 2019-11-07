@@ -8,4 +8,5 @@ export class StubTicketService {
   loadTags() { return of([]); }
   loadTicket() { return of({}); }
   updateTicket() { return of({}); }
+  publishTickets() { return of({}); }
 }

@@ -13,4 +13,8 @@ export class TicketPolicy extends ApplicationPolicy {
       return this.user.hasRole('content_manager') || this.user.hasRole('operator');
     }
   }
+
+  publish(): boolean {
+    return this.user.hasRole('content_manager') && (this.object.isDraftState() || this.object.correction);
+  }
 }

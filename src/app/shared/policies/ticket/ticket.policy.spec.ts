@@ -80,4 +80,45 @@ describe('TicketPolicy', () => {
       });
     });
   });
+
+  describe('#publish', () => {
+    describe('when user has "content_manager" role', () => {
+      beforeEach(() => { user.role.name = 'content_manager'; });
+
+      describe('and when ticket has correction', () => {
+        beforeEach(() => ticket.correction = TicketFactory.create({ id: 2, name: 'Тестовое исправление', ticket_type: 'question' }));
+
+        it('should grant access', () => {
+          expect(ticketPolicy.publish()).toBeTruthy();
+        });
+      });
+
+      describe('and when ticket has "draft" state', () => {
+        beforeEach(() => ticket.state = 'draft');
+
+        it('should grant access', () => {
+          expect(ticketPolicy.publish()).toBeTruthy();
+        });
+      });
+
+      describe('and when ticket does not have correction and has "published" state', () => {
+        beforeEach(() => {
+          ticket.correction = null;
+          ticket.state = 'published';
+        });
+
+        it('should deny access', () => {
+          expect(ticketPolicy.publish()).toBeFalsy();
+        });
+      });
+    });
+
+    describe('when user has another role', () => {
+      beforeEach(() => user.role.name = 'responsible_user');
+
+      it('should deny access', () => {
+        expect(ticketPolicy.publish()).toBeFalsy();
+      });
+    });
+  });
 });
