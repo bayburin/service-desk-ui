@@ -89,10 +89,24 @@ export class ServiceService implements BreadcrumbServiceI {
    * @param ticket - новый объект Ticket.
    */
   replaceTicket(ticketId: number, newTicket: Ticket): void {
-    const index = this.service.tickets.findIndex(ticket => ticket.id === ticketId);
+    let original: Ticket;
+
+    const index = this.service.tickets.findIndex(ticket => {
+      if (ticket.id === ticketId) {
+        return true;
+      } else if (ticket.correction && ticket.correction.id === ticketId) {
+        ticket.correction = newTicket;
+        newTicket.original = ticket;
+        original = ticket;
+
+        return true;
+      } else {
+        return false;
+      }
+    });
 
     if (index !== -1) {
-      this.service.tickets.splice(index, 1, newTicket);
+      this.service.tickets.splice(index, 1, original || newTicket);
     }
   }
 

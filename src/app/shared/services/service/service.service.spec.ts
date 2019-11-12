@@ -216,18 +216,12 @@ describe('ServiceService', () => {
 
     describe('#replaceTickets', () => {
       let ticket: Ticket;
+      let correction: Ticket;
 
       beforeEach(() => {
-        ticket = TicketFactory.create({
-          id: 1,
-          ticket_type: 'question',
-          name: 'Тестовый вопрос'
-        });
-        newTicket = TicketFactory.create({
-          id: ticket.id,
-          ticket_type: 'question',
-          name: 'Тестовый вопрос. Новая редакция'
-        });
+        ticket = TicketFactory.create({ id: 1, ticket_type: 'question', name: 'Тестовый вопрос' });
+        newTicket = TicketFactory.create({ id: ticket.id, ticket_type: 'question', name: 'Тестовый вопрос. Новая редакция' });
+        correction = TicketFactory.create({ id: 2, name: 'Тестовый вопрос. Старая редакция.', ticket_type: 'question' });
         service.tickets = [ticket];
       });
 
@@ -241,6 +235,14 @@ describe('ServiceService', () => {
         serviceService.replaceTicket(ticket.id + 1, newTicket);
 
         expect(service.tickets[0]).not.toEqual(newTicket);
+      });
+
+      it('should set "original" attribute if correction exists', () => {
+        ticket.correction = correction;
+        serviceService.replaceTicket(ticket.correction.id, newTicket);
+
+        expect(service.tickets[0].correction).toEqual(newTicket);
+        expect(service.tickets[0].correction.original).toEqual(ticket);
       });
     });
 
