@@ -8,7 +8,7 @@
   </div>
 
   <div *ngIf="!loading.initialization && isAnyCasesExists()">
-    <a id="newCase" routerLink="/cases/new" class="btn btn-gray-white mb-3">Создать заявку в свободной форме</a>
+    <a id="newCase" routerLink="/cases/new" class="btn btn-primary mb-3">Создать заявку в свободной форме</a>
     <app-filters [data]="statuses" (changeFilter)="filterChanged($event)"></app-filters>
     <app-case-card-list [cases]="cases" [loading]="loading.table" (removeCase)="caseRevoked()"></app-case-card-list>
     <!-- <app-paginator></app-paginator> -->
