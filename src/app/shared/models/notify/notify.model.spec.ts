@@ -20,13 +20,20 @@ describe('Notify', () => {
   });
 
   it('should accept values', () => {
-    notify = new Notify(notifyI);
+    notify = new Notify({ mockId: 1, ...notifyI });
 
     expect(notify.id).toEqual(notifyI.id);
+    expect(notify.mockId).toEqual(1);
     expect(notify.eventType).toEqual(notifyI.event_type);
     expect(notify.tn).toEqual(notifyI.id);
     expect((notify as any).body).toEqual(notifyI.body);
     expect(notify.date).toEqual(notifyI.date);
+  });
+
+  it('should set message if its exists', () => {
+    notify = new Notify({ message: 'test' });
+
+    expect(notify.message).toEqual('test');
   });
 
   it('should create BroadcastState if event_type is "broadcast"', () => {

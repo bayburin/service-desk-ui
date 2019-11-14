@@ -28,10 +28,8 @@ describe('NotificationService', () => {
 
   describe('#setMessage', () => {
     const message = 'Тестовое сообщение';
-    const notification = NotifyFactory.create();
 
     beforeEach(() => {
-      spyOn(NotifyFactory, 'create').and.returnValue(notification);
       notifyService.setMessage(message);
     });
 
@@ -40,7 +38,14 @@ describe('NotificationService', () => {
     });
 
     it('should add notification to notifications array', () => {
-      expect(notifyService.notifications).toEqual([notification]);
+      expect(notifyService.notifications.length).toEqual(1);
+    });
+
+    it('should generate mockId for notification', () => {
+      notifyService.setMessage(message);
+
+      expect(notifyService.notifications[0].mockId).toEqual(2);
+      expect(notifyService.notifications[1].mockId).toEqual(1);
     });
   });
 

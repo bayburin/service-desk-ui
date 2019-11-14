@@ -33,7 +33,7 @@ export class ErrorHandlerService {
         break;
       case 422:
         this.notification = NotifyFactory.create({ event_type: 'error' });
-        this.notification.message = error.error.message || 'Некорректные данные.';
+        this.notification.message = error.error.message || error.error.base || 'Некорректные данные.';
         this.notifyService.alert(this.notification);
         break;
       case 500:

@@ -7,6 +7,7 @@ import { NotificationBodyI } from '@interfaces/notification.interface';
 
 export class Notify {
   id: number;
+  mockId = 0;
   eventType: string;
   tn: number;
   date: string;
@@ -16,10 +17,15 @@ export class Notify {
 
   constructor(notification: any = {}) {
     this.id = notification.id;
+    this.mockId = notification.mockId;
     this.eventType = notification.event_type;
     this.tn = notification.tn;
     this.body = notification.body || {};
     this.date = notification.date;
+
+    if (notification.message) {
+      this.message = notification.message;
+    }
 
     this.createState();
   }
