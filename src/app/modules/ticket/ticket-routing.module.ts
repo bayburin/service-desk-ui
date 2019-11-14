@@ -56,12 +56,12 @@ const routes: Routes = [
       }
     ]
   },
-  {
-    path: 'services',
-    component: ServicesOverwievPageComponent,
-    canActivate: [AuthGuard],
-    data: { breadcrumb: 'Все вопросы' }
-  },
+  // {
+  //   path: 'services',
+  //   component: ServicesOverwievPageComponent,
+  //   canActivate: [AuthGuard],
+  //   data: { breadcrumb: 'Все вопросы' }
+  // },
   {
     path: 'search',
     component: SearchPageComponent,
