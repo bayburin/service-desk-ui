@@ -80,4 +80,8 @@ export class QuestionPageContentComponent implements OnInit {
   trackByAnswer(index, answer: AnswerI) {
     return answer.id;
   }
+
+  trackByAttachment(index, attachment: AnswerAttachmentI) {
+    return attachment.id;
+  }
 }

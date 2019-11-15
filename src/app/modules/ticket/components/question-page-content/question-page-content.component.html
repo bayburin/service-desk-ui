@@ -9,8 +9,8 @@
       </span>
     </div>
   </div>
-  <div *ngIf="data.open" class="overflow-hidden" @ToggleAnswer>
-    <div *ngFor="let answer of data.answers; trackBy: trackByAnswer" class="sd-list-answer ml-5">
+  <div *ngIf="data.open" class="overflow-hidden ml-5" @ToggleAnswer>
+    <div *ngFor="let answer of data.answers; trackBy: trackByAnswer" class="sd-list-answer">
       <div class="row d-flex align-items-center">
         <div class="col-sm-9 col-md-10">
           <div class="d-flex align-items-center">
@@ -22,7 +22,7 @@
         </div>
         <div class="col-sm-3 col-md-2">
           <div class="sd-link sd-icon-group justify-content-center">
-            <div *ngFor="let attachment of answer.attachments">
+            <div *ngFor="let attachment of answer.attachments; trackBy: trackByAttachment">
               <ng-template #filename>{{ attachment.filename }}</ng-template>
               <app-loading [loading]="attachment.loadingDownload" size="24px" class="text-secondary"></app-loading>
               <div id="attachmentFile" *ngIf="!attachment.loadingDownload" [ngbTooltip]="filename" container="body">

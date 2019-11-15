@@ -122,6 +122,10 @@ export class TicketFormComponent implements OnInit {
     }
   }
 
+  trackByServiceTag(index, serviceTag: any) {
+    return serviceTag.data.id;
+  }
+
   private loadServiceTags(): void {
     this.loading.serviceTags = true;
     this.serviceService.loadTags()

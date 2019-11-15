@@ -7,6 +7,7 @@ import { Answer } from '@modules/ticket/models/answer/answer.model';
 import { ServiceService } from '@shared/services/service/service.service';
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { NotificationService } from '@shared/services/notification/notification.service';
+import { TagI } from '@interfaces/tag.interface';
 
 @Component({
   selector: 'app-question',
@@ -37,6 +38,10 @@ export class QuestionComponent implements OnInit {
    */
   toggleQuestion(): void {
     this.question.open = !this.question.open;
+  }
+
+  trackByTag(index, tag: TagI) {
+    return tag.id;
   }
 
   trackByAnswer(index, answer: Answer) {

@@ -22,7 +22,7 @@
         <div class="d-flex align-items-center flex-wrap">
           Популярные теги для данной услуги:
           <app-loading class="ml-2 mr-2" [loading]="loading.serviceTags" size="18px"></app-loading>
-          <span *ngFor="let tag of serviceTags" @contentBlockAnimation>
+          <span *ngFor="let tag of serviceTags; trackBy: trackByServiceTag" @contentBlockAnimation>
             <span *ngIf="!tag.data.selected">
               <span class="pointer" [innerHTML]="tag.htmlString" (click)="addTag(tag.data)"></span>
               &nbsp;

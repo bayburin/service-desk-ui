@@ -25,4 +25,8 @@ export class FiltersComponent implements OnInit {
     this.selectedFilterId = filterId;
     this.changeFilter.emit(this.selectedFilterId);
   }
+
+  trackByFilter(index, filter: FilterI) {
+    return filter.id;
+  }
 }
