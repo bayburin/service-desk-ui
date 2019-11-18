@@ -30,6 +30,7 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
 import { AuthorizeDirective } from './directives/authorize/authorize.directive';
 import { QuestionFlagsComponent } from './components/question-flags/question-flags.component';
 import { VisibleFlagComponent } from './components/visible-flag/visible-flag.component';
+import { ResponsibleUserDetailsComponent } from './components/responsible-user-details/responsible-user-details.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { VisibleFlagComponent } from './components/visible-flag/visible-flag.com
     UserDashboardMenuComponent,
     AuthorizeDirective,
     QuestionFlagsComponent,
-    VisibleFlagComponent
+    VisibleFlagComponent,
+    ResponsibleUserDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -93,7 +95,8 @@ import { VisibleFlagComponent } from './components/visible-flag/visible-flag.com
     UserDashboardMenuComponent,
     AuthorizeDirective,
     QuestionFlagsComponent,
-    VisibleFlagComponent
+    VisibleFlagComponent,
+    ResponsibleUserDetailsComponent
   ],
   providers: [
     FilterByClassPipe,
