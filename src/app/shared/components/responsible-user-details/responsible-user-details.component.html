@@ -1,4 +1,4 @@
-<div *ngIf="isShowDetails()" class="mt-1">{{ label }}:
+<div *ngIf="isShowDetails()" class="mt-1" @contentBlockAnimation>{{ label }}:
   <span *ngFor="let user of users" class="badge ml-1 bg-blue-100">
     <span *ngIf="user.details">{{ user.details.full_name }}
       <span *ngIf="user.details.phone">(тел. {{ user.details.phone }})</span>

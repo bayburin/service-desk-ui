@@ -1,11 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
+import { contentBlockAnimation } from '@animations/content.animation';
 
 @Component({
   selector: 'app-responsible-user-details',
   templateUrl: './responsible-user-details.component.html',
-  styleUrls: ['./responsible-user-details.component.sass']
+  styleUrls: ['./responsible-user-details.component.sass'],
+  animations: [contentBlockAnimation]
 })
 export class ResponsibleUserDetailsComponent implements OnInit {
   @Input() label: string;

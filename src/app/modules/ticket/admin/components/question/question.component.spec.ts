@@ -63,6 +63,9 @@ describe('QuestionComponent', () => {
       name: 'Тестовый вопрос',
       ticket_type: 'question',
       state: 'published',
+      responsible_users: [
+        { tn: 123, details: { full_name: 'ФИО' } }
+      ],
       tags: [
         { id: 1, name: 'Тег 1' },
         { id: 2, name: 'Тег 2' }
@@ -191,5 +194,12 @@ describe('QuestionComponent', () => {
 
       expect(fixture.debugElement.nativeElement.querySelectorAll('app-answer').length).toEqual(question.answers.length);
     });
+  });
+
+  it('should show app-responsible-user-details component', () => {
+    component.toggleQuestion();
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('app-responsible-user-details'))).toBeTruthy();
   });
 });

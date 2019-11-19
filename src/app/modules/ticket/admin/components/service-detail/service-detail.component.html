@@ -5,6 +5,7 @@
       <a id="newQuestion" routerLink="new" class="btn btn-gray-white">Новый вопрос</a>
       <a id="userMode" [routerLink]="['../../']" class="btn btn-gray-white ml-2">Режим пользователя</a>
     </div>
+    <app-responsible-user-details [users]="service.responsibleUsers" label="Ответственные за услугу"></app-responsible-user-details>
     <div class="sd-dlist-divider-b">
       <app-question *ngFor="let ticket of service.tickets; trackBy: trackByTicket" [question]="ticket"></app-question>
     </div>

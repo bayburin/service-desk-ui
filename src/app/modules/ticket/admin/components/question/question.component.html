@@ -28,8 +28,9 @@
       </div>
     </div>
   </div>
-  <div *ngIf="question.open" class="overflow-hidden" @ToggleAnswer>
-    <div *ngFor="let answer of question.answers; trackBy: trackByAnswer" class="sd-list-answer ml-5">
+  <div *ngIf="question.open" class="overflow-hidden ml-5" @ToggleAnswer>
+    <app-responsible-user-details [users]="question.responsibleUsers" label="Ответственные"></app-responsible-user-details>
+    <div *ngFor="let answer of question.answers; trackBy: trackByAnswer" class="sd-list-answer">
       <app-answer [answer]="answer"></app-answer>
     </div>
   </div>

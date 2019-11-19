@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing'
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 
 import { ServiceDetailComponent } from './service-detail.component';
 import { Service } from '@modules/ticket/models/service/service.model';
@@ -50,5 +51,11 @@ describe('ServiceDetailComponent', () => {
 
   it('should show link to user mode', () => {
     expect(fixture.debugElement.nativeElement.querySelector('#userMode')).toBeTruthy();
+  });
+
+  it('should show app-responsible-user-details component', () => {
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('app-responsible-user-details'))).toBeTruthy();
   });
 });

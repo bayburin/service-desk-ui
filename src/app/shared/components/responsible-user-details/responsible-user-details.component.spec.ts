@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ResponsibleUserDetailsComponent } from './responsible-user-details.component';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
@@ -14,6 +15,7 @@ describe('ResponsibleUserDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [NoopAnimationsModule],
       declarations: [ResponsibleUserDetailsComponent]
     })
     .compileComponents();
