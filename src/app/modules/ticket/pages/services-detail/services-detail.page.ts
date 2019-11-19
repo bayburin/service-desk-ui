@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import { finalize, filter, first, map, delay } from 'rxjs/operators';
+import { finalize, filter, first, map, delay, tap, switchMap } from 'rxjs/operators';
 
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceDetailComponent } from '@modules/ticket/components/service-detail/service-detail.component';
 import { DynamicTemplateContentComponent } from '@modules/ticket/components/dynamic-template-content/dynamic-template-content.component';
+import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
+import { UserPolicy } from '@shared/policies/user/user.policy';
 
 @Component({
   selector: 'app-services-detail-page',
@@ -20,7 +22,12 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
   private questionStream = new Subject();
   private ticketId: number;
 
-  constructor(private serviceService: ServiceService, public route: ActivatedRoute) {}
+  constructor(
+    private serviceService: ServiceService,
+    public route: ActivatedRoute,
+    private responsibleUserService: ResponsibleUserService,
+    private policy: UserPolicy
+  ) {}
 
   ngOnInit() {
     this.ticketId = this.route.snapshot.queryParams.ticket;
@@ -46,8 +53,17 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
 
     this.loading = true;
     this.serviceService.loadService(categoryId, serviceId)
-      .pipe(finalize(() => this.loading = false))
-      .subscribe(service => this.service = service);
+      .pipe(
+        finalize(() => this.loading = false),
+        tap(service => this.service = service),
+        filter(() => this.policy.authorize(null, 'responsibleUserAccess')),
+        switchMap(service => this.responsibleUserService.loadDetails(service.getResponsibleUsersTn())),
+        tap(() => {
+          this.responsibleUserService.associateDetailsFor(this.service);
+          this.service.tickets.forEach(ticket => this.responsibleUserService.associateDetailsFor(ticket));
+        })
+      )
+      .subscribe();
   }
 
   /**

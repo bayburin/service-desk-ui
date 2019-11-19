@@ -10,6 +10,7 @@
     </div>
   </div>
   <div *ngIf="data.open" class="overflow-hidden ml-5" @ToggleAnswer>
+    <app-responsible-user-details [users]="data.responsibleUsers" label="Ответственные"></app-responsible-user-details>
     <div *ngFor="let answer of data.answers; trackBy: trackByAnswer" class="sd-list-answer">
       <div class="row d-flex align-items-center">
         <div class="col-sm-9 col-md-10">

@@ -15,6 +15,8 @@ import { AttachmentService } from '@shared/services/attachment/attachment.servic
 import { StubAttachmentService } from '@shared/services/attachment/attachment.service.stub';
 import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
 import { StubTicketPolicy } from '@shared/policies/ticket/ticket.policy.stub';
+import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
+import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 
 describe('QuestionPageContentComponent', () => {
   let component: QuestionPageContentComponent;
@@ -151,6 +153,14 @@ describe('QuestionPageContentComponent', () => {
       fixture.detectChanges();
 
       expect(fixture.debugElement.query(By.css('app-visible-flag'))).toBeTruthy();
+    });
+
+    it('should show app-responsible-user-details component', () => {
+      ticket.responsibleUsers = [{ tn: 17664, details: { full_name: 'ФИО' } as ResponsibleUserDetailsI } as ResponsibleUserI];
+      fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-link').click();
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('app-responsible-user-details'))).toBeTruthy();
     });
   });
 });

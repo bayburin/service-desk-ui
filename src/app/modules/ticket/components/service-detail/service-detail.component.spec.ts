@@ -3,6 +3,7 @@ import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import { By } from '@angular/platform-browser';
 
 import { ServiceDetailComponent } from './service-detail.component';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
@@ -24,8 +25,8 @@ describe('ServiceDetailComponent', () => {
     id: 1,
     category_id: 1,
     name: 'Тестовая услуга',
-    tickets: tickets,
-    user_responsibles: [{ tn: 12_123 }]
+    tickets,
+    responsible_users: [{ tn: 12_123 }]
   });
 
   beforeEach(async(() => {
@@ -63,6 +64,12 @@ describe('ServiceDetailComponent', () => {
     fixture.detectChanges();
 
     expect(fixture.debugElement.nativeElement.querySelectorAll('app-dynamic-template-content').length).toEqual(tickets.length);
+  });
+
+  it('should show app-responsible-user-details component', () => {
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('app-responsible-user-details'))).toBeTruthy();
   });
 
   describe('when appAuthorize directive returns true', () => {

@@ -64,6 +64,15 @@ export class Service implements CommonServiceI {
     return this.tickets.some(ticket => ticket.isBelongsTo(user));
   }
 
+  /**
+   * Возвращает список табельных номеров ответственных за услугу и вложенные вопросы.
+   */
+  getResponsibleUsersTn(): number[] {
+    const ticketResponsibles = this.tickets.map(ticket => ticket.getResponsibleUsersTn());
+
+    return this.responsibleUsers.map(user => user.tn).concat(...ticketResponsibles);
+  }
+
   private buildTickets(tickets: TicketI[]): void {
     if (!tickets || !tickets.length) {
       this.tickets = [];

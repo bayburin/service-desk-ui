@@ -10,23 +10,26 @@ import { Ticket } from '../ticket/ticket.model';
 describe('Service', () => {
   let serviceI: ServiceI;
   let service: Service;
-  const ticketI = {
-    id: 2,
-    name: 'Тестовый вопорс',
-    ticket_type: 'question'
-  } as TicketI;
-  const categoryI = {
-    id: 3,
-    name: 'Тестовая категория'
-  } as CategoryI;
-  const reponsibleUserI = {
-    id: 1,
-    tn: 123,
-    responseable_type: 'Service',
-    responseable_id: 1
-  } as ResponsibleUserI;
+  let ticketI: TicketI;
+  let categoryI: CategoryI;
+  let responsibleUserI: ResponsibleUserI;
 
   beforeEach(() => {
+    ticketI = {
+      id: 2,
+      name: 'Тестовый вопорс',
+      ticket_type: 'question'
+    } as TicketI;
+    categoryI = {
+      id: 3,
+      name: 'Тестовая категория'
+    } as CategoryI;
+    responsibleUserI = {
+      id: 1,
+      tn: 123,
+      responseable_type: 'Service',
+      responseable_id: 1
+    } as ResponsibleUserI;
     serviceI = {
       id: 1,
       category_id: categoryI.id,
@@ -38,7 +41,7 @@ describe('Service', () => {
       popularity: 23,
       tickets: [ticketI],
       category: categoryI,
-      responsible_users: [reponsibleUserI]
+      responsible_users: [responsibleUserI]
     } as ServiceI;
   });
 
@@ -58,7 +61,7 @@ describe('Service', () => {
       expect(service.isHidden).toEqual(serviceI.is_hidden);
       expect(service.hasCommonCase).toEqual(serviceI.has_common_case);
       expect(service.popularity).toEqual(serviceI.popularity);
-      expect(service.responsibleUsers).toEqual([reponsibleUserI]);
+      expect(service.responsibleUsers).toEqual([responsibleUserI]);
     });
 
     it('should create instances of nested tickets', () => {
@@ -129,7 +132,7 @@ describe('Service', () => {
     const user = UserFactory.create({ tn: 1 });
 
     beforeEach(() => {
-      ticketI.responsible_users = [{ tn: tn } as ResponsibleUserI];
+      ticketI.responsible_users = [{ tn } as ResponsibleUserI];
       service = new Service(serviceI);
     });
 
@@ -141,6 +144,17 @@ describe('Service', () => {
       user.tn = 17_664;
 
       expect(service.isBelongsByTicketTo(user)).toBeFalsy();
+    });
+  });
+
+  describe('#getResponsibleUsersTn', () => {
+    beforeEach(() => {
+      service = new Service(serviceI);
+      service.tickets[0].responsibleUsers.push({ tn: 12345 } as ResponsibleUserI);
+    });
+
+    it('should return array of "tn" attributes', () => {
+      expect(service.getResponsibleUsersTn()).toEqual([responsibleUserI.tn, 12345]);
     });
   });
 });

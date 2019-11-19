@@ -134,6 +134,13 @@ export class Ticket implements CommonServiceI {
   }
 
   /**
+   * Возвращает список табельных номеров ответственных.
+   */
+  getResponsibleUsersTn(): number[] {
+    return this.responsibleUsers.map(user => user.tn);
+  }
+
+  /**
    * Установить состояние класса взависимости от типа ticketType.
    */
   private createTypeState(): void {

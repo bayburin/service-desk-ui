@@ -240,4 +240,15 @@ describe('Ticket', () => {
       expect(ticket.isPublishedState).toBeTruthy();
     });
   });
+
+  describe('#getResponsibleUsersTn', () => {
+    beforeEach(() => {
+      ticket = new Ticket(ticketI);
+      ticket.responsibleUsers.push({ tn: 12345 } as ResponsibleUserI);
+    });
+
+    it('should return array of "tn" attributes', () => {
+      expect(ticket.getResponsibleUsersTn()).toEqual([responsibleUserI.tn, 12345]);
+    });
+  });
 });
