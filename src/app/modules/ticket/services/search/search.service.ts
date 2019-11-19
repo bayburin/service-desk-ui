@@ -41,7 +41,7 @@ export class SearchService {
   private searchRequest(uri: string, searchValue: string): Observable<any> {
     const params = new HttpParams().set('search', searchValue);
 
-    return this.http.get<any>(uri, { params: params }).pipe(
+    return this.http.get<any>(uri, { params }).pipe(
       map(data => {
         const arr = data.map(template => ServiceTemplateCreator.createBy(template));
 
