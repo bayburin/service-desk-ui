@@ -40,7 +40,6 @@ describe('ResponsibleUserService', () => {
     });
 
     it('should return Observable with ResponsibleUserDetailsI data', () => {
-
       service.loadDetails(tns).subscribe(result => {
         expect(result).toEqual(loadedData);
       });
@@ -59,6 +58,28 @@ describe('ResponsibleUserService', () => {
       httpTestingController.expectOne({
         method: 'GET',
         url: `${loadDetailsUri}?${params}`
+      }).flush(loadedData);
+    });
+  });
+
+  describe('#searchUsers', () => {
+    let params: HttpParams;
+    const term = 'test';
+    const field = 'customField'
+    const loadUsersUri = `${environment.serverUrl}/api/v1/responsible_users/search`;
+
+    beforeEach(() => {
+      params = new HttpParams().append('field', field).append('term', term);
+    });
+
+    it('should return Observable with ResponsibleUserDetailsI data', () => {
+      service.searchUsers(field, term).subscribe(result => {
+        expect(result).toEqual(loadedData);
+      });
+
+      httpTestingController.expectOne({
+        method: 'GET',
+        url: `${loadUsersUri}?${params}`
       }).flush(loadedData);
     });
   });

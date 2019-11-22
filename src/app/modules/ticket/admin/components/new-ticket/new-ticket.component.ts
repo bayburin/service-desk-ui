@@ -2,7 +2,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
-import { finalize } from 'rxjs/operators';
+import { finalize, tap, switchMap } from 'rxjs/operators';
 
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { ServiceService } from '@shared/services/service/service.service';
@@ -10,6 +10,7 @@ import { Service } from '@modules/ticket/models/service/service.model';
 import { contentBlockAnimation } from '@animations/content.animation';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { NotificationService } from '@shared/services/notification/notification.service';
+import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 
 @Component({
   selector: 'app-new-ticket',
@@ -32,7 +33,8 @@ export class NewTicketComponent implements OnInit {
     private formBuilder: FormBuilder,
     private serviceService: ServiceService,
     private ticketService: TicketService,
-    private notifyService: NotificationService
+    private notifyService: NotificationService,
+    private responsibleUserService: ResponsibleUserService
   ) {}
 
   ngOnInit() {
@@ -52,14 +54,21 @@ export class NewTicketComponent implements OnInit {
 
     this.loading = true;
     this.ticketService.createTicket(this.ticketForm.getRawValue())
-      .pipe(finalize(() => this.loading = false))
-      .subscribe(
-        (newTicket: Ticket) => {
+      .pipe(
+        finalize(() => this.loading = false),
+        tap((createdTicket: Ticket) => {
           this.modal.close();
           this.redirectToService();
-          this.serviceService.addTickets([newTicket]);
+          this.serviceService.addTickets([createdTicket]);
           this.notifyService.setMessage('Новый вопрос добавлен');
-        },
+        }),
+        switchMap(createdTicket => {
+          return this.responsibleUserService.loadDetails(createdTicket.getResponsibleUsersTn())
+            .pipe(tap(() => this.responsibleUserService.associateDetailsFor(createdTicket)));
+        })
+      )
+      .subscribe(
+        () => {},
         error => console.log(error)
       );
   }
@@ -94,7 +103,8 @@ export class NewTicketComponent implements OnInit {
       to_approve: [false],
       popularity: [0],
       tags: [[]],
-      answers: this.formBuilder.array([])
+      answers: this.formBuilder.array([]),
+      responsible_users: [[]]
     });
   }
 

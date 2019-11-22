@@ -6,7 +6,7 @@
       <a id="userMode" [routerLink]="['../../']" class="btn btn-gray-white ml-2">Режим пользователя</a>
     </div>
     <app-responsible-user-details [users]="service.responsibleUsers" label="Ответственные за услугу"></app-responsible-user-details>
-    <div class="sd-dlist-divider-b">
+    <div class="sd-dlist-divider-b mt-2">
       <app-question *ngFor="let ticket of service.tickets; trackBy: trackByTicket" [question]="ticket"></app-question>
     </div>
   </div>

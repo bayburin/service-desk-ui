@@ -4,5 +4,6 @@ export class StubResponsibleUserService {
   service: ResponsibleUserService;
 
   loadDetails() {}
+  searchUsers() {}
   associateDetailsFor() {}
 }

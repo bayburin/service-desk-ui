@@ -2,13 +2,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { finalize } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { finalize, tap, switchMap } from 'rxjs/operators';
 
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { NotificationService } from '@shared/services/notification/notification.service';
+import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 
 @Component({
   selector: 'app-edit-ticket',
@@ -31,16 +33,28 @@ export class EditTicketComponent implements OnInit {
     private formBuilder: FormBuilder,
     private serviceService: ServiceService,
     private ticketService: TicketService,
-    private notifyService: NotificationService
+    private notifyService: NotificationService,
+    private responsibleUserService: ResponsibleUserService
   ) { }
 
   ngOnInit() {
     this.service = this.serviceService.service;
-    this.route.data.subscribe(data => {
-      this.ticket = data.ticket;
-      this.buildForm();
-      this.openModal();
-    });
+    this.route.data
+      .pipe(
+        tap((data) => this.ticket = data.ticket),
+        switchMap(() => {
+          if (this.ticket.responsibleUsers.length) {
+            return this.responsibleUserService.loadDetails(this.ticket.getResponsibleUsersTn());
+          } else {
+            return of([]);
+          }
+        }),
+        tap(() => this.responsibleUserService.associateDetailsFor(this.ticket))
+      )
+      .subscribe(() => {
+        this.buildForm();
+        this.openModal();
+      });
   }
 
   /**
@@ -54,14 +68,21 @@ export class EditTicketComponent implements OnInit {
 
     this.loading = true;
     this.ticketService.updateTicket(this.ticket, this.ticketForm.getRawValue())
-      .pipe(finalize(() => this.loading = false))
-      .subscribe(
-        (updatedTicket: Ticket) => {
+      .pipe(
+        finalize(() => this.loading = false),
+        tap((updatedTicket: Ticket) => {
           this.modal.close();
           this.redirectToService();
           this.serviceService.replaceTicket(this.ticket.id, updatedTicket);
           this.notifyService.setMessage('Вопрос обновлен');
-        },
+        }),
+        switchMap(updatedTicket => {
+          return this.responsibleUserService.loadDetails(updatedTicket.getResponsibleUsersTn())
+            .pipe(tap(() => this.responsibleUserService.associateDetailsFor(updatedTicket)));
+        })
+      )
+      .subscribe(
+        () => {},
         error => console.log(error)
       );
   }
@@ -97,7 +118,8 @@ export class EditTicketComponent implements OnInit {
       to_approve: [this.ticket.toApprove],
       popularity: [this.ticket.popularity],
       tags: [this.ticket.tags],
-      answers: this.formBuilder.array([])
+      answers: this.formBuilder.array([]),
+      responsible_users: [this.ticket.responsibleUsers]
     });
   }
 

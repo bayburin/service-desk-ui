@@ -20,8 +20,7 @@
                 (click)="showOriginal()">Посмотреть оригинал</button>
             </span>
           </div>
-          <div class="mt-1">
-            Теги:
+          <div class="mt-1">Теги:
             <span *ngFor="let tag of question.tags; trackBy: trackByTag" class="badge ml-1 bg-blue-100">{{ tag.name }}</span>
           </div>
         </div>

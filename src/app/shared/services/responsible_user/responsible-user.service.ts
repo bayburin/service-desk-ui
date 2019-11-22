@@ -17,7 +17,9 @@ export class ResponsibleUserService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Загрузить информацию об ответственных
+   * Загружает информацию об ответственных.
+   *
+   * @param tns - список табельных номеров.
    */
   loadDetails(tns: number[]): Observable<ResponsibleUserDetailsI[]> {
     const loadDetailsUri = `${environment.serverUrl}/api/v1/responsible_users`;
@@ -28,7 +30,22 @@ export class ResponsibleUserService {
   }
 
   /**
-   * Для указанного объекта установить ассоциацию с массивом details.
+   * Производит поиск ответственных.
+   *
+   * @param type - поле, по которому производится поиск.
+   * @param term - строка поиска.
+   */
+  searchUsers(type: string, term: string): Observable<ResponsibleUserDetailsI[]> {
+    const loadUsersUri = `${environment.serverUrl}/api/v1/responsible_users/search`;
+    const httpParams = new HttpParams().append('field', type).append('term', term);
+
+    return this.http.get<ResponsibleUserDetailsI[]>(loadUsersUri, { params: httpParams });
+  }
+
+  /**
+   * Для указанного объекта установить ассоциацию с объектами массива details.
+   *
+   * @param object - объект, у которого необходимо провести ассоциацию.
    */
   associateDetailsFor(object: Ticket | Service) {
     object.responsibleUsers.forEach(user => {

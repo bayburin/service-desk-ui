@@ -31,6 +31,29 @@
         </div>
       </small>
     </div>
+    <div class="form-group">
+      <label for="responsible_users">Ответственные</label>
+      <ng-select id="responsible_users" [items]="responsibleUsers | async" [hideSelected]="true" multiple="true" bindLabel="details.full_name"
+        [typeahead]="responsibleUserInput" [loading]="loading.responsibleUsers" formControlName="responsible_users" typeToSearchText="Введите ФИО или
+         табельный номер" addTagText="Добавить ответственного" placeholder="Укажите ответственных">
+         <ng-template ng-label-tmp let-item="item" let-clear="clear">
+            <span class="pl-1 pr-1">
+              <span *ngIf="item.details">
+                {{ item.details.full_name }}
+                <span *ngIf="item.details.phone">(тел: {{ item.details.phone }})</span>
+              </span>
+              <span *ngIf="!item.details">
+                {{ item.tn }}
+              </span>
+            </span>
+            <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+        </ng-template>
+         <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+           {{ item.details.full_name }}
+           (отд: {{ item.details.dept }}<span *ngIf="item.details.phone">; тел: {{ item.details.phone }}</span>)
+         </ng-template>
+        </ng-select>
+    </div>
   </section>
   <section>
     <button class="btn btn-outline-primary mb-3" (click)="addAnswer()">Новый ответ</button>

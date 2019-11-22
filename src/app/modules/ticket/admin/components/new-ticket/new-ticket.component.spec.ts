@@ -19,6 +19,8 @@ import { StubNotificationService } from '@shared/services/notification/notificat
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketI } from '@interfaces/ticket.interface';
+import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
+import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
 
 describe('NewTicketComponent', () => {
   let component: NewTicketComponent;
@@ -28,6 +30,7 @@ describe('NewTicketComponent', () => {
   let service: Service;
   let serviceService: ServiceService;
   let notifyService: NotificationService;
+  let responsibleUserService: ResponsibleUserService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -42,7 +45,8 @@ describe('NewTicketComponent', () => {
         NgbModal,
         { provide: ServiceService, useClass: StubServiceService },
         { provide: TicketService, useClass: StubTicketService },
-        { provide: NotificationService, useClass: StubNotificationService }
+        { provide: NotificationService, useClass: StubNotificationService },
+        { provide: ResponsibleUserService, useClass: StubResponsibleUserService }
       ]
     })
     .compileComponents();
@@ -54,6 +58,7 @@ describe('NewTicketComponent', () => {
     modalService = TestBed.get(NgbModal);
     serviceService = TestBed.get(ServiceService);
     notifyService = TestBed.get(NotificationService);
+    responsibleUserService = TestBed.get(ResponsibleUserService);
 
     serviceI = {
       id: 1,
@@ -116,6 +121,8 @@ describe('NewTicketComponent', () => {
         fixture.detectChanges();
         component.ticketForm.controls.name.setValue('Тестовый вопрос');
         spyOn(ticketService, 'createTicket').and.returnValue(of(ticket));
+        spyOn(responsibleUserService, 'loadDetails').and.returnValue(of(null));
+        spyOn(responsibleUserService, 'associateDetailsFor');
       });
 
       it('should call "createTicket" method from TicketService with ticket params', () => {
@@ -150,6 +157,12 @@ describe('NewTicketComponent', () => {
         component.save();
 
         expect(notifyService.setMessage).toHaveBeenCalled();
+      });
+
+      it('should call "loadDetails" method of responsibleUserService service', () => {
+        component.save();
+
+        expect(responsibleUserService.loadDetails).toHaveBeenCalled();
       });
     });
   });

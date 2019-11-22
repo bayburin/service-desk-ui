@@ -19,6 +19,8 @@ import { StubNotificationService } from '@shared/services/notification/notificat
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketI } from '@interfaces/ticket.interface';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
+import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
 
 describe('EditTicketComponent', () => {
   let component: EditTicketComponent;
@@ -30,6 +32,7 @@ describe('EditTicketComponent', () => {
   let service: Service;
   let serviceService: ServiceService;
   let notifyService: NotificationService;
+  let responsibleUserService: ResponsibleUserService;
 
   ticketI = {
     id: 1,
@@ -37,7 +40,8 @@ describe('EditTicketComponent', () => {
     name: 'Тестовый вопрос',
     ticket_type: 'question',
     state: 'draft',
-    is_hidden: false
+    is_hidden: false,
+    responsible_users: [{ tn: 123 }]
   } as TicketI;
   ticket = TicketFactory.create(ticketI);
   const stubRoute = jasmine.createSpyObj<ActivatedRoute>('ActivatedRoute', ['snapshot', 'data']);
@@ -65,7 +69,8 @@ describe('EditTicketComponent', () => {
         { provide: ServiceService, useClass: StubServiceService },
         { provide: TicketService, useClass: StubTicketService },
         { provide: NotificationService, useClass: StubNotificationService },
-        { provide: ActivatedRoute, useValue: stubRouteProxy }
+        { provide: ActivatedRoute, useValue: stubRouteProxy },
+        { provide: ResponsibleUserService, useClass: StubResponsibleUserService }
       ]
     })
     .compileComponents();
@@ -77,6 +82,7 @@ describe('EditTicketComponent', () => {
     modalService = TestBed.get(NgbModal);
     serviceService = TestBed.get(ServiceService);
     notifyService = TestBed.get(NotificationService);
+    responsibleUserService = TestBed.get(ResponsibleUserService);
 
     serviceI = {
       id: 1,
@@ -88,6 +94,7 @@ describe('EditTicketComponent', () => {
     service.tickets = [ticket];
 
     serviceService.service = service;
+    spyOn(responsibleUserService, 'loadDetails').and.returnValue(of([]));
   });
 
   it('should create', () => {
@@ -100,6 +107,21 @@ describe('EditTicketComponent', () => {
     fixture.detectChanges();
 
     expect(component.service).toEqual(service);
+  });
+
+  describe('when responsibleUsers array is not empty', () => {
+    it('should call "loadDetails" method of ResponsibleUserService service', () => {
+      fixture.detectChanges();
+  
+      expect(responsibleUserService.loadDetails).toHaveBeenCalled();
+    });
+    
+    it('should call "associateDetailsFor" method of ResponsibleUserService service', () => {
+      spyOn(responsibleUserService, 'associateDetailsFor');
+      fixture.detectChanges();
+  
+      expect(responsibleUserService.associateDetailsFor).toHaveBeenCalledWith(ticket);
+    });
   });
 
   it('should call "open" method for modalService', () => {
@@ -177,6 +199,12 @@ describe('EditTicketComponent', () => {
         component.save();
 
         expect(notifyService.setMessage).toHaveBeenCalled();
+      });
+
+      it('should call "loadDetails" method of responsibleUserService service', () => {
+        component.save();
+
+        expect(responsibleUserService.loadDetails).toHaveBeenCalled();
       });
     });
   });

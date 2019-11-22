@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular//core';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -18,6 +18,10 @@ import { TagI } from '@interfaces/tag.interface';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketI } from '@interfaces/ticket.interface';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
+import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
+import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
+import { ResponsibleUserFactory } from '@modules/ticket/factories/responsible-user.factory';
 
 describe('TicketFormComponent', () => {
   let component: TicketFormComponent;
@@ -28,6 +32,7 @@ describe('TicketFormComponent', () => {
   let ticket: Ticket;
   let serviceService: ServiceService;
   let ticketTag: TagI;
+  let responsibleUserService: ResponsibleUserService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,7 +46,8 @@ describe('TicketFormComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
-        { provide: TicketService, useClass: StubTicketService }
+        { provide: TicketService, useClass: StubTicketService },
+        { provide: ResponsibleUserService, useClass: StubResponsibleUserService }
       ]
     })
     .compileComponents();
@@ -53,6 +59,8 @@ describe('TicketFormComponent', () => {
 
     const formBuilder = TestBed.get(FormBuilder);
     serviceService = TestBed.get(ServiceService);
+    responsibleUserService = TestBed.get(ResponsibleUserService);
+
     serviceI = {
       id: 1,
       category_id: 2,
@@ -89,7 +97,8 @@ describe('TicketFormComponent', () => {
       to_approve: [false],
       popularity: [0],
       tags: [[]],
-      answers: formBuilder.array([])
+      answers: formBuilder.array([]),
+      responsible_users: [[]]
     });
   });
 
@@ -246,6 +255,52 @@ describe('TicketFormComponent', () => {
           expect(tag.selected).toBeFalsy();
         });
       });
+    });
+  });
+
+  describe('ResponsibleUser features', () => {
+    let details: ResponsibleUserDetailsI[];
+    let term;
+
+    beforeEach(() => {
+      details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
+      spyOn(responsibleUserService, 'searchUsers').and.returnValue(of(details));
+      spyOn(ResponsibleUserFactory, 'createByDetails');
+      fixture.detectChanges();
+    });
+
+    describe('when term is a string', () => {
+      beforeEach(() => term = 'string term');
+
+      it('should call "searchUsers" method of ResponsibleUserService service', fakeAsync(() => {
+        component.responsibleUserInput.next(term)
+        tick(300);
+        component.responsibleUsers.subscribe(() => {
+          expect(responsibleUserService.searchUsers).toHaveBeenCalledWith('fullName', term);
+        });
+      }));
+
+      it('should call "createByDetails" method of ResponsibleUserFactory for each occured detail', fakeAsync(() => {
+        component.responsibleUserInput.next(term)
+        tick(300);
+        component.responsibleUsers.subscribe(() => {
+          details.forEach(detail => {
+            expect(ResponsibleUserFactory.createByDetails).toHaveBeenCalledWith(detail);
+          });
+        });
+      }));
+    });
+
+    describe('when term is a number', () => {
+      beforeEach(() => term = '12345');
+
+      it('should call "searchUsers" method of ResponsibleUserService service', fakeAsync(() => {
+        component.responsibleUserInput.next(term)
+        tick(300);
+        component.responsibleUsers.subscribe(() => {
+          expect(responsibleUserService.searchUsers).toHaveBeenCalledWith('personnelNo', term);
+        });
+      }));
     });
   });
 });

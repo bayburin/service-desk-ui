@@ -1,4 +1,4 @@
-import { filter, debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
+import { filter, debounceTime, tap, switchMap, finalize, map } from 'rxjs/operators';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Observable, of, Subject, concat } from 'rxjs';
@@ -9,6 +9,10 @@ import { TicketService } from '@shared/services/ticket/ticket.service';
 import { contentBlockAnimation } from '@animations/content.animation';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { Answer } from '@modules/ticket/models/answer/answer.model';
+import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
+import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
+import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
+import { ResponsibleUserFactory } from '@modules/ticket/factories/responsible-user.factory';
 
 @Component({
   selector: 'app-ticket-form',
@@ -19,10 +23,13 @@ import { Answer } from '@modules/ticket/models/answer/answer.model';
 export class TicketFormComponent implements OnInit {
   loading = {
     tags: false,
+    responsibleUsers: false,
     serviceTags: false
   };
   tags: Observable<TagI[]>;
+  responsibleUsers: Observable<ResponsibleUserI[]>;
   tagInput = new Subject<string>();
+  responsibleUserInput = new Subject<string>();
   serviceTags: { data: TagI, htmlString: string }[];
   @Input() parentForm: FormGroup;
   @Input() ticket: Ticket;
@@ -30,7 +37,8 @@ export class TicketFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private serviceService: ServiceService,
-    private ticketService: TicketService
+    private ticketService: TicketService,
+    private responsibleUserService: ResponsibleUserService
   ) {}
 
   get form() {
@@ -39,6 +47,7 @@ export class TicketFormComponent implements OnInit {
 
   ngOnInit() {
     this.loadTags();
+    this.loadResponsibleUsers();
     this.loadServiceTags();
 
     if (this.ticket) {
@@ -152,6 +161,25 @@ export class TicketFormComponent implements OnInit {
         debounceTime(300),
         tap(() => this.loading.tags = true),
         switchMap(term => this.ticketService.loadTags(term).pipe(finalize(() => this.loading.tags = false)))
+      )
+    );
+  }
+
+  private loadResponsibleUsers(): void {
+    this.responsibleUsers = concat(
+      of([]),
+      this.responsibleUserInput.pipe(
+        filter(term => term && term.length >= 2),
+        debounceTime(300),
+        tap(() => this.loading.responsibleUsers = true),
+        switchMap(term => {
+          const type = isNaN(term as any) ? 'fullName' : 'personnelNo';
+
+          return this.responsibleUserService.searchUsers(type, term).pipe(
+            finalize(() => this.loading.responsibleUsers = false),
+            map(result => result.map(details => ResponsibleUserFactory.createByDetails(details)))
+          );
+        })
       )
     );
   }
