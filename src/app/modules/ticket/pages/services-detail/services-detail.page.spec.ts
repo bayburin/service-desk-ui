@@ -19,6 +19,7 @@ import { UserPolicy } from '@shared/policies/user/user.policy';
 import { StubUserPolicy } from '@shared/policies/user/user.policy.stub';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
+import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 
 // @Directive({
 //   selector: '[appAuthorize]'
@@ -40,6 +41,7 @@ describe('ServicesDetailPageComponent', () => {
   let serviceService: ServiceService;
   let userPolicy: UserPolicy;
   let responsibleUserService: ResponsibleUserService;
+  let details: ResponsibleUserDetailsI[];
   const tickets = [
     { id: 1, service_id: 2, name: 'Тестовый вопрос 1', ticket_type: 'question' } as TicketI,
     { id: 2, service_id: 2, name: 'Тестовый вопрос 2', ticket_type: 'question' } as TicketI
@@ -90,6 +92,7 @@ describe('ServicesDetailPageComponent', () => {
     serviceService = TestBed.get(ServiceService);
     userPolicy = TestBed.get(UserPolicy);
     responsibleUserService = TestBed.get(ResponsibleUserService);
+    details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
     spyOn(serviceService, 'loadService').and.returnValue(of(service));
 
     fixture.detectChanges();
@@ -114,8 +117,8 @@ describe('ServicesDetailPageComponent', () => {
   describe('when user authorized for UserPolicy#responsibleUserAccess', () => {
     beforeEach(() => {
       spyOn(userPolicy, 'authorize').and.returnValue(true);
-      spyOn(responsibleUserService, 'loadDetails').and.returnValue(of(null));
-      spyOn(responsibleUserService, 'associateDetailsFor');
+      spyOn(responsibleUserService, 'loadDetails').and.returnValue(of(details));
+      spyOn(service, 'associateResponsibleUserDetails');
       component.loadService();
     });
 
@@ -123,11 +126,8 @@ describe('ServicesDetailPageComponent', () => {
       expect(responsibleUserService.loadDetails).toHaveBeenCalled();
     });
 
-    it('should call "associateDetailsFor" method of ResponsibleUserService for service and each ticket', () => {
-      expect(responsibleUserService.associateDetailsFor).toHaveBeenCalledWith(component.service);
-      component.service.tickets.forEach(ticket => {
-        expect(responsibleUserService.associateDetailsFor).toHaveBeenCalledWith(ticket);
-      });
+    it('should call "associateResponsibleUserDetails" method for loaded service with occured details', () => {
+      expect(service.associateResponsibleUserDetails).toHaveBeenCalledWith(details);
     });
   });
 

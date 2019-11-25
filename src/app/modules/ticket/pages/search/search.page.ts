@@ -45,10 +45,10 @@ export class SearchPageComponent implements OnInit, OnDestroy {
       filter(() => this.policy.authorize(null, 'responsibleUserAccess')),
       takeWhile(() => this.alive),
       switchMap(result => this.responsibleUserService.loadDetails(this.getIds(result))),
-      map(() => {
+      map(details => {
         this.data.forEach(el => {
           if (el.responsibleUsers) {
-            this.responsibleUserService.associateDetailsFor(el);
+            el.associateResponsibleUserDetails(details);
           }
         });
       })

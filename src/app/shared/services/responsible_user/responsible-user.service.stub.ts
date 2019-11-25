@@ -5,5 +5,4 @@ export class StubResponsibleUserService {
 
   loadDetails() {}
   searchUsers() {}
-  associateDetailsFor() {}
 }

@@ -83,16 +83,4 @@ describe('ResponsibleUserService', () => {
       }).flush(loadedData);
     });
   });
-
-  describe('#associateDetailsFor', () => {
-    const ticket = TicketFactory.create({ name: 'Тестовый вопрос', ticket_type: 'question', responsible_users: [{ tn: 17664 }] });
-    const responsibleUser = ticket.responsibleUsers[0];
-
-    it('should associate loaded data with occured object', () => {
-      service.details = loadedData;
-      service.associateDetailsFor(ticket);
-
-      expect(responsibleUser.details).toEqual(loadedData[0]);
-    });
-  });
 });

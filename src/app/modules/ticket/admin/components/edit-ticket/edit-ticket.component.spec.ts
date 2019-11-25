@@ -21,6 +21,7 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
+import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 
 describe('EditTicketComponent', () => {
   let component: EditTicketComponent;
@@ -33,6 +34,7 @@ describe('EditTicketComponent', () => {
   let serviceService: ServiceService;
   let notifyService: NotificationService;
   let responsibleUserService: ResponsibleUserService;
+  let details: ResponsibleUserDetailsI[];
 
   ticketI = {
     id: 1,
@@ -84,6 +86,7 @@ describe('EditTicketComponent', () => {
     notifyService = TestBed.get(NotificationService);
     responsibleUserService = TestBed.get(ResponsibleUserService);
 
+    details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
     serviceI = {
       id: 1,
       category_id: 2,
@@ -94,7 +97,8 @@ describe('EditTicketComponent', () => {
     service.tickets = [ticket];
 
     serviceService.service = service;
-    spyOn(responsibleUserService, 'loadDetails').and.returnValue(of([]));
+    spyOn(responsibleUserService, 'loadDetails').and.returnValue(of(details));
+    spyOn(ticket, 'associateResponsibleUserDetails');
   });
 
   it('should create', () => {
@@ -116,11 +120,10 @@ describe('EditTicketComponent', () => {
       expect(responsibleUserService.loadDetails).toHaveBeenCalled();
     });
     
-    it('should call "associateDetailsFor" method of ResponsibleUserService service', () => {
-      spyOn(responsibleUserService, 'associateDetailsFor');
+    it('should call "associateResponsibleUserDetails" method for loaded ticket with occured details', () => {
       fixture.detectChanges();
-  
-      expect(responsibleUserService.associateDetailsFor).toHaveBeenCalledWith(ticket);
+
+      expect(ticket.associateResponsibleUserDetails).toHaveBeenCalledWith(details);
     });
   });
 
@@ -165,6 +168,7 @@ describe('EditTicketComponent', () => {
         fixture.detectChanges();
         component.ticketForm.controls.name.setValue('Тестовый вопрос');
         spyOn(ticketService, 'updateTicket').and.returnValue(of(newTicket));
+        spyOn(newTicket, 'associateResponsibleUserDetails');
       });
 
       it('should call "updateTicket" method from TicketService with ticket params', () => {
@@ -205,6 +209,12 @@ describe('EditTicketComponent', () => {
         component.save();
 
         expect(responsibleUserService.loadDetails).toHaveBeenCalled();
+      });
+
+      it('should call "associateResponsibleUserDetails" method for updated ticket with occured details', () => {
+        component.save();
+  
+        expect(newTicket.associateResponsibleUserDetails).toHaveBeenCalledWith(details);
       });
     });
   });

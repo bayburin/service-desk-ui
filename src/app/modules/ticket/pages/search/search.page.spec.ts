@@ -14,6 +14,7 @@ import { StubResponsibleUserService } from '@shared/services/responsible_user/re
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 
 describe('SearchComponent', () => {
   let component: SearchPageComponent;
@@ -21,6 +22,7 @@ describe('SearchComponent', () => {
   let searchService: SearchService;
   let userPolicy: UserPolicy;
   let responsibleUserService: ResponsibleUserService;
+  let details: ResponsibleUserDetailsI[];
   const term = 'search_term';
   const search = { search: term };
   const stubRoute = jasmine.createSpyObj<ActivatedRoute>('ActivatedRoute', ['snapshot', 'queryParams']);
@@ -60,7 +62,10 @@ describe('SearchComponent', () => {
     searchService = TestBed.get(SearchService);
     userPolicy = TestBed.get(UserPolicy);
     responsibleUserService = TestBed.get(ResponsibleUserService);
+    details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
     spyOn(searchService, 'deepSearch').and.returnValue(of(searchResult));
+    spyOn((searchResult[1] as any), 'associateResponsibleUserDetails');
+    spyOn((searchResult[2] as any), 'associateResponsibleUserDetails');
   });
 
   it('should create', () => {
@@ -88,8 +93,7 @@ describe('SearchComponent', () => {
   describe('when user authorized for UserPolicy#responsibleUserAccess', () => {
     beforeEach(() => {
       spyOn(userPolicy, 'authorize').and.returnValue(true);
-      spyOn(responsibleUserService, 'loadDetails').and.returnValue(of(null));
-      spyOn(responsibleUserService, 'associateDetailsFor');
+      spyOn(responsibleUserService, 'loadDetails').and.returnValue(of(details));
 
       fixture.detectChanges();
     });
@@ -98,9 +102,9 @@ describe('SearchComponent', () => {
       expect(responsibleUserService.loadDetails).toHaveBeenCalled();
     });
 
-    it('should call "associateDetailsFor" method of ResponsibleUserService for service and each ticket', () => {
-      expect(responsibleUserService.associateDetailsFor).toHaveBeenCalledWith(searchResult[1]);
-      expect(responsibleUserService.associateDetailsFor).toHaveBeenCalledWith(searchResult[2]);
+    it('should call "associateResponsibleUserDetails" method for finded data with occured details', () => {
+      expect((searchResult[1] as any).associateResponsibleUserDetails).toHaveBeenCalledWith(details);
+      expect((searchResult[2] as any).associateResponsibleUserDetails).toHaveBeenCalledWith(details);
     });
   });
 

@@ -49,7 +49,7 @@ export class EditTicketComponent implements OnInit {
             return of([]);
           }
         }),
-        tap(() => this.responsibleUserService.associateDetailsFor(this.ticket))
+        tap(details => this.ticket.associateResponsibleUserDetails(details))
       )
       .subscribe(() => {
         this.buildForm();
@@ -78,7 +78,7 @@ export class EditTicketComponent implements OnInit {
         }),
         switchMap(updatedTicket => {
           return this.responsibleUserService.loadDetails(updatedTicket.getResponsibleUsersTn())
-            .pipe(tap(() => this.responsibleUserService.associateDetailsFor(updatedTicket)));
+            .pipe(tap(details => updatedTicket.associateResponsibleUserDetails(details)));
         })
       )
       .subscribe(

@@ -6,6 +6,7 @@ import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { User } from '@shared/models/user/user.model';
 import { TicketI } from '@interfaces/ticket.interface';
+import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 
 export class Service implements CommonServiceI {
   id: number;
@@ -71,6 +72,18 @@ export class Service implements CommonServiceI {
     const ticketResponsibles = this.tickets.map(ticket => ticket.getResponsibleUsersTn());
 
     return this.responsibleUsers.map(user => user.tn).concat(...ticketResponsibles);
+  }
+
+  /**
+   * Для ответственных пользователей устанавливает аттрибут "details", находя его в переданном массиве.
+   * 
+   * @param details - массив, содержащий информацию об ответственных.
+   */
+  associateResponsibleUserDetails(details: ResponsibleUserDetailsI[]): void {
+    this.responsibleUsers.forEach(user => {
+      user.details = details.find(userDetails => user.tn === userDetails.tn);
+    });
+    this.tickets.forEach(ticket => ticket.associateResponsibleUserDetails(details));
   }
 
   private buildTickets(tickets: TicketI[]): void {

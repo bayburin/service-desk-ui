@@ -21,6 +21,7 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketI } from '@interfaces/ticket.interface';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
+import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 
 describe('NewTicketComponent', () => {
   let component: NewTicketComponent;
@@ -92,6 +93,7 @@ describe('NewTicketComponent', () => {
 
   describe('#save', () => {
     let ticketService: TicketService;
+    let details: ResponsibleUserDetailsI[];
 
     beforeEach(() => {
       ticketService = TestBed.get(TicketService);
@@ -117,12 +119,13 @@ describe('NewTicketComponent', () => {
           ticket_type: 'question',
           name: 'Тестовый вопрос'
         } as TicketI;
+        details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
         ticket = TicketFactory.create(ticketI);
         fixture.detectChanges();
         component.ticketForm.controls.name.setValue('Тестовый вопрос');
         spyOn(ticketService, 'createTicket').and.returnValue(of(ticket));
-        spyOn(responsibleUserService, 'loadDetails').and.returnValue(of(null));
-        spyOn(responsibleUserService, 'associateDetailsFor');
+        spyOn(responsibleUserService, 'loadDetails').and.returnValue(of(details));
+        spyOn(ticket, 'associateResponsibleUserDetails');
       });
 
       it('should call "createTicket" method from TicketService with ticket params', () => {
@@ -163,6 +166,12 @@ describe('NewTicketComponent', () => {
         component.save();
 
         expect(responsibleUserService.loadDetails).toHaveBeenCalled();
+      });
+
+      it('should call "associateResponsibleUserDetails" method for created ticket with occured details', () => {
+        component.save();
+
+        expect(ticket.associateResponsibleUserDetails).toHaveBeenCalledWith(details);
       });
     });
   });

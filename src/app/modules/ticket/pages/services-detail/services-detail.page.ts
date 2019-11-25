@@ -58,10 +58,7 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
         tap(service => this.service = service),
         filter(() => this.policy.authorize(null, 'responsibleUserAccess')),
         switchMap(service => this.responsibleUserService.loadDetails(service.getResponsibleUsersTn())),
-        tap(() => {
-          this.responsibleUserService.associateDetailsFor(this.service);
-          this.service.tickets.forEach(ticket => this.responsibleUserService.associateDetailsFor(ticket));
-        })
+        tap(details => this.service.associateResponsibleUserDetails(details))
       )
       .subscribe();
   }

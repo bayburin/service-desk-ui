@@ -10,6 +10,7 @@ import { CaseType } from './ticket_types/case.type';
 import { UserFactory } from '@shared/factories/user.factory';
 import { PublishedState } from './states/published.state';
 import { DraftState } from './states/draft.state';
+import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 
 describe('Ticket', () => {
   let serviceI: ServiceI;
@@ -249,6 +250,40 @@ describe('Ticket', () => {
 
     it('should return array of "tn" attributes', () => {
       expect(ticket.getResponsibleUsersTn()).toEqual([responsibleUserI.tn, 12345]);
+    });
+  });
+
+  describe('#associateResponsibleUserDetails', () => {
+    const details = [
+      { tn: 123, full_name: 'ФИО 1' } as ResponsibleUserDetailsI,
+      { tn: 12345, full_name: 'ФИО 2' } as ResponsibleUserDetailsI
+    ];
+
+    beforeEach(() => {
+      ticket = new Ticket(ticketI);
+      ticket.correction.responsibleUsers.push({ tn: 12345 } as ResponsibleUserI);
+    });
+
+    it('should associate "responsibleUsers -> details" attribute with data from occured array', () => {
+      ticket.associateResponsibleUserDetails(details);
+
+      expect(ticket.responsibleUsers[0].details).toEqual(details[0]);
+    });
+
+    it('should associate "responsibleUsers -> details" attribute with data from occured array for correction', () => {
+      ticket.associateResponsibleUserDetails(details);
+
+      expect(ticket.correction.responsibleUsers[0].details).toEqual(details[1]);
+    });
+
+    describe('when correction is not exist', () => {
+      beforeEach(() => ticket.correction = null);
+
+      it('should associate "responsibleUsers -> details" attribute with data from occured array', () => {
+        ticket.associateResponsibleUserDetails(details);
+  
+        expect(ticket.responsibleUsers[0].details).toEqual(details[0]);
+      });
     });
   });
 });

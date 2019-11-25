@@ -6,6 +6,7 @@ import { Service } from './service.model';
 import { ServiceI } from '@interfaces/service.interface';
 import { TicketI } from '@interfaces/ticket.interface';
 import { Ticket } from '../ticket/ticket.model';
+import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 
 describe('Service', () => {
   let serviceI: ServiceI;
@@ -155,6 +156,33 @@ describe('Service', () => {
 
     it('should return array of "tn" attributes', () => {
       expect(service.getResponsibleUsersTn()).toEqual([responsibleUserI.tn, 12345]);
+    });
+  });
+
+  describe('#associateResponsibleUserDetails', () => {
+    const details = [
+      { tn: 123, full_name: 'ФИО 1' } as ResponsibleUserDetailsI,
+      { tn: 12345, full_name: 'ФИО 2' } as ResponsibleUserDetailsI
+    ];
+    let ticket: Ticket;
+
+    beforeEach(() => {
+      service = new Service(serviceI);
+      ticket = service.tickets[0];
+      ticket.responsibleUsers.push({ tn: 12345 } as ResponsibleUserI);
+    });
+
+    it('should associate "responsibleUsers -> details" attribute with data from occured array', () => {
+      service.associateResponsibleUserDetails(details);
+
+      expect(service.responsibleUsers[0].details).toEqual(details[0]);
+    });
+
+    it('should call "associateResponsibleUserDetails" for nested tickets', () => {
+      spyOn(ticket, 'associateResponsibleUserDetails');
+      service.associateResponsibleUserDetails(details);
+
+      expect(ticket.associateResponsibleUserDetails).toHaveBeenCalledWith(details);
     });
   });
 });

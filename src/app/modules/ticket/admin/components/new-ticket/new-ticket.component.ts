@@ -64,7 +64,7 @@ export class NewTicketComponent implements OnInit {
         }),
         switchMap(createdTicket => {
           return this.responsibleUserService.loadDetails(createdTicket.getResponsibleUsersTn())
-            .pipe(tap(() => this.responsibleUserService.associateDetailsFor(createdTicket)));
+            .pipe(tap(details => createdTicket.associateResponsibleUserDetails(details)));
         })
       )
       .subscribe(

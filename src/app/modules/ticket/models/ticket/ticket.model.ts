@@ -15,6 +15,7 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { Answer } from '@modules/ticket/models/answer/answer.model';
 import { AnswerFactory } from '@modules/ticket/factories/answer.factory';
 import { AbstractState } from './states/abstract.state';
+import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 
 export class Ticket implements CommonServiceI {
   id: number;
@@ -137,7 +138,23 @@ export class Ticket implements CommonServiceI {
    * Возвращает список табельных номеров ответственных.
    */
   getResponsibleUsersTn(): number[] {
-    return this.responsibleUsers.map(user => user.tn);
+    const correctionUsers = this.correction ? this.correction.getResponsibleUsersTn() : [];
+
+    return this.responsibleUsers.map(user => user.tn).concat(...correctionUsers);
+  }
+
+  /**
+   * Для ответственных пользователей устанавливает аттрибут "details", находя его в переданном массиве.
+   * 
+   * @param details - массив, содержащий информацию об ответственных.
+   */
+  associateResponsibleUserDetails(details: ResponsibleUserDetailsI[]): void {
+    this.responsibleUsers.forEach(user => {
+      user.details = details.find(userDetails => user.tn === userDetails.tn);
+    });
+    if (this.correction) {
+      this.correction.associateResponsibleUserDetails(details);
+    }
   }
 
   /**

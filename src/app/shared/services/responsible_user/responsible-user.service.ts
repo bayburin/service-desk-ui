@@ -41,15 +41,4 @@ export class ResponsibleUserService {
 
     return this.http.get<ResponsibleUserDetailsI[]>(loadUsersUri, { params: httpParams });
   }
-
-  /**
-   * Для указанного объекта установить ассоциацию с объектами массива details.
-   *
-   * @param object - объект, у которого необходимо провести ассоциацию.
-   */
-  associateDetailsFor(object: Ticket | Service) {
-    object.responsibleUsers.forEach(user => {
-      user.details = this.details.find(userDetails => user.tn === userDetails.tn);
-    });
-  }
 }
