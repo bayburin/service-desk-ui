@@ -9,6 +9,7 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { TagI } from '@interfaces/tag.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
+import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 
 describe('TicketService', () => {
   let httpTestingController: HttpTestingController;
@@ -134,12 +135,35 @@ describe('TicketService', () => {
   });
 
   describe('#updateTicket', () => {
-    const ticketI = { id: 2, name: 'Тестовый вопрос', service_id: 1, ticket_type: 'question' } as TicketI;
-    const ticketUri = `${environment.serverUrl}/api/v1/services/${ticketI.service_id}/tickets/${ticketI.id}`;
-    const ticket = TicketFactory.create(ticketI);
+    let responsibleUsers: ResponsibleUserI[];
+    let ticketI: TicketI;
+    let ticket: Ticket;
+    let data: any;
+    let ticketUri: string;
+    
+    beforeEach(() => {
+      data = { responsible_users: [], ...ticketI };
+      responsibleUsers = [{ id: 1, tn: 123 } as ResponsibleUserI];
+      ticketI = { id: 2, name: 'Тестовый вопрос', service_id: 1, ticket_type: 'question' } as TicketI;
+      ticket = TicketFactory.create(ticketI);
+      ticketUri = `${environment.serverUrl}/api/v1/services/${ticketI.service_id}/tickets/${ticketI.id}`;
+    });
+
+    it('should set "_destory" flag on removed element of "responsible_users" array', () => {
+      ticket.responsibleUsers = responsibleUsers;
+      ticketService.updateTicket(ticket, data).subscribe(() => {
+        expect(responsibleUsers[0]._destroy).toBeTruthy();
+        expect(data.responsible_users).toContain(responsibleUsers[0]);
+      });
+
+      httpTestingController.expectOne({
+        method: 'PUT',
+        url: ticketUri
+      }).flush(ticketI);
+    });
 
     it('should return Observable with Ticket', () => {
-      ticketService.updateTicket(ticket, {}).subscribe(result => {
+      ticketService.updateTicket(ticket, data).subscribe(result => {
         expect(result).toEqual(ticket);
       });
 

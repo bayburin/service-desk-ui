@@ -9,6 +9,7 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { TagI } from '@interfaces/tag.interface';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { Service } from '@modules/ticket/models/service/service.model';
+import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -87,6 +88,13 @@ export class TicketService {
    */
   updateTicket(ticket: Ticket, data: any): Observable<Ticket> {
     const ticketUri = `${environment.serverUrl}/api/v1/services/${ticket.serviceId}/tickets/${ticket.id}`;
+
+    ticket.responsibleUsers.forEach(user => {
+      if (!data.responsible_users.find((u: ResponsibleUserI) => u.id === user.id)) {
+        user._destroy = true;
+        data.responsible_users.push(user);
+      }
+    });
 
     return this.http.put(ticketUri, { ticket: data })
       .pipe(map((ticketI: TicketI) => TicketFactory.create(ticketI)));

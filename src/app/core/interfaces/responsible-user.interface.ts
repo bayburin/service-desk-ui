@@ -6,4 +6,5 @@ export interface ResponsibleUserI {
   responseable_id: number;
   tn: number;
   details: ResponsibleUserDetailsI;
+  _destroy?: boolean;
 }
