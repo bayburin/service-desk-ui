@@ -13,6 +13,9 @@ import { Service } from '@modules/ticket/models/service/service.model';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { StubServiceService } from '@shared/services/service/service.service.stub';
+import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
+import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
+import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 
 describe('TicketsPageComponent', () => {
   let component: TicketsPageComponent;
@@ -21,6 +24,8 @@ describe('TicketsPageComponent', () => {
   let serviceService: ServiceService;
   let tickets: Ticket[];
   let service: Service;
+  let responsibleUserService: ResponsibleUserService;
+  let details: ResponsibleUserDetailsI[];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,7 +34,8 @@ describe('TicketsPageComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
-        { provide: TicketService, useClass: StubTicketService }
+        { provide: TicketService, useClass: StubTicketService },
+        { provide: ResponsibleUserService, useClass: StubResponsibleUserService }
       ]
     })
     .compileComponents();
@@ -40,6 +46,8 @@ describe('TicketsPageComponent', () => {
     component = fixture.componentInstance;
     ticketService = TestBed.get(TicketService);
     serviceService = TestBed.get(ServiceService);
+    responsibleUserService = TestBed.get(ResponsibleUserService);
+    details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
     tickets = [
       TicketFactory.create({ id: 2, name: 'Вопрос 2', ticket_type: 'question' }),
       TicketFactory.create({ id: 3, name: 'Вопрос 3', ticket_type: 'question' })
@@ -54,6 +62,10 @@ describe('TicketsPageComponent', () => {
 
     spyOn(ticketService, 'loadDraftTicketsFor').and.returnValue(of(tickets));
     spyOn(serviceService, 'addTickets');
+    spyOn(responsibleUserService, 'loadDetails').and.returnValues(of(details));
+    // spyOn();
+    tickets.forEach(ticket => spyOn(ticket, 'associateResponsibleUserDetails'));
+    
     fixture.detectChanges();
   });
 
@@ -63,6 +75,16 @@ describe('TicketsPageComponent', () => {
 
   it('should loads tickets with draft state from server', () => {
     expect(ticketService.loadDraftTicketsFor).toHaveBeenCalledWith(component.service);
+  });
+
+  it('should call "loadDetails" method of responsibleUserService service', () => {
+    expect(responsibleUserService.loadDetails).toHaveBeenCalled();
+  });
+
+  it('should call "associateResponsibleUserDetails" method for created ticket with occured details', () => {
+    tickets.forEach(ticket => {
+      expect(ticket.associateResponsibleUserDetails).toHaveBeenCalledWith(details);
+    });
   });
 
   it('should call "addTickets" method with received tickets', () => {
