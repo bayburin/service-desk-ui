@@ -18,6 +18,6 @@ export class ServiceDetailComponent implements OnInit {
   ngOnInit() {}
 
   trackByTicket(index, ticket: Ticket) {
-    return ticket.correction ? ticket.correction.name : ticket.name;
+    return ticket.correction ? ticket.correction : ticket;
   }
 }
