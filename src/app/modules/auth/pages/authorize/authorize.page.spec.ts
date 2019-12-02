@@ -1,33 +1,15 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, Subject, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { AuthorizePageComponent } from './authorize.page';
 import { AuthService } from '@auth/auth.service';
 import { UserService } from '@shared/services/user/user.service';
 import { APP_CONFIG, AppConfig } from '@config/app.config';
-
-class StubAuthService {
-  isLoggedInSub = new Subject<boolean>();
-
-  getAccessToken() {
-    return of({});
-  }
-
-  getReturnUrl() {
-    return 'return url';
-  }
-
-  unauthorize() {}
-}
-
-class StubUserService {
-  loadUserInfo() {
-    return of({});
-  }
-}
+import { StubAuthService } from '@auth/auth.service.stub';
+import { StubUserService } from '@shared/services/user/user.service.stub';
 
 describe('AuthorizeComponent', () => {
   let component: AuthorizePageComponent;

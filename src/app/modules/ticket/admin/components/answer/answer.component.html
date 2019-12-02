@@ -1,0 +1,49 @@
+<div class="row d-flex align-items-center">
+  <div class="col-sm-9 col-md-10">
+    <div class="d-flex align-items-center">
+      <span [innerHtml]="answer.answer"></span>
+      <span class="d-flex flex-row flex-grow-1">
+        <app-visible-flag [data]="answer"></app-visible-flag>
+      </span>
+    </div>
+  </div>
+  <div class="col-sm-3 col-md-2">
+    <div class="sd-link sd-icon-group justify-content-center">
+
+      <div ngbDropdown container="body" autoClose="outside" placement="bottom-right">
+        <i class="mdi mdi-file-settings-variant-outline mdi-24px pointer" ngbDropdownToggle></i>
+        <div ngbDropdownMenu class="dropdown-admin-answer">
+          <div class="dropdown-item">
+            <form [formGroup]="uploadForm">
+              <app-attachment [answer]="answer" formControlName="document" [progress]="progress"
+                [loading]="loading"></app-attachment>
+              <div *ngIf="form.document.errors" class="invalid-feedback d-block">
+                <span *ngFor="let err of form.document.errors.serverError">{{ err }}</span>
+              </div>
+            </form>
+          </div>
+          <div *ngIf="answer.attachments.length" class="dropdown-divider"></div>
+          <div *ngFor="let attachment of answer.attachments" class="d-flex dropdown-item align-items-center
+            dropdown-item-content">
+            <div class="mr-auto">{{ attachment.filename }}</div>
+            <div class="d-flex flex-row ml-4">
+              <div *ngIf="!attachment.loadingDownload" class="pointer" [ngbTooltip]="'Скачать файл ' + attachment.filename"
+                (click)="downloadAttachment(attachment)">
+                <i class="mdi mdi-download mdi-24px"></i>
+              </div>
+              <app-loading [loading]="attachment.loadingDownload" size="24px"></app-loading>
+              <div *ngIf="!attachment.loadingRemove" class="pointer" [ngbTooltip]="'Удалить файл ' + attachment.filename"
+                (click)="removeAttachment(attachment)">
+                <i class="mdi mdi-delete mdi-24px text-danger"></i>
+              </div>
+              <app-loading [loading]="attachment.loadingRemove" size="24px"></app-loading>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="answer.link" ngbTooltip="Перейти по ссылке" container="body" class="ml-2">
+        <a id="attachmentLink" [href]="answer.link" target="_blank"><i class="mdi mdi-open-in-new mdi-24px"></i></a>
+      </div>
+  </div>
+</div>

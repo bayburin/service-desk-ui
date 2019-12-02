@@ -49,7 +49,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
     this.searchResult
       .pipe(
         takeWhile(() => this.alive),
-        tap((arr) => {
+        tap(arr => {
           this.searched = true;
           this.types.map(type => {
             type.count = this.filterByClass.transform(arr, type.id).length;

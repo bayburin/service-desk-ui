@@ -49,6 +49,30 @@ describe('Category', () => {
 
       expect(category.tickets[0] instanceof Ticket).toBeTruthy();
     });
+
+    describe('when services is undefined', () => {
+      beforeEach(() => {
+        categoryI.services = undefined;
+      });
+
+      it('should create empty array', () => {
+        category = new Category(categoryI);
+
+        expect(category.services.length).toEqual(0);
+      });
+    });
+
+    describe('when tickets is undefined', () => {
+      beforeEach(() => {
+        categoryI.faq = undefined;
+      });
+
+      it('should create empty array', () => {
+        category = new Category(categoryI);
+
+        expect(category.tickets.length).toEqual(0);
+      });
+    });
   });
 
   describe('For existing category', () => {

@@ -1,3 +1,4 @@
+import { StubCaseService } from '@modules/case/services/case/case.service.stub';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -8,12 +9,6 @@ import { of } from 'rxjs';
 import { CaseI } from '@interfaces/case.interface';
 import { FilterI } from '@interfaces/filter.interface';
 import { Router } from '@angular/router';
-
-class StubCaseService {
-  getAllCases() {
-    return of([]);
-  }
-}
 
 describe('CasesPageContentComponent', () => {
   let component: CasesPageContentComponent;
@@ -26,9 +21,7 @@ describe('CasesPageContentComponent', () => {
       imports: [RouterTestingModule],
       declarations: [CasesPageContentComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [
-        { provide: CaseService, useClass: StubCaseService }
-      ]
+      providers: [{ provide: CaseService, useClass: StubCaseService }]
     })
     .compileComponents();
   }));

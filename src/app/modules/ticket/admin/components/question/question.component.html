@@ -1,0 +1,36 @@
+<div class="sd-list-item" [ngClass]="{ 'active-item': question.open }" [id]="question.id">
+  <div class="sd-list-question">
+    <div class="question">
+      <div class="sd-icon-group text-body">
+        <i *ngIf="!standaloneLink" class="mdi mdi-24px pointer" [ngClass]="question.open ? 'mdi-arrow-up-drop-circle-outline' :
+          'mdi-arrow-down-drop-circle-outline'" (click)="toggleQuestion()"></i>
+        <i class="mdi mdi-file-document-edit-outline mdi-24px pointer" (click)="editQuestion()" ngbTooltip="Редактировать вопрос"></i>
+        <i *appAuthorize="[question, 'publish']" class="mdi mdi-checkbox-marked-circle-outline mdi-24px pointer"
+          (click)="publishQuestion()" ngbTooltip="Подтвердить изменения и опубликовать вопрос"></i>
+        <div class="d-flex flex-column question-block">
+          <div class="d-flex flex-row align-items-center">
+            <span [innerHtml]="question.name"></span>
+            <span class="d-flex flex-row flex-grow-1">
+              <app-question-flags [question]="question"></app-question-flags>
+            </span>
+            <span class="ml-3">
+              <button *ngIf="question.correction" class="btn btn-sm btn-outline-primary toggle-correction"
+                (click)="showCorrection()">Посмотреть правки</button>
+              <button *ngIf="question.original" class="btn btn-sm btn-outline-primary toggle-correction"
+                (click)="showOriginal()">Посмотреть оригинал</button>
+            </span>
+          </div>
+          <div class="mt-1">Теги:
+            <span *ngFor="let tag of question.tags; trackBy: trackByTag" class="badge ml-1 bg-blue-100">{{ tag.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="question.open" class="overflow-hidden ml-5" @ToggleAnswer>
+    <app-responsible-user-details [users]="question.responsibleUsers" label="Ответственные"></app-responsible-user-details>
+    <div *ngFor="let answer of question.answers; trackBy: trackByAnswer" class="sd-list-answer">
+      <app-answer [answer]="answer"></app-answer>
+    </div>
+  </div>
+</div>

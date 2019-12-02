@@ -5,8 +5,10 @@ import { first, switchMap, finalize } from 'rxjs/operators';
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { AnswerI } from '@interfaces/answer.interface';
-import { AnswerAttachmentI } from '@interfaces/answer_attachment.interface';
+import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { toggleAnswer } from '@modules/ticket/animations/toggle-answer.animation';
+import { AttachmentService } from '@shared/services/attachment/attachment.service';
+import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
 
 @Component({
   selector: 'app-question-page-content',
@@ -17,9 +19,14 @@ import { toggleAnswer } from '@modules/ticket/animations/toggle-answer.animation
 export class QuestionPageContentComponent implements OnInit {
   @Input() data: Ticket;
   @Input() standaloneLink: boolean;
+  @Input() showFlags: boolean;
   ratingStream = new Subject<Ticket>();
 
-  constructor(private ticketService: TicketService) { }
+  constructor(
+    private ticketService: TicketService,
+    private attachmentService: AttachmentService,
+    private policy: TicketPolicy
+  ) { }
 
   ngOnInit() {
     this.ratingStream
@@ -28,6 +35,10 @@ export class QuestionPageContentComponent implements OnInit {
         switchMap(() => this.ticketService.raiseRating(this.data))
       )
       .subscribe();
+
+    if (this.showFlags === undefined) {
+      this.showFlags = this.policy.authorize(this.data, 'showFlags');
+    }
   }
 
   /**
@@ -43,12 +54,12 @@ export class QuestionPageContentComponent implements OnInit {
   }
 
   /**
-   * Загружает выбранный файл.
+   * Загружает выбранный файл с сервера.
    */
   downloadAttachment(attachment: AnswerAttachmentI): void {
-    attachment.loading = true;
-    this.ticketService.downloadAttachmentFromAnswer(attachment)
-      .pipe(finalize(() => attachment.loading = false))
+    attachment.loadingDownload = true;
+    this.attachmentService.downloadAttachment(attachment)
+      .pipe(finalize(() => attachment.loadingDownload = false))
       .subscribe(
         fileData => {
           const url = window.URL.createObjectURL(fileData);
@@ -68,5 +79,9 @@ export class QuestionPageContentComponent implements OnInit {
 
   trackByAnswer(index, answer: AnswerI) {
     return answer.id;
+  }
+
+  trackByAttachment(index, attachment: AnswerAttachmentI) {
+    return attachment.id;
   }
 }

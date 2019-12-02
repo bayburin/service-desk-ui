@@ -22,7 +22,7 @@ export class SearchSortingPipe implements PipeTransform {
         return 1;
       }
 
-      if (a instanceof Ticket && a.isCase()) {
+      if (a instanceof Ticket && a.isCaseTicketType()) {
         return -1;
       }
     });

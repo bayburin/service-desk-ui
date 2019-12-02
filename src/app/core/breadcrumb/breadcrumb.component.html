@@ -2,7 +2,7 @@
   <div class="container">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb bg-render-unmasked d-flex align-items-center">
-        <li class="breadcrumb-item"><a routerLink="" class="sd-icon-group"><i class="mdi mdi-home mdi-24px"></i>Главная</a></li>
+        <li class="breadcrumb-item"><a routerLink="" class="sd-icon-group"><i class="mdi mdi-home-outline mdi-24px"></i>Главная</a></li>
         <li *ngFor="let breadcrumb of breadcrumbs; trackBy: trackByBreadcrumb; let last = last" class="breadcrumb-item" [@breadcrumbAnimation]="breadcrumb">
           <a [routerLink]="[breadcrumb.url]" [innerHtml]="breadcrumb.label | async" class="breadcrumb-item" [ngClass]="{ active: last }"></a>
           <!-- [queryParams]="breadcrumb.params" -->

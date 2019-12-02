@@ -31,7 +31,7 @@ export class NotifyComponent implements OnInit, OnDestroy {
   }
 
   trackByNotification(index, notification: Notify) {
-    return notification.id;
+    return notification.id || notification.mockId;
   }
 
   /**

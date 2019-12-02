@@ -2,24 +2,28 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
 import { QuestionPageContentComponent } from './question-page-content.component';
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
-import { AnswerAttachmentI } from '@interfaces/answer_attachment.interface';
+import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { AnswerI } from '@interfaces/answer.interface';
-
-class StubTicketService {
-  raiseRating() { return of(''); }
-  downloadAttachmentFromAnswer() { return of(''); }
-}
+import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
+import { AttachmentService } from '@shared/services/attachment/attachment.service';
+import { StubAttachmentService } from '@shared/services/attachment/attachment.service.stub';
+import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
+import { StubTicketPolicy } from '@shared/policies/ticket/ticket.policy.stub';
+import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
+import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 
 describe('QuestionPageContentComponent', () => {
   let component: QuestionPageContentComponent;
   let fixture: ComponentFixture<QuestionPageContentComponent>;
   let ticket: Ticket;
   let ticketService: TicketService;
+  let attachmentService: AttachmentService;
   const attachment = {
     id: 1,
     filename: 'Тестовый файл'
@@ -34,7 +38,11 @@ describe('QuestionPageContentComponent', () => {
       imports: [NoopAnimationsModule],
       declarations: [QuestionPageContentComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [{ provide: TicketService, useClass: StubTicketService }]
+      providers: [
+        { provide: TicketService, useClass: StubTicketService },
+        { provide: AttachmentService, useClass: StubAttachmentService },
+        { provide: TicketPolicy, useClass: StubTicketPolicy }
+      ]
     })
     .compileComponents();
   }));
@@ -45,6 +53,7 @@ describe('QuestionPageContentComponent', () => {
     ticket = TicketFactory.create({ id: 1, name: 'Тестовый вопрос', ticket_type: 'question', answers: answers });
     component.data = ticket;
     ticketService = TestBed.get(TicketService);
+    attachmentService = TestBed.get(AttachmentService);
     fixture.detectChanges();
   });
 
@@ -55,7 +64,7 @@ describe('QuestionPageContentComponent', () => {
   });
 
   it('should call "raiseRating" method for TicketService if "ratingStream" emitted', () => {
-    spyOn(ticketService, 'raiseRating').and.returnValue(of(''));
+    spyOn(ticketService, 'raiseRating').and.callThrough();
     component.ratingStream.subscribe(() => {
       expect(ticketService.raiseRating).toHaveBeenCalledWith(ticket);
     });
@@ -95,10 +104,10 @@ describe('QuestionPageContentComponent', () => {
     } as AnswerAttachmentI;
 
     it('should call "downloadAttachmentFromAnswer" method for TicketService', () => {
-      spyOn(ticketService, 'downloadAttachmentFromAnswer').and.returnValue(of(new Blob()));
+      spyOn(attachmentService, 'downloadAttachment').and.returnValue(of(new Blob()));
       component.downloadAttachment(attachment);
 
-      expect(ticketService.downloadAttachmentFromAnswer).toHaveBeenCalledWith(attachment);
+      expect(attachmentService.downloadAttachment).toHaveBeenCalledWith(attachment);
     });
   });
 
@@ -113,17 +122,21 @@ describe('QuestionPageContentComponent', () => {
 
     it('should show answers', () => {
       ticket.answers.forEach(answer => {
-        expect(fixture.debugElement.nativeElement.textContent).toContain(answer.answer);
+        expect(fixture.debugElement.nativeElement.textContent).not.toContain(answer.answer);
       });
 
-      const element = fixture.debugElement.nativeElement.querySelector('.overflow-hidden');
-      expect(element.getAttribute('style')).toContain('height:0px');
       fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-link').click();
       fixture.detectChanges();
-      expect(element.getAttribute('style')).not.toContain('height:0px');
+
+      ticket.answers.forEach(answer => {
+        expect(fixture.debugElement.nativeElement.textContent).toContain(answer.answer);
+      });
     });
 
     it('should show attachments', () => {
+      fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-link').click();
+      fixture.detectChanges();
+
       expect(fixture.debugElement.nativeElement.querySelector('#attachmentFile')).toBeTruthy();
     });
 
@@ -132,6 +145,22 @@ describe('QuestionPageContentComponent', () => {
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.querySelector('#attachmentLink')).toBeTruthy();
       expect(fixture.debugElement.nativeElement.querySelector('#attachmentLink').getAttribute('href')).toEqual(selectedAnswer.link);
+    });
+
+    it('should show app-visible-flag component if showFlags is equal true', () => {
+      expect(fixture.debugElement.query(By.css('app-visible-flag'))).toBeFalsy();
+      component.showFlags = true;
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('app-visible-flag'))).toBeTruthy();
+    });
+
+    it('should show app-responsible-user-details component', () => {
+      ticket.responsibleUsers = [{ tn: 17664, details: { full_name: 'ФИО' } as ResponsibleUserDetailsI } as ResponsibleUserI];
+      fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-link').click();
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('app-responsible-user-details'))).toBeTruthy();
     });
   });
 });

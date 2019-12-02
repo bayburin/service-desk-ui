@@ -1,11 +1,13 @@
-import { ErrorState } from './notify_states/error_state';
-import { CaseState } from './notify_states/case_state';
-import { BroadcastState } from './notify_states/broadcast_state';
-import { AbstractNotifyState } from './notify_states/abstract_notify_state';
+import { LocalState } from './notify_states/local.state';
+import { ErrorState } from './notify_states/error.state';
+import { CaseState } from './notify_states/case.state';
+import { BroadcastState } from './notify_states/broadcast.state';
+import { AbstractNotifyState } from './notify_states/abstract-notify.state';
 import { NotificationBodyI } from '@interfaces/notification.interface';
 
 export class Notify {
   id: number;
+  mockId = 0;
   eventType: string;
   tn: number;
   date: string;
@@ -15,10 +17,15 @@ export class Notify {
 
   constructor(notification: any = {}) {
     this.id = notification.id;
+    this.mockId = notification.mockId;
     this.eventType = notification.event_type;
     this.tn = notification.tn;
     this.body = notification.body || {};
     this.date = notification.date;
+
+    if (notification.message) {
+      this.message = notification.message;
+    }
 
     this.createState();
   }
@@ -81,7 +88,7 @@ export class Notify {
     } else if (this.isErrorEvent()) {
       this.state = new ErrorState();
     } else {
-      throw new Error('Неизвестный eventType');
+      this.state = new LocalState();
     }
   }
 }

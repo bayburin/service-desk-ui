@@ -15,24 +15,8 @@ import { TicketModule } from '@modules/ticket/ticket.module';
 import { APP_CONFIG, AppConfig } from '@config/app.config';
 import { AuthGuard } from '@guards/auth/auth.guard';
 import { SearchPageComponent } from '@modules/ticket/pages/search/search.page';
-
-class StubCategoryService {
-  getParentNodeName() {
-    return of('');
-  }
-  getNodeName() {
-    return of('Программные комплексы (из категории)');
-  }
-}
-
-class StubServiceService {
-  getParentNodeName() {
-    return of('Программные комплексы (из сервиса)');
-  }
-  getNodeName() {
-    return of('nanoCad');
-  }
-}
+import { StubCategoryService } from '@shared/services/category/category.service.stub';
+import { StubServiceService } from '@shared/services/service/service.service.stub';
 
 const routes: Routes = [
   {

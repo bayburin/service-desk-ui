@@ -26,6 +26,16 @@ export class ErrorHandlerService {
         this.notification.message = 'Доступ запрещен.';
         this.notifyService.alert(this.notification);
         break;
+      case 404:
+        this.notification = NotifyFactory.create({ event_type: 'error' });
+        this.notification.message = error.error instanceof Blob ? 'Файл не найден.' : 'Не найдено.';
+        this.notifyService.alert(this.notification);
+        break;
+      case 422:
+        this.notification = NotifyFactory.create({ event_type: 'error' });
+        this.notification.message = error.error.message || error.error.base || 'Некорректные данные.';
+        this.notifyService.alert(this.notification);
+        break;
       case 500:
         this.notification = NotifyFactory.create({ event_type: 'error' });
         this.notification.message = `Упс! На сервере произошла ошибка. Мы автоматически получили уведомление о проблеме.

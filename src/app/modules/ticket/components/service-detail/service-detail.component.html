@@ -1,8 +1,14 @@
 <section class="sd-pb-6" *ngIf="service" @contentBlockAnimation>
   <div class="container">
-    <app-section-header [header]="service.name"></app-section-header>
-    <div class="sd-dlist-divider-b">
-      <app-dynamic-template-content *ngFor="let ticket of service.tickets; trackBy: trackByTicket" [data]="ticket"></app-dynamic-template-content>
+    <div class="d-flex flex-row align-items-start">
+      <app-section-header [header]="service.name" class="mr-auto"></app-section-header>
+      <a id="adminMode" *appAuthorize="[service, 'newTicket']" routerLink="admin/tickets" class="btn btn-danger">Режим администратора</a>
+    </div>
+    <app-responsible-user-details [users]="service.responsibleUsers" label="Ответственные за услугу"></app-responsible-user-details>
+    <div class="sd-dlist-divider-b mt-2">
+      <p *ngIf="!service.tickets.length" class="search-title">Список вопросов пуст</p>
+      <app-dynamic-template-content *ngFor="let ticket of service.tickets; trackBy: trackByTicket" [data]="ticket"
+        [showFlags]="showTicketFlags"></app-dynamic-template-content>
     </div>
   </div>
 </section>

@@ -7,7 +7,11 @@ import {
   NgbTooltipModule,
   NgbRatingModule,
   NgbTabsetModule,
-  NgbToastModule
+  NgbToastModule,
+  NgbModalModule,
+  NgbAccordionModule,
+  NgbDropdownModule,
+  NgbProgressbarModule
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoadingComponent } from './components/loading/loading.component';
@@ -23,6 +27,10 @@ import { CaseCardComponent } from './components/case-card/case-card.component';
 import { CasesPageContentComponent } from './components/cases-page-content/cases-page-content.component';
 import { NotifyComponent } from './components/notify/notify.component';
 import { UserDashboardMenuComponent } from './components/user-dashboard-menu/user-dashboard-menu.component';
+import { AuthorizeDirective } from './directives/authorize/authorize.directive';
+import { QuestionFlagsComponent } from './components/question-flags/question-flags.component';
+import { VisibleFlagComponent } from './components/visible-flag/visible-flag.component';
+import { ResponsibleUserDetailsComponent } from './components/responsible-user-details/responsible-user-details.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +46,11 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
     CaseCardComponent,
     CasesPageContentComponent,
     NotifyComponent,
-    UserDashboardMenuComponent
+    UserDashboardMenuComponent,
+    AuthorizeDirective,
+    QuestionFlagsComponent,
+    VisibleFlagComponent,
+    ResponsibleUserDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +61,11 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
     NgbTooltipModule,
     NgbRatingModule,
     NgbTabsetModule,
-    NgbToastModule
+    NgbToastModule,
+    NgbModalModule,
+    NgbAccordionModule,
+    NgbDropdownModule,
+    NgbProgressbarModule
   ],
   exports: [
     CommonModule,
@@ -61,6 +77,10 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
     NgbRatingModule,
     NgbTabsetModule,
     NgbToastModule,
+    NgbModalModule,
+    NgbAccordionModule,
+    NgbDropdownModule,
+    NgbProgressbarModule,
     LoadingComponent,
     CaseCardListComponent,
     SectionHeaderComponent,
@@ -72,11 +92,16 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
     SearchSortingPipe,
     CasesPageContentComponent,
     NotifyComponent,
-    UserDashboardMenuComponent
+    UserDashboardMenuComponent,
+    AuthorizeDirective,
+    QuestionFlagsComponent,
+    VisibleFlagComponent,
+    ResponsibleUserDetailsComponent
   ],
   providers: [
     FilterByClassPipe,
     SearchSortingPipe
   ]
 })
-export class SharedModule { }
+export class
+SharedModule { }

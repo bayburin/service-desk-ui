@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
-  serverUrl: 'https://sd-staging-center.iss-reshetnev.ru',
-  authorizeUri: 'https://web-dev.iss-reshetnev.ru/authorize',
-  clientId: 45
+  serverUrl: 'https://web-stage.iss-reshetnev.ru:8081',
+  authorizeUri: 'https://web-stage.iss-reshetnev.ru/authorize',
+  clientId: 70,
+  actionCableUrl: 'wss://web-stage.iss-reshetnev.ru:8081/cable'
 };

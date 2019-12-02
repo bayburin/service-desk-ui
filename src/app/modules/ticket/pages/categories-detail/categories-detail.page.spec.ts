@@ -10,10 +10,7 @@ import { CategoriesDetailPageComponent } from './categories-detail.page';
 import { CategoryService } from '@shared/services/category/category.service';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { TicketI } from '@interfaces/ticket.interface';
-
-class StubCategoryService {
-  loadCategory() { }
-}
+import { StubCategoryService } from '@shared/services/category/category.service.stub';
 
 describe('CategoriesDetailPageComponent', () => {
   let component: CategoriesDetailPageComponent;

@@ -1,4 +1,4 @@
-import { AnswerAttachmentI } from '@interfaces/answer_attachment.interface';
+import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { TicketI } from './ticket.interface';
 
 export interface AnswerI {
@@ -8,5 +8,6 @@ export interface AnswerI {
   answer: string;
   attachments: AnswerAttachmentI[];
   link: string;
+  is_hidden: boolean;
   ticket?: TicketI;
 }

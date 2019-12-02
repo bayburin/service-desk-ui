@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, inject, resetFakeAsyncZone, fakeAsync, tick, flush } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -10,10 +10,7 @@ import { GlobalSearchComponent } from './global-search.component';
 import { APP_CONFIG, AppConfig } from '@config/app.config';
 import { SearchService } from '@modules/ticket/services/search/search.service';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
-
-class StubSearchService {
-  search() { return of([{}]); }
-}
+import { StubSearchService } from '@modules/ticket/services/search/search.service.stub';
 
 describe('GlobalSearchComponent', () => {
   let component: GlobalSearchComponent;

@@ -2,9 +2,9 @@ import { NotificationBodyI, NotificationI } from '@interfaces/notification.inter
 
 import { Notify } from '@shared/models/notify/notify.model';
 import { NotifyFactory } from '@shared/factories/notify.factory';
-import { BroadcastState } from './notify_states/broadcast_state';
-import { CaseState } from './notify_states/case_state';
-import { ErrorState } from './notify_states/error_state';
+import { BroadcastState } from './notify_states/broadcast.state';
+import { CaseState } from './notify_states/case.state';
+import { ErrorState } from './notify_states/error.state';
 
 describe('Notify', () => {
   const notifyBodyI: NotificationBodyI = { message: 'test message', case_id: 1, user_tn: 1 };
@@ -20,13 +20,20 @@ describe('Notify', () => {
   });
 
   it('should accept values', () => {
-    notify = new Notify(notifyI);
+    notify = new Notify({ mockId: 1, ...notifyI });
 
     expect(notify.id).toEqual(notifyI.id);
+    expect(notify.mockId).toEqual(1);
     expect(notify.eventType).toEqual(notifyI.event_type);
     expect(notify.tn).toEqual(notifyI.id);
     expect((notify as any).body).toEqual(notifyI.body);
     expect(notify.date).toEqual(notifyI.date);
+  });
+
+  it('should set message if its exists', () => {
+    notify = new Notify({ message: 'test' });
+
+    expect(notify.message).toEqual('test');
   });
 
   it('should create BroadcastState if event_type is "broadcast"', () => {

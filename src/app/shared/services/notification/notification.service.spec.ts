@@ -26,6 +26,29 @@ describe('NotificationService', () => {
     expect(notifyService).toBeTruthy();
   });
 
+  describe('#setMessage', () => {
+    const message = 'Тестовое сообщение';
+
+    beforeEach(() => {
+      notifyService.setMessage(message);
+    });
+
+    it('should create instance of specified message', () => {
+      expect(notifyService.notifications[0].message).toEqual(message);
+    });
+
+    it('should add notification to notifications array', () => {
+      expect(notifyService.notifications.length).toEqual(1);
+    });
+
+    it('should generate mockId for notification', () => {
+      notifyService.setMessage(message);
+
+      expect(notifyService.notifications[0].mockId).toEqual(2);
+      expect(notifyService.notifications[1].mockId).toEqual(1);
+    });
+  });
+
   describe('#notify', () => {
     let notification = NotifyFactory.create({ event_type: 'broadcast'});
     notification.message = 'Test notification';

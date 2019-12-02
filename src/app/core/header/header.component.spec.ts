@@ -7,22 +7,9 @@ import { HeaderComponent } from './header.component';
 import { UserService } from '@shared/services/user/user.service';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { StreamService } from '@shared/services/stream/stream.service';
-import { UserI } from '@interfaces/user.interface';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-const user = {
-  tn: 12345,
-  dept: 714,
-  fio: 'Форточкина Клавдия Ивановна',
-} as UserI;
-
-class StubUserService {
-  user = of(user);
-}
-
-class StubNotificationService {
-  notificationCount = { value: 0 };
-}
+import { StubUserService, user } from '@shared/services/user/user.service.stub';
+import { StubNotificationService } from '@shared/services/notification/notification.service.stub';
 
 class StubStreamService {
   channelServer = {
@@ -145,17 +132,17 @@ describe('HeaderComponent', () => {
       expect(fixture.debugElement.nativeElement.querySelector('a.nav-link[href="/categories"]')).toBeTruthy();
     });
 
-    it('should have "services" link', () => {
-      expect(fixture.debugElement.nativeElement.querySelector('a.nav-link[href="/services"]')).toBeTruthy();
-    });
+    // it('should have "services" link', () => {
+    //   expect(fixture.debugElement.nativeElement.querySelector('a.nav-link[href="/services"]')).toBeTruthy();
+    // });
 
     it('should have "cases" link', () => {
       expect(fixture.debugElement.nativeElement.querySelector('a.nav-link[href="/cases"]')).toBeTruthy();
     });
 
-    it('should have "new cases" link', () => {
-      expect(fixture.debugElement.nativeElement.querySelector('a.nav-link[href="/cases/new"]')).toBeTruthy();
-    });
+    // it('should have "new cases" link', () => {
+    //   expect(fixture.debugElement.nativeElement.querySelector('a.nav-link[href="/cases/new"]')).toBeTruthy();
+    // });
 
     it('should have "search" link', () => {
       expect(fixture.debugElement.nativeElement.querySelector('a.nav-link[href="/search"]')).toBeTruthy();
