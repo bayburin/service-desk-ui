@@ -11,7 +11,6 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { Answer } from '@modules/ticket/models/answer/answer.model';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
-import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 import { ResponsibleUserFactory } from '@modules/ticket/factories/responsible-user.factory';
 
 @Component({
@@ -33,6 +32,7 @@ export class TicketFormComponent implements OnInit {
   serviceTags: { data: TagI, htmlString: string }[];
   @Input() parentForm: FormGroup;
   @Input() ticket: Ticket;
+  @Input() submitted: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -43,6 +43,10 @@ export class TicketFormComponent implements OnInit {
 
   get form() {
     return this.parentForm.controls;
+  }
+
+  get answers_form() {
+    return this.form.answers as FormArray;
   }
 
   ngOnInit() {

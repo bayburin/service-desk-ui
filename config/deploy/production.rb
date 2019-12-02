@@ -1,6 +1,7 @@
 set :application, 'service-desk-ui'
 set :deploy_to,   "/var/www/#{fetch(:application)}"
 set :branch,      'master'
+set :ng_stage,    'production'
 server 'service-desk', user: 'deployer', roles: %w[web app]
 
 # server-based syntax
