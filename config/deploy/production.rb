@@ -1,3 +1,8 @@
+set :application, 'service-desk-ui'
+set :deploy_to,   "/var/www/#{fetch(:application)}"
+set :branch,      'master'
+server 'service-desk', user: 'deployer', roles: %w[web app]
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
