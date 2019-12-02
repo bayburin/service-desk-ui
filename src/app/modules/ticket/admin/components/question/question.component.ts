@@ -87,6 +87,7 @@ export class QuestionComponent implements OnInit {
       }
 
       this.serviceService.replaceTicket((this.question.original || this.question).id, tickets[0]);
+      this.ticketService.removeDraftTicket(tickets[0]);
       this.notifyService.setMessage('Вопрос опубликован');
     });
   }

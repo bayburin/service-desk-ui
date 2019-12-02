@@ -195,4 +195,23 @@ describe('TicketService', () => {
       }).flush(ticketsI);
     });
   });
+
+  describe('#removeDraftTicket', () => {
+    let selectedTicket: Ticket;
+    
+    beforeEach(() => {
+      const ticketsI = [
+        { id: 1, service_id: 2, name: 'Тестовый вопрос 1', ticket_type: 'question' },
+        { id: 2, service_id: 2, name: 'Тестовый вопрос 2', ticket_type: 'question' }
+      ];
+      ticketService.draftTickets = ticketsI.map(ticketI => TicketFactory.create(ticketI));
+      selectedTicket = ticketService.draftTickets[0];
+    });
+
+    it('should remove ticket from "draftTickets" array', () => {
+      ticketService.removeDraftTicket(selectedTicket);
+
+      expect(ticketService.draftTickets.find(el => el === selectedTicket)).toBeFalsy();
+    });
+  });
 });

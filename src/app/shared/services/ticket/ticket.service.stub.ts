@@ -9,4 +9,5 @@ export class StubTicketService {
   loadTicket() { return of({}); }
   updateTicket() { return of({}); }
   publishTickets() { return of({}); }
+  removeDraftTicket() {}
 }

@@ -114,4 +114,17 @@ export class TicketService {
     return this.http.post(ticketUri, {}, { params: httpParams })
       .pipe(map((ticketsI: TicketI[]) => ticketsI.map(t => TicketFactory.create(t))));
   }
+
+  /**
+   * Удалить тикет из списка черновых.
+   * 
+   * @param ticket - удаляемый тикет.
+   */
+  removeDraftTicket(ticket: Ticket): void {
+    const index = this.draftTickets.findIndex(draft => draft.id === ticket.id);
+    
+    if (index !== -1) {
+      this.draftTickets.splice(index, 1);
+    }
+  }
 }

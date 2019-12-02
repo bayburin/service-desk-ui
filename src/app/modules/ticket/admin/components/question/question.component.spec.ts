@@ -135,6 +135,7 @@ describe('QuestionComponent', () => {
 
       spyOn(window, 'confirm').and.returnValue(true);
       spyOn(serviceService, 'replaceTicket');
+      spyOn(ticketService, 'removeDraftTicket');
     });
 
     describe('when question has original', () => {
@@ -157,6 +158,10 @@ describe('QuestionComponent', () => {
 
       it('should call "setMessage" method', () => {
         expect(notifyService.setMessage).toHaveBeenCalled();
+      });
+
+      it('should call "removeDraftTicket" method for TicketService', () => {
+        expect(ticketService.removeDraftTicket).toHaveBeenCalledWith(result);
       });
     });
 
