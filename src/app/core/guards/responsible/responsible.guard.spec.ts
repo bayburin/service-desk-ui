@@ -126,13 +126,14 @@ describe('ResponsibleGuard', () => {
 
       it('should load service from api server to authorize user', () => {
         guard.canActivate(stubSnapshotProxy);
+
         expect(serviceService.loadService).toHaveBeenCalled();
       });
 
       it('should use loaded service to authorize user', () => {
         const policy = TestBed.get(ServicePolicy);
         spyOn(policy, 'authorize').and.returnValue(true);
-
+        
         const result = guard.canActivate(stubSnapshotProxy);
         if (result instanceof Observable) {
           result.subscribe(access => {
@@ -141,6 +142,21 @@ describe('ResponsibleGuard', () => {
           });
         }
       });
+
+      it('should redirect to home page if user does not have access', inject([Router], (router: Router) => {
+        const policy = TestBed.get(ServicePolicy);
+        spyOn(policy, 'authorize').and.returnValue(false);
+        spyOn(router, 'navigate');
+
+        const result = guard.canActivate(stubSnapshotProxy);
+        if (result instanceof Observable) {
+          result.subscribe(access => {
+            expect(access).toBeFalsy();
+            expect(router.navigate).toHaveBeenCalledWith(['']);
+            // expect(policy.authorize).toHaveBeenCalledWith(service, action);
+          });
+        }
+      }));
     });
   });
 });
