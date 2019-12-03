@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="col-sm-3 col-md-2">
-          <div class="sd-link sd-icon-group justify-content-center">
+          <div class="sd-link sd-icon-group justify-content-center flex-wrap">
             <div *ngFor="let attachment of answer.attachments; trackBy: trackByAttachment">
               <ng-template #filename>{{ attachment.filename }}</ng-template>
               <app-loading [loading]="attachment.loadingDownload" size="24px" class="text-secondary"></app-loading>
