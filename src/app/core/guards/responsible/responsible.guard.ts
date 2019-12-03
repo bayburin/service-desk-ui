@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { CanLoad, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { CanLoad, CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
@@ -16,13 +16,22 @@ export class ResponsibleGuard implements CanLoad, CanActivate {
   constructor(
     private userService: UserService,
     private service: ServiceService,
-    private injector: Injector
+    private injector: Injector,
+    private router: Router
   ) {}
 
   canLoad(): Observable<boolean> {
     return this.userService.user
       .pipe(
-        map((user: User) => user.hasOneOfRoles(['content_manager', 'service_responsible'])),
+        map((user: User) => {
+          if (user.tn && user.hasOneOfRoles(['content_manager', 'service_responsible'])) {
+            return true;
+          } else {
+            this.router.navigate(['']);
+
+            return false;
+          }
+        }),
         take(1)
       );
   }

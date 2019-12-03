@@ -1,5 +1,6 @@
-import { ActivatedRouteSnapshot } from '@angular/router';
-import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { TestBed, inject } from '@angular/core/testing';
 import { of, Observable } from 'rxjs';
 
 import { ResponsibleGuard } from './responsible.guard';
@@ -16,6 +17,7 @@ describe('ResponsibleGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       providers: [
         ResponsibleGuard,
         { provide: UserService, useClass: StubUserService },
@@ -34,6 +36,7 @@ describe('ResponsibleGuard', () => {
   describe('#calLoad', () => {
     describe('when roles from allowed pool', () => {
       const arr = ['content_manager', 'service_responsible'];
+
       arr.forEach(name => {
         it(`should return Observable with true value if user has "${name}" role`, () => {
           user.role.name = name;
@@ -52,6 +55,16 @@ describe('ResponsibleGuard', () => {
         expect(result).toBeFalsy();
       });
     });
+
+    it('should redirect to home page if user instance is empty', inject([Router], (router: Router) => {
+      user.tn = null;
+      spyOn(router, 'navigate');
+
+      guard.canLoad().subscribe(result => {
+        expect(result).toBeFalsy();
+        expect(router.navigate).toHaveBeenCalledWith(['']);
+      });
+    }));
   });
 
   describe('#canActivate', () => {

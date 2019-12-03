@@ -11,7 +11,6 @@ import { CategoriesDetailPageComponent } from './pages/categories-detail/categor
 import { CategoryService } from '@shared/services/category/category.service';
 import { ServicesDetailPageComponent } from './pages/services-detail/services-detail.page';
 import { ServiceService } from '@shared/services/service/service.service';
-import { ServicesOverwievPageComponent } from './pages/services-overwiev/services-overwiev.page';
 
 const routes: Routes = [
   {
