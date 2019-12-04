@@ -31,6 +31,7 @@ import { AuthorizeDirective } from './directives/authorize/authorize.directive';
 import { QuestionFlagsComponent } from './components/question-flags/question-flags.component';
 import { VisibleFlagComponent } from './components/visible-flag/visible-flag.component';
 import { ResponsibleUserDetailsComponent } from './components/responsible-user-details/responsible-user-details.component';
+import { FileIconChangeDirective } from './directives/file-icon-change/file-icon-change.directive';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { ResponsibleUserDetailsComponent } from './components/responsible-user-d
     AuthorizeDirective,
     QuestionFlagsComponent,
     VisibleFlagComponent,
-    ResponsibleUserDetailsComponent
+    ResponsibleUserDetailsComponent,
+    FileIconChangeDirective
   ],
   imports: [
     CommonModule,
@@ -96,7 +98,8 @@ import { ResponsibleUserDetailsComponent } from './components/responsible-user-d
     AuthorizeDirective,
     QuestionFlagsComponent,
     VisibleFlagComponent,
-    ResponsibleUserDetailsComponent
+    ResponsibleUserDetailsComponent,
+    FileIconChangeDirective
   ],
   providers: [
     FilterByClassPipe,

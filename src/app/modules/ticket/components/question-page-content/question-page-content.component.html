@@ -27,7 +27,7 @@
               <ng-template #filename>{{ attachment.filename }}</ng-template>
               <app-loading [loading]="attachment.loadingDownload" size="24px" class="text-secondary"></app-loading>
               <div id="attachmentFile" *ngIf="!attachment.loadingDownload" [ngbTooltip]="filename" container="body">
-                <i class="mdi mdi-file-download mdi-24px" (click)="downloadAttachment(attachment)"></i>
+                <i class="mdi mdi-24px" [appFileIconChange]="attachment.filename" (click)="downloadAttachment(attachment)"></i>
               </div>
             </div>
             <div *ngIf="answer.link" ngbTooltip="Перейти по ссылке" container="body">
