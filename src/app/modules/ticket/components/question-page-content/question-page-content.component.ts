@@ -63,16 +63,17 @@ export class QuestionPageContentComponent implements OnInit {
       .subscribe(
         fileData => {
           const url = window.URL.createObjectURL(fileData);
-          const link = document.createElement('a');
+          // const link = document.createElement('a');
 
-          link.href = url;
-          link.download = attachment.filename;
-          link.click();
+          window.open(url, '_blank');
+          // link.href = url;
+          // link.download = attachment.filename;
+          // link.click();
 
           // Для firefox необходимо отложить отзыв ObjectURL.
           setTimeout(() => {
             window.URL.revokeObjectURL(url);
-            link.remove();
+            // link.remove();
           }, 100);
         });
   }
