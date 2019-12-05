@@ -39,4 +39,24 @@ describe('User', () => {
       expect(user.hasOneOfRoles(['guest'])).toBeFalsy();
     });
   });
+
+  describe('#isValid', () => {
+    it('should return false if role is empty', () => {
+      user.role = null;
+
+      expect(user.isValid()).toBeFalsy();
+    });
+
+    it('should return false if tn is empty', () => {
+      user.tn = null;
+
+      expect(user.isValid()).toBeFalsy();
+    });
+
+    it('should return false if fio is empty', () => {
+      user.fio = null;
+
+      expect(user.isValid()).toBeFalsy();
+    });
+  });
 });

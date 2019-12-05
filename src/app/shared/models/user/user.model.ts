@@ -61,11 +61,32 @@ export class User {
     this.role = user.role;
   }
 
+  /**
+   * Проверяет наличие указанной роли у пользователя.
+   *
+   * @param name - имя роли
+   */
   hasRole(name: string): boolean {
     return this.role.name === name;
   }
 
+  /**
+   * Проверяет наличие роли из списка указанных.
+   *
+   * @param names - массив ролей
+   */
   hasOneOfRoles(names: string[]): boolean {
     return names.includes(this.role.name);
+  }
+
+  /**
+   * Проверяет минимальный набор данных о пользователе, необходимый для работы.
+   */
+  isValid(): boolean {
+    if (this.role && this.tn && this.fio) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
