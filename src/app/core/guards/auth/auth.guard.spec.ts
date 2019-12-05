@@ -70,6 +70,13 @@ describe('AuthGuard', () => {
       spyOn(user, 'isValid').and.returnValue(false);
     });
 
+    it('should call "unauthorize" method for AuthService', inject([AuthGuard], (guard: AuthGuard) => {
+      spyOn(authService, 'unauthorize');
+      guard.canActivate(activatedRoute, stubSnapshot).subscribe(() => {
+        expect(authService.unauthorize).toHaveBeenCalled();
+      });
+    }));
+
     it('should call "setReturnUrl" method for AuthService', inject([AuthGuard], (guard: AuthGuard) => {
       spyOn(authService, 'setReturnUrl');
       guard.canActivate(activatedRoute, stubSnapshot).subscribe(() => {
