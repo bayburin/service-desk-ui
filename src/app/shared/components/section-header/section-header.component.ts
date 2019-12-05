@@ -6,7 +6,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./section-header.component.scss']
 })
 export class SectionHeaderComponent implements OnInit {
-  @Input() public header: string;
+  @Input() header: string;
+  @Input() addClass: string;
 
   constructor() { }
 

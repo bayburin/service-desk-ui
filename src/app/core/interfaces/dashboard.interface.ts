@@ -1,6 +1,6 @@
-import { UserRecommendationI } from './user_recommendation.interface';
-import { Service } from '@modules/ticket/models/service.model';
-import { Category } from '@modules/ticket/models/category.model';
+import { UserRecommendationI } from './user-recommendation.interface';
+import { Service } from '@modules/ticket/models/service/service.model';
+import { Category } from '@modules/ticket/models/category/category.model';
 
 export interface DashboardI {
   categories: Category[];

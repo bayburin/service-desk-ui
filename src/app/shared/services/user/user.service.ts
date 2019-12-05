@@ -9,6 +9,8 @@ import { AppConfigI } from '@interfaces/app-config.interface';
 import { environment } from 'environments/environment';
 import { UserOwnsI } from '@interfaces/user-owns.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
+import { User } from '@shared/models/user/user.model';
+import { UserFactory } from '@shared/factories/user.factory';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +18,8 @@ import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 export class UserService {
   private loadUserInfoUri = `${environment.serverUrl}/api/v1/users/info`;
   private loadUserOwnsUri = `${environment.serverUrl}/api/v1/users/owns`;
-  private currentUser: UserI = JSON.parse(localStorage.getItem(this.config.currentUserStorage)) || null;
-  private userSubj = new BehaviorSubject<UserI>(this.currentUser);
+  private currentUser: User = UserFactory.create(JSON.parse(localStorage.getItem(this.config.currentUserStorage))) || null;
+  private userSubj = new BehaviorSubject<User>(this.currentUser);
   user = this.userSubj.asObservable();
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private config: AppConfigI) {}
@@ -25,8 +27,12 @@ export class UserService {
   /**
    * Получить данные о пользователе.
    */
-  loadUserInfo(): Observable<UserI> {
-    return this.http.get(this.loadUserInfoUri).pipe(tap((data: UserI) => this.setUser(data)));
+  loadUserInfo(): Observable<User> {
+    return this.http.get(this.loadUserInfoUri)
+      .pipe(
+        map((data: UserI) => UserFactory.create(data)),
+        tap((user: User) => this.setUser(user))
+      );
   }
 
   /**
@@ -45,9 +51,9 @@ export class UserService {
   /**
    * Записать данные о пользователе в localStorage.
    */
-  setUser(data: UserI): void {
-    localStorage.setItem(this.config.currentUserStorage, JSON.stringify(data));
-    this.userSubj.next(data);
+  setUser(user: User): void {
+    localStorage.setItem(this.config.currentUserStorage, JSON.stringify(user));
+    this.userSubj.next(user);
   }
 
   /**

@@ -7,7 +7,7 @@ import { NotificationService } from '@shared/services/notification/notification.
 import { contentBlockAnimation } from '@animations/content.animation';
 import { notifyAnimation } from '@animations/notify.animation';
 import { colorAnimation } from '@animations/color.animation';
-import { Notify } from '@shared/models/notify';
+import { Notify } from '@shared/models/notify/notify.model';
 
 @Component({
   selector: 'app-user-dashboard-menu',
@@ -23,7 +23,8 @@ export class UserDashboardMenuComponent implements OnInit, OnDestroy {
   };
   notificationCount: { value: number };
   notificationLimit = this.config.defaultUserDashboardListCount;
-  @Input() calledElement: HTMLInputElement;
+  arrowUp = false;
+  @Input() calledElement: HTMLElement;
   @Output() clickedOutside = new EventEmitter<boolean>();
   @Output() notificationReaded = new EventEmitter<boolean>();
 
@@ -52,7 +53,9 @@ export class UserDashboardMenuComponent implements OnInit, OnDestroy {
    * Загружает список новых уведомлений.
    */
   loadNewNotifications() {
+    this.loading.newNotifications = true;
     this.notifyService.loadNewNotifications()
+      .pipe(finalize(() => this.loading.newNotifications = false))
       .subscribe(
         (data: Notify[]) => {
           this.notifications.splice(this.notifications.length - data.length);

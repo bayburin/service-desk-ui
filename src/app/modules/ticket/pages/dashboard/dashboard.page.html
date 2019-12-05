@@ -19,7 +19,7 @@
       <app-section-header header="Услуги портала"></app-section-header>
       <app-loading [loading]="loading" size="48px" class="d-block mb-3"></app-loading>
       <app-category-list [categories]="data?.categories"></app-category-list>
-      <div class="text-center"><a routerLink="/categories" class="btn btn-gray-white">Все услуги</a></div>
+      <div class="text-center"><a id="allCategories" routerLink="/categories" class="btn btn-gray-white">Все услуги</a></div>
     </div>
   </section>
 
@@ -41,7 +41,7 @@
           </span>
         </div>
       </div>
-      <div class="text-center"><a routerLink="/services" class="btn btn-primary">Все вопросы</a></div>
+      <div class="text-center"><a id="allQuestions" routerLink="/services" class="btn btn-primary">Все вопросы</a></div>
     </div>
   </section>
 </div>

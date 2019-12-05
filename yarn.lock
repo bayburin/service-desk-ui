@@ -292,15 +292,22 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@mdi/font@^3.5.95":
-  version "3.7.95"
-  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-3.7.95.tgz#86f783bdef3d985e14ce1345433477cade15fd6d"
-  integrity sha512-JFQSv1GwhilTN6mj2SHu+YH+jZAIPn6sir/gGYoMSgyEM94nzlLGc7Ew21mnDEr0+W3LhFaInu8dqZFvNUx1bA==
+"@mdi/font@^4.4.95":
+  version "4.4.95"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-4.4.95.tgz#4a00f46a500120714ded1524f376f7882346d3fd"
+  integrity sha512-9BSvtpDF83dQ06VmwCeXTebzZZisIf4u6d62uC53oD6bzBUEMqiQrbW+oxyFrBYn3VxttRt/MKuL/wKUV9HWmA==
 
 "@ng-bootstrap/ng-bootstrap@5.x.x":
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-5.1.0.tgz#c0bdb74702d46f58b3cfd526dd77921e6107e7f7"
   integrity sha512-IYoKE1NMrIPbRV0077/uHOjdwPb3qyhHpbBXiMGjclkSm2GvKXNPIzgd3Vjon/lbKelHdAW4A/upUHN2VYUi3w==
+  dependencies:
+    tslib "^1.9.0"
+
+"@ng-select/ng-select@^3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-3.0.7.tgz#913ea310bcf8b9053516c97e0e7c80d71ce99263"
+  integrity sha512-PckxF7pGmz2k8enaourVnnN6G/1pfuJdjo6LA4yTA/1nMAYqCEuHsiuN8mCs7haWV2rx6tzQDxySuYH/2y8pwA==
   dependencies:
     tslib "^1.9.0"
 

@@ -1,9 +1,6 @@
-import { Injectable, Inject } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 
-import { APP_CONFIG } from '@config/app.config';
-import { AppConfigI } from '@interfaces/app-config.interface';
 import { AuthService } from '@auth/auth.service';
 
 @Injectable({
@@ -12,13 +9,10 @@ import { AuthService } from '@auth/auth.service';
 export class StateGuard implements CanActivate {
   constructor(
     private authService: AuthService,
-    private router: Router,
-    @Inject(APP_CONFIG) private config: AppConfigI,
+    private router: Router
   ) {}
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.authService.isValidState(state.root.queryParams.state)) {
       return true;
     } else {
@@ -26,5 +20,4 @@ export class StateGuard implements CanActivate {
       return false;
     }
   }
-
 }

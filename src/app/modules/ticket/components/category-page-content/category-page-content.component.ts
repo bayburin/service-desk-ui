@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Category } from '@modules/ticket/models/category.model';
+import { Category } from '@modules/ticket/models/category/category.model';
 
 @Component({
   selector: 'app-category-page-content',

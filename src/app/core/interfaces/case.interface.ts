@@ -1,5 +1,5 @@
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { Service } from '@modules/ticket/models/service.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 
 interface RuntimeI {
   starttime: string;
@@ -24,6 +24,7 @@ export interface CaseI {
   dept: string;
   fio: string;
   host_id: string;
+  invent_num: string;
   item_id: number;
   without_item: boolean;
   desc: string;

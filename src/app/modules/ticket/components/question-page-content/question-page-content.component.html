@@ -1,23 +1,37 @@
 <div class="sd-list-item" [ngClass]="{ 'active-item': data.open }" [id]="data.id">
   <div class="sd-list-question">
     <div class="sd-icon-group sd-link text-body" (click)="toggleTicket()">
-      <i *ngIf="!onlyLink" class="mdi mdi-24px" [ngClass]="data.open ? 'mdi-arrow-up-drop-circle-outline' : 'mdi-arrow-down-drop-circle-outline'"></i>
+      <i *ngIf="!standaloneLink" class="mdi mdi-24px" [ngClass]="data.open ? 'mdi-arrow-up-drop-circle-outline' :
+        'mdi-arrow-down-drop-circle-outline'"></i>
       <span [innerHtml]="data.name"></span>
+      <span *ngIf="showFlags" class="d-flex flex-row flex-grow-1">
+        <app-visible-flag [data]="data"></app-visible-flag>
+      </span>
     </div>
   </div>
-  <div class="overflow-hidden" [@ToggleAnswer]="data.open ? 'expanded' : 'collapsed'">
-    <div *ngFor="let answer of data.answers; trackBy: trackByAnswer" class="sd-list-answer ml-5">
+  <div *ngIf="data.open" class="overflow-hidden ml-5" @ToggleAnswer>
+    <app-responsible-user-details [users]="data.responsibleUsers" label="Ответственные"></app-responsible-user-details>
+    <div *ngFor="let answer of data.answers; trackBy: trackByAnswer" class="sd-list-answer">
       <div class="row d-flex align-items-center">
-        <div class="col-sm-9 col-md-10" [innerHtml]="answer.answer"></div>
+        <div class="col-sm-9 col-md-10">
+          <div class="d-flex align-items-center">
+            <span [innerHtml]="answer.answer"></span>
+            <span *ngIf="showFlags" class="d-flex flex-row flex-grow-1">
+              <app-visible-flag [data]="answer"></app-visible-flag>
+            </span>
+          </div>
+        </div>
         <div class="col-sm-3 col-md-2">
-          <div class="sd-link sd-icon-group justify-content-center">
-            <div *ngFor="let attachment of answer.attachments">
+          <div class="sd-link sd-icon-group justify-content-center flex-wrap">
+            <div *ngFor="let attachment of answer.attachments; trackBy: trackByAttachment">
               <ng-template #filename>{{ attachment.filename }}</ng-template>
-              <app-loading [loading]="attachment.loading" size="24px" class="text-secondary"></app-loading>
-              <div *ngIf="!attachment.loading" [ngbTooltip]="filename"><i class="mdi mdi-file-download mdi-24px" (click)="downloadAttachment(attachment)"></i></div>
+              <app-loading [loading]="attachment.loadingDownload" size="24px" class="text-secondary"></app-loading>
+              <div id="attachmentFile" *ngIf="!attachment.loadingDownload" [ngbTooltip]="filename" container="body">
+                <i class="mdi mdi-24px" [appFileIconChange]="attachment.filename" (click)="downloadAttachment(attachment)"></i>
+              </div>
             </div>
-            <div *ngIf="answer.link" ngbTooltip="Перейти по ссылке">
-              <a [href]="answer.link" target="_blank"><i class="mdi mdi-open-in-new mdi-24px"></i></a>
+            <div *ngIf="answer.link" ngbTooltip="Перейти по ссылке" container="body">
+              <a id="attachmentLink" [href]="answer.link" target="_blank"><i class="mdi mdi-open-in-new mdi-24px"></i></a>
             </div>
           </div>
         </div>

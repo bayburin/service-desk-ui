@@ -7,7 +7,7 @@ import { APP_CONFIG } from '@config/app.config';
 import { AppConfigI } from '@interfaces/app-config.interface';
 import { NotificationI } from '@interfaces/notification.interface';
 import { environment } from 'environments/environment';
-import { Notify } from '@shared/models/notify';
+import { Notify } from '@shared/models/notify/notify.model';
 import { NotifyFactory } from '@shared/factories/notify.factory';
 
 @Injectable({
@@ -23,6 +23,14 @@ export class NotificationService {
     private http: HttpClient,
     @Inject(APP_CONFIG) private config: AppConfigI
   ) {}
+
+  /**
+   * Создать локальное уведомление на основе сообщения.
+   */
+  setMessage(msg: string, params = {}) {
+    const notification = NotifyFactory.create({ message: msg, mockId: this.generateMockId(), ...params });
+    this.showNotify(notification);
+  }
 
   /**
    * Добавить сообщение в массив уведомлений.
@@ -92,5 +100,17 @@ export class NotificationService {
   private showNotify(notification: Notify) {
     this.notifications.unshift(notification);
     this.removeExtraItems();
+  }
+
+  private generateMockId(): number {
+    let mockId = 0;
+
+    this.notifications.forEach(n => {
+      if (n.mockId > mockId) {
+        mockId = n.mockId;
+      }
+    });
+
+    return mockId + 1;
   }
 }

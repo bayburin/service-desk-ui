@@ -10,7 +10,7 @@ import { FilterI } from '@interfaces/filter.interface';
 export class FiltersComponent implements OnInit {
   @Input() data: FilterI[] = [];
   @Output() changeFilter = new EventEmitter<any>();
-  selectedFilter = null;
+  selectedFilterId: number;
 
   constructor() { }
 
@@ -19,10 +19,14 @@ export class FiltersComponent implements OnInit {
   /**
    * Событие выбора фильтра.
    *
-   * @param FilterI - Id выбранного фильтра.
+   * @param FilterId - Id выбранного фильтра.
    */
-  selectFilter(filterId: any) {
-    this.selectedFilter = filterId;
-    this.changeFilter.emit(this.selectedFilter);
+  selectFilter(filterId: number) {
+    this.selectedFilterId = filterId;
+    this.changeFilter.emit(this.selectedFilterId);
+  }
+
+  trackByFilter(index, filter: FilterI) {
+    return filter.id;
   }
 }

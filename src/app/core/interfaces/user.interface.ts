@@ -1,3 +1,5 @@
+import { RoleI } from './role.interface';
+
 export interface UserI {
   tn: number;
   dept: number;
@@ -25,4 +27,6 @@ export interface UserI {
   initials_family: string;
   family_with_initials: string;
   is_chief: boolean;
+  role_id: number;
+  role: RoleI;
 }

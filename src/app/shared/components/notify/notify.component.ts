@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Channel } from 'angular2-actioncable';
+import { map } from 'rxjs/operators';
 
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { NotificationI } from '@interfaces/notification.interface';
 import { notifyAnimation } from '@animations/notify.animation';
 import { StreamService } from '@shared/services/stream/stream.service';
-import { map } from 'rxjs/operators';
-import { Notify } from '@shared/models/notify';
+import { Notify } from '@shared/models/notify/notify.model';
 import { NotifyFactory } from '@shared/factories/notify.factory';
 
 @Component({
@@ -31,7 +31,7 @@ export class NotifyComponent implements OnInit, OnDestroy {
   }
 
   trackByNotification(index, notification: Notify) {
-    return notification.id;
+    return notification.id || notification.mockId;
   }
 
   /**

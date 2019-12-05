@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 
 import { AuthService } from '@auth/auth.service';
 import { routeAnimation } from '@animations/route.animation';
+import { NotificationService } from './shared/services/notification/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -18,15 +19,16 @@ export class AppComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private authService: AuthService,
+    private notifyService: NotificationService,
     private router: Router,
     private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
+    this.detectAdblock();
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => this.location = event.urlAfterRedirects.split('?')[0]);
-
     this.isUserSignedIn = this.authService.isUserSignedIn;
   }
 
@@ -36,5 +38,25 @@ export class AppComponent implements OnInit, AfterViewChecked {
 
   hideBreadcrumb() {
     return ['/', undefined].some(el => el === this.location);
+  }
+
+  private detectAdblock() {
+    const iframe = document.createElement('iframe');
+
+    iframe.height = '1px';
+    iframe.width = '1px';
+    iframe.id = 'ads-text-iframe';
+    iframe.src = 'https://domain.com/ads.html';
+    document.body.appendChild(iframe);
+
+    setTimeout(() => {
+      const checkFrame = document.getElementById('ads-text-iframe');
+
+      if (checkFrame.style.display === 'none' || checkFrame.style.display === 'hidden' || checkFrame.style.visibility === 'hidden' ||
+        checkFrame.offsetHeight == 0) {
+        this.notifyService.setMessage('Для корректной работы портала отключите, пожалуйста, Adblock.');
+      }
+      iframe.remove();
+    }, 1000);
   }
 }

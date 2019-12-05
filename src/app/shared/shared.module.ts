@@ -7,13 +7,17 @@ import {
   NgbTooltipModule,
   NgbRatingModule,
   NgbTabsetModule,
-  NgbToastModule
+  NgbToastModule,
+  NgbModalModule,
+  NgbAccordionModule,
+  NgbDropdownModule,
+  NgbProgressbarModule
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoadingComponent } from './components/loading/loading.component';
 import { CaseCardListComponent } from './components/case-card-list/case-card-list.component';
 import { SectionHeaderComponent } from './components/section-header/section-header.component';
-import { SearchResultFilterPipe } from './pipes/search-result-filter/search-result-filter.pipe';
+import { FilterByClassPipe } from './pipes/filter-by-class/filter-by-class.pipe';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { UnauthorizeContentComponent } from './components/unauthorize-content/unauthorize-content.component';
@@ -23,13 +27,18 @@ import { CaseCardComponent } from './components/case-card/case-card.component';
 import { CasesPageContentComponent } from './components/cases-page-content/cases-page-content.component';
 import { NotifyComponent } from './components/notify/notify.component';
 import { UserDashboardMenuComponent } from './components/user-dashboard-menu/user-dashboard-menu.component';
+import { AuthorizeDirective } from './directives/authorize/authorize.directive';
+import { QuestionFlagsComponent } from './components/question-flags/question-flags.component';
+import { VisibleFlagComponent } from './components/visible-flag/visible-flag.component';
+import { ResponsibleUserDetailsComponent } from './components/responsible-user-details/responsible-user-details.component';
+import { FileIconChangeDirective } from './directives/file-icon-change/file-icon-change.directive';
 
 @NgModule({
   declarations: [
     LoadingComponent,
     CaseCardListComponent,
     SectionHeaderComponent,
-    SearchResultFilterPipe,
+    FilterByClassPipe,
     PaginatorComponent,
     FiltersComponent,
     UnauthorizeContentComponent,
@@ -38,7 +47,12 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
     CaseCardComponent,
     CasesPageContentComponent,
     NotifyComponent,
-    UserDashboardMenuComponent
+    UserDashboardMenuComponent,
+    AuthorizeDirective,
+    QuestionFlagsComponent,
+    VisibleFlagComponent,
+    ResponsibleUserDetailsComponent,
+    FileIconChangeDirective
   ],
   imports: [
     CommonModule,
@@ -49,7 +63,11 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
     NgbTooltipModule,
     NgbRatingModule,
     NgbTabsetModule,
-    NgbToastModule
+    NgbToastModule,
+    NgbModalModule,
+    NgbAccordionModule,
+    NgbDropdownModule,
+    NgbProgressbarModule
   ],
   exports: [
     CommonModule,
@@ -61,10 +79,14 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
     NgbRatingModule,
     NgbTabsetModule,
     NgbToastModule,
+    NgbModalModule,
+    NgbAccordionModule,
+    NgbDropdownModule,
+    NgbProgressbarModule,
     LoadingComponent,
     CaseCardListComponent,
     SectionHeaderComponent,
-    SearchResultFilterPipe,
+    FilterByClassPipe,
     PaginatorComponent,
     FiltersComponent,
     UnauthorizeContentComponent,
@@ -72,11 +94,17 @@ import { UserDashboardMenuComponent } from './components/user-dashboard-menu/use
     SearchSortingPipe,
     CasesPageContentComponent,
     NotifyComponent,
-    UserDashboardMenuComponent
+    UserDashboardMenuComponent,
+    AuthorizeDirective,
+    QuestionFlagsComponent,
+    VisibleFlagComponent,
+    ResponsibleUserDetailsComponent,
+    FileIconChangeDirective
   ],
   providers: [
-    SearchResultFilterPipe,
+    FilterByClassPipe,
     SearchSortingPipe
   ]
 })
-export class SharedModule { }
+export class
+SharedModule { }

@@ -47,10 +47,11 @@
             <div class="col-md-6 pl-0">
               <div class="form-group position-relative">
                 <div class="sd-spinner-wrap">
-                  <input id="service" name="service" type="text" class="form-control" formControlName="service" [ngbTypeahead]="search" [resultTemplate]="rt"
-                    [inputFormatter]="formatter" (click)="onService.next($event.target.value)" (focus)="onService.next($event.target.value)" #instance="ngbTypeahead"
-                    [ngClass]="{ 'is-invalid': (form.service.touched || submitted) && form.service.errors, 'is-valid': form.service.touched && form.service.valid }"
-                    autocomplete="off" placeholder="Выберите услугу" />
+                  <input id="service" name="service" type="text" class="form-control" formControlName="service" [ngbTypeahead]="search"
+                    [resultTemplate]="rt" [inputFormatter]="formatter" [editable]="false" (click)="onService.next($event.target.value)"
+                    (focus)="onService.next($event.target.value)" #instance="ngbTypeahead" [ngClass]="{ 'is-invalid':
+                    (form.service.touched || submitted) && form.service.errors, 'is-valid': form.service.touched && form.service.valid }"
+                    autocomplete="off" placeholder="Выберите услугу"/>
                   <div class="invalid-feedback">
                     <span *ngIf="form.service.errors?.required">Необходимо выбрать услугу или поставить галочку, если услуга отсутствует в списке</span>
                   </div>

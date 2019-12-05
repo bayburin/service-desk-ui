@@ -3,10 +3,10 @@ import { Observable } from 'rxjs';
 import { Channel } from 'angular2-actioncable';
 
 import { UserService } from '@shared/services/user/user.service';
-import { UserI } from '@interfaces/user.interface';
 import { StreamService } from '@shared/services/stream/stream.service';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { userDashboardAnimation } from '@animations/user-dashboard.animation';
+import { User } from '@shared/models/user/user.model';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +16,7 @@ import { userDashboardAnimation } from '@animations/user-dashboard.animation';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   collapsed = true;
-  user: Observable<UserI>;
+  user: Observable<User>;
   notificationCount: { value: number };
   userDashboard = false;
   private channel: Channel;

@@ -4,7 +4,7 @@ import { finalize } from 'rxjs/operators';
 import { CaseService } from '@modules/case/services/case/case.service';
 import { CaseI } from '@interfaces/case.interface';
 import { FilterI } from '@interfaces/filter.interface';
-import { Service } from '@modules/ticket/models/service.model';
+import { Service } from '@modules/ticket/models/service/service.model';
 import { contentBlockAnimation } from '@animations/content.animation';
 
 @Component({
@@ -20,7 +20,7 @@ export class CasesPageContentComponent implements OnInit {
   };
   cases: CaseI[] = [];
   statuses: FilterI[] = [];
-  selectedStatus = null;
+  selectedStatusId: number;
   @Input() services: Service[] = [];
 
   constructor(private caseService: CaseService) { }
@@ -31,9 +31,11 @@ export class CasesPageContentComponent implements OnInit {
 
   /**
    * Событие изменения фильтра.
+   *
+   * @param id - id выбранного фильтра.
    */
-  filterChanged(data) {
-    this.selectedStatus = data;
+  filterChanged(id: number) {
+    this.selectedStatusId = id;
     this.loadCases();
   }
 
@@ -48,7 +50,7 @@ export class CasesPageContentComponent implements OnInit {
    * Проверяет, существуют ли какие-либо кейсы у текущего пользователя.
    */
   isAnyCasesExists() {
-    return this.statuses.some((status) => status.count != 0);
+    return this.statuses.some(status => status.count != 0);
   }
 
   /**
@@ -60,9 +62,7 @@ export class CasesPageContentComponent implements OnInit {
     this.toggleLoading(init);
 
     this.caseService.getAllCases(this.getFilters())
-      .pipe(finalize(() => {
-        this.toggleLoading();
-      }))
+      .pipe(finalize(() => this.toggleLoading()))
       .subscribe((data: { statuses: FilterI[], cases: CaseI[]}) => {
         this.statuses = data.statuses;
         this.cases = data.cases;
@@ -78,7 +78,7 @@ export class CasesPageContentComponent implements OnInit {
     return {
       limit: 15,
       offset: 0,
-      status_id: this.selectedStatus,
+      status_id: this.selectedStatusId,
       service_ids: serviceIds
     };
   }
