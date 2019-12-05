@@ -12,7 +12,7 @@ namespace :ng do
   desc 'build application'
   task :build do
     on roles(:all) do
-      execute "cd #{fetch(:release_path)} && #{fetch(:yarn_path)}ng build --configuration=#{fetch(:ng_stage)}"
+      execute "cd #{fetch(:release_path)} && #{fetch(:yarn_path)}ng build --configuration=#{fetch(:ng_stage)} && yarn run post-build"
     end
   end
 end
