@@ -7,7 +7,8 @@ export const environment = {
   serverUrl: 'https://inv-dev.iss-reshetnev.ru',
   authorizeUri: 'https://inv-dev.iss-reshetnev.ru:4200/authorize',
   clientId: 42,
-  actionCableUrl: 'wss://inv-dev.iss-reshetnev.ru/cable'
+  actionCableUrl: 'wss://inv-dev.iss-reshetnev.ru/cable',
+  versionCheckURL: 'https://inv-dev.iss-reshetnev.ru:4200/version.json'
 };
 
 /*
