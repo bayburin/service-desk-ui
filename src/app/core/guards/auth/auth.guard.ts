@@ -13,9 +13,9 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private userService: UserService) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.userService.user.pipe(
-      map(user => {
-        if (user.isValid()) {
+    return this.authService.isUserSignedIn.pipe(
+      map((isLoggedIn: boolean) => {
+        if (isLoggedIn) {
           return true;
         }
 
@@ -26,12 +26,13 @@ export class AuthGuard implements CanActivate {
       }),
       filter(Boolean),
       switchMap(() => {
-        return this.authService.isUserSignedIn.pipe(
-          map((isLoggedIn: boolean) => {
-            if (isLoggedIn) {
+        return this.userService.user.pipe(
+          map(user => {
+            if (user.isValid()) {
               return true;
             }
 
+            this.authService.unauthorize();
             this.authService.setReturnUrl(state.url);
             this.authService.authorize();
 
