@@ -3,5 +3,6 @@ export const environment = {
   serverUrl: 'https://sd-center.iss-reshetnev.ru',
   authorizeUri: 'https://service-desk.iss-reshetnev.ru/authorize',
   clientId: 46,
-  actionCableUrl: 'wss://sd-center.iss-reshetnev.ru/cable'
+  actionCableUrl: 'wss://sd-center.iss-reshetnev.ru/cable',
+  versionCheckURL: 'https://service-desk.iss-reshetnev.ru/version.json'
 };

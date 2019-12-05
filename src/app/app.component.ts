@@ -6,6 +6,8 @@ import { filter } from 'rxjs/operators';
 import { AuthService } from '@auth/auth.service';
 import { routeAnimation } from '@animations/route.animation';
 import { NotificationService } from './shared/services/notification/notification.service';
+import { CheckVersionService } from './core/services/check-version/check-version.service';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -21,11 +23,13 @@ export class AppComponent implements OnInit, AfterViewChecked {
     private authService: AuthService,
     private notifyService: NotificationService,
     private router: Router,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private checkVersion: CheckVersionService
   ) {}
 
   ngOnInit() {
     this.detectAdblock();
+    this.checkVersion.initCheckVersion(environment.versionCheckURL);
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => this.location = event.urlAfterRedirects.split('?')[0]);
