@@ -50,7 +50,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
     iframe.height = '1px';
     iframe.width = '1px';
     iframe.id = 'ads-text-iframe';
-    iframe.src = 'https://domain.com/ads.html';
+    iframe.src = 'https://lk.iss-reshetnev.ru/ads.html';
     document.body.appendChild(iframe);
 
     setTimeout(() => {
