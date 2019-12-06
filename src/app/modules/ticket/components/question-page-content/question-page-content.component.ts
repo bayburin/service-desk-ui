@@ -63,12 +63,17 @@ export class QuestionPageContentComponent implements OnInit {
       .subscribe(
         fileData => {
           const url = window.URL.createObjectURL(fileData);
-          // const link = document.createElement('a');
 
-          window.open(url, '_blank');
-          // link.href = url;
-          // link.download = attachment.filename;
-          // link.click();
+          if (fileData.type.match('^image|^application/pdf$')) {
+            window.open(url, '_blank');
+          } else {
+            const link = document.createElement('a');
+
+            link.href = url;
+            link.target = '_blank';
+            link.download = attachment.filename;
+            link.click();
+          }
 
           // Для firefox необходимо отложить отзыв ObjectURL.
           setTimeout(() => {
