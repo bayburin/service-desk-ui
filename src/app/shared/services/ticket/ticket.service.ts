@@ -15,7 +15,7 @@ import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
   providedIn: 'root'
 })
 export class TicketService {
-  draftTickets: Ticket[];
+  draftTickets: Ticket[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -33,6 +33,15 @@ export class TicketService {
         map((tickets: TicketI[]) => tickets.map(ticket => TicketFactory.create(ticket))),
         tap(tickets => this.draftTickets = tickets)
       );
+  }
+
+  /**
+   * Добавляет вопросы к списку черновых.
+   *
+   * @param ticket - список вопросов
+   */
+  addDraftTickets(tickets: Ticket[]): void {
+    this.draftTickets.push(...tickets);
   }
 
   /**
@@ -117,12 +126,12 @@ export class TicketService {
 
   /**
    * Удалить тикет из списка черновых.
-   * 
+   *
    * @param ticket - удаляемый тикет.
    */
   removeDraftTicket(ticket: Ticket): void {
     const index = this.draftTickets.findIndex(draft => draft.id === ticket.id);
-    
+
     if (index !== -1) {
       this.draftTickets.splice(index, 1);
     }

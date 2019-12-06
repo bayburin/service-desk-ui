@@ -155,6 +155,13 @@ describe('NewTicketComponent', () => {
         expect(serviceService.addTickets).toHaveBeenCalledWith([ticket]);
       });
 
+      it('should add ticket to "draftTickets" array', () => {
+        spyOn(ticketService, 'addDraftTickets');
+        component.save();
+
+        expect(ticketService.addDraftTickets).toHaveBeenCalledWith([ticket]);
+      });
+
       it('should notify user', () => {
         spyOn(notifyService, 'setMessage');
         component.save();
