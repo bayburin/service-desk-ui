@@ -62,6 +62,23 @@ describe('TicketService', () => {
     });
   });
 
+  describe('#addDraftTickets', () => {
+    let tickets: Ticket[];
+
+    beforeEach(() => {
+      tickets = [
+        TicketFactory.create({ id: 1, name: 'Ticket 1', ticket_type: 'question' }),
+        TicketFactory.create({ id: 1, name: 'Ticket 1', ticket_type: 'question' })
+      ];
+    });
+
+    it('should add ticket to "draftTickets" array', () => {
+      ticketService.addDraftTickets(tickets);
+
+      expect(ticketService.draftTickets.length).toEqual(2);
+    });
+  });
+
   describe('#raiseRating', () => {
     const ticket = new Ticket({ id: 1, serviceId: 2, popularity: 1, ticket_type: 'question' });
     const raiseRatingUrl = `${environment.serverUrl}/api/v1/services/${ticket.serviceId}/tickets/${ticket.id}/raise_rating`;
@@ -140,7 +157,7 @@ describe('TicketService', () => {
     let ticket: Ticket;
     let data: any;
     let ticketUri: string;
-    
+
     beforeEach(() => {
       data = { responsible_users: [], ...ticketI };
       responsibleUsers = [{ id: 1, tn: 123 } as ResponsibleUserI];
@@ -198,7 +215,7 @@ describe('TicketService', () => {
 
   describe('#removeDraftTicket', () => {
     let selectedTicket: Ticket;
-    
+
     beforeEach(() => {
       const ticketsI = [
         { id: 1, service_id: 2, name: 'Тестовый вопрос 1', ticket_type: 'question' },

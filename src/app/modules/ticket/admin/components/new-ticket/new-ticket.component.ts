@@ -60,6 +60,7 @@ export class NewTicketComponent implements OnInit {
           this.modal.close();
           this.redirectToService();
           this.serviceService.addTickets([createdTicket]);
+          this.ticketService.addDraftTickets([createdTicket]);
           this.notifyService.setMessage('Новый вопрос добавлен');
         }),
         switchMap(createdTicket => {
