@@ -7,6 +7,7 @@ import { catchError, tap, takeWhile, switchMap, finalize, filter } from 'rxjs/op
 import { Answer } from '@modules/ticket/models/answer/answer.model';
 import { AttachmentService } from '@shared/services/attachment/attachment.service';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
+import { fileNameLength } from '@shared/validators/file-name-length.validator';
 
 @Component({
   selector: 'app-answer',
@@ -30,7 +31,7 @@ export class AnswerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.uploadForm = this.formBuilder.group({
       answer_id: [this.answer.id, Validators.required],
-      document: [null, Validators.required]
+      document: [null, [Validators.required, fileNameLength()]]
     });
 
     this.uploadForm.valueChanges

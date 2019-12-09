@@ -99,6 +99,7 @@ export class AttachmentComponent implements ControlValueAccessor, AfterViewInit,
   private setMessage(progress = 0) {
     if (this.control.invalid) {
       this.message = 'Ошибка';
+      this.progress = 100;
     } else if (progress === 100 && this.loading) {
       this.message = 'Загрузка...';
     } else if (!this.loading) {
