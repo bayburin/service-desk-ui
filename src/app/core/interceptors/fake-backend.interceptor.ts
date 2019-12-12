@@ -32,6 +32,41 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     //   return throwError({ error: { message: 'Unauthorized' } });
     // }
 
+    // if (req.url.endsWith('dashboard')) {
+    //   const body = {
+    //     categories: [],
+    //     services: [],
+    //     user_recommendations: [
+    //       {
+    //         id: 1,
+    //         title: 'Тестовая ссылка',
+    //         external: false,
+    //         link: '/categories/2/services/71',
+    //         query_params: { ticket: 481, test: 'param' },
+    //         order: 10
+    //       },
+    //       {
+    //         id: 2,
+    //         title: 'Ссылка без параметров',
+    //         external: false,
+    //         link: '/categories/2/services/71',
+    //         query_params: null,
+    //         order: 20
+    //       },
+    //       {
+    //         id: 3,
+    //         title: 'Внешняя ссылка',
+    //         external: true,
+    //         link: 'http://cosmos',
+    //         query_params: null,
+    //         order: 30
+    //       }
+    //     ]
+    //   };
+
+    //   return of(new HttpResponse({ body, status: 200 }));
+    // }
+
     return next.handle(req)
       .pipe(
         materialize(),

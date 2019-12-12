@@ -7,7 +7,10 @@
         <app-loading [loading]="loading" size="48px" class="d-block mb-3"></app-loading>
         <ul class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-3 list-unstyled mb-0" *ngIf="data" @contentBlockAnimation>
           <li *ngFor="let recommendation of data.user_recommendations; trackBy: trackByRecommendation">
-            <a [routerLink]="recommendation.link">{{ recommendation.title }}</a>
+            <a *ngIf="!recommendation.external" [routerLink]="recommendation.link" [queryParams]=recommendation.query_params>
+              {{ recommendation.title }}
+            </a>
+            <a *ngIf="recommendation.external" [href]="recommendation.link" target="_blank">{{ recommendation.title }}</a>
           </li>
         </ul>
       </div>
