@@ -18,6 +18,7 @@
               <app-attachment [answer]="answer" formControlName="document" [progress]="progress"
                 [loading]="loading"></app-attachment>
               <div *ngIf="form.document.errors" class="invalid-feedback d-block">
+                <span *ngIf="form.document.errors.fileNameLength">Слишком длинное имя файла (не более 120 символов)</span>
                 <span *ngFor="let err of form.document.errors.serverError">{{ err }}</span>
               </div>
             </form>
