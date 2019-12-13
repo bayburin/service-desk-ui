@@ -6,13 +6,14 @@ import { DashboardService } from './dashboard.service';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { DashboardI } from '@interfaces/dashboard.interface';
+import { UserRecommendationI } from '@interfaces/user-recommendation.interface';
 
 describe('DashboardService', () => {
   let httpTestingController: HttpTestingController;
   let dashboardService: DashboardService;
   const serviceI = { id: 1, category_id: 1, name: 'Тестовая услуга' };
   const categoryI = { id: 1, name: 'Тестовая категория' };
-  const recommendation = { id: 1, title: 'Рекоммендация', link: '', order: 1 };
+  const recommendation = { id: 1, title: 'Рекоммендация', link: '', order: 1 } as UserRecommendationI;
   const dashboardI = {
     services: [serviceI],
     categories: [categoryI],

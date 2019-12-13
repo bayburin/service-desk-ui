@@ -44,6 +44,6 @@ export class CheckVersionService {
       return false;
     }
 
-    return true;
+    return this.currentHash !== newHash;
   }
 }

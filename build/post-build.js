@@ -15,47 +15,55 @@ console.log('\nRunning post-build tasks');
 // our version.json will be in the dist folder
 const versionFilePath = path.join(__dirname + '/../dist/service-desk-ui/version.json');
 
+// Основной хэш
 let mainHash = '';
+// Файл, у которого будет взят хэш
 let mainBundleFile = '';
+// Файлы, в коде которых нужно будет установить хэш
+let bundleFiles = [];
 
-// RegExp to find main.bundle.js, even if it doesn't include a hash in it's name (dev build)
-// (\.bundle)?
-let mainBundleRegexp = /^main\-es2015.?([a-z0-9]*)?.js$/;
+// Регулярное выражения для поиска файлов main-es5.js и main-es2015.js
+let mainBundleRegexp = /^main\-es(2015|5).?([a-z0-9]*)?.js$/;
 
 // read the dist folder files and find the one we're looking for
 readDir(path.join(__dirname, '../dist/service-desk-ui'))
   .then(files => {
-    mainBundleFile = files.find(f => mainBundleRegexp.test(f));
+    bundleFiles = files.filter(f => mainBundleRegexp.test(f));
+    mainBundleFile = bundleFiles[0];
 
     if (mainBundleFile) {
       let matchHash = mainBundleFile.match(mainBundleRegexp);
 
       // if it has a hash in it's name, mark it down
-      if (matchHash.length > 1 && !!matchHash[1]) {
-        mainHash = matchHash[1];
+      if (matchHash.length > 1 && !!matchHash[2]) {
+        mainHash = matchHash[2];
       }
     }
 
     console.log(`Writing version and hash to ${versionFilePath}`);
 
-    // write current version and hash into the version.json file
     const src = `{"version": "${appVersion}", "hash": "${mainHash}"}`;
+
+    // Записать версия в файл version.json
     return writeFile(versionFilePath, src);
   }).then(() => {
-    // main bundle file not found, dev build?
-    if (!mainBundleFile) {
+    // Если файлы не найдены, выход
+    if (bundleFiles.length === 0) {
       return;
     }
 
-    console.log(`Replacing hash in the ${mainBundleFile}`);
+    // Вставляет хэш в найденные файлы
+    bundleFiles.forEach(file => {
+      let mainFilepath = path.join(__dirname, '../dist/service-desk-ui', file);
 
-    // replace hash placeholder in our main.js file so the code knows it's current hash
-    const mainFilepath = path.join(__dirname, '../dist/service-desk-ui', mainBundleFile);
-    return readFile(mainFilepath, 'utf8')
-      .then(mainFileData => {
-        const replacedFile = mainFileData.replace('{{POST_BUILD_ENTERS_HASH_HERE}}', mainHash);
-        return writeFile(mainFilepath, replacedFile);
-      });
+      console.log(`Replacing hash in the ${file}`);
+      readFile(mainFilepath, 'utf8')
+        .then(mainFileData => {
+          const replacedFile = mainFileData.replace('{{POST_BUILD_ENTERS_HASH_HERE}}', mainHash);
+
+          return writeFile(mainFilepath, replacedFile);
+        });
+    });
   }).catch(err => {
     console.log('Error with post build:', err);
   });
