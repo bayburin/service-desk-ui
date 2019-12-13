@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.detectAdblock();
-    this.checkVersion.initCheckVersion(environment.versionCheckURL, 1000 * 60 * 10);
+    this.checkVersion.initCheckVersion(environment.versionCheckURL, 1000 * 10);
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => this.location = event.urlAfterRedirects.split('?')[0]);
