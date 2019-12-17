@@ -1,24 +1,25 @@
 <div class="sd-list-item" [ngClass]="{ 'active-item': data.open }" [id]="data.id">
   <div class="sd-list-question">
-    <div class="sd-icon-group sd-link text-body" (click)="toggleTicket()">
+    <div class="sd-list-question-group" (click)="toggleTicket()">
       <i *ngIf="!standaloneLink" class="mdi mdi-24px" [ngClass]="data.open ? 'mdi-arrow-up-drop-circle-outline' :
         'mdi-arrow-down-drop-circle-outline'"></i>
-      <span [innerHtml]="data.name"></span>
-      <span *ngIf="showFlags" class="d-flex flex-row flex-grow-1">
-        <app-visible-flag [data]="data"></app-visible-flag>
-      </span>
+      <div class="question-block">
+        <div class="row-flex-content">
+          <app-visible-flag [data]="data" *ngIf="showFlags"></app-visible-flag>
+          <span [innerHtml]="data.name"></span>
+        </div>
+      </div>
     </div>
   </div>
-  <div *ngIf="data.open" class="overflow-hidden ml-5" @ToggleAnswer>
-    <app-responsible-user-details [users]="data.responsibleUsers" label="Ответственные"></app-responsible-user-details>
-    <div *ngFor="let answer of data.answers; trackBy: trackByAnswer" class="sd-list-answer">
-      <div class="row d-flex align-items-center">
+  <div *ngIf="data.open" class="sd-list-answer" @ToggleAnswer>
+    <app-responsible-user-details [users]="data.responsibleUsers" *ngIf="data.responsibleUsers.length" class="answer-block">
+    </app-responsible-user-details>
+    <div *ngFor="let answer of data.answers; trackBy: trackByAnswer" class="answer-block">
+      <div class="row align-items-center">
         <div class="col-sm-9 col-md-10">
-          <div class="d-flex align-items-center">
+          <div class="row-flex-content">
+            <app-visible-flag [data]="answer" *ngIf="showFlags"></app-visible-flag>
             <span [innerHtml]="answer.answer"></span>
-            <span *ngIf="showFlags" class="d-flex flex-row flex-grow-1">
-              <app-visible-flag [data]="answer"></app-visible-flag>
-            </span>
           </div>
         </div>
         <div class="col-sm-3 col-md-2">
