@@ -9,18 +9,20 @@ import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { toggleAnswer } from '@modules/ticket/animations/toggle-answer.animation';
 import { AttachmentService } from '@shared/services/attachment/attachment.service';
 import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
+import { showFlagRight } from '@modules/ticket/animations/show-flag-right.animation';
 
 @Component({
   selector: 'app-question-page-content',
   templateUrl: './question-page-content.component.html',
   styleUrls: ['./question-page-content.component.scss'],
-  animations: [toggleAnswer]
+  animations: [toggleAnswer, showFlagRight]
 })
 export class QuestionPageContentComponent implements OnInit {
   @Input() data: Ticket;
   @Input() standaloneLink: boolean;
   @Input() showFlags: boolean;
   ratingStream = new Subject<Ticket>();
+  linkAnimation = 'hide';
 
   constructor(
     private ticketService: TicketService,

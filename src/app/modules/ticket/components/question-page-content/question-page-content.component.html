@@ -1,4 +1,4 @@
-<div class="sd-list-item" [ngClass]="{ 'active-item': data.open }" [id]="data.id">
+<div class="sd-list-item" [ngClass]="{ 'active-item': data.open }" [id]="data.id" appShowQuestionLink>
   <div class="sd-list-question">
     <div class="sd-list-question-group" (click)="toggleTicket()">
       <i *ngIf="!standaloneLink" class="mdi mdi-24px" [ngClass]="data.open ? 'mdi-arrow-up-drop-circle-outline' :
@@ -9,6 +9,8 @@
           <span [innerHtml]="data.name"></span>
         </div>
       </div>
+      <i *ngIf="!standaloneLink" class="mdi mdi-link-variant mdi-24px" ngbTooltip="Скопировать ссылку на вопрос"
+        [@ShowFlagRight]="linkAnimation" container="body" appGetQuestionLink></i>
     </div>
   </div>
   <div *ngIf="data.open" class="sd-list-answer" @ToggleAnswer>

@@ -33,6 +33,8 @@ import { VisibleFlagComponent } from './components/visible-flag/visible-flag.com
 import { ResponsibleUserDetailsComponent } from './components/responsible-user-details/responsible-user-details.component';
 import { FileIconChangeDirective } from './directives/file-icon-change/file-icon-change.directive';
 import { AutoFocusDirective } from './directives/auto-focus/auto-focus.directive';
+import { ShowQuestionLinkDirective } from './directives/show-question-link/show-question-link.directive';
+import { GetQuestionLinkDirective } from './directives/get-question-link/get-question-link.directive';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { AutoFocusDirective } from './directives/auto-focus/auto-focus.directive
     VisibleFlagComponent,
     ResponsibleUserDetailsComponent,
     FileIconChangeDirective,
-    AutoFocusDirective
+    AutoFocusDirective,
+    ShowQuestionLinkDirective,
+    GetQuestionLinkDirective
   ],
   imports: [
     CommonModule,
@@ -102,7 +106,9 @@ import { AutoFocusDirective } from './directives/auto-focus/auto-focus.directive
     VisibleFlagComponent,
     ResponsibleUserDetailsComponent,
     FileIconChangeDirective,
-    AutoFocusDirective
+    AutoFocusDirective,
+    ShowQuestionLinkDirective,
+    GetQuestionLinkDirective
   ],
   providers: [
     FilterByClassPipe,
