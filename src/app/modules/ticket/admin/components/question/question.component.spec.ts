@@ -202,6 +202,7 @@ describe('QuestionComponent', () => {
   });
 
   it('should show app-responsible-user-details component', () => {
+    component.question = question;
     component.toggleQuestion();
     fixture.detectChanges();
 
