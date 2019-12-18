@@ -104,6 +104,10 @@ export class AnswerComponent implements OnInit, OnDestroy {
       .subscribe(() => this.answer.removeAttachment(attachment));
   }
 
+  trackByAttachment(index, attachment: AnswerAttachmentI) {
+    return attachment.id;
+  }
+
   ngOnDestroy() {
     this.alive = false;
   }
