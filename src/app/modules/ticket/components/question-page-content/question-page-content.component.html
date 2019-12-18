@@ -25,7 +25,8 @@
           </div>
         </div>
         <div class="col-sm-3 col-md-2">
-          <div class="sd-link sd-icon-group justify-content-center flex-row flex-wrap row-flex-content">
+          <!-- sd-link sd-icon-group -->
+          <div class="justify-content-center flex-row flex-wrap row-flex-content">
 
             <div *ngIf="answer.attachments.length > 3" ngbTooltip="Посмотреть список файлов">
               <div ngbDropdown container="body" autoClose="outside" placement="bottom-right">
@@ -51,7 +52,7 @@
                 <ng-template #filename>{{ attachment.filename }}</ng-template>
                 <app-loading [loading]="attachment.loadingDownload" size="24px" class="text-secondary"></app-loading>
                 <div id="attachmentFile" *ngIf="!attachment.loadingDownload" [ngbTooltip]="filename" container="body">
-                  <i class="mdi mdi-24px" [appFileIconChange]="attachment.filename" (click)="downloadAttachment(attachment)"></i>
+                  <i class="mdi mdi-24px pointer" [appFileIconChange]="attachment.filename" (click)="downloadAttachment(attachment)"></i>
                 </div>
               </div>
             </div>
