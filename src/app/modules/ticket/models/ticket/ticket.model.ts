@@ -145,7 +145,7 @@ export class Ticket implements CommonServiceI {
 
   /**
    * Для ответственных пользователей устанавливает аттрибут "details", находя его в переданном массиве.
-   * 
+   *
    * @param details - массив, содержащий информацию об ответственных.
    */
   associateResponsibleUserDetails(details: ResponsibleUserDetailsI[]): void {

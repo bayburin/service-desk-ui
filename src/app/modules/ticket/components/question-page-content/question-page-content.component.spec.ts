@@ -125,7 +125,7 @@ describe('QuestionPageContentComponent', () => {
         expect(fixture.debugElement.nativeElement.textContent).not.toContain(answer.answer);
       });
 
-      fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-link').click();
+      fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-list-question-group').click();
       fixture.detectChanges();
 
       ticket.answers.forEach(answer => {
@@ -134,14 +134,14 @@ describe('QuestionPageContentComponent', () => {
     });
 
     it('should show attachments', () => {
-      fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-link').click();
+      fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-list-question-group').click();
       fixture.detectChanges();
 
       expect(fixture.debugElement.nativeElement.querySelector('#attachmentFile')).toBeTruthy();
     });
 
     it('should show links', () => {
-      fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-link').click();
+      fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-list-question-group').click();
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.querySelector('#attachmentLink')).toBeTruthy();
       expect(fixture.debugElement.nativeElement.querySelector('#attachmentLink').getAttribute('href')).toEqual(selectedAnswer.link);
@@ -157,7 +157,7 @@ describe('QuestionPageContentComponent', () => {
 
     it('should show app-responsible-user-details component', () => {
       ticket.responsibleUsers = [{ tn: 17664, details: { full_name: 'ФИО' } as ResponsibleUserDetailsI } as ResponsibleUserI];
-      fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-link').click();
+      fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-list-question-group').click();
       fixture.detectChanges();
 
       expect(fixture.debugElement.query(By.css('app-responsible-user-details'))).toBeTruthy();

@@ -1,6 +1,6 @@
 <div class="sd-list-item">
-  <div class="d-flex align-items-center">
-    <a [routerLink]="generateLink()">{{ data.name }}</a>
+  <div class="row-flex-content">
     <app-visible-flag *ngIf="showFlags" [data]="data"></app-visible-flag>
+    <a [routerLink]="generateLink()">{{ data.name }}</a>
   </div>
 </div>

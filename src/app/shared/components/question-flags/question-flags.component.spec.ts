@@ -32,24 +32,26 @@ describe('QuestionFlagsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should "mdi-file-check-outline" icon if question has published state', () => {
-    question.state = 'published';
-    fixture.detectChanges();
+  // it('should "mdi-file-check-outline" icon if question has published state', () => {
+  //   question.state = 'published';
+  //   fixture.detectChanges();
 
-    expect(fixture.debugElement.query(By.css('.mdi-file-check-outline'))).toBeTruthy();
-  });
+  //   expect(fixture.debugElement.query(By.css('.mdi-file-check-outline'))).toBeTruthy();
+  // });
 
-  it('should "mdi-file-settings-variant-outline" icon if question has draft state', () => {
+  // it('should "mdi-file-settings-variant-outline" icon if question has draft state', () => {
+  //   question.state = 'draft';
+  //   fixture.detectChanges();
+
+  //   expect(fixture.debugElement.query(By.css('.mdi-file-settings-variant-outline'))).toBeTruthy();
+  // });
+
+  it('should show app-visible-flag component if question has draft state', () => {
     question.state = 'draft';
     fixture.detectChanges();
 
-    expect(fixture.debugElement.query(By.css('.mdi-file-settings-variant-outline'))).toBeTruthy();
-  });
-
-  it('should show app-visible-flag component', () => {
-    fixture.detectChanges();
-
-    expect(fixture.debugElement.query(By.css('app-visible-flag'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('.additional-text'))).toBeTruthy();
+    expect(fixture.debugElement.nativeElement.textContent).toContain('[черновик]');
   });
 
   it('should "mdi-pencil-plus-outline" icon if question has correction', () => {
