@@ -23,6 +23,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   @Input() searchTerm: string;
   @ViewChild(NgbTypeahead, { static: true }) globalSearch: NgbTypeahead;
   private alive = true;
+  private isGlobalSearch = false;
 
   constructor(
     @Inject(APP_CONFIG) private config: AppConfigI,
@@ -62,7 +63,14 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
         this.loading = true;
         return this.searchService.search(term)
           .pipe(
-            finalize(() => this.loading = false),
+            finalize(() => {
+              this.loading = false;
+
+              if (this.isGlobalSearch) {
+                this.globalSearch.dismissPopup();
+                this.isGlobalSearch = false;
+              }
+            }),
             catchError(() => of([]))
           );
       }),
@@ -73,12 +81,10 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
    * Событие поиска по нажатии на кнопку "Поиск".
    */
   onSearch(): void {
-    this.globalSearch.dismissPopup();
-
+    this.isGlobalSearch = true;
     if (!this.searchTerm || this.searchTerm.length < this.config.minLengthSearch) {
       return;
     }
-
     this.router.navigate(['search'], { queryParams: { search: this.searchTerm.trim() } });
   }
 
