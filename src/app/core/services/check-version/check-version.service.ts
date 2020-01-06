@@ -40,6 +40,9 @@ export class CheckVersionService {
   }
 
   private isHashChanged(newHash: string): boolean {
+    console.log('currentVersion: ', this.currentHash);
+    console.log('newVersion: ', newHash);
+
     if (!this.currentHash || this.currentHash === '{{POST_BUILD_ENTERS_HASH_HERE}}') {
       return false;
     }
