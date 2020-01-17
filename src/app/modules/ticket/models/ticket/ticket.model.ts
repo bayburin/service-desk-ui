@@ -51,6 +51,7 @@ export class Ticket implements CommonServiceI {
   constructor(ticket: any = {}) {
     this.id = ticket.id;
     this.serviceId = ticket.service_id;
+    this.originalId = ticket.original_id;
     this.name = ticket.name;
     this.ticketType = ticket.ticket_type;
     this.state = ticket.state;
@@ -125,6 +126,23 @@ export class Ticket implements CommonServiceI {
    */
   isBelongsByServiceTo(user: User): boolean {
     return this.service && this.service.isBelongsTo(user);
+  }
+
+  /**
+   * Проверяет, совпадает ли указанный id с id модели, а также с id оригинала/черновика.
+   *
+   * @param id - проверяемый id
+   */
+  hasId(id: number): boolean {
+    if (this.id == id) {
+      return true;
+    } else if (this.isDraftState()) {
+      return this.originalId == id;
+    } else if (this.isPublishedState()) {
+      return this.correction && this.correction.id == id;
+    } else {
+      return false;
+    }
   }
 
   /**

@@ -79,6 +79,8 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
 
   /**
    * Вызывает метод toggleTicket() у компонента для раскрытия вопроса.
+   *
+   * @param componentArr - массив компонентов, содержащих тикет.
    */
   private openSelectedQuestion(componentArr: DynamicTemplateContentComponent[]): void {
     const selectedComponent = componentArr.find(el => el.data.id == this.ticketId);
@@ -88,12 +90,11 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
   }
 
   /**
-   * Перемещает экран к указанному Id.
-   *
-   * @param ticketId - id элемента
+   * Перемещает экран к указанному id.
    */
   private scrollToTicket(): void {
     const el = document.getElementById(`${this.ticketId}`);
+
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }

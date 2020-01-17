@@ -59,6 +59,10 @@ export class QuestionComponent implements OnInit {
    * Показать исправления.
    */
   showCorrection(): void {
+    if (!this.question.correction) {
+      return;
+    }
+
     this.open = this.question.open;
     this.question = this.question.correction;
     this.question.open = this.open;
@@ -68,6 +72,10 @@ export class QuestionComponent implements OnInit {
    * Показать оригинал.
    */
   showOriginal(): void {
+    if (!this.question.original) {
+      return;
+    }
+
     this.open = this.question.open;
     this.question = this.question.original;
     this.question.open = this.open;

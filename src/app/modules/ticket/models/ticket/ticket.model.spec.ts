@@ -281,9 +281,37 @@ describe('Ticket', () => {
 
       it('should associate "responsibleUsers -> details" attribute with data from occured array', () => {
         ticket.associateResponsibleUserDetails(details);
-  
+
         expect(ticket.responsibleUsers[0].details).toEqual(details[0]);
       });
+    });
+  });
+
+  describe('#hasId', () => {
+    beforeEach(() => ticket = new Ticket(ticketI));
+
+    it('should return true if received id is equal ticketId', () => {
+      expect(ticket.hasId(ticket.id)).toBeTruthy();
+    });
+
+    describe('when ticket has draft state', () => {
+      beforeEach(() => ticket = ticket.correction);
+
+      it('should return true if received id is equal id of original', () => {
+        expect(ticket.hasId(ticket.originalId)).toBeTruthy();
+      });
+    });
+
+    describe('when ticket has published state', () => {
+      beforeEach(() => ticket.publish());
+
+      it('should return true if received id is equal id of correction', () => {
+        expect(ticket.hasId(ticket.correction.id)).toBeTruthy();
+      });
+    });
+
+    it('should return false if received id is not equal any type of current ticket', () => {
+      expect(ticket.hasId(-12345)).toBeFalsy();
     });
   });
 });
