@@ -97,7 +97,7 @@ export class NewTicketComponent implements OnInit {
   private buildForm(): void {
     this.ticketForm = this.formBuilder.group({
       service_id: [this.service.id],
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.maxLength(255)]],
       ticket_type: ['question'],
       is_hidden: [false],
       sla: [null],

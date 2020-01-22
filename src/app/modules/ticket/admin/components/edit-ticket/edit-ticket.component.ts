@@ -111,7 +111,7 @@ export class EditTicketComponent implements OnInit {
     this.ticketForm = this.formBuilder.group({
       id: [this.ticket.id],
       service_id: [this.ticket.serviceId],
-      name: [this.ticket.name, Validators.required],
+      name: [this.ticket.name, [Validators.required, Validators.maxLength(255)]],
       ticket_type: [this.ticket.ticketType],
       is_hidden: [this.ticket.isHidden],
       sla: [this.ticket.sla],
