@@ -19,6 +19,9 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { AuthorizeDirective } from '@shared/directives/authorize/authorize.directive';
 import { UserService } from '@shared/services/user/user.service';
 import { StubUserService } from '@shared/services/user/user.service.stub';
+import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
+import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
+import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 
 describe('QuestionComponent', () => {
   let component: QuestionComponent;
@@ -28,6 +31,7 @@ describe('QuestionComponent', () => {
   let ticketService: TicketService;
   let correction: TicketI;
   let notifyService: NotificationService;
+  let responsibleUserService: ResponsibleUserService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -38,7 +42,8 @@ describe('QuestionComponent', () => {
         { provide: ServiceService, useClass: StubServiceService },
         { provide: TicketService, useClass: StubTicketService },
         { provide: NotificationService, useClass: StubNotificationService },
-        { provide: UserService, useClass: StubUserService }
+        { provide: UserService, useClass: StubUserService },
+        { provide: ResponsibleUserService, useClass: StubResponsibleUserService }
       ]
     })
     .compileComponents();
@@ -127,15 +132,19 @@ describe('QuestionComponent', () => {
 
   describe('#publishQuestion', () => {
     let result: Ticket;
+    let details: ResponsibleUserDetailsI[];
 
     beforeEach(() => {
       serviceService = TestBed.get(ServiceService);
       ticketService = TestBed.get(TicketService);
       notifyService = TestBed.get(NotificationService);
+      responsibleUserService = TestBed.get(ResponsibleUserService);
+      details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
 
       spyOn(window, 'confirm').and.returnValue(true);
       spyOn(serviceService, 'replaceTicket');
       spyOn(ticketService, 'removeDraftTicket');
+      spyOn(responsibleUserService, 'loadDetails').and.returnValue(of(details));
     });
 
     describe('when question has original', () => {
@@ -145,6 +154,7 @@ describe('QuestionComponent', () => {
         result.state = 'published';
         spyOn(ticketService, 'publishTickets').and.returnValue(of([result]));
         spyOn(notifyService, 'setMessage');
+        spyOn(result, 'associateResponsibleUserDetails');
         component.publishQuestion();
       });
 
@@ -162,6 +172,14 @@ describe('QuestionComponent', () => {
 
       it('should call "removeDraftTicket" method for TicketService', () => {
         expect(ticketService.removeDraftTicket).toHaveBeenCalledWith(result);
+      });
+
+      it('should call "loadDetails" method of ResponsibleUserService service', () => {
+        expect(responsibleUserService.loadDetails).toHaveBeenCalled();
+      });
+
+      it('should call "associateResponsibleUserDetails" method for loaded ticket with occured details', () => {
+        expect(result.associateResponsibleUserDetails).toHaveBeenCalledWith(details);
       });
     });
 
