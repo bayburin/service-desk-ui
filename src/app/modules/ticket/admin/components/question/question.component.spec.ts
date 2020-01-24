@@ -52,6 +52,9 @@ describe('QuestionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuestionComponent);
     component = fixture.componentInstance;
+    serviceService = TestBed.get(ServiceService);
+    ticketService = TestBed.get(TicketService);
+    notifyService = TestBed.get(NotificationService);
     correction = {
       id: 3,
       service_id: 2,
@@ -135,9 +138,6 @@ describe('QuestionComponent', () => {
     let details: ResponsibleUserDetailsI[];
 
     beforeEach(() => {
-      serviceService = TestBed.get(ServiceService);
-      ticketService = TestBed.get(TicketService);
-      notifyService = TestBed.get(NotificationService);
       responsibleUserService = TestBed.get(ResponsibleUserService);
       details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
 
@@ -191,6 +191,73 @@ describe('QuestionComponent', () => {
 
       it('should exit from method', () => {
         expect(serviceService.replaceTicket).not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('#destroyPublishedQuestion', () => {
+    beforeEach(() => {
+      spyOn(window, 'confirm').and.returnValue(true);
+      spyOn(ticketService, 'destroyTicket').and.returnValue(of(question));
+      spyOn(notifyService, 'setMessage');
+      spyOn(serviceService, 'removeTickets');
+      component.destroyPublishedQuestion();
+    });
+
+    it('should call "destroyTicket" method', () => {
+      expect(ticketService.destroyTicket).toHaveBeenCalled();
+    });
+
+    it('should call "setMessage" method', () => {
+      expect(notifyService.setMessage).toHaveBeenCalled();
+    });
+
+    it('should call "removeTickets" method', () => {
+      expect(serviceService.removeTickets).toHaveBeenCalled();
+    });
+  });
+
+  describe('#destroyDraftQuestion', () => {
+    beforeEach(() => {
+      spyOn(window, 'confirm').and.returnValue(true);
+      spyOn(ticketService, 'destroyTicket').and.returnValue(of({}));
+      spyOn(notifyService, 'setMessage');
+      spyOn(serviceService, 'removeTickets');
+    });
+
+    it('should call "destroyTicket" method', () => {
+      component.destroyDraftQuestion();
+
+      expect(ticketService.destroyTicket).toHaveBeenCalled();
+    });
+
+    it('should call "setMessage" method', () => {
+      component.destroyDraftQuestion();
+
+      expect(notifyService.setMessage).toHaveBeenCalled();
+    });
+
+    it('should call "removeTickets" method', () => {
+      component.question.original = null;
+      component.destroyDraftQuestion();
+
+      expect(serviceService.removeTickets).toHaveBeenCalled();
+    });
+
+    describe('when question has original', () => {
+      beforeEach(() => {
+        component.question = question.correction;
+        component.question.original = {} as Ticket;
+        spyOn(component, 'showOriginal');
+        component.destroyDraftQuestion();
+      });
+
+      it('should call "showOriginal" method', () => {
+        expect(component.showOriginal).toHaveBeenCalled();
+      });
+
+      it('should set null to correction', () => {
+        expect(component.question.correction).toBeNull();
       });
     });
   });

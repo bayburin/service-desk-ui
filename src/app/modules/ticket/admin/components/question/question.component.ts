@@ -112,4 +112,38 @@ export class QuestionComponent implements OnInit {
     )
     .subscribe();
   }
+
+  /**
+   * Удалить опубликованный вопрос.
+   */
+  destroyPublishedQuestion(): void {
+    if (!confirm('Вы действительно хотите удалить вопрос?')) {
+      return;
+    }
+
+    this.ticketService.destroyTicket(this.question).subscribe(() => {
+      this.notifyService.setMessage('Вопрос удален');
+      this.serviceService.removeTickets([this.question]);
+    });
+  }
+
+  /**
+   * Удалить черновой вопрос.
+   */
+  destroyDraftQuestion(): void {
+    if (!confirm('Вы действительно хотите удалить черновик?')) {
+      return;
+    }
+
+    this.ticketService.destroyTicket(this.question).subscribe(() => {
+      this.notifyService.setMessage('Черновик удален');
+
+      if (this.question.original) {
+        this.showOriginal();
+        this.question.correction = null;
+      } else {
+        this.serviceService.removeTickets([this.question]);
+      }
+    });
+  }
 }

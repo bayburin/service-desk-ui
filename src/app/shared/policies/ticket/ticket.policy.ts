@@ -17,4 +17,8 @@ export class TicketPolicy extends ApplicationPolicy {
   publish(): boolean {
     return this.user.hasRole('content_manager') && (this.object.isDraftState() || this.object.correction);
   }
+
+  destroy(): boolean {
+    return this.user.hasRole('content_manager');
+  }
 }
