@@ -34,9 +34,16 @@
             <button ngbDropdownItem *appAuthorize="[question, 'publish']" (click)="publishQuestion()" class="align-button-content">
               <i class="mdi mdi-checkbox-marked-circle-outline mdi-18px"></i>Опубликовать
             </button>
-            <!-- <button ngbDropdownItem class="align-button-content">
-              <i class="mdi mdi-delete mdi-18px"></i>Удалить
-            </button> -->
+            <div *appAuthorize="[question, 'destroy']">
+              <button ngbDropdownItem class="align-button-content" *ngIf="question.isPublishedState()"(click)="destroyPublishedQuestion()">
+                <i class="mdi mdi-delete mdi-18px"></i>Удалить вопрос
+              </button>
+            </div>
+            <div *appAuthorize="[question, 'destroy']">
+              <button ngbDropdownItem class="align-button-content" *ngIf="question.isDraftState()" (click)="destroyDraftQuestion()">
+                <i class="mdi mdi-delete mdi-18px"></i>Удалить черновик
+              </button>
+            </div>
           </div>
         </div>
       </div>

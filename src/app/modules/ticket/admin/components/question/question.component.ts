@@ -8,6 +8,8 @@ import { ServiceService } from '@shared/services/service/service.service';
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { TagI } from '@interfaces/tag.interface';
+import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
+import { tap, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-question',
@@ -24,7 +26,8 @@ export class QuestionComponent implements OnInit {
     private route: ActivatedRoute,
     private serviceService: ServiceService,
     private ticketService: TicketService,
-    private notifyService: NotificationService
+    private notifyService: NotificationService,
+    private responsibleUserService: ResponsibleUserService
   ) {}
 
   ngOnInit() {
@@ -59,6 +62,10 @@ export class QuestionComponent implements OnInit {
    * Показать исправления.
    */
   showCorrection(): void {
+    if (!this.question.correction) {
+      return;
+    }
+
     this.open = this.question.open;
     this.question = this.question.correction;
     this.question.open = this.open;
@@ -68,6 +75,10 @@ export class QuestionComponent implements OnInit {
    * Показать оригинал.
    */
   showOriginal(): void {
+    if (!this.question.original) {
+      return;
+    }
+
     this.open = this.question.open;
     this.question = this.question.original;
     this.question.open = this.open;
@@ -81,14 +92,58 @@ export class QuestionComponent implements OnInit {
       return;
     }
 
-    this.ticketService.publishTickets([this.question]).subscribe(tickets => {
-      if (tickets.length === 0) {
-        return;
-      }
+    this.ticketService.publishTickets([this.question])
+      .pipe(
+        tap((tickets: Ticket[]) => {
+          if (tickets.length === 0) {
+            return;
+          }
 
-      this.serviceService.replaceTicket((this.question.original || this.question).id, tickets[0]);
-      this.ticketService.removeDraftTicket(tickets[0]);
-      this.notifyService.setMessage('Вопрос опубликован');
+          this.serviceService.replaceTicket((this.question.original || this.question).id, tickets[0]);
+          this.ticketService.removeDraftTicket(tickets[0]);
+          this.notifyService.setMessage('Вопрос опубликован');
+        }),
+        switchMap((tickets: Ticket[]) => {
+          const tns = tickets.flatMap(ticket => ticket.getResponsibleUsersTn());
+
+          return this.responsibleUserService.loadDetails(tns)
+            .pipe(tap(details => tickets.forEach(ticket => ticket.associateResponsibleUserDetails(details))));
+        })
+    )
+    .subscribe();
+  }
+
+  /**
+   * Удалить опубликованный вопрос.
+   */
+  destroyPublishedQuestion(): void {
+    if (!confirm('Вы действительно хотите удалить вопрос?')) {
+      return;
+    }
+
+    this.ticketService.destroyTicket(this.question).subscribe(() => {
+      this.notifyService.setMessage('Вопрос удален');
+      this.serviceService.removeTickets([this.question]);
+    });
+  }
+
+  /**
+   * Удалить черновой вопрос.
+   */
+  destroyDraftQuestion(): void {
+    if (!confirm('Вы действительно хотите удалить черновик?')) {
+      return;
+    }
+
+    this.ticketService.destroyTicket(this.question).subscribe(() => {
+      this.notifyService.setMessage('Черновик удален');
+
+      if (this.question.original) {
+        this.showOriginal();
+        this.question.correction = null;
+      } else {
+        this.serviceService.removeTickets([this.question]);
+      }
     });
   }
 }

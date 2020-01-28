@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core';
 
 import { Service } from '@modules/ticket/models/service/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { contentBlockAnimation } from '@animations/content.animation';
+import { QuestionComponent } from '../question/question.component';
 
 @Component({
   selector: 'app-service-detail',
@@ -12,6 +13,7 @@ import { contentBlockAnimation } from '@animations/content.animation';
 })
 export class ServiceDetailComponent implements OnInit {
   @Input() service: Service;
+  @ViewChildren(QuestionComponent) questionTemplateComponent: QueryList<QuestionComponent>;
 
   constructor() { }
 

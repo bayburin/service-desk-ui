@@ -121,4 +121,22 @@ describe('TicketPolicy', () => {
       });
     });
   });
+
+  describe('#destroy', () => {
+    describe('when user has "content_manager" role', () => {
+      beforeEach(() => user.role.name = 'content_manager');
+
+      it('should grant access', () => {
+        expect(ticketPolicy.destroy()).toBeTruthy();
+      });
+    });
+
+    describe('when user has another role', () => {
+      beforeEach(() => user.role.name = 'responsible_user');
+
+      it('should deny access', () => {
+        expect(ticketPolicy.destroy()).toBeFalsy();
+      });
+    });
+  });
 });

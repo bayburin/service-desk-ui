@@ -11,6 +11,9 @@
       </textarea>
       <div class="invalid-feedback">
         <span *ngIf="form.name.errors?.required">Не может быть пустым</span>
+        <span *ngIf="form.name.errors?.maxlength">
+          Слишком длинный вопрос (максимальная число символов: {{ form.name.errors.maxlength.requiredLength }}; вы ввели:  {{ form.name.errors.maxlength.actualLength }} )
+        </span>
       </div>
     </div>
     <div class="form-group">

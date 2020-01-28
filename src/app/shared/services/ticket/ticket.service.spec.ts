@@ -231,4 +231,27 @@ describe('TicketService', () => {
       expect(ticketService.draftTickets.find(el => el === selectedTicket)).toBeFalsy();
     });
   });
+
+  describe('#destroyTicket', () => {
+    let ticketI: TicketI;
+    let ticket: Ticket;
+    let ticketUri: string;
+
+    beforeEach(() => {
+      ticketI = { id: 2, name: 'Тестовый вопрос', service_id: 1, ticket_type: 'question' } as TicketI;
+      ticket = TicketFactory.create(ticketI);
+      ticketUri = `${environment.serverUrl}/api/v1/services/${ticketI.service_id}/tickets/${ticketI.id}`;
+    });
+
+    it('should return Observable with removed ticket', () => {
+      ticketService.destroyTicket(ticket).subscribe(result => {
+        expect(result).toEqual(ticket);
+      });
+
+      httpTestingController.expectOne({
+        method: 'DELETE',
+        url: ticketUri
+      }).flush(ticket);
+    });
+  });
 });

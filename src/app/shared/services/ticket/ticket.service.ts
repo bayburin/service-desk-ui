@@ -136,4 +136,15 @@ export class TicketService {
       this.draftTickets.splice(index, 1);
     }
   }
+
+  /**
+   * Удалить тикет.
+   *
+   * @param ticket - удаляемый тикет.
+   */
+  destroyTicket(ticket: Ticket): Observable<any> {
+    const ticketUri = `${environment.serverUrl}/api/v1/services/${ticket.serviceId}/tickets/${ticket.id}`;
+
+    return this.http.delete(ticketUri);
+  }
 }
