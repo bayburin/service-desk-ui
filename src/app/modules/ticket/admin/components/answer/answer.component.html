@@ -2,7 +2,9 @@
   <div class="col-sm-9 col-md-10">
     <div class="row-flex-content">
       <app-visible-flag [data]="answer"></app-visible-flag>
-      <span [innerHtml]="answer.answer"></span>
+      <span class="answer-content">
+        <markdown [data]="answer.answer" ngPreserveWhitespaces></markdown>
+      </span>
     </div>
   </div>
   <div class="col-sm-3 col-md-2">

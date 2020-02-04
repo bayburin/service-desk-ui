@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
+import { MarkdownModule } from 'ngx-markdown';
 
 import { TicketRoutingModule } from './ticket-routing.module';
 import { DashboardPageComponent } from './pages/dashboard/dashboard.page';
@@ -48,7 +49,8 @@ import { CategoryListComponent } from './components/category-list/category-list.
   ],
   imports: [
     TicketRoutingModule,
-    SharedModule
+    SharedModule,
+    MarkdownModule.forChild()
   ]
 })
 export class TicketModule { }

@@ -30,6 +30,7 @@ export class TicketFormComponent implements OnInit {
   tagInput = new Subject<string>();
   responsibleUserInput = new Subject<string>();
   serviceTags: { data: TagI, htmlString: string }[];
+  preview = [];
   @Input() parentForm: FormGroup;
   @Input() ticket: Ticket;
   @Input() submitted: boolean;

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '@shared/shared.module';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MarkdownModule } from 'ngx-markdown';
 
 import { AdminTicketRoutingModule } from './admin-ticket-routing.module';
 import { NewTicketComponent } from './components/new-ticket/new-ticket.component';
@@ -28,7 +29,8 @@ import { TicketFormComponent } from './components/ticket-form/ticket-form.compon
     CommonModule,
     AdminTicketRoutingModule,
     SharedModule,
-    NgSelectModule
+    NgSelectModule,
+    MarkdownModule.forChild()
   ]
 })
 export class AdminTicketModule { }
