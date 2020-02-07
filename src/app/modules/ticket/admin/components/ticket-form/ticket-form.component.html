@@ -6,7 +6,7 @@
       <span (click)="toggleHidden(parentForm)">Вопрос должен быть виден пользователю</span>
     </div>
     <div class="form-group">
-      <textarea id="name" name="name" rows="3" formControlName="name" class="form-control" placeholder="Введите вопрос или описание проблемы"
+      <textarea id="name" name="name" rows="5" formControlName="name" class="form-control" placeholder="Введите вопрос или описание проблемы"
         [ngClass]="{ 'is-invalid': (form.name.touched || submitted) && form.name.errors, 'is-valid': form.name.touched && form.name.valid }">
       </textarea>
       <div class="invalid-feedback">
@@ -90,13 +90,6 @@
                       (answer.controls.answer.touched || submitted) && answer.controls.answer.errors,
                       'is-valid': answer.controls.answer.touched && answer.controls.answer.valid }">
                   </textarea>
-                  <small class="form-text text-muted">
-                    <strong class="ml-3">**жирный**</strong>
-                    <span class="ml-3">~~<del>зачеркнутый</del>~~</span>
-                    <span class="ml-3">```встроенный код```</span>
-                    <em class="ml-3">*курсив*</em>
-                    <span class="ml-3">> цитата</span>
-                  </small>
                   <div class="invalid-feedback">
                     <span *ngIf="answer.controls.answer.errors?.required">Не может быть пустым</span>
                   </div>
