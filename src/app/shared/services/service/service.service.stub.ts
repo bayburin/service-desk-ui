@@ -11,6 +11,7 @@ export class StubServiceService {
   addTickets() {}
   replaceTicket() {}
   removeTickets() {}
+  removeDraftTickets() {}
   getParentNodeName() { return of('Программные комплексы (из сервиса)'); }
   getNodeName() { return of('nanoCad'); }
 }

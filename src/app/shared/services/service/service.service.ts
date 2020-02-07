@@ -119,6 +119,13 @@ export class ServiceService implements BreadcrumbServiceI {
     this.service.tickets = this.service.tickets.filter(el => !tickets.find(draft => draft.id === el.id));
   }
 
+  /**
+   * Удалить черновые вопросы.
+   */
+  removeDraftTickets(): void {
+    this.service.tickets = this.service.tickets.filter(ticket => !ticket.isDraftState());
+  }
+
   getNodeName(): Observable<string> {
     return this.service$.asObservable().pipe(
       map((service: Service) => service ? service.name : '')

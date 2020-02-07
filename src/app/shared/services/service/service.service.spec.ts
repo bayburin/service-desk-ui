@@ -253,6 +253,22 @@ describe('ServiceService', () => {
         expect(serviceService.service.tickets).not.toContain(newTicket);
       });
     });
+
+    describe('#removeDraftTickets', () => {
+      let draftTicket: Ticket;
+
+      beforeEach(() => {
+        draftTicket = TicketFactory.create({ id: 3, state: 'draft', ticket_type: 'question', name: 'Тестовый вопрос 3' });
+        service.tickets.push(draftTicket);
+      });
+
+      it('should remove tickets from "tickets" array which have draft state', () => {
+        serviceService.removeDraftTickets();
+
+        expect(serviceService.service.tickets).toContain(newTicket);
+        expect(serviceService.service.tickets).not.toContain(draftTicket);
+      });
+    });
   });
 
   describe('#getNodeName', () => {

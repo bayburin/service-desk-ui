@@ -134,37 +134,11 @@ describe('NewTicketPageComponent', () => {
         expect(spy.calls.first().args[0]).toEqual(['../']);
       }));
 
-      it('should add ticket to "tickets" array', () => {
-        spyOn(serviceService, 'addTickets');
-        component.save();
-
-        expect(serviceService.addTickets).toHaveBeenCalledWith([ticket]);
-      });
-
-      it('should add ticket to "draftTickets" array', () => {
-        spyOn(ticketService, 'addDraftTickets');
-        component.save();
-
-        expect(ticketService.addDraftTickets).toHaveBeenCalledWith([ticket]);
-      });
-
       it('should notify user', () => {
         spyOn(notifyService, 'setMessage');
         component.save();
 
         expect(notifyService.setMessage).toHaveBeenCalled();
-      });
-
-      it('should call "loadDetails" method of responsibleUserService service', () => {
-        component.save();
-
-        expect(responsibleUserService.loadDetails).toHaveBeenCalled();
-      });
-
-      it('should call "associateResponsibleUserDetails" method for created ticket with occured details', () => {
-        component.save();
-
-        expect(ticket.associateResponsibleUserDetails).toHaveBeenCalledWith(details);
       });
     });
   });

@@ -38,7 +38,7 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
   ngOnInit() {
     this.service = this.serviceService.service;
     this.ticketId = this.route.snapshot.queryParams.ticket;
-    this.loadAllTickets();
+    this.loadDraftTickets();
     this.openQuestionStream();
 
     this.routeSub = this.router.events.subscribe(event => {
@@ -62,12 +62,15 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
     this.routeSub.unsubscribe();
   }
 
-  private loadAllTickets() {
+  private loadDraftTickets() {
     this.loading = true;
     this.ticketService.loadDraftTicketsFor(this.service)
       .pipe(
         finalize(() => this.loading = false),
-        tap((tickets: Ticket[]) => this.serviceService.addTickets(tickets)),
+        tap((tickets: Ticket[]) => {
+          this.serviceService.removeDraftTickets();
+          this.serviceService.addTickets(tickets);
+        }),
         switchMap(tickets => {
           const tns = tickets.flatMap(ticket => ticket.getResponsibleUsersTn());
 

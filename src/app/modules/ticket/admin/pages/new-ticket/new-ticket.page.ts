@@ -1,14 +1,12 @@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { finalize, tap, switchMap } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { NotificationService } from '@shared/services/notification/notification.service';
-import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 
 @Component({
   selector: 'app-new-ticket-page',
@@ -27,8 +25,7 @@ export class NewTicketPageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private serviceService: ServiceService,
     private ticketService: TicketService,
-    private notifyService: NotificationService,
-    private responsibleUserService: ResponsibleUserService,
+    private notifyService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -47,21 +44,12 @@ export class NewTicketPageComponent implements OnInit {
 
     this.loading = true;
     this.ticketService.createTicket(this.ticketForm.getRawValue())
-      .pipe(
-        finalize(() => this.loading = false),
-        tap((createdTicket: Ticket) => {
-          this.redirectToService();
-          this.serviceService.addTickets([createdTicket]);
-          this.ticketService.addDraftTickets([createdTicket]);
-          this.notifyService.setMessage('Новый вопрос добавлен');
-        }),
-        switchMap(createdTicket => {
-          return this.responsibleUserService.loadDetails(createdTicket.getResponsibleUsersTn())
-            .pipe(tap(details => createdTicket.associateResponsibleUserDetails(details)));
-        })
-      )
+      .pipe(finalize(() => this.loading = false))
       .subscribe(
-        () => {},
+        () => {
+          this.redirectToService();
+          this.notifyService.setMessage('Новый вопрос добавлен');
+        },
         error => console.log(error)
       );
   }
