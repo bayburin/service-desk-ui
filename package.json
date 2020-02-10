@@ -27,6 +27,7 @@
     "angular2-actioncable": "^6.0.2",
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
+    "file-saver": "^2.0.2",
     "fstream": "1.0.12",
     "handlebars": "^4.3.0",
     "js-yaml": "3.13.1",
