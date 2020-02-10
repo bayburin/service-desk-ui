@@ -1,12 +1,12 @@
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NO_ERRORS_SCHEMA } from '@angular//core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { EditTicketComponent } from './edit-ticket.component';
+import { EditTicketPageComponent } from './edit-ticket.page';
 import { ServiceService } from '@shared/services/service/service.service';
 import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
 import { TicketService } from '@shared/services/ticket/ticket.service';
@@ -23,10 +23,9 @@ import { ResponsibleUserService } from '@shared/services/responsible_user/respon
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 
-describe('EditTicketComponent', () => {
-  let component: EditTicketComponent;
-  let fixture: ComponentFixture<EditTicketComponent>;
-  let modalService: NgbModal;
+describe('EditTicketPageComponent', () => {
+  let component: EditTicketPageComponent;
+  let fixture: ComponentFixture<EditTicketPageComponent>;
   let ticketI: TicketI;
   let ticket: Ticket;
   let serviceI: ServiceI;
@@ -64,10 +63,9 @@ describe('EditTicketComponent', () => {
         NgbModule,
         ReactiveFormsModule
       ],
-      declarations: [EditTicketComponent],
+      declarations: [EditTicketPageComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
-        NgbModal,
         { provide: ServiceService, useClass: StubServiceService },
         { provide: TicketService, useClass: StubTicketService },
         { provide: NotificationService, useClass: StubNotificationService },
@@ -79,9 +77,8 @@ describe('EditTicketComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditTicketComponent);
+    fixture = TestBed.createComponent(EditTicketPageComponent);
     component = fixture.componentInstance;
-    modalService = TestBed.get(NgbModal);
     serviceService = TestBed.get(ServiceService);
     notifyService = TestBed.get(NotificationService);
     responsibleUserService = TestBed.get(ResponsibleUserService);
@@ -116,22 +113,15 @@ describe('EditTicketComponent', () => {
   describe('when responsibleUsers array is not empty', () => {
     it('should call "loadDetails" method of ResponsibleUserService service', () => {
       fixture.detectChanges();
-  
+
       expect(responsibleUserService.loadDetails).toHaveBeenCalled();
     });
-    
+
     it('should call "associateResponsibleUserDetails" method for loaded ticket with occured details', () => {
       fixture.detectChanges();
 
       expect(ticket.associateResponsibleUserDetails).toHaveBeenCalledWith(details);
     });
-  });
-
-  it('should call "open" method for modalService', () => {
-    spyOn(modalService, 'open');
-
-    fixture.detectChanges();
-    expect(modalService.open).toHaveBeenCalled();
   });
 
   describe('#save', () => {
@@ -177,13 +167,6 @@ describe('EditTicketComponent', () => {
         expect(ticketService.updateTicket).toHaveBeenCalledWith(component.ticket, component.ticketForm.getRawValue());
       });
 
-      it('should close modal', () => {
-        spyOn(component.modal, 'close');
-        component.save();
-
-        expect(component.modal.close).toHaveBeenCalled();
-      });
-
       it('should redirect to parent page', inject([Router], (router: Router) => {
         const spy = spyOn(router, 'navigate');
         component.save();
@@ -213,7 +196,7 @@ describe('EditTicketComponent', () => {
 
       it('should call "associateResponsibleUserDetails" method for updated ticket with occured details', () => {
         component.save();
-  
+
         expect(newTicket.associateResponsibleUserDetails).toHaveBeenCalledWith(details);
       });
     });
@@ -222,16 +205,8 @@ describe('EditTicketComponent', () => {
   describe('#cancel', () => {
     beforeEach(() => fixture.detectChanges());
 
-    it('should close modal', () => {
-      spyOn(component.modal, 'dismiss');
-      component.cancel();
-
-      expect(component.modal.dismiss).toHaveBeenCalled();
-    });
-
     it('should redirect to parent component', inject([Router], (router: Router) => {
       const spy = spyOn(router, 'navigate');
-      spyOn(component.modal, 'dismiss');
       component.cancel();
 
       expect(spy.calls.first().args[0]).toEqual(['../../']);

@@ -5,7 +5,7 @@ import { ResponsibleGuard } from '@guards/responsible/responsible.guard';
 import { NewTicketPageComponent } from './pages/new-ticket/new-ticket.page';
 import { ServicePolicy } from '@shared/policies/service/service.policy';
 import { TicketsPageComponent } from './pages/tickets/tickets.page';
-import { EditTicketComponent } from './components/edit-ticket/edit-ticket.component';
+import { EditTicketPageComponent } from './pages/edit-ticket/edit-ticket.page';
 import { TicketResolver } from './resolvers/resolvers/ticket.resolver';
 import { TicketsDetailPageComponent } from './pages/tickets-detail/tickets-detail.page';
 
@@ -39,7 +39,7 @@ const routes: Routes = [
       },
       {
         path: ':id/edit',
-        component: EditTicketComponent,
+        component: EditTicketPageComponent,
         canActivate: [ResponsibleGuard],
         resolve: { ticket: TicketResolver },
         data: {
