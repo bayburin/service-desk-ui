@@ -15,6 +15,7 @@ import { EditTicketPageComponent } from './pages/edit-ticket/edit-ticket.page';
 import { TicketFormComponent } from './components/ticket-form/ticket-form.component';
 import { TicketsDetailPageComponent } from './pages/tickets-detail/tickets-detail.page';
 import { MarkdownHelpComponent } from './components/markdown-help/markdown-help.component';
+import { AnswerAccessorComponent } from './components/answer-accessor/answer-accessor.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { MarkdownHelpComponent } from './components/markdown-help/markdown-help.
     EditTicketPageComponent,
     TicketFormComponent,
     TicketsDetailPageComponent,
-    MarkdownHelpComponent
+    MarkdownHelpComponent,
+    AnswerAccessorComponent
   ],
   imports: [
     CommonModule,
