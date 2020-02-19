@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { CategoryI } from '@interfaces/category.interface';
@@ -15,7 +15,7 @@ import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
 export class CategoryService implements BreadcrumbServiceI {
   private loadCategoriesUri = `${environment.serverUrl}/api/v1/categories`;
   private loadCategoryUri: string;
-  private category = new Subject<Category>();
+  private category = new BehaviorSubject<Category>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -33,6 +33,7 @@ export class CategoryService implements BreadcrumbServiceI {
    */
   loadCategory(categoryId: number): Observable<Category> {
     this.loadCategoryUri = `${this.loadCategoriesUri}/${categoryId}`;
+    this.category.next(null);
 
     return this.http.get(this.loadCategoryUri).pipe(
       map((data: CategoryI) => CategoryFactory.create(data)),

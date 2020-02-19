@@ -16,7 +16,8 @@ const routes: Routes = [
     canActivate: [ResponsibleGuard],
     data: {
       policy: ServicePolicy,
-      action: 'newTicket'
+      action: 'newTicket',
+      breadcrumb: 'Администрирование'
     },
     children: [
       {
@@ -25,7 +26,7 @@ const routes: Routes = [
         canActivate: [ResponsibleGuard],
         data: {
           policy: ServicePolicy,
-          action: 'newTicket',
+          action: 'newTicket'
         },
       },
       {
@@ -44,7 +45,7 @@ const routes: Routes = [
         resolve: { ticket: TicketResolver },
         data: {
           policy: ServicePolicy,
-          action: 'newTicket',
+          action: 'newTicket'
         }
       }
     ]
