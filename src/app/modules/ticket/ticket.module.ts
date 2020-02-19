@@ -20,6 +20,7 @@ import { CasePageContentComponent } from './components/case-page-content/case-pa
 import { ServicesOverwievPageComponent } from './pages/services-overwiev/services-overwiev.page';
 import { ServiceDetailComponent } from './components/service-detail/service-detail.component';
 import { CategoryListComponent } from './components/category-list/category-list.component';
+import { MarkdownHelpPageComponent } from './pages/markdown-help/markdown-help.page';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { CategoryListComponent } from './components/category-list/category-list.
     CasePageContentComponent,
     ServicesOverwievPageComponent,
     ServiceDetailComponent,
-    CategoryListComponent
+    CategoryListComponent,
+    MarkdownHelpPageComponent
   ],
   entryComponents: [
     CategoryPageContentComponent,

@@ -11,6 +11,7 @@ import { CategoriesDetailPageComponent } from './pages/categories-detail/categor
 import { CategoryService } from '@shared/services/category/category.service';
 import { ServicesDetailPageComponent } from './pages/services-detail/services-detail.page';
 import { ServiceService } from '@shared/services/service/service.service';
+import { MarkdownHelpPageComponent } from './pages/markdown-help/markdown-help.page';
 
 const routes: Routes = [
   {
@@ -66,6 +67,12 @@ const routes: Routes = [
     component: SearchPageComponent,
     canActivate: [AuthGuard],
     data: { breadcrumb: 'Поиск' }
+  },
+  {
+    path: 'markdown-help',
+    component: MarkdownHelpPageComponent,
+    canActivate: [AuthGuard],
+    data: { breadcrumb: 'Справка по форматированию' }
   }
 ];
 

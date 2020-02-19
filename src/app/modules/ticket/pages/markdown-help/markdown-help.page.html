@@ -1,0 +1,333 @@
+<section class="sd-pb-6">
+  <div class="container markdown-help-page">
+    <app-section-header header="Справка по форматированию"></app-section-header>
+    <div class="question-form">
+      <div class="ask-mainbar">
+        <section #formatting id="formatting" class="sd-pb-6">
+          <h2>Курсив, полужирный и зачеркнутый</h2>
+            <pre class="language-none">
+<span class="select">*</span>Это набрано курсивом<span class="select">*</span>, и <span class="select">_</span>это<span class="select">_</span> тоже.
+<span class="select">**</span>Это набрано полужирным шрифтом<span class="select">**</span>, и <span class="select">__</span>это<span class="select">__</span> тоже
+Пользуйтесь <span class="select">***</span>курсивом и жирным шрифтом одновременно<span class="select">***</span> только если <span class="select">___</span>необходимо<span class="select">___</span>
+<span class="select">~~</span>Этот текст зачеркнут<span class="select">~~</span></pre>
+          <p><em>Это набрано курсивом</em>, и <em>это</em> тоже</p>
+          <p><strong>Это набрано полужирным шрифтом</strong>, и <strong>это</strong> тоже</p>
+          <p><strong><em>Пользуйтесь курсивом и жирным шрифтом одновременно</em></strong> только если <strong><em>это необходимо</em></strong></p>
+          <p><del>Этот текст зачеркнут</del></p>
+        </section>
+
+        <section #line_breaks id="line_breaks" class="sd-pb-6">
+          <h2>Разрывы строк</h2>
+          <p>Закончите строку 2 пробелами или добавьте разрыв строки <code>&lt;br/&gt;</code></p>
+            <pre class="language-none">
+Строка 1, после которой идут два пробела<span class="select">  </span>
+Строка 2</pre>
+        </section>
+
+        <section #links id="links" class="sd-pb-6">
+          <h2>Ссылки</h2>
+          <p>Существует несколько способов вставить ссылку:</p>
+            <pre class="language-none">
+1. Встраиваемая ссылка на <span class="select">[Google](http://www.google.com/)</span>.
+2. Встраиваемая ссылка с описанием на <span class="select">[Google](http://www.google.com/ "Это Google")</span>.
+3. Ссылка в виде сноски на <span class="select">[Yandex][1]</span>.
+4. Легко читаемая ссылка на <span class="select">[Yahoo!][yahoo]</span>.
+5. Ссылка на самого себя <span class="select">[yahoo]</span>.
+
+  <span class="select">[1]</span>: http://www.yandex.com/
+  <span class="select">[yahoo]</span>: http://www.yahoo.com/</pre>
+          <p>1. Встраиваемая ссылка на <a href="http://www.google.com/" target="_blank">Google</a>.</p>
+          <p>2. Встраиваемая ссылка с описанием на <a href="http://www.google.com/" target="_blank" title="Это Google">Google</a>.</p>
+          <p>3. Ссылка в виде сноски на <a href="http://www.yandex.com/" target="_blank">Yandex</a>.</p>
+          <p>4. Легко читаемая ссылка на <a href="http://www.yahoo.com/" target="_blank">Yahoo!</a>.</p>
+          <p>5. Ссылка на самого себя <a href="http://www.yahoo.com/" target="_blank">yahoo</a>.</p>
+          <p>Определения ссылок могут появляться в любом месте документа — перед или после места, где вы их использовали. Идентификаторы определений ссылок <code>[1]</code> и <code>[yahoo]</code> могут быть любыми уникальными строками. Они нечувствительны к регистру, т.е. <code>[yahoo]=[YAHOO]</code>.</p>
+          <p>Адрес ссылки (в угловых скобках и без) автоматически преобразуется в ссылку. Например, <code>http://www.example.com</code> и <code>&lt;http://www.example.com&gt;</code> преобразуется в <a href="http://www.example.com" target="_blank">http://www.example.com</a></p>
+          <p>Можно также использовать стандартный синтаксис HTML для гиперссылок:</p>
+            <pre class="language-none">
+&lt;a href="http://example.com" target="_blank" title="пример"&gt;пример&lt;/a&gt;</pre>
+          <p>Это преобразуется в <a href="http://example.com" target="_blank" title="пример">пример</a></p>
+        </section>
+
+        <section #images id="images" class="sd-pb-6">
+          <h2>Изображения</h2>
+          <p>Изображения оформляются так же, как и ссылки, но перед ними стоит восклицательный знак:</p>
+          <div class="help">
+            <pre class="language-none">
+1. Встраиваемая ссылка <span class="select">![Подпись](http://w3.org/Icons/valid-xhtml10)</span>
+2. Ссылка в виде сноски <span class="select">![Подпись][image]</span>
+3. Ссылка на самого себя <span class="select">![image]</span>
+
+  <span class="select">[image]</span>: http://w3.org/Icons/valid-xhtml10 "Logo Title"</pre>
+          </div>
+          <p>Во всех трех случаях будет показано изображение <img src="http://w3.org/Icons/valid-xhtml10" alt="Подпись"></p>
+        </section>
+
+        <section #quotes id="quotes" class="sd-pb-6">
+          <h2>Цитаты</h2>
+          <p>Добавьте значок <code>></code> в начало строки, чтобы создать цитату.</p>
+            <pre class="language-none">
+<span class="select">> </span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+<span class="select">> </span>labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+<span class="select">> </span>ut aliquip ex ea commodo consequat.
+
+Цитата прервана.
+
+<span class="select">> </span>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+<span class="select">> </span>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</pre>
+          <blockquote>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          </blockquote>
+          <p>Цитата прервана.</p>
+          <blockquote>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</blockquote>
+          <p>Можно оформлять цитаты внутри цитаты:</p>
+            <pre class="language-none">
+<span class="select">> </span>Стандартная цитата имеет отступ
+<span class="select">> > </span>Вложенная цитата имеет слишком большой отступ
+<span class="select">> > > > </span>Поддерживается вложенность любой глубины.</pre>
+          <blockquote>
+            <p>Стандартная цитата имеет отступ</p>
+            <blockquote>
+              <p>Вложенная цитата имеет слишком большой отступ</p>
+              <blockquote>
+                <blockquote>
+                  <p>Поддерживается вложенность любой глубины.</p>
+                </blockquote>
+              </blockquote>
+            </blockquote>
+          </blockquote>
+          <p>Также внутри цитат можно использовать любое форматирование.</p>
+        </section>
+
+        <section #code id="code" class="sd-pb-6">
+          <h2>Выделение фрагментов текста и кода</h2>
+          Для выделения текста внутри строки используйте <code>`обратные кавычки`</code>.
+          Больше фрагменты текста или кода выделяются с помощью <code>~~~</code> или <code>```</code>:
+            <pre class="language-none">
+Обычный текст:
+```
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+ut aliquip ex ea commodo consequat.
+```
+
+Код можно выделить с указанием языка программирования:
+``` python
+s = "Python syntax highlighting"
+print s
+```</pre>
+            <p>Обычный текст:</p>
+            <pre class="language-none">
+<code class="language-none">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+ut aliquip ex ea commodo consequat.</code></pre>
+            <p>Код выделяется с указанием языка программирования:</p>
+            <pre class="language-python">
+<code class="language-python">s <span class="token operator">=</span> <span class="token string">"Python syntax highlighting"</span>
+<span class="token keyword">print</span> s</code></pre>
+        </section>
+
+        <section #horizontal_lines id="horizontal_lines" class="sd-pb-6">
+          <h2>Горизонтальная линия</h2>
+          <p>Горизонтальная линия <code>&lt;hr&gt;</code> вставляется тремя или более дефисами, звёздочками или подчеркиваниями подряд:</p>
+            <pre class="language-none">
+Правило № 1
+
+<span class="select">---</span>
+
+Правило № 2
+
+<span class="select">*****</span>
+
+Правило № 3
+
+<span class="select">____</span></pre>
+        <p>Также можно использовать пробелы между символами:</p>
+        <pre class="language-none">
+Правило № 1
+<span class="select">* * *</span></pre>
+        </section>
+
+        <section #lists id="lists" class="sd-pb-6">
+          <h2>Списки</h2>
+          <p>Маркированный список:</p>
+          <pre class="language-none">
+<span class="select">- </span>Используйте знак минуса для маркировки элементов
+<span class="select">+ </span>Или знак плюс
+<span class="select">* </span>Или звёздочку</pre>
+          <p>Нумерованный список</p>
+          <pre class="language-none">
+<span class="select">1. </span>Нумерованные списки просты
+<span class="select">2. </span>Markdown может отслеживать нумерацию списка
+<span class="select">7. </span>Таким образом, это будет элемент № 3.</pre>
+          <p>Для того чтобы создать вложенный список, просто сделайте отступ в четыре пробела для каждого уровня вложений:</p>
+          <pre class="language-none">
+1. Списки внутри элемента списка:
+    - Отступ в четыре пробела.
+        * отступ в восемь пробелов.
+    - Снова четыре пробела.
+2.  Несколько пунктов внутри списка:
+    1. Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+    2. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+    nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+    3. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+3. Цитаты внутри списка:
+    > Сделайте отступ для знаков > в четыре пробела.
+
+4. Предварительно отформатированный текст в элементе списка:
+        Сделайте отступ в семь (можно восемь) пробелов.
+        Для списка необходимо три (можно четыре) пробела
+        и четыре для выполнения блока кода.</pre>
+          <p>В результате вы увидите: </p>
+          <ol>
+            <li>
+              <p>Списки внутри элемента списка:</p>
+              <ul>
+                <li>Отступ в четыре пробела.
+                  <ul><li>отступ в восемь пробелов.</li></ul>
+                </li>
+                <li>Снова четыре пробела.</li>
+              </ul>
+            </li>
+            <li>
+              <p>Несколько пунктов внутри списка:</p>
+              <ol>
+                <li><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></li>
+                <li><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p></li>
+                <li><p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></li>
+              </ol>
+            </li>
+            <li>
+              <p>Цитата внутри списка:</p>
+              <blockquote>
+                <p>Сделайте отступ для знака &gt; в четыре пробела.</p>
+              </blockquote>
+            </li>
+            <li>
+              <p>Предварительно отформатированный текст в элементе списка:</p>
+              <pre class="language-none">
+<code class="language-none">Сделайте отступ в семь (можно восемь) пробелов.
+Для списка необходимо три (можно четыре) пробела
+и четыре для выполнения блока кода.</code></pre>
+            </li>
+          </ol>
+        </section>
+
+        <section #tables id="tables" class="sd-pb-6">
+          <h2 #table>Таблицы</h2>
+          Ниже показан пример создания таблицы. Двоеточия используются для указания выравнивания текста в столбцах.
+          Между заголовками и строками должно быть не менее трех штрихов.
+          Крайний левый и крайний правый символ <code>|</code> в каждой строке является необязательным.
+          Выравнивать столбцы также необязательно.
+          <pre class="language-none">
+| Заголовок столбца 1 | Заголовок столбца 2 | Заголовок столбца 3 |
+| ------------------- |:-------------------:| -------------------:|
+| Столбец 3 выровнен  | по правому краю     |               $1600 |
+| Столбец 2 выровнен  | по центру           |                 $12 |
+
+Также в таблицах можно использовать любые другие способы форматирования текста:
+
+курсив | выделенный фрагмент | полужирный
+--- | --- | ---
+*Still* | `renders` | **nicely**
+1 | 2 | 3</pre>
+
+          <p>В результате получаются такие таблицы:</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Заголовок столбца 1</th>
+                <th align="center">Заголовок столбца 2</th>
+                <th align="right">Заголовок столбца 3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Столбец 3 выровнен</td>
+                <td align="center">по правому краю</td>
+                <td align="right">$1600</td>
+              </tr>
+              <tr>
+                <td>Столбец 2 выровнен</td>
+                <td align="center">по центру</td>
+                <td align="right">$12</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table>
+            <thead>
+              <tr>
+                <th>курсив</th>
+                <th>выделенный фрагмент</th>
+                <th>полужирный</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><em>Still</em></td>
+                <td><code>renders</code></td>
+                <td><strong>nicely</strong></td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section #headers id="headers" class="sd-pb-6">
+          <h2>Заголовки</h2>
+          Используйте символ <code>#</code> для обозначения уровней заголовков:
+          <pre class="language-none">
+# Заголовок 1
+## Заголовок 2
+### Заголовок 3
+#### Заголовок 4
+##### Заголовок 5
+###### Заголовок 6</pre>
+          В результате получится:
+          <h1 id="заголовок-1">Заголовок 1</h1>
+          <h2 id="заголовок-2">Заголовок 2</h2>
+          <h3 id="заголовок-3">Заголовок 3</h3>
+          <h4 id="заголовок-4">Заголовок 4</h4>
+          <h5 id="заголовок-5">Заголовок 5</h5>
+          <h6 id="заголовок-6">Заголовок 6</h6>
+
+          Альтернативный вариант создания заголовков верхнего уровня, это символы <code>=</code> и <code>-</code>. Количество этих символов не имеет значения, достаточно и одного.
+          <pre class="language-none">
+Заголовок 1
+========
+Заголовок 2
+--------</pre>
+        </section>
+      </div>
+      <div class="markdown-helpbar">
+        <div #markdownScrollParent>
+          <div class="scroller shadow-sm">
+            <div class="scroller-body bg-yellow-200">
+              <ul class="sidebar-list">
+                <li><span (click)="scrollToElement(formatting)" [ngClass]="{ active: selectedOption=='formatting' }">Курсив, полужирный и зачеркнутый</span></li>
+                <li><span (click)="scrollToElement(line_breaks)" [ngClass]="{ active: selectedOption=='line_breaks' }">Разрывы строк</span></li>
+                <li><span (click)="scrollToElement(links)" [ngClass]="{ active: selectedOption=='links' }">Ссылки</span></li>
+                <li><span (click)="scrollToElement(images)" [ngClass]="{ active: selectedOption=='images' }">Изображения</span></li>
+                <li><span (click)="scrollToElement(quotes)" [ngClass]="{ active: selectedOption=='quotes' }">Цитаты</span></li>
+                <li><span (click)="scrollToElement(code)" [ngClass]="{ active: selectedOption=='code' }">Выделение фрагментов текста и кода</span></li>
+                <li><span (click)="scrollToElement(horizontal_lines)" [ngClass]="{ active: selectedOption=='horizontal_lines' }">Горизонтальная линия</span></li>
+                <li><span (click)="scrollToElement(lists)" [ngClass]="{ active: selectedOption=='lists' }">Списки</span></li>
+                <li><span (click)="scrollToElement(tables)" [ngClass]="{ active: selectedOption=='tables' }">Таблицы</span></li>
+                <li><span (click)="scrollToElement(headers)" [ngClass]="{ active: selectedOption=='headers' }">Заголовки</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
