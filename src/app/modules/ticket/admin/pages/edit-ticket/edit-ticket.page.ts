@@ -1,7 +1,6 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { finalize, tap, switchMap } from 'rxjs/operators';
 
@@ -13,13 +12,12 @@ import { NotificationService } from '@shared/services/notification/notification.
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 
 @Component({
-  selector: 'app-edit-ticket',
-  templateUrl: './edit-ticket.component.html',
-  styleUrls: ['./edit-ticket.component.sass'],
+  selector: 'app-edit-ticket-page',
+  templateUrl: './edit-ticket.page.html',
+  styleUrls: ['./edit-ticket.page.sass'],
 })
-export class EditTicketComponent implements OnInit {
+export class EditTicketPageComponent implements OnInit {
   submitted = false;
-  modal: NgbModalRef;
   service: Service;
   ticket: Ticket;
   ticketForm: FormGroup;
@@ -27,7 +25,6 @@ export class EditTicketComponent implements OnInit {
   @ViewChild('content', { static: true }) content: ElementRef;
 
   constructor(
-    private modalService: NgbModal,
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -51,10 +48,7 @@ export class EditTicketComponent implements OnInit {
         }),
         tap(details => this.ticket.associateResponsibleUserDetails(details))
       )
-      .subscribe(() => {
-        this.buildForm();
-        this.openModal();
-      });
+      .subscribe(() => this.buildForm());
   }
 
   /**
@@ -71,7 +65,6 @@ export class EditTicketComponent implements OnInit {
       .pipe(
         finalize(() => this.loading = false),
         tap((updatedTicket: Ticket) => {
-          this.modal.close();
           this.redirectToService();
           this.serviceService.replaceTicket(this.ticket.id, updatedTicket);
           this.notifyService.setMessage('Вопрос обновлен');
@@ -91,20 +84,7 @@ export class EditTicketComponent implements OnInit {
    * Возвращается к маршруту на уровень выше.
    */
   cancel(): void {
-    this.modal.dismiss();
     this.redirectToService();
-  }
-
-  private openModal(): void {
-    this.modal = this.modalService.open(
-      this.content,
-      {
-        size: 'lg',
-        backdrop: 'static',
-        keyboard: false,
-        windowClass: 'modal-holder'
-      }
-    );
   }
 
   private buildForm(): void {

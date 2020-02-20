@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { ActionCableService } from 'angular2-actioncable';
+import { MarkdownModule } from 'ngx-markdown';
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -11,12 +12,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { TicketModule } from './modules/ticket/ticket.module';
 import { CaseModule } from './modules/case/case.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { MarkedOptions } from 'ngx-markdown';
 
 // import { loadDataFactory } from './core/initializer/load-data.factory';
 // import { AppLoadService } from './core/initializer/app-load.service';
 
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { markedOptionsFactory } from './core/factories/markdown.factory';
 // import { FakeBackendInterceptor } from './core/interceptors/fake-backend.interceptor';
 
 import { AppComponent } from './app.component';
@@ -40,7 +43,14 @@ import { StreamService } from '@shared/services/stream/stream.service';
     TicketModule,
     CaseModule,
     AuthModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MarkdownModule.forRoot({
+      loader: HttpClient,
+      markedOptions: {
+        provide: MarkedOptions,
+        useFactory: markedOptionsFactory,
+      },
+    })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -64,24 +64,15 @@ export class QuestionPageContentComponent implements OnInit {
       .pipe(finalize(() => attachment.loadingDownload = false))
       .subscribe(
         fileData => {
-          const url = window.URL.createObjectURL(fileData);
-
           if (fileData.type.match('^image|^application/pdf$')) {
+            const url = window.URL.createObjectURL(fileData);
+
             window.open(url, '_blank');
           } else {
-            const link = document.createElement('a');
+            const FileSaver = require('file-saver');
 
-            link.href = url;
-            link.target = '_blank';
-            link.download = attachment.filename;
-            link.click();
+            FileSaver.saveAs(fileData, attachment.filename);
           }
-
-          // Для firefox необходимо отложить отзыв ObjectURL.
-          setTimeout(() => {
-            window.URL.revokeObjectURL(url);
-            // link.remove();
-          }, 100);
         });
   }
 

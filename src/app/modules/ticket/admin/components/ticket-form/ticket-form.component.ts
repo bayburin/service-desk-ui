@@ -30,6 +30,7 @@ export class TicketFormComponent implements OnInit {
   tagInput = new Subject<string>();
   responsibleUserInput = new Subject<string>();
   serviceTags: { data: TagI, htmlString: string }[];
+  preview = [];
   @Input() parentForm: FormGroup;
   @Input() ticket: Ticket;
   @Input() submitted: boolean;
@@ -55,7 +56,7 @@ export class TicketFormComponent implements OnInit {
     this.loadServiceTags();
 
     if (this.ticket) {
-      this.ticket.answers.forEach(answer => (this.form.answers as FormArray).push(this.createAnswer(answer)));
+      this.ticket.answers.forEach(answer => this.answers_form.push(this.createAnswer(answer)));
     }
   }
 

@@ -1,0 +1,24 @@
+<div class="markdown-answer-block">
+  <ul class="markdown-buttom-row">
+    <li class="markdown-button" ngbTooltip="Жирный шрифт" container="body" (click)="bold()"><i class="mdi mdi-format-bold mdi-18px"></i></li>
+    <li class="markdown-button" ngbTooltip="Курсив" container="body" (click)="italic()"><i class="mdi mdi-format-italic mdi-18px"></i></li>
+    <li class="markdown-button" ngbTooltip="Зачеркнутый шрифт" container="body" (click)="crossed_out()"><i class="mdi mdi-format-strikethrough mdi-18px"></i></li>
+    <li class="markdown-button" ngbTooltip="Новая строка" container="body" (click)="empty_line()"><i class="mdi mdi-format-pilcrow mdi-18px"></i></li>
+    <li class="markdown-button no-button"></li>
+    <li class="markdown-button" ngbTooltip="Гиперссылка" container="body" (click)="link()"><i class="mdi mdi-link-variant mdi-18px"></i></li>
+    <li class="markdown-button" ngbTooltip="Изображение" container="body" (click)="image()"><i class="mdi mdi-image-outline mdi-18px"></i></li>
+    <li class="markdown-button" ngbTooltip="Цитата" container="body" (click)="quote()"><i class="mdi mdi-format-quote-close mdi-18px"></i></li>
+    <li class="markdown-button" ngbTooltip="Выделить фрагмент" container="body" (click)="code()"><i class="mdi mdi-code-braces mdi-18px"></i></li>
+    <li class="markdown-button" ngbTooltip="Горизонтальная линия" container="body" (click)="horizontal_line()"><i class="mdi mdi-drag-horizontal mdi-18px"></i></li>
+    <li class="markdown-button no-button"></li>
+    <li class="markdown-button" ngbTooltip="Нумерованный список" container="body" (click)="number_list()"><i class="mdi mdi-format-list-numbered mdi-18px"></i></li>
+    <li class="markdown-button" ngbTooltip="Маркированный список" container="body" (click)="mark_list()"><i class="mdi mdi-format-list-bulleted mdi-18px"></i></li>
+    <li class="markdown-button" ngbTooltip="Таблица" container="body" (click)="table()"><i class="mdi mdi-table mdi-18px"></i></li>
+    <li class="markdown-button no-button"></li>
+    <li class="markdown-button" ngbTooltip="Заголовок 1" container="body" (click)="header(3)"><i class="mdi mdi-format-header-1 mdi-18px"></i></li>
+    <li class="markdown-button" ngbTooltip="Заголовок 2" container="body" (click)="header(4)"><i class="mdi mdi-format-header-2 mdi-18px"></i></li>
+    <li class="markdown-button" ngbTooltip="Заголовок 3" container="body" (click)="header(5)"><i class="mdi mdi-format-header-3 mdi-18px"></i></li>
+  </ul>
+</div>
+<textarea #answer class="form-control border-0" rows="8" placeholder="Введите ответ" [ngModel]="value" (ngModelChange)="updateValue($event)">
+</textarea>

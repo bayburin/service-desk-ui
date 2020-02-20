@@ -120,7 +120,7 @@ describe('QuestionPageContentComponent', () => {
       expect(fixture.debugElement.nativeElement.textContent).toContain(ticket.name);
     });
 
-    it('should show answers', () => {
+    it('should show markdown answers', () => {
       ticket.answers.forEach(answer => {
         expect(fixture.debugElement.nativeElement.textContent).not.toContain(answer.answer);
       });
@@ -128,9 +128,10 @@ describe('QuestionPageContentComponent', () => {
       fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-list-question-group').click();
       fixture.detectChanges();
 
-      ticket.answers.forEach(answer => {
-        expect(fixture.debugElement.nativeElement.textContent).toContain(answer.answer);
-      });
+      expect(fixture.debugElement.queryAll(By.css('markdown')).length).toEqual(ticket.answers.length);
+      // ticket.answers.forEach(answer => {
+      //   expect(fixture.debugElement.nativeElement.textContent).toContain(answer.answer);
+      // });
     });
 
     it('should show attachments', () => {

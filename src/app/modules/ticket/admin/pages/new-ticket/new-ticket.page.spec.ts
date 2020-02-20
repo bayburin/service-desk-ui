@@ -1,12 +1,13 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NewTicketComponent } from './new-ticket.component';
+import { NewTicketPageComponent } from './new-ticket.page';
 import { ServiceService } from '@shared/services/service/service.service';
 import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
 import { TicketService } from '@shared/services/ticket/ticket.service';
@@ -22,11 +23,11 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
+import { By } from '@angular/platform-browser';
 
-describe('NewTicketComponent', () => {
-  let component: NewTicketComponent;
-  let fixture: ComponentFixture<NewTicketComponent>;
-  let modalService: NgbModal;
+describe('NewTicketPageComponent', () => {
+  let component: NewTicketPageComponent;
+  let fixture: ComponentFixture<NewTicketPageComponent>;
   let serviceI: ServiceI;
   let service: Service;
   let serviceService: ServiceService;
@@ -36,14 +37,14 @@ describe('NewTicketComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        NoopAnimationsModule,
         RouterTestingModule,
         NgbModule,
         ReactiveFormsModule,
       ],
-      declarations: [NewTicketComponent],
+      declarations: [NewTicketPageComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
-        NgbModal,
         { provide: ServiceService, useClass: StubServiceService },
         { provide: TicketService, useClass: StubTicketService },
         { provide: NotificationService, useClass: StubNotificationService },
@@ -54,9 +55,8 @@ describe('NewTicketComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewTicketComponent);
+    fixture = TestBed.createComponent(NewTicketPageComponent);
     component = fixture.componentInstance;
-    modalService = TestBed.get(NgbModal);
     serviceService = TestBed.get(ServiceService);
     notifyService = TestBed.get(NotificationService);
     responsibleUserService = TestBed.get(ResponsibleUserService);
@@ -82,13 +82,6 @@ describe('NewTicketComponent', () => {
     fixture.detectChanges();
 
     expect(component.service).toEqual(service);
-  });
-
-  it('should call "open" method for modalService', () => {
-    spyOn(modalService, 'open');
-
-    fixture.detectChanges();
-    expect(modalService.open).toHaveBeenCalled();
   });
 
   describe('#save', () => {
@@ -134,13 +127,6 @@ describe('NewTicketComponent', () => {
         expect(ticketService.createTicket).toHaveBeenCalledWith(component.ticketForm.getRawValue());
       });
 
-      it('should close modal', () => {
-        spyOn(component.modal, 'close');
-        component.save();
-
-        expect(component.modal.close).toHaveBeenCalled();
-      });
-
       it('should redirect to parent page', inject([Router], (router: Router) => {
         const spy = spyOn(router, 'navigate');
         component.save();
@@ -148,37 +134,11 @@ describe('NewTicketComponent', () => {
         expect(spy.calls.first().args[0]).toEqual(['../']);
       }));
 
-      it('should add ticket to "tickets" array', () => {
-        spyOn(serviceService, 'addTickets');
-        component.save();
-
-        expect(serviceService.addTickets).toHaveBeenCalledWith([ticket]);
-      });
-
-      it('should add ticket to "draftTickets" array', () => {
-        spyOn(ticketService, 'addDraftTickets');
-        component.save();
-
-        expect(ticketService.addDraftTickets).toHaveBeenCalledWith([ticket]);
-      });
-
       it('should notify user', () => {
         spyOn(notifyService, 'setMessage');
         component.save();
 
         expect(notifyService.setMessage).toHaveBeenCalled();
-      });
-
-      it('should call "loadDetails" method of responsibleUserService service', () => {
-        component.save();
-
-        expect(responsibleUserService.loadDetails).toHaveBeenCalled();
-      });
-
-      it('should call "associateResponsibleUserDetails" method for created ticket with occured details', () => {
-        component.save();
-
-        expect(ticket.associateResponsibleUserDetails).toHaveBeenCalledWith(details);
       });
     });
   });
@@ -188,19 +148,17 @@ describe('NewTicketComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should close modal', () => {
-      spyOn(component.modal, 'dismiss');
-      component.cancel();
-
-      expect(component.modal.dismiss).toHaveBeenCalled();
-    });
-
     it('should redirect to parent component', inject([Router], (router: Router) => {
       const spy = spyOn(router, 'navigate');
-      spyOn(component.modal, 'dismiss');
       component.cancel();
 
       expect(spy.calls.first().args[0]).toEqual(['../']);
     }));
+  });
+
+  it('should render markdown helper', () => {
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('app-markdown-help'))).toBeTruthy();
   });
 });

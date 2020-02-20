@@ -11,6 +11,7 @@ import { AttachmentService } from '@shared/services/attachment/attachment.servic
 import { StubAttachmentService } from '@shared/services/attachment/attachment.service.stub';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { AnswerFactory } from '@modules/ticket/factories/answer.factory';
+import { By } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-attachment',
@@ -157,8 +158,9 @@ describe('AnswerComponent', () => {
 
 // Shallow tests ===========================================================================================================================
 
-  it('should show answer', () => {
-    expect(fixture.debugElement.nativeElement.textContent).toContain(answer.answer);
+  it('should show markdown answer', () => {
+    // expect(fixture.debugElement.nativeElement.textContent).toContain(answer.answer);
+    expect(fixture.debugElement.query(By.css('markdown'))).toBeTruthy();
   });
 
   it('should create form with app-attachment component', () => {

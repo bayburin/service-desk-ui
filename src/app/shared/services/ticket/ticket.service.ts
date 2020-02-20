@@ -28,7 +28,7 @@ export class TicketService {
     const ticketsUri = `${environment.serverUrl}/api/v1/services/${service.id}/tickets`;
     const httpParams = new HttpParams().set('state', 'draft');
 
-    return this.http.get(ticketsUri, { params:  httpParams })
+    return this.http.get(ticketsUri, { params: httpParams })
       .pipe(
         map((tickets: TicketI[]) => tickets.map(ticket => TicketFactory.create(ticket))),
         tap(tickets => this.draftTickets = tickets)

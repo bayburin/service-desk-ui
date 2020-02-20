@@ -3,7 +3,7 @@
     <div class="d-flex flex-row align-items-start">
       <app-section-header [header]="service.name + ' - администрирование'" [addClass]="'text-danger'" class="mr-auto"></app-section-header>
       <a id="newQuestion" routerLink="new" class="btn btn-gray-white">Новый вопрос</a>
-      <a id="userMode" [routerLink]="['../../']" class="btn btn-gray-white ml-2">Режим пользователя</a>
+      <a id="userMode" [routerLink]="['../../../../../../../']" class="btn btn-gray-white ml-2">Режим пользователя</a>
     </div>
     <app-responsible-user-details [users]="service.responsibleUsers" label="Ответственные за услугу"></app-responsible-user-details>
     <div class="sd-dlist-divider-b mt-2">

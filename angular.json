@@ -31,7 +31,16 @@
               "src/assets/scss/sd-skin.scss",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/marked/lib/marked.js",
+              "node_modules/prismjs/prism.js",
+              "node_modules/prismjs/components/prism-csharp.min.js",
+              "node_modules/prismjs/components/prism-css.min.js",
+              "node_modules/prismjs/components/prism-ruby.min.js",
+              "node_modules/prismjs/components/prism-python.min.js",
+              "node_modules/prismjs/components/prism-java.min.js",
+              "node_modules/prismjs/components/prism-typescript.min.js"
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {

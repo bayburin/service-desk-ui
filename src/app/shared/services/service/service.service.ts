@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap, shareReplay } from 'rxjs/operators';
 
 import { environment } from 'environments/environment';
@@ -17,7 +17,7 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 })
 export class ServiceService implements BreadcrumbServiceI {
   service: Service;
-  service$ = new Subject<Service>();
+  service$ = new BehaviorSubject<Service>(this.service);
   private loadServicesUri: string;
   private loadServiceUri: string;
   private returnCached: boolean;
@@ -119,6 +119,13 @@ export class ServiceService implements BreadcrumbServiceI {
     this.service.tickets = this.service.tickets.filter(el => !tickets.find(draft => draft.id === el.id));
   }
 
+  /**
+   * Удалить черновые вопросы.
+   */
+  removeDraftTickets(): void {
+    this.service.tickets = this.service.tickets.filter(ticket => !ticket.isDraftState());
+  }
+
   getNodeName(): Observable<string> {
     return this.service$.asObservable().pipe(
       map((service: Service) => service ? service.name : '')
@@ -132,6 +139,8 @@ export class ServiceService implements BreadcrumbServiceI {
   }
 
   private getServiceObservable(): Observable<Service> {
+    this.service$.next(null);
+
     return this.http.get(this.loadServiceUri).pipe(
       map((data: ServiceI) => {
         const service = ServiceFactory.create(data);

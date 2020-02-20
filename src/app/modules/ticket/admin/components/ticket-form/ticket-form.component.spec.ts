@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { ReactiveFormsModule, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { NO_ERRORS_SCHEMA } from '@angular//core';
+import { ReactiveFormsModule, FormGroup, FormBuilder, Validators, FormArray, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { NO_ERRORS_SCHEMA, forwardRef, Component } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,6 +23,23 @@ import { StubResponsibleUserService } from '@shared/services/responsible_user/re
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 import { ResponsibleUserFactory } from '@modules/ticket/factories/responsible-user.factory';
 
+@Component({
+  selector: 'app-answer-accessor',
+  template: '',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => StubAnswerAccessorComponent),
+      multi: true
+    }
+  ]
+})
+class StubAnswerAccessorComponent implements ControlValueAccessor {
+  writeValue(value: any): void {}
+  registerOnChange(fn: any): void {}
+  registerOnTouched(fn: any): void {}
+}
+
 describe('TicketFormComponent', () => {
   let component: TicketFormComponent;
   let fixture: ComponentFixture<TicketFormComponent>;
@@ -42,7 +59,7 @@ describe('TicketFormComponent', () => {
         ReactiveFormsModule,
         NoopAnimationsModule
       ],
-      declarations: [TicketFormComponent],
+      declarations: [TicketFormComponent, StubAnswerAccessorComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
@@ -122,7 +139,7 @@ describe('TicketFormComponent', () => {
     });
 
     it('should create answer form for each answer', () => {
-      expect((component.form.answers as FormArray).length).toEqual(ticketI.answers.length);
+      expect(component.answers_form.length).toEqual(ticketI.answers.length);
     });
   });
 

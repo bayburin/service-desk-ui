@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
+import { MarkdownModule } from 'ngx-markdown';
 
 import { TicketRoutingModule } from './ticket-routing.module';
 import { DashboardPageComponent } from './pages/dashboard/dashboard.page';
@@ -19,6 +20,7 @@ import { CasePageContentComponent } from './components/case-page-content/case-pa
 import { ServicesOverwievPageComponent } from './pages/services-overwiev/services-overwiev.page';
 import { ServiceDetailComponent } from './components/service-detail/service-detail.component';
 import { CategoryListComponent } from './components/category-list/category-list.component';
+import { MarkdownHelpPageComponent } from './pages/markdown-help/markdown-help.page';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { CategoryListComponent } from './components/category-list/category-list.
     CasePageContentComponent,
     ServicesOverwievPageComponent,
     ServiceDetailComponent,
-    CategoryListComponent
+    CategoryListComponent,
+    MarkdownHelpPageComponent
   ],
   entryComponents: [
     CategoryPageContentComponent,
@@ -48,7 +51,8 @@ import { CategoryListComponent } from './components/category-list/category-list.
   ],
   imports: [
     TicketRoutingModule,
-    SharedModule
+    SharedModule,
+    MarkdownModule.forChild()
   ]
 })
 export class TicketModule { }
