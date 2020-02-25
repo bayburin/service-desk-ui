@@ -273,10 +273,10 @@ describe('ServiceService', () => {
 
   describe('#getNodeName', () => {
     it('should return Observale with service name when service exists', () => {
+      (serviceService as any).service$.next(service);
       serviceService.getNodeName().subscribe(result => {
         expect(result).toEqual(service.name);
       });
-
       (serviceService as any).service$.next(service);
     });
 
@@ -295,10 +295,10 @@ describe('ServiceService', () => {
     });
 
     it('should return Observale with service name when service exists', () => {
+      (serviceService as any).service$.next(service);
       serviceService.getParentNodeName().subscribe(result => {
         expect(result).toEqual(category.name);
       });
-
       (serviceService as any).service$.next(service);
     });
 

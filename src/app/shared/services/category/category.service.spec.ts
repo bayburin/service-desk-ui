@@ -75,10 +75,10 @@ describe('CategoryService', () => {
       const categoryI = { id: 1, name: 'My category' } as CategoryI;
       const category = CategoryFactory.create(categoryI);
 
+      (categoryService as any).category.next(category);
       categoryService.getNodeName().subscribe(result => {
         expect(result).toEqual(category.name);
       });
-
       (categoryService as any).category.next(category);
     });
 
