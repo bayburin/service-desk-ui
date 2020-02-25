@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, Output, EventEmitter, Renderer2, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Observable, Subject, merge } from 'rxjs';
@@ -19,6 +19,7 @@ import { User } from '@shared/models/user/user.model';
 })
 export class CommonFormComponent implements OnInit, OnDestroy {
   @ViewChild('instance', { static: true }) instance: NgbTypeahead;
+  @ViewChild('fileView', { static: true }) fileView: ElementRef;
   @Input() formType: 'new' | 'edit';
   @Output() caseSaved = new EventEmitter();
   caseForm: FormGroup;
@@ -37,7 +38,8 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private location: Location,
-    private caseService: CaseService
+    private caseService: CaseService,
+    private renderer: Renderer2
   ) {}
 
   get form() {
@@ -68,6 +70,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
       without_service: [false],
       item: ['', Validators.required],
       without_item: [false],
+      files: [[]]
     });
   }
 
@@ -101,6 +104,29 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     } else {
       control.disable();
       control.setValidators(null);
+    }
+  }
+
+  /**
+   * Преобразует загружаемый файл в base64.
+   *
+   * @param fileInput - событие выбора файла.
+   */
+  convertToBase64(fileInput: any) {
+    const filenames = [];
+
+    for (const file of fileInput.target.files) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const currentFiles = this.form.files.value.slice();
+
+        currentFiles.push({ filename: file.name, file: reader.result });
+        filenames.push(file.name);
+        this.form.files.setValue(currentFiles);
+        this.renderer.setProperty(this.fileView.nativeElement, 'value', filenames.join('; '));
+      };
+      reader.readAsDataURL(file);
     }
   }
 
