@@ -74,7 +74,7 @@
           <label for="desc" class="col-md-2 col-form-label text-primary col-form-label">Описание проблемы</label>
           <div class="col-md">
             <div class="col-md-6 pl-0">
-              <textarea id="desc" name="desc" rows="3" formControlName="desc" class="form-control" placeholder="Введите описание"
+              <textarea id="desc" name="desc" rows="5" formControlName="desc" class="form-control" placeholder="Введите описание"
                 [ngClass]="{ 'is-invalid': (form.desc.touched || submitted) && form.desc.errors, 'is-valid': form.desc.touched && form.desc.valid }"></textarea>
               <div class="invalid-feedback">
                 <span *ngIf="form.desc.errors?.required">Не может быть пустым</span>
@@ -113,6 +113,19 @@
               <div class="custom-control custom-checkbox">
                 <input type="checkbox" id="without_item" name="without_item" formControlName="without_item" (change)="onSelectCheckbox(formItem)" class="custom-control-input" />
                 <label for="without_item" class="custom-control-label">Обращение не связано ни с одним из перечисленных устройств</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="files" class="col-md-2 col-form-label text-primary col-form-label">Файлы</label>
+          <div class="col-md">
+            <div class="col-md-6 pl-0">
+              <div class="form-group">
+                <div class="sd-file-wrap">
+                  <input type="file" id="files" name="files" class="form-control" (change)="convertToBase64($event)" multiple="true">
+                  <input #fileView type="text" class="form-control" placeholder="Выберите файлы">
+                </div>
               </div>
             </div>
           </div>

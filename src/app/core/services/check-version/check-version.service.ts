@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { first } from 'rxjs/operators';
 
 import { NotificationService } from '@shared/services/notification/notification.service';
@@ -25,7 +25,13 @@ export class CheckVersionService {
   }
 
   private checkVersion(url: string): void {
-    this.http.get(url).pipe(first()).subscribe(
+    const headers = new HttpHeaders({
+      'Cache-Control':  'no-cache, no-store, must-revalidate, post-check=0, pre-check=0',
+      Pragma: 'no-cache',
+      Expires: '0'
+    });
+
+    this.http.get(url, { headers }).pipe(first()).subscribe(
       (result: any) => {
         const hash = result.hash;
 
