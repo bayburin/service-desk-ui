@@ -16,6 +16,7 @@ describe('AuthorizeComponent', () => {
   let fixture: ComponentFixture<AuthorizePageComponent>;
   let authService: AuthService;
   let userService: UserService;
+  let spy: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -34,7 +35,7 @@ describe('AuthorizeComponent', () => {
   beforeEach(inject([Router], (router: Router) => {
     fixture = TestBed.createComponent(AuthorizePageComponent);
     component = fixture.componentInstance;
-    spyOn(router, 'navigate');
+    spy = spyOn(router, 'navigateByUrl');
 
     authService = TestBed.get(AuthService);
     userService = TestBed.get(UserService);
@@ -95,7 +96,7 @@ describe('AuthorizeComponent', () => {
       fixture.detectChanges();
       tick(1001);
 
-      expect(router.navigate).toHaveBeenCalledWith([authService.getReturnUrl()]);
+      expect(router.navigateByUrl).toHaveBeenCalledWith(authService.getReturnUrl());
     })));
   });
 
@@ -148,7 +149,7 @@ describe('AuthorizeComponent', () => {
 
     it('should redirect to root path when clicked on "Войти заново" button', inject([Router], (router: Router) => {
       spyOn(authService, 'getAccessToken').and.callFake(() => throwError({}));
-      const spy = spyOn(router, 'navigateByUrl');
+      // const spy = spyOn(router, 'navigateByUrl');
       fixture.detectChanges();
       fixture.debugElement.nativeElement.querySelector('#reEnter').click();
 

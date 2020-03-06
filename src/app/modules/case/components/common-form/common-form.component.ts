@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { Observable, Subject, merge } from 'rxjs';
 import { finalize, takeWhile, map, filter } from 'rxjs/operators';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute } from '@angular/router';
 
 import { UserService } from '@shared/services/user/user.service';
 import { ItemI } from '@interfaces/item.interface';
@@ -33,13 +34,15 @@ export class CommonFormComponent implements OnInit, OnDestroy {
   onService = new Subject<string>();
   submitted = false;
   private alive = true;
+  private queryParams: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
     private location: Location,
     private caseService: CaseService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private route: ActivatedRoute
   ) {}
 
   get form() {
@@ -55,7 +58,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loadParameters();
+    this.queryParams = this.route.snapshot.queryParams;
     this.userService.user.subscribe((user: User) => this.user = user);
     this.caseForm = this.formBuilder.group({
       id_tn: [this.user.idTn],
@@ -69,9 +72,11 @@ export class CommonFormComponent implements OnInit, OnDestroy {
       desc: ['', Validators.required],
       without_service: [false],
       item: ['', Validators.required],
-      without_item: [false],
-      files: [[]]
+      without_item: [this.queryParams.without_item || false],
+      files: [[]],
+      additional: [this.queryParams.additional || '']
     });
+    this.loadParameters();
   }
 
   /**
@@ -178,6 +183,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
         data => {
           this.services = data.services;
           this.items = data.items;
+          this.setDefaultValues();
         });
   }
 
@@ -186,5 +192,17 @@ export class CommonFormComponent implements OnInit, OnDestroy {
    */
   private getRawValue(): CaseI {
     return this.caseService.getRawValues(this.caseForm.getRawValue());
+  }
+
+  /**
+   * Установить в поля значения по умолчанию, полученные из адресной строки.
+   */
+  private setDefaultValues() {
+    const service = this.services.find(el => el.name === this.queryParams.service);
+
+    this.form.service.setValue(service);
+    if (this.queryParams.without_item) {
+      this.onSelectCheckbox(this.formItem);
+    }
   }
 }
