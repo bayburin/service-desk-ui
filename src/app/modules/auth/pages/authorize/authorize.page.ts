@@ -43,7 +43,7 @@ export class AuthorizePageComponent implements OnInit, OnDestroy {
 
           setTimeout(() => {
             this.authService.isLoggedInSub.next(true);
-            this.router.navigate([this.authService.getReturnUrl()]);
+            this.router.navigateByUrl(this.authService.getReturnUrl());
           }, 1000);
         },
         () => {

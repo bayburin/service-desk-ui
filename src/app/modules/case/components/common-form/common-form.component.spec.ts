@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { CommonFormComponent } from './common-form.component';
@@ -21,12 +21,27 @@ const userOwns: UserOwnsI = {
   services: [service],
   items: [item]
 };
+const additional = 'test data';
 
 describe('CommonFormComponent', () => {
   let component: CommonFormComponent;
   let fixture: ComponentFixture<CommonFormComponent>;
   let form;
   let userService: UserService;
+  const stubRoute = jasmine.createSpyObj<ActivatedRoute>('ActivatedRoute', ['snapshot']);
+  const stubRouteProxy = new Proxy(stubRoute, {
+    get(target, prop) {
+      if (prop === 'snapshot') {
+        return {
+          queryParams: {
+            service: service.name,
+            without_item: true,
+            additional
+          }
+        };
+      }
+    }
+  });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -37,6 +52,7 @@ describe('CommonFormComponent', () => {
         FormBuilder,
         { provide: UserService, useClass: StubUserService },
         { provide: CaseService, useClass: StubCaseService },
+        { provide: ActivatedRoute, useValue: stubRouteProxy }
       ]
     })
     .compileComponents();
@@ -69,7 +85,7 @@ describe('CommonFormComponent', () => {
     });
 
     it('should be invalid when form is empty', () => {
-      expect(component.caseForm.valid).toBeFalsy();
+      expect(form.valid).toBeFalsy();
     });
 
     it('should set user attirbutes', () => {
@@ -82,6 +98,8 @@ describe('CommonFormComponent', () => {
     });
 
     it('should validate service', () => {
+      form.controls.service.setValue('');
+
       expect(form.controls.service.valid).toBeFalsy();
       expect(form.controls.service.errors.required).toBeTruthy();
     });
@@ -92,6 +110,8 @@ describe('CommonFormComponent', () => {
     });
 
     it('should validate item', () => {
+      component.onSelectCheckbox(component.formItem);
+
       expect(form.controls.item.valid).toBeFalsy();
       expect(form.controls.item.errors.required).toBeTruthy();
     });
@@ -103,6 +123,12 @@ describe('CommonFormComponent', () => {
 
       expect(form.valid).toBeTruthy();
     });
+
+    it('should set default values when queryParams exists', async(() => {
+      expect(form.controls.without_item.value).toEqual(true);
+      expect(form.controls.service.value).toEqual(service);
+      expect(form.controls.additional.value).toEqual(additional);
+    }));
   });
 
 // Shallow tests ===========================================================================================================================
