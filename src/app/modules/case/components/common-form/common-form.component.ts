@@ -74,7 +74,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
       item: ['', Validators.required],
       without_item: [this.queryParams.without_item || false],
       files: [[]],
-      additional: [this.queryParams.additional || '']
+      additional: [{ comment: this.queryParams.comment } || '']
     });
     this.loadParameters();
   }
