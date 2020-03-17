@@ -16,6 +16,8 @@ import { TicketFormComponent } from './components/ticket-form/ticket-form.compon
 import { TicketsDetailPageComponent } from './pages/tickets-detail/tickets-detail.page';
 import { MarkdownHelpComponent } from './components/markdown-help/markdown-help.component';
 import { AnswerAccessorComponent } from './components/answer-accessor/answer-accessor.component';
+import { NewCasePageComponent } from './pages/new-case-page/new-case.page';
+import { FormInfoTabComponent } from './components/form-info-tab/form-info-tab.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { AnswerAccessorComponent } from './components/answer-accessor/answer-acc
     TicketFormComponent,
     TicketsDetailPageComponent,
     MarkdownHelpComponent,
-    AnswerAccessorComponent
+    AnswerAccessorComponent,
+    NewCasePageComponent,
+    FormInfoTabComponent
   ],
   imports: [
     CommonModule,
