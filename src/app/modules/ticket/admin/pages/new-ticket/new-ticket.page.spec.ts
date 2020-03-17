@@ -17,8 +17,8 @@ import { ServiceI } from '@interfaces/service.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { StubNotificationService } from '@shared/services/notification/notification.service.stub';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketI } from '@interfaces/ticket.interface';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
@@ -113,7 +113,7 @@ describe('NewTicketPageComponent', () => {
           name: 'Тестовый вопрос'
         } as TicketI;
         details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
-        ticket = TicketFactory.create(ticketI);
+        ticket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
         fixture.detectChanges();
         component.ticketForm.controls.name.setValue('Тестовый вопрос');
         spyOn(ticketService, 'createTicket').and.returnValue(of(ticket));

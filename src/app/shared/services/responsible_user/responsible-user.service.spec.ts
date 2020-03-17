@@ -5,7 +5,7 @@ import { HttpParams } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { ResponsibleUserService } from './responsible-user.service';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 
 describe('ResponsibleUserService', () => {
   let httpTestingController: HttpTestingController;

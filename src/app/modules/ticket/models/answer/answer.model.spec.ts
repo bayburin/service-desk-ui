@@ -1,4 +1,4 @@
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { Answer } from './answer.model';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { TicketI } from '@interfaces/ticket.interface';
@@ -16,7 +16,7 @@ describe('Answer', () => {
       service_id: 1,
       original_id: 0,
       name: 'Тестовый вопрос',
-      ticket_type: 'question',
+      ticket_type: TicketTypes.QUESTION,
       state: 'draft',
       is_hidden: false,
       sla: 2,

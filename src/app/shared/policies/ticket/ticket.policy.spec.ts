@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { TicketPolicy } from './ticket.policy';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { UserService } from '@shared/services/user/user.service';
 import { StubUserService, user } from '@shared/services/user/user.service.stub';
 
@@ -25,7 +25,7 @@ describe('TicketPolicy', () => {
     ticketI = { name: 'Тестовый вопрос', service: serviceI, ticket_type: 'question', responsible_users: [ticketResponsible] };
 
     ticketPolicy = TestBed.get(TicketPolicy);
-    ticket = TicketFactory.create(ticketI);
+    ticket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
     ticketPolicy.object = ticket;
   });
 
@@ -86,7 +86,7 @@ describe('TicketPolicy', () => {
       beforeEach(() => { user.role.name = 'content_manager'; });
 
       describe('and when ticket has correction', () => {
-        beforeEach(() => ticket.correction = TicketFactory.create({ id: 2, name: 'Тестовое исправление', ticket_type: 'question' }));
+        beforeEach(() => ticket.correction = TicketFactory.create(TicketTypes.QUESTION, { id: 2, name: 'Тестовое исправление', ticket_type: 'question' }));
 
         it('should grant access', () => {
           expect(ticketPolicy.publish()).toBeTruthy();

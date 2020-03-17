@@ -3,7 +3,7 @@ import { AnswerI } from '@interfaces/answer.interface';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { QuestionType } from './ticket_types/question.type';
 import { Service } from '@modules/ticket/models/service/service.model';
-import { Ticket } from './ticket.model';
+import { Ticket, TicketTypes } from './ticket.model';
 import { ServiceI } from '@interfaces/service.interface';
 import { TicketI } from '@interfaces/ticket.interface';
 import { CaseType } from './ticket_types/case.type';
@@ -45,7 +45,7 @@ describe('Ticket', () => {
       service_id: 1,
       original_id: 0,
       name: 'Тестовый вопрос',
-      ticket_type: 'question',
+      ticket_type: TicketTypes.QUESTION,
       state: 'draft',
       is_hidden: false,
       sla: 2,
@@ -97,7 +97,7 @@ describe('Ticket', () => {
     });
 
     it('should create CaseType if ticket_type is equal "case"', () => {
-      ticketI.ticket_type = 'case';
+      ticketI.ticket_type = TicketTypes.CASE;
       ticket = new Ticket(ticketI);
 
       expect((ticket as any).type instanceof CaseType).toBeTruthy();
@@ -183,7 +183,7 @@ describe('Ticket', () => {
 
     describe('#isCaseTicketType', () => {
       it('should return true if ticket_type is equal "case"', () => {
-        ticket.ticketType = 'case';
+        ticket.ticketType = TicketTypes.CASE;
         expect(ticket.isCaseTicketType()).toBeTruthy();
       });
     });

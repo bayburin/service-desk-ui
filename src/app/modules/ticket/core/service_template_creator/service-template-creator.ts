@@ -1,7 +1,7 @@
 import { ServiceTemplateI } from '@interfaces/service-template.interface';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 
 /**
  * Фабричный метод для создания экземпляров класса Category, Service, Ticket
@@ -9,7 +9,7 @@ import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
 export class ServiceTemplateCreator {
   static createBy(template: ServiceTemplateI) {
     if (template.service_id) {
-      return TicketFactory.create(template);
+      return TicketFactory.create(template.ticket_type, template);
     } else if (template.category_id) {
       return ServiceFactory.create(template);
     } else {

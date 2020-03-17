@@ -1,5 +1,5 @@
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 
 export class Answer {
@@ -22,7 +22,7 @@ export class Answer {
     this.isHidden = answer.is_hidden;
 
     if (answer.ticket) {
-      this.ticket = TicketFactory.create(answer.ticket);
+      this.ticket = TicketFactory.create(TicketTypes.QUESTION, answer.ticket);
     }
   }
 

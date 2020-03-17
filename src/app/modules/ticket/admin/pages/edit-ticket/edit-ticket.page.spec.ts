@@ -16,9 +16,9 @@ import { ServiceI } from '@interfaces/service.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { StubNotificationService } from '@shared/services/notification/notification.service.stub';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketI } from '@interfaces/ticket.interface';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
@@ -44,12 +44,12 @@ describe('EditTicketPageComponent', () => {
     is_hidden: false,
     responsible_users: [{ tn: 123 }]
   } as TicketI;
-  ticket = TicketFactory.create(ticketI);
+  ticket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
   const stubRoute = jasmine.createSpyObj<ActivatedRoute>('ActivatedRoute', ['snapshot', 'data']);
   const stubRouteProxy = new Proxy(stubRoute, {
     get(target, prop) {
       if (prop === 'data') {
-        return of({ ticket: ticket });
+        return of({ ticket });
       } else if (prop === 'snapshot') {
         return {};
       }
@@ -154,7 +154,7 @@ describe('EditTicketPageComponent', () => {
           state: 'draft',
           is_hidden: false
         } as TicketI;
-        newTicket = TicketFactory.create(newTicketI);
+        newTicket = TicketFactory.create(TicketTypes.QUESTION, newTicketI);
         fixture.detectChanges();
         component.ticketForm.controls.name.setValue('Тестовый вопрос');
         spyOn(ticketService, 'updateTicket').and.returnValue(of(newTicket));

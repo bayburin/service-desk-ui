@@ -21,7 +21,8 @@ const userOwns: UserOwnsI = {
   services: [service],
   items: [item]
 };
-const additional = 'test data';
+const comment = 'test data';
+const additional = { comment };
 
 describe('CommonFormComponent', () => {
   let component: CommonFormComponent;
@@ -36,7 +37,7 @@ describe('CommonFormComponent', () => {
           queryParams: {
             service: service.name,
             without_item: true,
-            additional
+            comment
           }
         };
       }

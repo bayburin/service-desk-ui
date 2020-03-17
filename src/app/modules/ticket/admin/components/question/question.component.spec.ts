@@ -7,8 +7,8 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
 import { QuestionComponent } from './question.component';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { ServiceService } from '@shared/services/service/service.service';
 import { StubServiceService } from '@shared/services/service/service.service.stub';
 import { TicketService } from '@shared/services/ticket/ticket.service';
@@ -64,7 +64,7 @@ describe('QuestionComponent', () => {
       state: 'draft',
       open: false
     } as TicketI;
-    question = TicketFactory.create({
+    question = TicketFactory.create(TicketTypes.QUESTION, {
       id: 1,
       service_id: 2,
       correction,
@@ -150,7 +150,7 @@ describe('QuestionComponent', () => {
     describe('when question has original', () => {
       beforeEach(() => {
         question = question.correction;
-        result = TicketFactory.create(correction);
+        result = TicketFactory.create(TicketTypes.QUESTION, correction);
         result.state = 'published';
         spyOn(ticketService, 'publishTickets').and.returnValue(of([result]));
         spyOn(notifyService, 'setMessage');

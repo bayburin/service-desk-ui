@@ -2,8 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { CasePageContentComponent } from './case-page-content.component';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 
 describe('CasePageContentComponent', () => {
   let component: CasePageContentComponent;
@@ -21,7 +21,7 @@ describe('CasePageContentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CasePageContentComponent);
     component = fixture.componentInstance;
-    ticket = TicketFactory.create({ id: 1, serviceId: 2, name: 'Тестовая заявка', ticket_type: 'case' });
+    ticket = TicketFactory.create(TicketTypes.CASE, { id: 1, serviceId: 2, name: 'Тестовая заявка', ticket_type: 'case' });
     component.data = ticket;
     fixture.detectChanges();
   });

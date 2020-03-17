@@ -6,8 +6,8 @@ import { By } from '@angular/platform-browser';
 
 import { QuestionPageContentComponent } from './question-page-content.component';
 import { TicketService } from '@shared/services/ticket/ticket.service';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { AnswerI } from '@interfaces/answer.interface';
 import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
@@ -50,7 +50,7 @@ describe('QuestionPageContentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuestionPageContentComponent);
     component = fixture.componentInstance;
-    ticket = TicketFactory.create({ id: 1, name: 'Тестовый вопрос', ticket_type: 'question', answers: answers });
+    ticket = TicketFactory.create(TicketTypes.QUESTION, { id: 1, name: 'Тестовый вопрос', ticket_type: 'question', answers: answers });
     component.data = ticket;
     ticketService = TestBed.get(TicketService);
     attachmentService = TestBed.get(AttachmentService);

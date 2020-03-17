@@ -3,8 +3,8 @@ import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuestionFlagsComponent } from './question-flags.component';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 
 describe('QuestionFlagsComponent', () => {
   let component: QuestionFlagsComponent;
@@ -22,7 +22,7 @@ describe('QuestionFlagsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuestionFlagsComponent);
     component = fixture.componentInstance;
-    question = TicketFactory.create({ id: 1, name: 'Тестовый вопрос', ticket_type: 'question' });
+    question = TicketFactory.create(TicketTypes.QUESTION, { id: 1, name: 'Тестовый вопрос', ticket_type: 'question' });
     component.question = question;
   });
 
@@ -55,7 +55,7 @@ describe('QuestionFlagsComponent', () => {
   });
 
   it('should "mdi-pencil-plus-outline" icon if question has correction', () => {
-    question.correction = TicketFactory.create({ id: 2, original_id: 3, name: 'Редакция 1', ticket_type: 'question' });
+    question.correction = TicketFactory.create(TicketTypes.QUESTION, { id: 2, original_id: 3, name: 'Редакция 1', ticket_type: 'question' });
     fixture.detectChanges();
 
     expect(fixture.debugElement.query(By.css('.mdi-pencil-plus-outline'))).toBeTruthy();

@@ -7,8 +7,8 @@ import { of } from 'rxjs';
 
 import { TicketResolver } from './ticket.resolver';
 import { TicketService } from '@shared/services/ticket/ticket.service';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 describe('TicketResolver', () => {
   let ticketResolver: TicketResolver;
@@ -28,7 +28,7 @@ describe('TicketResolver', () => {
 
     ticketResolver = TestBed.get(TicketResolver);
     ticketService = TestBed.get(TicketService);
-    ticket = TicketFactory.create({ id: 1, service_id: 2, name: 'Тестовый вопрос', ticket_type: 'question' });
+    ticket = TicketFactory.create(TicketTypes.QUESTION, { id: 1, service_id: 2, name: 'Тестовый вопрос', ticket_type: 'question' });
 
     stubSnapshot = jasmine.createSpyObj<ActivatedRouteSnapshot>('ActivatedRouteSnapshot', ['parent', 'params']);
     stubSnapshotProxy = new Proxy(stubSnapshot, {

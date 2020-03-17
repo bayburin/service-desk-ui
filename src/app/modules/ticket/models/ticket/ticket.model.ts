@@ -1,6 +1,6 @@
 import { PublishedState } from './states/published.state';
 import { DraftState } from './states/draft.state';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { User } from '@shared/models/user/user.model';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { CommonServiceI } from '@interfaces/common-service.interface';
@@ -17,12 +17,18 @@ import { AnswerFactory } from '@modules/ticket/factories/answer.factory';
 import { AbstractState } from './states/abstract.state';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 
+export const enum TicketTypes {
+  QUESTION = 'question',
+  CASE = 'case',
+  COMMON_CASE = 'common_case'
+}
+
 export class Ticket implements CommonServiceI {
   id: number;
   serviceId: number;
   originalId: number;
   name: string;
-  ticketType: string;
+  ticketType: TicketTypes;
   isHidden: boolean;
   sla: number;
   toApprove: boolean;
@@ -197,7 +203,7 @@ export class Ticket implements CommonServiceI {
   }
 
   private initializeCorrection(correction: TicketI) {
-    this.correction = TicketFactory.create(correction);
+    this.correction = TicketFactory.create(TicketTypes.QUESTION, correction);
     this.correction.original = this;
   }
 

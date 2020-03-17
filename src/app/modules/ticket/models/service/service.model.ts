@@ -2,7 +2,7 @@ import { Category } from '@modules/ticket/models/category/category.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { CommonServiceI } from '@interfaces/common-service.interface';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { User } from '@shared/models/user/user.model';
 import { TicketI } from '@interfaces/ticket.interface';
@@ -76,7 +76,7 @@ export class Service implements CommonServiceI {
 
   /**
    * Для ответственных пользователей устанавливает аттрибут "details", находя его в переданном массиве.
-   * 
+   *
    * @param details - массив, содержащий информацию об ответственных.
    */
   associateResponsibleUserDetails(details: ResponsibleUserDetailsI[]): void {
@@ -93,6 +93,6 @@ export class Service implements CommonServiceI {
       return;
     }
 
-    this.tickets = tickets.map(ticket => TicketFactory.create(ticket)) || [];
+    this.tickets = tickets.map(ticket => TicketFactory.create(ticket.ticket_type, ticket)) || [];
   }
 }

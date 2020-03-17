@@ -7,7 +7,8 @@ import { SearchService } from './search.service';
 import { SearchSortingPipe } from '@shared/pipes/search-sorting/search-sorting.pipe';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 describe('SearchService', () => {
   let searchService: SearchService;
@@ -20,7 +21,7 @@ describe('SearchService', () => {
   const expectedResult = [
     CategoryFactory.create({ id: 1, name: 'Тестовая категория' }),
     ServiceFactory.create({ id: 2, name: 'Тестовая услуга', category_id: 1 }),
-    TicketFactory.create({ id: 3, name: 'Тестовый вопрос', service_id: 2, ticket_type: 'question' })
+    TicketFactory.create(TicketTypes.QUESTION, { id: 3, name: 'Тестовый вопрос', service_id: 2, ticket_type: 'question' })
   ];
   const searchStr = 'search string';
   const params = new HttpParams().set('search', searchStr);

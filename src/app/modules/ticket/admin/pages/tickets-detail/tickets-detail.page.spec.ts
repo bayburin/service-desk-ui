@@ -8,9 +8,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ServiceService } from '@shared/services/service/service.service';
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { Service } from '@modules/ticket/models/service/service.model';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { StubServiceService } from '@shared/services/service/service.service.stub';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
@@ -49,8 +49,8 @@ describe('TicketsDetailPageComponent', () => {
     responsibleUserService = TestBed.get(ResponsibleUserService);
     details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
     tickets = [
-      TicketFactory.create({ id: 2, name: 'Вопрос 2', ticket_type: 'question' }),
-      TicketFactory.create({ id: 3, name: 'Вопрос 3', ticket_type: 'question' })
+      TicketFactory.create(TicketTypes.QUESTION, { id: 2, name: 'Вопрос 2', ticket_type: 'question' }),
+      TicketFactory.create(TicketTypes.QUESTION, { id: 3, name: 'Вопрос 3', ticket_type: 'question' })
     ];
     service = ServiceFactory.create({
       id: 1,

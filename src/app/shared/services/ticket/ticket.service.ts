@@ -7,7 +7,7 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { environment } from 'environments/environment';
 import { TicketI } from '@interfaces/ticket.interface';
 import { TagI } from '@interfaces/tag.interface';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 
@@ -30,7 +30,7 @@ export class TicketService {
 
     return this.http.get(ticketsUri, { params: httpParams })
       .pipe(
-        map((tickets: TicketI[]) => tickets.map(ticket => TicketFactory.create(ticket))),
+        map((tickets: TicketI[]) => tickets.map(ticket => TicketFactory.create(ticket.ticket_type, ticket))),
         tap(tickets => this.draftTickets = tickets)
       );
   }
@@ -62,7 +62,7 @@ export class TicketService {
     const ticketUri = `${environment.serverUrl}/api/v1/services/${ticketI.service_id}/tickets`;
 
     return this.http.post(ticketUri, { ticket: ticketI })
-      .pipe(map((ticket: TicketI) => TicketFactory.create(ticket)));
+      .pipe(map((ticket: TicketI) => TicketFactory.create(ticket.ticket_type, ticket)));
   }
 
   /**
@@ -86,7 +86,7 @@ export class TicketService {
   loadTicket(serviceId: number, ticketId: number): Observable<Ticket> {
     const ticketUri = `${environment.serverUrl}/api/v1/services/${serviceId}/tickets/${ticketId}`;
 
-    return this.http.get(ticketUri).pipe(map((ticket: TicketI) => TicketFactory.create(ticket)));
+    return this.http.get(ticketUri).pipe(map((ticket: TicketI) => TicketFactory.create(ticket.ticket_type, ticket)));
   }
 
   /**
@@ -106,7 +106,7 @@ export class TicketService {
     });
 
     return this.http.put(ticketUri, { ticket: data })
-      .pipe(map((ticketI: TicketI) => TicketFactory.create(ticketI)));
+      .pipe(map((ticketI: TicketI) => TicketFactory.create(ticket.ticketType, ticketI)));
   }
 
   /**
@@ -121,7 +121,7 @@ export class TicketService {
     const httpParams = new HttpParams().append('ids', `${[ticketIds]}`);
 
     return this.http.post(ticketUri, {}, { params: httpParams })
-      .pipe(map((ticketsI: TicketI[]) => ticketsI.map(t => TicketFactory.create(t))));
+      .pipe(map((ticketsI: TicketI[]) => ticketsI.map(ticket => TicketFactory.create(ticket.ticket_type, ticket))));
   }
 
   /**
