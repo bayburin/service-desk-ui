@@ -5,7 +5,7 @@ import { CategoryI } from '@interfaces/category.interface';
 import { Service } from './service.model';
 import { ServiceI } from '@interfaces/service.interface';
 import { TicketI } from '@interfaces/ticket.interface';
-import { Ticket } from '../ticket/ticket.model';
+import { Ticket, TicketTypes } from '../ticket/ticket.model';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 
 describe('Service', () => {
@@ -19,7 +19,7 @@ describe('Service', () => {
     ticketI = {
       id: 2,
       name: 'Тестовый вопорс',
-      ticket_type: 'question'
+      ticket_type: TicketTypes.QUESTION
     } as TicketI;
     categoryI = {
       id: 3,

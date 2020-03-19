@@ -11,8 +11,7 @@ export class TicketInitializer {
       case TicketTypes.QUESTION:
         return new QuestionTicketFactory();
       default:
-        console.log('Неизвестный тип тикета');
-        break;
+        throw new Error('Неизвестный тип тикета');
     }
   }
 }

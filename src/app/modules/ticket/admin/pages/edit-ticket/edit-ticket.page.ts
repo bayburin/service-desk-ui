@@ -7,7 +7,7 @@ import { finalize, tap, switchMap } from 'rxjs/operators';
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 
@@ -19,7 +19,7 @@ import { ResponsibleUserService } from '@shared/services/responsible_user/respon
 export class EditTicketPageComponent implements OnInit {
   submitted = false;
   service: Service;
-  ticket: Ticket;
+  ticket: QuestionTicket;
   ticketForm: FormGroup;
   loading = false;
   @ViewChild('content', { static: true }) content: ElementRef;
@@ -64,7 +64,7 @@ export class EditTicketPageComponent implements OnInit {
     this.ticketService.updateTicket(this.ticket, this.ticketForm.getRawValue())
       .pipe(
         finalize(() => this.loading = false),
-        tap((updatedTicket: Ticket) => {
+        tap((updatedTicket: QuestionTicket) => {
           this.redirectToService();
           this.serviceService.replaceTicket(this.ticket.id, updatedTicket);
           this.notifyService.setMessage('Вопрос обновлен');

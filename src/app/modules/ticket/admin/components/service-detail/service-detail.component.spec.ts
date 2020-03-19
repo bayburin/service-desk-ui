@@ -7,6 +7,7 @@ import { By } from '@angular/platform-browser';
 import { ServiceDetailComponent } from './service-detail.component';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 describe('ServiceDetailComponent', () => {
   let component: ServiceDetailComponent;
@@ -29,8 +30,8 @@ describe('ServiceDetailComponent', () => {
       id: 1,
       name: 'Тестовая услуга',
       tickets: [
-        { id: 2, name: 'Вопрос 1', ticket_type: 'question' },
-        { id: 3, name: 'Вопрос 2', ticket_type: 'question' }
+        { id: 2, name: 'Вопрос 1', ticket_type: TicketTypes.QUESTION },
+        { id: 3, name: 'Вопрос 2', ticket_type: TicketTypes.QUESTION }
       ]
     });
     component.service = service;

@@ -7,7 +7,7 @@ import { TagI } from '@interfaces/tag.interface';
 import { ServiceService } from '@shared/services/service/service.service';
 import { TicketService } from '@shared/services/ticket/ticket.service';
 import { contentBlockAnimation } from '@animations/content.animation';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
 import { Answer } from '@modules/ticket/models/answer/answer.model';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
@@ -32,7 +32,7 @@ export class TicketFormComponent implements OnInit {
   serviceTags: { data: TagI, htmlString: string }[];
   preview = [];
   @Input() parentForm: FormGroup;
-  @Input() ticket: Ticket;
+  @Input() ticket: QuestionTicket;
   @Input() submitted: boolean;
 
   constructor(

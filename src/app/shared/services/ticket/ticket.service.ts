@@ -106,18 +106,16 @@ export class TicketService {
     });
 
     return this.http.put(ticketUri, { ticket: data })
-      .pipe(map((ticketI: TicketI) => TicketFactory.create(ticket.ticketType, ticketI)));
+      .pipe(map((ticketI: TicketI) => TicketFactory.create(ticketI.ticket_type, ticketI)));
   }
 
   /**
    * Утвердить изменения в указанных вопросах.
    *
-   * @param serviceId - id услуги.
-   * @param tickets - список вопросов для утверждения изменений.
+   * @param ticketIds - список id вопросов для утверждения изменений.
    */
-  publishTickets(tickets: Ticket[]): Observable<Ticket[]> {
+  publishTickets(ticketIds: number[]): Observable<Ticket[]> {
     const ticketUri = `${environment.serverUrl}/api/v1/tickets/publish`;
-    const ticketIds = tickets.map(t => t.correction ? t.correction.id : t.id);
     const httpParams = new HttpParams().append('ids', `${[ticketIds]}`);
 
     return this.http.post(ticketUri, {}, { params: httpParams })

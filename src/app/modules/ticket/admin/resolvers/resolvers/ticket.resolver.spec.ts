@@ -28,7 +28,7 @@ describe('TicketResolver', () => {
 
     ticketResolver = TestBed.get(TicketResolver);
     ticketService = TestBed.get(TicketService);
-    ticket = TicketFactory.create(TicketTypes.QUESTION, { id: 1, service_id: 2, name: 'Тестовый вопрос', ticket_type: 'question' });
+    ticket = TicketFactory.create(TicketTypes.QUESTION, { id: 1, service_id: 2, name: 'Тестовый вопрос' });
 
     stubSnapshot = jasmine.createSpyObj<ActivatedRouteSnapshot>('ActivatedRouteSnapshot', ['parent', 'params']);
     stubSnapshotProxy = new Proxy(stubSnapshot, {

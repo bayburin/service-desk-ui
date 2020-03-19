@@ -15,13 +15,14 @@ import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceI } from '@interfaces/service.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { TagI } from '@interfaces/tag.interface';
-import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketI } from '@interfaces/ticket.interface';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 import { ResponsibleUserFactory } from '@modules/ticket/factories/responsible-user.factory';
+import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
 
 @Component({
   selector: 'app-answer-accessor',
@@ -46,7 +47,7 @@ describe('TicketFormComponent', () => {
   let serviceI: ServiceI;
   let service: Service;
   let ticketI: TicketI;
-  let ticket: Ticket;
+  let ticket: QuestionTicket;
   let serviceService: ServiceService;
   let ticketTag: TagI;
   let responsibleUserService: ResponsibleUserService;
@@ -108,7 +109,7 @@ describe('TicketFormComponent', () => {
     component.parentForm = formBuilder.group({
       service_id: [service.id],
       name: ['', Validators.required],
-      ticket_type: ['question'],
+      ticket_type: [TicketTypes.QUESTION],
       is_hidden: [true],
       sla: [null],
       to_approve: [false],

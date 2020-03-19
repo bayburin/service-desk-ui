@@ -11,6 +11,7 @@ import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
 import { SearchSortingPipe } from '@shared/pipes/search-sorting/search-sorting.pipe';
 import { TagI } from '@interfaces/tag.interface';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
 
 @Injectable({
   providedIn: 'root'
@@ -94,9 +95,9 @@ export class ServiceService implements BreadcrumbServiceI {
     const index = this.service.tickets.findIndex(ticket => {
       if (ticket.id === ticketId) {
         return true;
-      } else if (ticket.correction && ticket.correction.id === ticketId) {
-        ticket.correction = newTicket;
-        newTicket.original = ticket;
+      } else if ((ticket as QuestionTicket).correction && (ticket as QuestionTicket).correction.id === ticketId) {
+        (ticket as QuestionTicket).correction = newTicket as QuestionTicket;
+        (newTicket as QuestionTicket).original = ticket as QuestionTicket;
         original = ticket;
 
         return true;

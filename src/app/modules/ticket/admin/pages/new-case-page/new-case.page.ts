@@ -7,6 +7,7 @@ import { TicketService } from '@shared/services/ticket/ticket.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { NotificationService } from '@shared/services/notification/notification.service';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 @Component({
   selector: 'app-new-case-page',
@@ -65,7 +66,7 @@ export class NewCasePageComponent implements OnInit {
     this.ticketForm = this.formBuilder.group({
       service_id: [this.service.id],
       name: ['', [Validators.required, Validators.maxLength(255)]],
-      ticket_type: ['case'],
+      ticket_type: [TicketTypes.CASE],
       is_hidden: [false],
       sla: [null],
       to_approve: [false],

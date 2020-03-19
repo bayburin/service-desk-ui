@@ -5,6 +5,7 @@ import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { UserService } from '@shared/services/user/user.service';
 import { StubUserService, user } from '@shared/services/user/user.service.stub';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 describe('ServicePolicy', () => {
   let servicePolicy: ServicePolicy;
@@ -21,7 +22,7 @@ describe('ServicePolicy', () => {
 
     ticketResponsible = { tn: user.tn };
     serviceResponsible = { tn: user.tn };
-    ticketI = { name: 'Тестовый вопрос', ticket_type: 'question', responsible_users: [ticketResponsible] };
+    ticketI = { name: 'Тестовый вопрос', ticket_type: TicketTypes.QUESTION, responsible_users: [ticketResponsible] };
     serviceI = { name: 'Тестовая услуга', is_hidden: false, tickets: [ticketI], responsible_users: [serviceResponsible] };
 
     servicePolicy = TestBed.get(ServicePolicy);

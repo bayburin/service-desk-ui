@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 
 import { QuestionPageContentComponent } from './question-page-content.component';
 import { TicketService } from '@shared/services/ticket/ticket.service';
-import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { AnswerI } from '@interfaces/answer.interface';
@@ -17,11 +17,12 @@ import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
 import { StubTicketPolicy } from '@shared/policies/ticket/ticket.policy.stub';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
+import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
 
 describe('QuestionPageContentComponent', () => {
   let component: QuestionPageContentComponent;
   let fixture: ComponentFixture<QuestionPageContentComponent>;
-  let ticket: Ticket;
+  let ticket: QuestionTicket;
   let ticketService: TicketService;
   let attachmentService: AttachmentService;
   const attachment = {
@@ -50,7 +51,7 @@ describe('QuestionPageContentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuestionPageContentComponent);
     component = fixture.componentInstance;
-    ticket = TicketFactory.create(TicketTypes.QUESTION, { id: 1, name: 'Тестовый вопрос', ticket_type: 'question', answers: answers });
+    ticket = TicketFactory.create(TicketTypes.QUESTION, { id: 1, name: 'Тестовый вопрос', answers });
     component.data = ticket;
     ticketService = TestBed.get(TicketService);
     attachmentService = TestBed.get(AttachmentService);

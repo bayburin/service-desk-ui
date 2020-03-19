@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { toggleAnswer } from '@modules/ticket/animations/toggle-answer.animation';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
 import { Answer } from '@modules/ticket/models/answer/answer.model';
 import { ServiceService } from '@shared/services/service/service.service';
 import { TicketService } from '@shared/services/ticket/ticket.service';
@@ -18,7 +18,7 @@ import { tap, switchMap } from 'rxjs/operators';
   animations: [toggleAnswer]
 })
 export class QuestionComponent implements OnInit {
-  @Input() question: Ticket;
+  @Input() question: QuestionTicket;
   open: boolean;
 
   constructor(
@@ -92,9 +92,11 @@ export class QuestionComponent implements OnInit {
       return;
     }
 
-    this.ticketService.publishTickets([this.question])
+    const id = this.question.correction ? this.question.correction.id : this.question.id;
+
+    this.ticketService.publishTickets([id])
       .pipe(
-        tap((tickets: Ticket[]) => {
+        tap((tickets: QuestionTicket[]) => {
           if (tickets.length === 0) {
             return;
           }
@@ -103,7 +105,7 @@ export class QuestionComponent implements OnInit {
           this.ticketService.removeDraftTicket(tickets[0]);
           this.notifyService.setMessage('Вопрос опубликован');
         }),
-        switchMap((tickets: Ticket[]) => {
+        switchMap((tickets: QuestionTicket[]) => {
           const tns = tickets.flatMap(ticket => ticket.getResponsibleUsersTn());
 
           return this.responsibleUserService.loadDetails(tns)

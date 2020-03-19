@@ -34,7 +34,7 @@ describe('TicketService', () => {
 
   describe('#loadDraftTicketsFor', () => {
     const service = ServiceFactory.create({ id: 1, name: 'Тестовая услуга' });
-    const loadedTicket = { id: 1, name: 'Вопрос 1', ticket_type: 'question' } as TicketI;
+    const loadedTicket = { id: 1, name: 'Вопрос 1', ticket_type: TicketTypes.QUESTION } as TicketI;
     const expectedTicket = TicketFactory.create(TicketTypes.QUESTION, loadedTicket);
     const loadDraftTicketsForUrl = `${environment.serverUrl}/api/v1/services/${service.id}/tickets`;
     const httpParams = new HttpParams().set('state', 'draft');
@@ -67,8 +67,8 @@ describe('TicketService', () => {
 
     beforeEach(() => {
       tickets = [
-        TicketFactory.create(TicketTypes.QUESTION, { id: 1, name: 'Ticket 1', ticket_type: 'question' }),
-        TicketFactory.create(TicketTypes.QUESTION, { id: 1, name: 'Ticket 1', ticket_type: 'question' })
+        TicketFactory.create(TicketTypes.QUESTION, { id: 1, name: 'Ticket 1', ticket_type: TicketTypes.QUESTION }),
+        TicketFactory.create(TicketTypes.QUESTION, { id: 1, name: 'Ticket 1', ticket_type: TicketTypes.QUESTION })
       ];
     });
 
@@ -80,9 +80,9 @@ describe('TicketService', () => {
   });
 
   describe('#raiseRating', () => {
-    const ticket = new Ticket({ id: 1, serviceId: 2, popularity: 1, ticket_type: 'question' });
+    const ticket = TicketFactory.create(TicketTypes.QUESTION, { id: 1, serviceId: 2, popularity: 1, ticket_type: TicketTypes.QUESTION });
     const raiseRatingUrl = `${environment.serverUrl}/api/v1/services/${ticket.serviceId}/tickets/${ticket.id}/raise_rating`;
-    const expectedTicket: TicketI = { id: 1, popularity: 2 } as TicketI;
+    const expectedTicket: TicketI = { id: 1, popularity: 2, ticket_type: TicketTypes.QUESTION } as TicketI;
 
     it('should return Observable with ticket data', () => {
       ticketService.raiseRating(ticket).subscribe(data => {
@@ -97,7 +97,7 @@ describe('TicketService', () => {
   });
 
   describe('#createTicket', () => {
-    const ticketI = { name: 'Тестовый вопрос', service_id: 1, ticket_type: 'question' } as TicketI;
+    const ticketI = { name: 'Тестовый вопрос', service_id: 1, ticket_type: TicketTypes.QUESTION } as TicketI;
     const ticketUri = `${environment.serverUrl}/api/v1/services/${ticketI.service_id}/tickets`;
     const expectedTicket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
 
@@ -135,7 +135,7 @@ describe('TicketService', () => {
   });
 
   describe('#loadTicket', () => {
-    const ticketI = { id: 2, name: 'Тестовый вопрос', service_id: 1, ticket_type: 'question' } as TicketI;
+    const ticketI = { id: 2, name: 'Тестовый вопрос', service_id: 1, ticket_type: TicketTypes.QUESTION } as TicketI;
     const ticketUri = `${environment.serverUrl}/api/v1/services/${ticketI.service_id}/tickets/${ticketI.id}`;
     const expectedTicket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
 
@@ -161,7 +161,7 @@ describe('TicketService', () => {
     beforeEach(() => {
       data = { responsible_users: [], ...ticketI };
       responsibleUsers = [{ id: 1, tn: 123 } as ResponsibleUserI];
-      ticketI = { id: 2, name: 'Тестовый вопрос', service_id: 1, ticket_type: 'question' } as TicketI;
+      ticketI = { id: 2, name: 'Тестовый вопрос', service_id: 1, ticket_type: TicketTypes.QUESTION } as TicketI;
       ticket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
       ticketUri = `${environment.serverUrl}/api/v1/services/${ticketI.service_id}/tickets/${ticketI.id}`;
     });
@@ -193,16 +193,17 @@ describe('TicketService', () => {
 
   describe('#publishTickets', () => {
     const ticketUri = `${environment.serverUrl}/api/v1/tickets/publish`;
-    const correction = { id: 3, name: 'Тестовый вопрос 3', ticket_type: 'question' };
+    const correction = { id: 3, name: 'Тестовый вопрос 3' };
     const ticketsI = [
-      { id: 1, service_id: 2, name: 'Тестовый вопрос 1', ticket_type: 'question', correction },
-      { id: 2, service_id: 2, name: 'Тестовый вопрос 2', ticket_type: 'question' }
+      { id: 1, service_id: 2, name: 'Тестовый вопрос 1', correction, ticket_type: TicketTypes.QUESTION },
+      { id: 2, service_id: 2, name: 'Тестовый вопрос 2', ticket_type: TicketTypes.QUESTION }
     ];
     const tickets = ticketsI.map(ticketI => TicketFactory.create(TicketTypes.QUESTION, ticketI));
-    const httpParams = new HttpParams().append('ids', `${ticketsI.map(t => t.correction ? t.correction.id : t.id)}`);
+    const ids = ticketsI.map(t => t.correction ? t.correction.id : t.id);
+    const httpParams = new HttpParams().append('ids', `${ids}`);
 
     it('should return Observable with Ticket array', () => {
-      ticketService.publishTickets(tickets).subscribe(result => {
+      ticketService.publishTickets(ids).subscribe(result => {
         expect(result).toEqual(tickets);
       });
 
@@ -218,8 +219,8 @@ describe('TicketService', () => {
 
     beforeEach(() => {
       const ticketsI = [
-        { id: 1, service_id: 2, name: 'Тестовый вопрос 1', ticket_type: 'question' },
-        { id: 2, service_id: 2, name: 'Тестовый вопрос 2', ticket_type: 'question' }
+        { id: 1, service_id: 2, name: 'Тестовый вопрос 1', ticket_type: TicketTypes.QUESTION },
+        { id: 2, service_id: 2, name: 'Тестовый вопрос 2', ticket_type: TicketTypes.QUESTION }
       ];
       ticketService.draftTickets = ticketsI.map(ticketI => TicketFactory.create(TicketTypes.QUESTION, ticketI));
       selectedTicket = ticketService.draftTickets[0];
@@ -238,7 +239,7 @@ describe('TicketService', () => {
     let ticketUri: string;
 
     beforeEach(() => {
-      ticketI = { id: 2, name: 'Тестовый вопрос', service_id: 1, ticket_type: 'question' } as TicketI;
+      ticketI = { id: 2, name: 'Тестовый вопрос', service_id: 1, ticket_type: TicketTypes.QUESTION } as TicketI;
       ticket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
       ticketUri = `${environment.serverUrl}/api/v1/services/${ticketI.service_id}/tickets/${ticketI.id}`;
     });

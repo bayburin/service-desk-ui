@@ -107,11 +107,7 @@ describe('NewTicketPageComponent', () => {
       let ticket: Ticket;
 
       beforeEach(() => {
-        ticketI = {
-          id: 1,
-          ticket_type: 'question',
-          name: 'Тестовый вопрос'
-        } as TicketI;
+        ticketI = { id: 1, name: 'Тестовый вопрос' } as TicketI;
         details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
         ticket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
         fixture.detectChanges();

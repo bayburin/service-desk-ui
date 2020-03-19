@@ -19,7 +19,7 @@ describe('FilterByClassPipe', () => {
   it('should filter array by occured class', () => {
     const category = CategoryFactory.create({ name: 'category' });
     const service = ServiceFactory.create({ name: 'service' });
-    const ticket = TicketFactory.create(TicketTypes.QUESTION, { name: 'ticket', ticket_type: 'case' });
+    const ticket = TicketFactory.create(TicketTypes.QUESTION, { name: 'ticket' });
     const arr = [category, service, ticket];
 
     expect(pipe.transform(arr, Category)).toEqual([category]);

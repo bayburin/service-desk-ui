@@ -13,6 +13,7 @@ import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { TicketI } from '@interfaces/ticket.interface';
 import { UserRecommendationI } from '@interfaces/user-recommendation.interface';
 import { StubDashboardService } from '@modules/ticket/services/dashboard/dashboard.service.stub';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 describe('DashboardComponent', () => {
   let component: DashboardPageComponent;
@@ -23,14 +24,14 @@ describe('DashboardComponent', () => {
     CategoryFactory.create({ id: 2, name: 'Категория 2' })
   ];
   const tickets1 = [
-    { id: 1, name: 'Тестовый вопрос 1', ticket_type: 'question' } as TicketI,
-    { id: 2, name: 'Тестовый вопрос 2', ticket_type: 'question' } as TicketI,
-    { id: 3, name: 'Тестовый вопрос 3', ticket_type: 'question' } as TicketI,
-    { id: 3, name: 'Тестовый вопрос 4', ticket_type: 'question' } as TicketI
+    { id: 1, name: 'Тестовый вопрос 1', ticket_type: TicketTypes.QUESTION } as TicketI,
+    { id: 2, name: 'Тестовый вопрос 2', ticket_type: TicketTypes.QUESTION } as TicketI,
+    { id: 3, name: 'Тестовый вопрос 3', ticket_type: TicketTypes.QUESTION } as TicketI,
+    { id: 3, name: 'Тестовый вопрос 4', ticket_type: TicketTypes.QUESTION } as TicketI
   ];
   const tickets2 = [
-    { id: 3, name: 'Тестовый вопрос 5', ticket_type: 'question' } as TicketI,
-    { id: 4, name: 'Тестовый вопрос 6', ticket_type: 'question' } as TicketI
+    { id: 3, name: 'Тестовый вопрос 5', ticket_type: TicketTypes.QUESTION } as TicketI,
+    { id: 4, name: 'Тестовый вопрос 6', ticket_type: TicketTypes.QUESTION } as TicketI
   ];
   const services = [
     ServiceFactory.create({ id: 3, category_id: 1, name: 'Услуга 1', tickets: tickets1 }),
@@ -41,8 +42,8 @@ describe('DashboardComponent', () => {
     { id: 2, title: 'Рекоммендация 2', order: 20 }
   ] as UserRecommendationI[];
   const result: DashboardI = {
-    categories: categories,
-    services: services,
+    categories,
+    services,
     user_recommendations: recommendations
   };
 

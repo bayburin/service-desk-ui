@@ -20,7 +20,7 @@ describe('VisibleFlagComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(VisibleFlagComponent);
     component = fixture.componentInstance;
-    question = TicketFactory.create(TicketTypes.QUESTION, { id: 1, name: 'Тестовый вопрос', ticket_type: 'question' });
+    question = TicketFactory.create(TicketTypes.QUESTION, { id: 1, name: 'Тестовый вопрос' });
     component.data = question;
   });
 

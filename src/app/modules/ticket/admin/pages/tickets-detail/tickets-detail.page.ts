@@ -7,7 +7,7 @@ import { TicketService } from '@shared/services/ticket/ticket.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { contentBlockAnimation } from '@animations/content.animation';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { ServiceDetailComponent } from '@modules/ticket/admin/components/service-detail/service-detail.component';
 import { QuestionComponent } from '../../components/question/question.component';
@@ -67,7 +67,7 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
     this.ticketService.loadDraftTicketsFor(this.service)
       .pipe(
         finalize(() => this.loading = false),
-        tap((tickets: Ticket[]) => {
+        tap((tickets: QuestionTicket[]) => {
           this.serviceService.removeDraftTickets();
           this.serviceService.addTickets(tickets);
         }),

@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 
 import { QuestionComponent } from './question.component';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
-import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketTypes, TicketStates } from '@modules/ticket/models/ticket/ticket.model';
 import { ServiceService } from '@shared/services/service/service.service';
 import { StubServiceService } from '@shared/services/service/service.service.stub';
 import { TicketService } from '@shared/services/ticket/ticket.service';
@@ -22,11 +22,12 @@ import { StubUserService } from '@shared/services/user/user.service.stub';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
+import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
 
 describe('QuestionComponent', () => {
   let component: QuestionComponent;
   let fixture: ComponentFixture<QuestionComponent>;
-  let question: Ticket;
+  let question: QuestionTicket;
   let serviceService: ServiceService;
   let ticketService: TicketService;
   let correction: TicketI;
@@ -60,7 +61,6 @@ describe('QuestionComponent', () => {
       service_id: 2,
       name: 'Измененный вопрос',
       original_id: 1,
-      ticket_type: 'question',
       state: 'draft',
       open: false
     } as TicketI;
@@ -69,7 +69,6 @@ describe('QuestionComponent', () => {
       service_id: 2,
       correction,
       name: 'Тестовый вопрос',
-      ticket_type: 'question',
       state: 'published',
       responsible_users: [
         { tn: 123, details: { full_name: 'ФИО' } }
@@ -134,7 +133,7 @@ describe('QuestionComponent', () => {
   });
 
   describe('#publishQuestion', () => {
-    let result: Ticket;
+    let result: QuestionTicket;
     let details: ResponsibleUserDetailsI[];
 
     beforeEach(() => {
@@ -151,7 +150,7 @@ describe('QuestionComponent', () => {
       beforeEach(() => {
         question = question.correction;
         result = TicketFactory.create(TicketTypes.QUESTION, correction);
-        result.state = 'published';
+        result.state = TicketStates.PUBLISHED;
         spyOn(ticketService, 'publishTickets').and.returnValue(of([result]));
         spyOn(notifyService, 'setMessage');
         spyOn(result, 'associateResponsibleUserDetails');
@@ -159,7 +158,7 @@ describe('QuestionComponent', () => {
       });
 
       it('should call "publishTickets" method', () => {
-        expect(ticketService.publishTickets).toHaveBeenCalledWith([question]);
+        expect(ticketService.publishTickets).toHaveBeenCalledWith([question.id]);
       });
 
       it('should call "replaceTicket" method', () => {
@@ -247,7 +246,7 @@ describe('QuestionComponent', () => {
     describe('when question has original', () => {
       beforeEach(() => {
         component.question = question.correction;
-        component.question.original = {} as Ticket;
+        component.question.original = {} as QuestionTicket;
         spyOn(component, 'showOriginal');
         component.destroyDraftQuestion();
       });

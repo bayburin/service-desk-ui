@@ -4,10 +4,6 @@ import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 export class CaseTicketFactory extends TicketFactoryT {
   create(params: any = {}): CaseTicket {
-    const caseTicket = new CaseTicket(params);
-
-    caseTicket.ticketType = TicketTypes.CASE;
-
-    return caseTicket;
+    return new CaseTicket(params);
   }
 }

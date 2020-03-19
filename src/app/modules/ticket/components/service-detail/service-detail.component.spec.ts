@@ -13,13 +13,14 @@ import { AuthorizeDirective } from '@shared/directives/authorize/authorize.direc
 import { StubUserService, user } from '@shared/services/user/user.service.stub';
 import { ServicePolicy } from '@shared/policies/service/service.policy';
 import { StubServicePolicy } from '@shared/policies/service/service.policy.stub';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 describe('ServiceDetailComponent', () => {
   let component: ServiceDetailComponent;
   let fixture: ComponentFixture<ServiceDetailComponent>;
   const tickets = [
-    { id: 1, service_id: 1, name: 'Тестовый вопрос 1', ticket_type: 'question', state: 'published' },
-    { id: 2, service_id: 2, name: 'Тестовая заявка', ticket_type: 'case' }
+    { id: 1, service_id: 1, name: 'Тестовый вопрос 1', ticket_type: TicketTypes.QUESTION, state: 'published' },
+    { id: 2, service_id: 2, name: 'Тестовая заявка', ticket_type: TicketTypes.CASE }
   ] as TicketI[];
   const service = ServiceFactory.create({
     id: 1,

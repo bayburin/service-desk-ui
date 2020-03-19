@@ -1,5 +1,5 @@
 import { ServiceTemplateCreator } from './service-template-creator';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { Category } from '@modules/ticket/models/category/category.model';
 import { ServiceTemplateI } from '@interfaces/service-template.interface';
@@ -10,7 +10,7 @@ describe('ServiceTemplateCreator', () => {
       id: 1,
       name: 'Тестовый услуга',
       service_id: 1,
-      ticket_type: 'question'
+      ticket_type: TicketTypes.QUESTION
     } as ServiceTemplateI;
     const result = ServiceTemplateCreator.createBy(object);
 

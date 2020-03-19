@@ -14,6 +14,7 @@ import { Service } from '@modules/ticket/models/service/service.model';
 import { Category } from '@modules/ticket/models/category/category.model';
 import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { TagI } from '@interfaces/tag.interface';
+import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
 
 describe('ServiceService', () => {
   let httpTestingController: HttpTestingController;
@@ -70,7 +71,7 @@ describe('ServiceService', () => {
 
     beforeEach(() => {
       loadServiceUri = `${environment.serverUrl}/api/v1/categories/${category.id}/services/${service.id}`;
-      ticketI = { id: 1, service_id: service.id, ticket_type: 'case', answers: [] } as TicketI;
+      ticketI = { id: 1, service_id: service.id, ticket_type: TicketTypes.CASE } as TicketI;
       ticket = TicketFactory.create(TicketTypes.CASE, ticketI);
       serviceI.tickets = [ticketI];
       service.tickets = [ticket];
@@ -200,10 +201,10 @@ describe('ServiceService', () => {
   });
 
   describe('Operations with tickets', () => {
-    let newTicket: Ticket;
+    let newTicket: QuestionTicket;
 
     beforeEach(() => {
-      newTicket = TicketFactory.create(TicketTypes.QUESTION, { id: 10, name: 'Новый вопрос', ticket_type: 'question' });
+      newTicket = TicketFactory.create(TicketTypes.QUESTION, { id: 10, name: 'Новый вопрос' });
       serviceService.service = service;
       serviceService.addTickets([newTicket]);
     });
@@ -215,13 +216,13 @@ describe('ServiceService', () => {
     });
 
     describe('#replaceTickets', () => {
-      let ticket: Ticket;
-      let correction: Ticket;
+      let ticket: QuestionTicket;
+      let correction: QuestionTicket;
 
       beforeEach(() => {
-        ticket = TicketFactory.create(TicketTypes.QUESTION, { id: 1, ticket_type: 'question', name: 'Тестовый вопрос' });
-        newTicket = TicketFactory.create(TicketTypes.QUESTION, { id: ticket.id, ticket_type: 'question', name: 'Тестовый вопрос. Новая редакция' });
-        correction = TicketFactory.create(TicketTypes.QUESTION, { id: 2, name: 'Тестовый вопрос. Старая редакция.', ticket_type: 'question' });
+        ticket = TicketFactory.create(TicketTypes.QUESTION, { id: 1, name: 'Тестовый вопрос' });
+        newTicket = TicketFactory.create(TicketTypes.QUESTION, { id: ticket.id, name: 'Тестовый вопрос. Новая редакция' });
+        correction = TicketFactory.create(TicketTypes.QUESTION, { id: 2, name: 'Тестовый вопрос. Старая редакция.' });
         service.tickets = [ticket];
       });
 
@@ -241,8 +242,8 @@ describe('ServiceService', () => {
         ticket.correction = correction;
         serviceService.replaceTicket(ticket.correction.id, newTicket);
 
-        expect(service.tickets[0].correction).toEqual(newTicket);
-        expect(service.tickets[0].correction.original).toEqual(ticket);
+        expect((service.tickets[0] as QuestionTicket).correction).toEqual(newTicket);
+        expect((service.tickets[0] as QuestionTicket).correction.original).toEqual(ticket);
       });
     });
 
@@ -258,7 +259,7 @@ describe('ServiceService', () => {
       let draftTicket: Ticket;
 
       beforeEach(() => {
-        draftTicket = TicketFactory.create(TicketTypes.QUESTION, { id: 3, state: 'draft', ticket_type: 'question', name: 'Тестовый вопрос 3' });
+        draftTicket = TicketFactory.create(TicketTypes.QUESTION, { id: 3, state: 'draft', name: 'Тестовый вопрос 3' });
         service.tickets.push(draftTicket);
       });
 

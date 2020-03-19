@@ -16,12 +16,12 @@ describe('SearchService', () => {
   const serverData = [
     { id: 1, name: 'Тестовая категория' },
     { id: 2, name: 'Тестовая услуга', category_id: 1 },
-    { id: 3, name: 'Тестовый вопрос', service_id: 2, ticket_type: 'question' }
+    { id: 3, name: 'Тестовый вопрос', service_id: 2, ticket_type: TicketTypes.QUESTION }
   ];
   const expectedResult = [
     CategoryFactory.create({ id: 1, name: 'Тестовая категория' }),
     ServiceFactory.create({ id: 2, name: 'Тестовая услуга', category_id: 1 }),
-    TicketFactory.create(TicketTypes.QUESTION, { id: 3, name: 'Тестовый вопрос', service_id: 2, ticket_type: 'question' })
+    TicketFactory.create(TicketTypes.QUESTION, { id: 3, name: 'Тестовый вопрос', service_id: 2, ticket_type: TicketTypes.QUESTION })
   ];
   const searchStr = 'search string';
   const params = new HttpParams().set('search', searchStr);

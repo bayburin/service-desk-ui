@@ -39,7 +39,6 @@ describe('EditTicketPageComponent', () => {
     id: 1,
     service_id: 2,
     name: 'Тестовый вопрос',
-    ticket_type: 'question',
     state: 'draft',
     is_hidden: false,
     responsible_users: [{ tn: 123 }]
@@ -150,7 +149,6 @@ describe('EditTicketPageComponent', () => {
           id: ticket.id,
           service_id: 2,
           name: 'Тестовый вопрос. Новая редакция',
-          ticket_type: 'question',
           state: 'draft',
           is_hidden: false
         } as TicketI;

@@ -49,14 +49,14 @@ describe('TicketsDetailPageComponent', () => {
     responsibleUserService = TestBed.get(ResponsibleUserService);
     details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
     tickets = [
-      TicketFactory.create(TicketTypes.QUESTION, { id: 2, name: 'Вопрос 2', ticket_type: 'question' }),
-      TicketFactory.create(TicketTypes.QUESTION, { id: 3, name: 'Вопрос 3', ticket_type: 'question' })
+      TicketFactory.create(TicketTypes.QUESTION, { id: 2, name: 'Вопрос 2' }),
+      TicketFactory.create(TicketTypes.QUESTION, { id: 3, name: 'Вопрос 3' })
     ];
     service = ServiceFactory.create({
       id: 1,
       categoryId: 2,
       name: 'Тестовая услуга',
-      tickets: [{ id: 1, name: 'Вопрос 1', ticket_type: 'question' }]
+      tickets: [{ id: 1, name: 'Вопрос 1', ticket_type: TicketTypes.QUESTION }]
     });
     serviceService.service = service;
 

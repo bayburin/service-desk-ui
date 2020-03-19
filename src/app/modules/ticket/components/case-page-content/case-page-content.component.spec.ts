@@ -21,7 +21,7 @@ describe('CasePageContentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CasePageContentComponent);
     component = fixture.componentInstance;
-    ticket = TicketFactory.create(TicketTypes.CASE, { id: 1, serviceId: 2, name: 'Тестовая заявка', ticket_type: 'case' });
+    ticket = TicketFactory.create(TicketTypes.CASE, { id: 1, serviceId: 2, name: 'Тестовая заявка' });
     component.data = ticket;
     fixture.detectChanges();
   });

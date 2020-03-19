@@ -2,13 +2,14 @@ import { TestBed } from '@angular/core/testing';
 
 import { TicketPolicy } from './ticket.policy';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
-import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketTypes, TicketStates } from '@modules/ticket/models/ticket/ticket.model';
 import { UserService } from '@shared/services/user/user.service';
 import { StubUserService, user } from '@shared/services/user/user.service.stub';
+import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
 
 describe('TicketPolicy', () => {
   let ticketPolicy: TicketPolicy;
-  let ticket: Ticket;
+  let ticket: QuestionTicket;
   let ticketResponsible;
   let serviceResponsible;
   let ticketI;
@@ -22,7 +23,7 @@ describe('TicketPolicy', () => {
     ticketResponsible = { tn: user.tn };
     serviceResponsible = { tn: user.tn };
     serviceI = { name: 'Тестовая услуга', is_hidden: false, responsible_users: [serviceResponsible] };
-    ticketI = { name: 'Тестовый вопрос', service: serviceI, ticket_type: 'question', responsible_users: [ticketResponsible] };
+    ticketI = { name: 'Тестовый вопрос', service: serviceI, responsible_users: [ticketResponsible] };
 
     ticketPolicy = TestBed.get(TicketPolicy);
     ticket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
@@ -86,7 +87,7 @@ describe('TicketPolicy', () => {
       beforeEach(() => { user.role.name = 'content_manager'; });
 
       describe('and when ticket has correction', () => {
-        beforeEach(() => ticket.correction = TicketFactory.create(TicketTypes.QUESTION, { id: 2, name: 'Тестовое исправление', ticket_type: 'question' }));
+        beforeEach(() => ticket.correction = TicketFactory.create(TicketTypes.QUESTION, { id: 2, name: 'Тестовое исправление' }));
 
         it('should grant access', () => {
           expect(ticketPolicy.publish()).toBeTruthy();
@@ -94,7 +95,7 @@ describe('TicketPolicy', () => {
       });
 
       describe('and when ticket has "draft" state', () => {
-        beforeEach(() => ticket.state = 'draft');
+        beforeEach(() => ticket.state = TicketStates.DRAFT);
 
         it('should grant access', () => {
           expect(ticketPolicy.publish()).toBeTruthy();
@@ -104,7 +105,7 @@ describe('TicketPolicy', () => {
       describe('and when ticket does not have correction and has "published" state', () => {
         beforeEach(() => {
           ticket.correction = null;
-          ticket.state = 'published';
+          ticket.state = TicketStates.PUBLISHED;
         });
 
         it('should deny access', () => {
