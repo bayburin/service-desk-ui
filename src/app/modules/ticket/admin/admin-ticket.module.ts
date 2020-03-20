@@ -18,6 +18,7 @@ import { MarkdownHelpComponent } from './components/markdown-help/markdown-help.
 import { AnswerAccessorComponent } from './components/answer-accessor/answer-accessor.component';
 import { NewCasePageComponent } from './pages/new-case-page/new-case.page';
 import { FormInfoTabComponent } from './components/form-info-tab/form-info-tab.component';
+import { CommonTicketInformationComponent } from './components/common-ticket-information/common-ticket-information.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { FormInfoTabComponent } from './components/form-info-tab/form-info-tab.c
     MarkdownHelpComponent,
     AnswerAccessorComponent,
     NewCasePageComponent,
-    FormInfoTabComponent
+    FormInfoTabComponent,
+    CommonTicketInformationComponent
   ],
   imports: [
     CommonModule,

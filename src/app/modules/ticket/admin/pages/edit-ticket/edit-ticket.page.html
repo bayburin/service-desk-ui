@@ -4,7 +4,7 @@
     <div class="question-form">
       <div class="ask-mainbar">
         <form [formGroup]="ticketForm" *ngIf="ticketForm">
-          <app-ticket-form [parentForm]="ticketForm" [ticket]="ticket" [submitted]="submitted"></app-ticket-form>
+          <app-ticket-form [ticketForm]="ticketForm" [ticket]="ticket" [submitted]="submitted"></app-ticket-form>
           <div class="form-row align-items-center justify-content-center sd-mb-7">
             <button type="button" ngbAutofocus (click)="save()" [disabled]="loading" class="btn btn-primary">
               <span class="d-flex justify-content-center">

@@ -1,10 +1,10 @@
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators, FormArray, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { NO_ERRORS_SCHEMA, forwardRef, Component } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
 import { TicketFormComponent } from './ticket-form.component';
 import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
@@ -20,8 +20,6 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
-import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
-import { ResponsibleUserFactory } from '@modules/ticket/factories/responsible-user.factory';
 import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
 
 @Component({
@@ -106,7 +104,7 @@ describe('TicketFormComponent', () => {
     };
     ticket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
 
-    component.parentForm = formBuilder.group({
+    component.ticketForm = formBuilder.group({
       service_id: [service.id],
       name: ['', Validators.required],
       ticket_type: [TicketTypes.QUESTION],
@@ -126,13 +124,6 @@ describe('TicketFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set empty array in "tags" Observable', () => {
-    fixture.detectChanges();
-    component.tags.subscribe(result => {
-      expect(result).toEqual([]);
-    });
-  });
-
   describe('when ticket exists', () => {
     beforeEach(() => {
       component.ticket = ticket;
@@ -149,7 +140,7 @@ describe('TicketFormComponent', () => {
       fixture.detectChanges();
 
       expect(component.form.is_hidden.value).toBeTruthy();
-      component.toggleHidden(component.parentForm);
+      component.toggleHidden(component.ticketForm);
 
       expect(component.form.is_hidden.value).toBeFalsy();
     });
@@ -190,135 +181,9 @@ describe('TicketFormComponent', () => {
     });
   });
 
-  describe('Tag features', () => {
-    let tags: TagI[];
+  it('should show app-common-ticket-information component', () => {
+    fixture.detectChanges();
 
-    beforeEach(() => {
-      tags = [
-        { id: 1, name: 'Тег 1', popularity: 5 },
-        { id: 2, name: 'Тег 2', popularity: 1 }
-      ];
-      spyOn(serviceService, 'loadTags').and.returnValue(of(tags));
-    });
-
-    describe('when ticket exists', () => {
-      beforeEach(() => {
-        component.ticket = ticket;
-        fixture.detectChanges();
-      });
-
-      it('should set "selected" attribute to the selected tags', () => {
-        tags.forEach(tag => {
-          if (tag.id === ticketTag.id) {
-            expect(tag.selected).toBeTruthy();
-          } else {
-            expect(tag.selected).toBeFalsy();
-          }
-        });
-      });
-    });
-
-    describe('with any data in ticket (includes empty)', () => {
-      beforeEach(() => {
-        fixture.detectChanges();
-      });
-
-      it('should create array of service tags', () => {
-        const result = tags.map(tag => {
-          return {
-            data: tag,
-            htmlString: `<span class="badge badge-secondary">${tag.name}</span>`
-          };
-        });
-
-        expect(component.serviceTags).toEqual(result);
-      });
-
-      describe('#addTag', () => {
-        let tag: TagI;
-
-        beforeEach(() => {
-          tag = tags[0];
-          fixture.detectChanges();
-          component.addTag(tag);
-        });
-
-        it('should add tag to "tags" array', () => {
-          expect(component.form.tags.value.length).toEqual(1);
-        });
-
-        describe('when tag already in array', () => {
-          it('should not add tag', () => {
-            component.addTag(tag);
-
-            expect(component.form.tags.value.length).toEqual(1);
-          });
-        });
-      });
-
-      describe('#hideTag', () => {
-        it('should set true value into "selected" attribute', () => {
-          const tag = tags[0];
-          component.hideTag(tag);
-
-          expect(tag.selected).toBeTruthy();
-        });
-      });
-
-      describe('#showTag', () => {
-        it('should set false value into "selected" attribute', () => {
-          const tag = tags[1];
-          component.showTag({ value: tag });
-
-          expect(tag.selected).toBeFalsy();
-        });
-      });
-    });
-  });
-
-  describe('ResponsibleUser features', () => {
-    let details: ResponsibleUserDetailsI[];
-    let term;
-
-    beforeEach(() => {
-      details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
-      spyOn(responsibleUserService, 'searchUsers').and.returnValue(of(details));
-      spyOn(ResponsibleUserFactory, 'createByDetails');
-      fixture.detectChanges();
-    });
-
-    describe('when term is a string', () => {
-      beforeEach(() => term = 'string term');
-
-      it('should call "searchUsers" method of ResponsibleUserService service', fakeAsync(() => {
-        component.responsibleUserInput.next(term)
-        tick(300);
-        component.responsibleUsers.subscribe(() => {
-          expect(responsibleUserService.searchUsers).toHaveBeenCalledWith('fullName', term);
-        });
-      }));
-
-      it('should call "createByDetails" method of ResponsibleUserFactory for each occured detail', fakeAsync(() => {
-        component.responsibleUserInput.next(term)
-        tick(300);
-        component.responsibleUsers.subscribe(() => {
-          details.forEach(detail => {
-            expect(ResponsibleUserFactory.createByDetails).toHaveBeenCalledWith(detail);
-          });
-        });
-      }));
-    });
-
-    describe('when term is a number', () => {
-      beforeEach(() => term = '12345');
-
-      it('should call "searchUsers" method of ResponsibleUserService service', fakeAsync(() => {
-        component.responsibleUserInput.next(term)
-        tick(300);
-        component.responsibleUsers.subscribe(() => {
-          expect(responsibleUserService.searchUsers).toHaveBeenCalledWith('personnelNo', term);
-        });
-      }));
-    });
+    expect(fixture.debugElement.query(By.css('app-common-ticket-information'))).toBeTruthy();
   });
 });
