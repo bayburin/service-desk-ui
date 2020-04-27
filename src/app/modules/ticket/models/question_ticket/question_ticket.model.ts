@@ -14,7 +14,7 @@ export class QuestionTicket extends Ticket {
   readonly ticketType = TicketTypes.QUESTION;
 
   constructor(questionTicket: any = {}) {
-    super(questionTicket);
+    super(questionTicket.ticket);
 
     if (questionTicket.correction) {
       this.initializeCorrection(questionTicket.correction);

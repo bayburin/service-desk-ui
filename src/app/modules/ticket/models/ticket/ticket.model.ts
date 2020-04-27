@@ -10,9 +10,9 @@ import { AbstractState } from './states/abstract.state';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 
 export const enum TicketTypes {
-  QUESTION = 'question',
-  CASE = 'case',
-  COMMON_CASE = 'common_case'
+  QUESTION = 'QuestionTicket',
+  CASE = 'CaseTicket',
+  COMMON_CASE = 'CommonCaseTicket'
 }
 
 export const enum TicketStates {
@@ -27,7 +27,6 @@ export abstract class Ticket implements CommonServiceI {
   name: string;
   isHidden: boolean;
   sla: number;
-  toApprove: boolean;
   popularity: number;
   service: Service;
   open: boolean;
@@ -55,7 +54,6 @@ export abstract class Ticket implements CommonServiceI {
     this.state = ticket.state;
     this.isHidden = ticket.is_hidden;
     this.sla = ticket.sla;
-    this.toApprove = ticket.to_approve;
     this.popularity = ticket.popularity;
     this.responsibleUsers = ticket.responsible_users || [];
     this.tags = ticket.tags || [];

@@ -1,6 +1,7 @@
 import { ResponsibleUserI } from './responsible-user.interface';
 import { CategoryI } from './category.interface';
 import { TicketI } from './ticket.interface';
+import { QuestionTicketI } from './question-ticket.interface';
 
 export interface ServiceI {
   id: number;
@@ -14,5 +15,6 @@ export interface ServiceI {
   questionLimit?: number;
   category?: CategoryI;
   tickets?: TicketI[];
+  question_tickets?: QuestionTicketI[];
   responsible_users?: ResponsibleUserI[];
 }

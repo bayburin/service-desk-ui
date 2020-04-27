@@ -6,13 +6,16 @@ import { TicketTypes } from '../ticket/ticket.model';
 import { AnswerI } from '@interfaces/answer.interface';
 import { Answer } from '../answer/answer.model';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
+import { QuestionTicketI } from '@interfaces/question-ticket.interface';
 
 describe('QuestionTicket', () => {
   let serviceI: ServiceI;
   let ticketI: TicketI;
   let responsibleUserI: ResponsibleUserI;
   let ticket: QuestionTicket;
-  let correctionI: TicketI;
+  let correctionTicketI: TicketI;
+  let correctionI: QuestionTicketI;
+  let questionTicketI: QuestionTicketI;
 
   beforeEach(() => {
     responsibleUserI = {
@@ -27,65 +30,74 @@ describe('QuestionTicket', () => {
       category_id: 3,
       responsible_users: [responsibleUserI]
     } as ServiceI;
-    correctionI = {
+    correctionTicketI = {
       id: 2,
       service_id: 1,
-      original_id: 1,
       name: 'Исправленный вопрос',
       ticket_type: TicketTypes.QUESTION,
-      state: 'draft',
+      state: 'draft'
     } as TicketI;
+    correctionI = {
+      id: 2,
+      original_id: 1,
+      ticket: correctionTicketI
+    };
     ticketI = {
       id: 1,
       service_id: 1,
-      original_id: 0,
       name: 'Тестовый вопрос',
       ticket_type: TicketTypes.QUESTION,
+      ticketable_id: 1,
+      ticketable_type: TicketTypes.QUESTION,
       state: 'draft',
       is_hidden: false,
       sla: 2,
-      to_approve: false,
       popularity: 34,
       service: serviceI,
       responsible_users: [responsibleUserI],
+    };
+    questionTicketI = {
+      id: 1,
+      original_id: null,
+      ticket: ticketI,
       correction: correctionI
     };
   });
 
   it('should set "question" ticketType attribute', () => {
-    ticket = new QuestionTicket(ticketI);
+    ticket = new QuestionTicket(questionTicketI);
 
     expect(ticket.ticketType).toEqual(TicketTypes.QUESTION);
   });
 
   describe('Constructor', () => {
-    it('should create instance of Ticket', () => {
-      expect(new QuestionTicket(ticketI)).toBeTruthy();
+    it('should create instance of QuestionTicket', () => {
+      expect(new QuestionTicket(questionTicketI)).toBeTruthy();
     });
 
     it('should create instances of nested answers', () => {
       const answers = [{ id: 1, answer: 'Тестовый ответ' } as AnswerI];
-      ticketI.answers = answers;
-      ticket = new QuestionTicket(ticketI);
+      questionTicketI.answers = answers;
+      ticket = new QuestionTicket(questionTicketI);
 
       expect(ticket.answers[0] instanceof Answer).toBeTruthy();
     });
 
     it('should create correction object', () => {
-      ticket = new QuestionTicket(ticketI);
+      ticket = new QuestionTicket(questionTicketI);
 
       expect(ticket.correction.id).toEqual(correctionI.id);
     });
 
     it('should create original object into correction', () => {
-      ticket = new QuestionTicket(ticketI);
+      ticket = new QuestionTicket(questionTicketI);
 
       expect(ticket.correction.original).toEqual(ticket);
     });
   });
 
   describe('#hasId', () => {
-    beforeEach(() => ticket = new QuestionTicket(ticketI));
+    beforeEach(() => ticket = new QuestionTicket(questionTicketI));
 
     it('should return true if received id is equal ticketId', () => {
       expect(ticket.hasId(ticket.id)).toBeTruthy();
@@ -119,7 +131,7 @@ describe('QuestionTicket', () => {
     ];
 
     beforeEach(() => {
-      ticket = new QuestionTicket(ticketI);
+      ticket = new QuestionTicket(questionTicketI);
       ticket.correction.responsibleUsers.push({ tn: 12345 } as ResponsibleUserI);
     });
 

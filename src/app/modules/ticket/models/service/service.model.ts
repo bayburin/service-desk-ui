@@ -1,5 +1,5 @@
 import { Category } from '@modules/ticket/models/category/category.model';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { CommonServiceI } from '@interfaces/common-service.interface';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
@@ -7,6 +7,7 @@ import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { User } from '@shared/models/user/user.model';
 import { TicketI } from '@interfaces/ticket.interface';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
+import { QuestionTicket } from '../question_ticket/question_ticket.model';
 
 export class Service implements CommonServiceI {
   id: number;
@@ -20,6 +21,7 @@ export class Service implements CommonServiceI {
   questionLimit: number;
   category: Category;
   tickets: Ticket[];
+  questionTickets: QuestionTicket[];
   responsibleUsers: ResponsibleUserI[];
 
   constructor(service: any = {}) {
@@ -32,7 +34,7 @@ export class Service implements CommonServiceI {
     this.hasCommonCase = service.has_common_case;
     this.popularity = service.popularity;
     this.responsibleUsers = service.responsible_users || [];
-    this.buildTickets(service.tickets);
+    this.buildQuestionTickets(service.question_tickets);
 
     if (service.category) {
       this.category = CategoryFactory.create(service.category);
@@ -62,14 +64,14 @@ export class Service implements CommonServiceI {
    * @param user - пользователь
    */
   isBelongsByTicketTo(user: User): boolean {
-    return this.tickets.some(ticket => ticket.isBelongsTo(user));
+    return this.questionTickets.some(ticket => ticket.isBelongsTo(user));
   }
 
   /**
    * Возвращает список табельных номеров ответственных за услугу и вложенные вопросы.
    */
   getResponsibleUsersTn(): number[] {
-    const ticketResponsibles = this.tickets.map(ticket => ticket.getResponsibleUsersTn());
+    const ticketResponsibles = this.questionTickets.map(ticket => ticket.getResponsibleUsersTn());
 
     return this.responsibleUsers.map(user => user.tn).concat(...ticketResponsibles);
   }
@@ -83,16 +85,16 @@ export class Service implements CommonServiceI {
     this.responsibleUsers.forEach(user => {
       user.details = details.find(userDetails => user.tn === userDetails.tn);
     });
-    this.tickets.forEach(ticket => ticket.associateResponsibleUserDetails(details));
+    this.questionTickets.forEach(ticket => ticket.associateResponsibleUserDetails(details));
   }
 
-  private buildTickets(tickets: TicketI[]): void {
+  private buildQuestionTickets(tickets: TicketI[]): void {
     if (!tickets || !tickets.length) {
-      this.tickets = [];
+      this.questionTickets = [];
 
       return;
     }
 
-    this.tickets = tickets.map(ticket => TicketFactory.create(ticket.ticket_type, ticket)) || [];
+    this.questionTickets = tickets.map(ticket => TicketFactory.create(TicketTypes.QUESTION, ticket)) || [];
   }
 }

@@ -14,6 +14,7 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { UserRecommendationI } from '@interfaces/user-recommendation.interface';
 import { StubDashboardService } from '@modules/ticket/services/dashboard/dashboard.service.stub';
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
+import { QuestionTicketI } from '@interfaces/question-ticket.interface';
 
 describe('DashboardComponent', () => {
   let component: DashboardPageComponent;
@@ -23,19 +24,19 @@ describe('DashboardComponent', () => {
     CategoryFactory.create({ id: 1, name: 'Категория 1' }),
     CategoryFactory.create({ id: 2, name: 'Категория 2' })
   ];
-  const tickets1 = [
-    { id: 1, name: 'Тестовый вопрос 1', ticket_type: TicketTypes.QUESTION } as TicketI,
-    { id: 2, name: 'Тестовый вопрос 2', ticket_type: TicketTypes.QUESTION } as TicketI,
-    { id: 3, name: 'Тестовый вопрос 3', ticket_type: TicketTypes.QUESTION } as TicketI,
-    { id: 3, name: 'Тестовый вопрос 4', ticket_type: TicketTypes.QUESTION } as TicketI
+  const questions1 = [
+    { id: 1, ticket: { name: 'Тестовый вопрос 1', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionTicketI,
+    { id: 2, ticket: { name: 'Тестовый вопрос 2', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionTicketI,
+    { id: 3, ticket: { name: 'Тестовый вопрос 3', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionTicketI,
+    { id: 3, ticket: { name: 'Тестовый вопрос 4', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionTicketI
   ];
-  const tickets2 = [
-    { id: 3, name: 'Тестовый вопрос 5', ticket_type: TicketTypes.QUESTION } as TicketI,
-    { id: 4, name: 'Тестовый вопрос 6', ticket_type: TicketTypes.QUESTION } as TicketI
+  const questions2 = [
+    { id: 3, ticket: { name: 'Тестовый вопрос 5', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionTicketI,
+    { id: 4, ticket: { name: 'Тестовый вопрос 6', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionTicketI
   ];
   const services = [
-    ServiceFactory.create({ id: 3, category_id: 1, name: 'Услуга 1', tickets: tickets1 }),
-    ServiceFactory.create({ id: 4, category_id: 2, name: 'Услуга 2', tickets: tickets2 })
+    ServiceFactory.create({ id: 3, category_id: 1, name: 'Услуга 1', question_tickets: questions1 }),
+    ServiceFactory.create({ id: 4, category_id: 2, name: 'Услуга 2', question_tickets: questions2 })
   ];
   const recommendations = [
     { id: 1, title: 'Рекоммендация 1', order: 10 },
@@ -90,7 +91,7 @@ describe('DashboardComponent', () => {
       spyOn(component, 'isNeedToDropDown').and.returnValue(true);
       component.toggleQuestionLimit(services[0]);
 
-      expect(services[0].questionLimit).toEqual(tickets1.length + 1);
+      expect(services[0].questionLimit).toEqual(questions1.length + 1);
     });
 
     it('should set default length if "isNeedToDropDown" method returns false', () => {
@@ -138,14 +139,14 @@ describe('DashboardComponent', () => {
   });
 
   it('should show limited faq', () => {
-    tickets2.forEach(ticket => {
-      expect(fixture.debugElement.nativeElement.textContent).toContain(ticket.name);
+    questions2.forEach(question => {
+      expect(fixture.debugElement.nativeElement.textContent).toContain(question.ticket.name);
     });
-    tickets1.slice(0, component.limits.questions).forEach(ticket => {
-      expect(fixture.debugElement.nativeElement.textContent).toContain(ticket.name);
+    questions1.slice(0, component.limits.questions).forEach(question => {
+      expect(fixture.debugElement.nativeElement.textContent).toContain(question.ticket.name);
     });
-    tickets1.slice(-(tickets1.length - component.limits.questions)).forEach(ticket => {
-      expect(fixture.debugElement.nativeElement.textContent).not.toContain(ticket.name);
+    questions1.slice(-(questions1.length - component.limits.questions)).forEach(question => {
+      expect(fixture.debugElement.nativeElement.textContent).not.toContain(question.ticket.name);
     });
   });
 
@@ -153,8 +154,8 @@ describe('DashboardComponent', () => {
     fixture.debugElement.nativeElement.querySelector('span').click();
     fixture.detectChanges();
 
-    tickets1.forEach(ticket => {
-      expect(fixture.debugElement.nativeElement.textContent).toContain(ticket.name);
+    questions1.forEach(question => {
+      expect(fixture.debugElement.nativeElement.textContent).toContain(question.ticket.name);
     });
   });
 

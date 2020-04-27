@@ -95,7 +95,6 @@ export class EditTicketPageComponent implements OnInit {
       ticket_type: [this.ticket.ticketType],
       is_hidden: [this.ticket.isHidden],
       sla: [this.ticket.sla],
-      to_approve: [this.ticket.toApprove],
       popularity: [this.ticket.popularity],
       tags: [this.ticket.tags],
       answers: this.formBuilder.array([]),

@@ -69,7 +69,6 @@ export class NewCasePageComponent implements OnInit {
       ticket_type: [TicketTypes.CASE],
       is_hidden: [false],
       sla: [null],
-      to_approve: [false],
       popularity: [0],
       tags: [[]],
       responsible_users: [[]],
