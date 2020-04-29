@@ -3,19 +3,21 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { environment } from 'environments/environment';
 import { TicketI } from '@interfaces/ticket.interface';
 import { TagI } from '@interfaces/tag.interface';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
+import { QuestionTicketI } from '@interfaces/question-ticket.interface';
+import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TicketService {
-  draftTickets: Ticket[] = [];
+  draftTickets: QuestionTicket[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -24,13 +26,13 @@ export class TicketService {
    *
    * @param service - услуга.
    */
-  loadDraftTicketsFor(service: Service): Observable<Ticket[]> {
+  loadDraftTicketsFor(service: Service): Observable<QuestionTicket[]> {
     const ticketsUri = `${environment.serverUrl}/api/v1/services/${service.id}/tickets`;
     const httpParams = new HttpParams().set('state', 'draft');
 
     return this.http.get(ticketsUri, { params: httpParams })
       .pipe(
-        map((tickets: TicketI[]) => tickets.map(ticket => TicketFactory.create(ticket.ticket_type, ticket))),
+        map((questions: QuestionTicketI[]) => questions.map(question => TicketFactory.create(TicketTypes.QUESTION, question))),
         tap(tickets => this.draftTickets = tickets)
       );
   }
@@ -40,7 +42,7 @@ export class TicketService {
    *
    * @param ticket - список вопросов
    */
-  addDraftTickets(tickets: Ticket[]): void {
+  addDraftTickets(tickets: QuestionTicket[]): void {
     this.draftTickets.push(...tickets);
   }
 

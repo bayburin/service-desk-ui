@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, ViewChildren, QueryList, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 
 import { Service } from '@modules/ticket/models/service/service.model';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { DynamicTemplateContentComponent } from '@modules/ticket/components/dynamic-template-content/dynamic-template-content.component';
 import { contentBlockAnimation } from '@animations/content.animation';
 import { ServicePolicy } from '@shared/policies/service/service.policy';
+import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
 
 @Component({
   selector: 'app-service-detail',
@@ -29,7 +29,7 @@ export class ServiceDetailComponent implements OnInit, OnChanges {
     }
   }
 
-  trackByTicket(index, ticket: Ticket) {
-    return ticket.id;
+  trackByTicket(index, question: QuestionTicket) {
+    return question.id;
   }
 }

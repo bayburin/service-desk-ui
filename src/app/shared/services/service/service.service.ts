@@ -10,7 +10,6 @@ import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
 import { SearchSortingPipe } from '@shared/pipes/search-sorting/search-sorting.pipe';
 import { TagI } from '@interfaces/tag.interface';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
 
 @Injectable({
@@ -77,28 +76,28 @@ export class ServiceService implements BreadcrumbServiceI {
   /**
    * Добавить вопросы к услуге.
    *
-   * @param tickets - вопросы.
+   * @param questions - вопросы.
    */
-  addTickets(tickets: Ticket[]): void {
-    this.service.tickets = tickets.concat(this.service.tickets);
+  addTickets(questions: QuestionTicket[]): void {
+    this.service.questionTickets = questions.concat(this.service.questionTickets);
   }
 
   /**
    * Находит ticket в списке и заменяет указанным.
    *
-   * @param ticketId - id заменяемого объекта Ticket.
-   * @param ticket - новый объект Ticket.
+   * @param ticketId - id заменяемого объекта QuestionTicket.
+   * @param ticket - новый объект QuestionTicket.
    */
-  replaceTicket(ticketId: number, newTicket: Ticket): void {
-    let original: Ticket;
+  replaceTicket(questionId: number, newQuestion: QuestionTicket): void {
+    let original: QuestionTicket;
 
-    const index = this.service.tickets.findIndex(ticket => {
-      if (ticket.id === ticketId) {
+    const index = this.service.questionTickets.findIndex(question => {
+      if (question.id === questionId) {
         return true;
-      } else if ((ticket as QuestionTicket).correction && (ticket as QuestionTicket).correction.id === ticketId) {
-        (ticket as QuestionTicket).correction = newTicket as QuestionTicket;
-        (newTicket as QuestionTicket).original = ticket as QuestionTicket;
-        original = ticket;
+      } else if ((question as QuestionTicket).correction && (question as QuestionTicket).correction.id === questionId) {
+        (question as QuestionTicket).correction = newQuestion as QuestionTicket;
+        (newQuestion as QuestionTicket).original = question as QuestionTicket;
+        original = question;
 
         return true;
       } else {
@@ -107,24 +106,24 @@ export class ServiceService implements BreadcrumbServiceI {
     });
 
     if (index !== -1) {
-      this.service.tickets.splice(index, 1, original || newTicket);
+      this.service.questionTickets.splice(index, 1, original || newQuestion);
     }
   }
 
   /**
    * Удалить вопросы из услуги.
    *
-   * @param tickets - вопросы.
+   * @param questions - вопросы.
    */
-  removeTickets(tickets: Ticket[]): void {
-    this.service.tickets = this.service.tickets.filter(el => !tickets.find(draft => draft.id === el.id));
+  removeTickets(questions: QuestionTicket[]): void {
+    this.service.questionTickets = this.service.questionTickets.filter(el => !questions.find(draft => draft.id === el.id));
   }
 
   /**
    * Удалить черновые вопросы.
    */
   removeDraftTickets(): void {
-    this.service.tickets = this.service.tickets.filter(ticket => !ticket.isDraftState());
+    this.service.questionTickets = this.service.questionTickets.filter(question => !question.isDraftState());
   }
 
   getNodeName(): Observable<string> {
@@ -145,7 +144,8 @@ export class ServiceService implements BreadcrumbServiceI {
     return this.http.get(this.loadServiceUri).pipe(
       map((data: ServiceI) => {
         const service = ServiceFactory.create(data);
-        service.tickets = this.searchSortingPipe.transform(service.tickets);
+
+        service.questionTickets = this.searchSortingPipe.transform(service.questionTickets);
 
         return service;
       }),
