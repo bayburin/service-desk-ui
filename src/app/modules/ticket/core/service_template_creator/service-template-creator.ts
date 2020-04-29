@@ -8,8 +8,8 @@ import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory'
  */
 export class ServiceTemplateCreator {
   static createBy(template: ServiceTemplateI) {
-    if (template.service_id) {
-      return TicketFactory.create(template.ticket_type, template);
+    if (template.ticket) {
+      return TicketFactory.create(template.ticket.ticketable_type, template);
     } else if (template.category_id) {
       return ServiceFactory.create(template);
     } else {

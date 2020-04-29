@@ -3,6 +3,7 @@ import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model'
 import { Service } from '@modules/ticket/models/service/service.model';
 import { Category } from '@modules/ticket/models/category/category.model';
 import { ServiceTemplateI } from '@interfaces/service-template.interface';
+import { TicketI } from '@interfaces/ticket.interface';
 
 describe('ServiceTemplateCreator', () => {
   it('should call TicketFactory', () => {
@@ -10,7 +11,7 @@ describe('ServiceTemplateCreator', () => {
       id: 1,
       name: 'Тестовый услуга',
       service_id: 1,
-      ticket_type: TicketTypes.QUESTION
+      ticket: { name: 'test', ticketable_type: TicketTypes.QUESTION } as TicketI
     } as ServiceTemplateI;
     const result = ServiceTemplateCreator.createBy(object);
 
