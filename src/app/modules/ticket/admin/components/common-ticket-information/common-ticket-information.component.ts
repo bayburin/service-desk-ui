@@ -12,7 +12,6 @@ import { ResponsibleUserFactory } from '@modules/ticket/factories/responsible-us
 import { contentBlockAnimation } from '@animations/content.animation';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 
-
 @Component({
   selector: 'app-common-ticket-information',
   templateUrl: './common-ticket-information.component.html',

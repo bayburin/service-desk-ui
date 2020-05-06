@@ -13,23 +13,27 @@ import { Answer } from '@modules/ticket/models/answer/answer.model';
 })
 export class TicketFormComponent implements OnInit {
   preview = [];
-  @Input() ticketForm: FormGroup;
-  @Input() ticket: QuestionTicket;
+  @Input() questionForm: FormGroup;
+  @Input() question: QuestionTicket;
   @Input() submitted: boolean;
 
   constructor(private formBuilder: FormBuilder) {}
 
   get form() {
-    return this.ticketForm.controls;
+    return this.questionForm.controls;
   }
 
-  get answers_form() {
+  get ticketForm() {
+    return this.form.ticket as FormGroup;
+  }
+
+  get answersForm() {
     return this.form.answers as FormArray;
   }
 
   ngOnInit() {
-    if (this.ticket) {
-      this.ticket.answers.forEach(answer => this.answers_form.push(this.createAnswer(answer)));
+    if (this.question) {
+      this.question.answers.forEach(answer => this.answersForm.push(this.createAnswer(answer)));
     }
   }
 

@@ -23,6 +23,7 @@ import { StubResponsibleUserService } from '@shared/services/responsible_user/re
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 import { ResponsibleUserFactory } from '@modules/ticket/factories/responsible-user.factory';
 import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
+import { QuestionTicketI } from '@interfaces/question-ticket.interface';
 
 describe('CommonTicketInformationComponent', () => {
   let component: CommonTicketInformationComponent;
@@ -31,6 +32,7 @@ describe('CommonTicketInformationComponent', () => {
   let service: Service;
   let ticketI: TicketI;
   let ticket: QuestionTicket;
+  let questionI: QuestionTicketI;
   let serviceService: ServiceService;
   let ticketTag: TagI;
   let responsibleUserService: ResponsibleUserService;
@@ -73,29 +75,32 @@ describe('CommonTicketInformationComponent', () => {
     ticketI = {
       id: 3,
       service_id: 1,
-      original_id: null,
       name: 'Тестовый вопрос',
       ticket_type: TicketTypes.QUESTION,
+      ticketable_id: 4,
+      ticketable_type: TicketTypes.QUESTION,
       state: 'draft',
       is_hidden: false,
       sla: null,
-      to_approve: false,
       popularity: 0,
       tags: [ticketTag]
     };
-    ticket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
+    questionI = {
+      id: 4,
+      original_id: null,
+      ticket: ticketI,
+      answers: []
+    };
+    ticket = TicketFactory.create(TicketTypes.QUESTION, questionI);
 
     component.ticketForm = formBuilder.group({
-      service_id: [service.id],
-      name: ['', Validators.required],
-      ticket_type: [TicketTypes.QUESTION],
-      is_hidden: [true],
-      sla: [null],
-      to_approve: [false],
-      popularity: [0],
-      tags: [[]],
-      answers: formBuilder.array([]),
-      responsible_users: [[]]
+        service_id: [service.id],
+        name: ['', Validators.required],
+        is_hidden: [true],
+        sla: [null],
+        popularity: [0],
+        tags: [[]],
+        responsible_users: [[]]
     });
   });
 
@@ -224,7 +229,7 @@ describe('CommonTicketInformationComponent', () => {
       beforeEach(() => term = 'string term');
 
       it('should call "searchUsers" method of ResponsibleUserService service', fakeAsync(() => {
-        component.responsibleUserInput.next(term)
+        component.responsibleUserInput.next(term);
         tick(300);
         component.responsibleUsers.subscribe(() => {
           expect(responsibleUserService.searchUsers).toHaveBeenCalledWith('fullName', term);
@@ -232,7 +237,7 @@ describe('CommonTicketInformationComponent', () => {
       }));
 
       it('should call "createByDetails" method of ResponsibleUserFactory for each occured detail', fakeAsync(() => {
-        component.responsibleUserInput.next(term)
+        component.responsibleUserInput.next(term);
         tick(300);
         component.responsibleUsers.subscribe(() => {
           details.forEach(detail => {
@@ -246,7 +251,7 @@ describe('CommonTicketInformationComponent', () => {
       beforeEach(() => term = '12345');
 
       it('should call "searchUsers" method of ResponsibleUserService service', fakeAsync(() => {
-        component.responsibleUserInput.next(term)
+        component.responsibleUserInput.next(term);
         tick(300);
         component.responsibleUsers.subscribe(() => {
           expect(responsibleUserService.searchUsers).toHaveBeenCalledWith('personnelNo', term);

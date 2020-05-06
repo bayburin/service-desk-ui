@@ -5,7 +5,7 @@ export class StubTicketService {
   addDraftTickets() {}
   raiseRating() { return of(''); }
   downloadAttachmentFromAnswer() { return of(''); }
-  createTicket() { return of({}); }
+  createQuestion() { return of({}); }
   loadTags() { return of([]); }
   loadTicket() { return of({}); }
   updateTicket() { return of({}); }

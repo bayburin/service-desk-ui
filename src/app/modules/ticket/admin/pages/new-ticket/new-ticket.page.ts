@@ -7,7 +7,6 @@ import { TicketService } from '@shared/services/ticket/ticket.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { NotificationService } from '@shared/services/notification/notification.service';
-import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 @Component({
   selector: 'app-new-ticket-page',
@@ -17,7 +16,7 @@ import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 export class NewTicketPageComponent implements OnInit {
   submitted = false;
   service: Service;
-  ticketForm: FormGroup;
+  questionForm: FormGroup;
   loading = false;
 
   constructor(
@@ -39,12 +38,12 @@ export class NewTicketPageComponent implements OnInit {
    */
   save(): void {
     this.submitted = true;
-    if (this.ticketForm.invalid) {
+    if (this.questionForm.invalid) {
       return;
     }
 
     this.loading = true;
-    this.ticketService.createTicket(this.ticketForm.getRawValue())
+    this.ticketService.createQuestion(this.questionForm.getRawValue())
       .pipe(finalize(() => this.loading = false))
       .subscribe(
         () => {
@@ -63,17 +62,17 @@ export class NewTicketPageComponent implements OnInit {
   }
 
   private buildForm(): void {
-    this.ticketForm = this.formBuilder.group({
-      service_id: [this.service.id],
-      name: ['', [Validators.required, Validators.maxLength(255)]],
-      ticket_type: [TicketTypes.QUESTION],
-      is_hidden: [false],
-      sla: [null],
-      to_approve: [false],
-      popularity: [0],
-      tags: [[]],
+    this.questionForm = this.formBuilder.group({
+      ticket: this.formBuilder.group({
+        service_id: [this.service.id],
+        name: ['', [Validators.required, Validators.maxLength(255)]],
+        is_hidden: [false],
+        sla: [null],
+        popularity: [0],
+        tags: [[]],
+        responsible_users: [[]]
+      }),
       answers: this.formBuilder.array([]),
-      responsible_users: [[]]
     });
   }
 

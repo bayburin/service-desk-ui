@@ -1,4 +1,4 @@
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -94,11 +94,11 @@ describe('NewTicketPageComponent', () => {
 
     describe('when form is invalid', () => {
       it('should not save ticket', () => {
-        spyOn(ticketService, 'createTicket');
+        spyOn(ticketService, 'createQuestion');
         fixture.detectChanges();
         component.save();
 
-        expect(ticketService.createTicket).not.toHaveBeenCalled();
+        expect(ticketService.createQuestion).not.toHaveBeenCalled();
       });
     });
 
@@ -111,8 +111,8 @@ describe('NewTicketPageComponent', () => {
         details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
         ticket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
         fixture.detectChanges();
-        component.ticketForm.controls.name.setValue('Тестовый вопрос');
-        spyOn(ticketService, 'createTicket').and.returnValue(of(ticket));
+        (component.questionForm.controls.ticket as FormGroup).controls.name.setValue('Тестовый вопрос');
+        spyOn(ticketService, 'createQuestion').and.returnValue(of(ticket));
         spyOn(responsibleUserService, 'loadDetails').and.returnValue(of(details));
         spyOn(ticket, 'associateResponsibleUserDetails');
       });
@@ -120,7 +120,7 @@ describe('NewTicketPageComponent', () => {
       it('should call "createTicket" method from TicketService with ticket params', () => {
         component.save();
 
-        expect(ticketService.createTicket).toHaveBeenCalledWith(component.ticketForm.getRawValue());
+        expect(ticketService.createQuestion).toHaveBeenCalledWith(component.questionForm.getRawValue());
       });
 
       it('should redirect to parent page', inject([Router], (router: Router) => {

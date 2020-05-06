@@ -21,6 +21,7 @@ import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory'
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
 import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
+import { QuestionTicketI } from '@interfaces/question-ticket.interface';
 
 @Component({
   selector: 'app-answer-accessor',
@@ -45,7 +46,8 @@ describe('TicketFormComponent', () => {
   let serviceI: ServiceI;
   let service: Service;
   let ticketI: TicketI;
-  let ticket: QuestionTicket;
+  let question: QuestionTicket;
+  let questionI: QuestionTicketI;
   let serviceService: ServiceService;
   let ticketTag: TagI;
   let responsibleUserService: ResponsibleUserService;
@@ -88,33 +90,38 @@ describe('TicketFormComponent', () => {
     ticketI = {
       id: 3,
       service_id: 1,
-      original_id: null,
       name: 'Тестовый вопрос',
       ticket_type: TicketTypes.QUESTION,
+      ticketable_id: 4,
+      ticketable_type: TicketTypes.QUESTION,
       state: 'draft',
       is_hidden: false,
       sla: null,
-      to_approve: false,
       popularity: 0,
+      tags: [ticketTag]
+    };
+    questionI = {
+      id: 4,
+      original_id: null,
+      ticket: ticketI,
       answers: [
         { id: 1, ticket_id: 3, reason: '', answer: 'Ответ 1', attachments: [], link: '', is_hidden: false },
         { id: 2, ticket_id: 3, reason: '', answer: 'Ответ 2', attachments: [], link: '', is_hidden: true }
-      ],
-      tags: [ticketTag]
+      ]
     };
-    ticket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
+    question = TicketFactory.create(TicketTypes.QUESTION, questionI);
 
-    component.ticketForm = formBuilder.group({
-      service_id: [service.id],
-      name: ['', Validators.required],
-      ticket_type: [TicketTypes.QUESTION],
-      is_hidden: [true],
-      sla: [null],
-      to_approve: [false],
-      popularity: [0],
-      tags: [[]],
-      answers: formBuilder.array([]),
-      responsible_users: [[]]
+    component.questionForm = formBuilder.group({
+      ticket: formBuilder.group({
+        service_id: [service.id],
+        name: ['', Validators.required],
+        is_hidden: [true],
+        sla: [null],
+        popularity: [0],
+        tags: [[]],
+        responsible_users: [[]]
+      }),
+      answers: formBuilder.array([])
     });
   });
 
@@ -126,12 +133,12 @@ describe('TicketFormComponent', () => {
 
   describe('when ticket exists', () => {
     beforeEach(() => {
-      component.ticket = ticket;
+      component.question = question;
       fixture.detectChanges();
     });
 
     it('should create answer form for each answer', () => {
-      expect(component.answers_form.length).toEqual(ticketI.answers.length);
+      expect(component.answersForm.length).toEqual(questionI.answers.length);
     });
   });
 
@@ -139,10 +146,10 @@ describe('TicketFormComponent', () => {
     it('should set "false" value to "is_hidden" attribute', () => {
       fixture.detectChanges();
 
-      expect(component.form.is_hidden.value).toBeTruthy();
+      expect(component.ticketForm.controls.is_hidden.value).toBeTruthy();
       component.toggleHidden(component.ticketForm);
 
-      expect(component.form.is_hidden.value).toBeFalsy();
+      expect(component.ticketForm.controls.is_hidden.value).toBeFalsy();
     });
   });
 
@@ -168,7 +175,7 @@ describe('TicketFormComponent', () => {
 
     describe('when ticket exists', () => {
       beforeEach(() => {
-        component.ticket = ticket;
+        component.question = question;
         fixture.detectChanges();
       });
 

@@ -1,12 +1,12 @@
-<div [formGroup]="ticketForm">
+<div [formGroup]="questionForm">
   <section>
-    <app-common-ticket-information [ticketForm]="ticketForm" [ticket]="ticket"></app-common-ticket-information>
+    <app-common-ticket-information [ticketForm]="ticketForm" [ticket]="question"></app-common-ticket-information>
   </section>
   <section>
     <button class="btn btn-outline-primary mb-3" (click)="addAnswer()">Новый ответ</button>
     <div formArrayName="answers">
       <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-        <div *ngFor="let answer of answers_form.controls; let i = index;">
+        <div *ngFor="let answer of answersForm.controls; let i = index;">
           <ngb-panel *ngIf="!answer.value._destroy" [formGroupName]="i">
             <ng-template ngbPanelHeader>
               <div class="d-flex align-items-center">

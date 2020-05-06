@@ -3,8 +3,8 @@
     <app-section-header header="Новый вопрос"></app-section-header>
     <div class="question-form">
       <div class="ask-mainbar">
-        <form [formGroup]="ticketForm">
-          <app-ticket-form [ticketForm]="ticketForm" [submitted]="submitted"></app-ticket-form>
+        <form [formGroup]="questionForm">
+          <app-ticket-form [questionForm]="questionForm" [submitted]="submitted"></app-ticket-form>
           <div class="form-row align-items-center justify-content-center sd-mb-7">
             <button type="button" ngbAutofocus (click)="save()" [disabled]="loading" class="btn btn-primary">
               <span class="d-flex justify-content-center">

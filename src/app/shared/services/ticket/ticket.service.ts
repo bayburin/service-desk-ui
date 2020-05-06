@@ -58,13 +58,13 @@ export class TicketService {
   /**
    * Создает вопрос.
    *
-   * @param ticketI - объект ticket
+   * @param questionI - объект questionTicket
    */
-  createTicket(ticketI: TicketI): Observable<Ticket> {
-    const ticketUri = `${environment.serverUrl}/api/v1/services/${ticketI.service_id}/tickets`;
+  createQuestion(questionI: QuestionTicketI): Observable<QuestionTicket> {
+    const questionUri = `${environment.serverUrl}/api/v1/services/${questionI.ticket.service_id}/tickets`;
 
-    return this.http.post(ticketUri, { ticket: ticketI })
-      .pipe(map((ticket: TicketI) => TicketFactory.create(ticket.ticket_type, ticket)));
+    return this.http.post(questionUri, { question: questionI })
+      .pipe(map((question: TicketI) => TicketFactory.create(TicketTypes.QUESTION, question)));
   }
 
   /**
