@@ -7,8 +7,8 @@ export class StubTicketService {
   downloadAttachmentFromAnswer() { return of(''); }
   createQuestion() { return of({}); }
   loadTags() { return of([]); }
-  loadTicket() { return of({}); }
-  updateTicket() { return of({}); }
+  loadQuestion() { return of({}); }
+  updateQuestion() { return of({}); }
   publishTickets() { return of({}); }
   removeDraftTicket() {}
   destroyTicket() {}

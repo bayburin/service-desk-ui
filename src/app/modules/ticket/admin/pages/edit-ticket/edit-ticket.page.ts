@@ -19,8 +19,8 @@ import { ResponsibleUserService } from '@shared/services/responsible_user/respon
 export class EditTicketPageComponent implements OnInit {
   submitted = false;
   service: Service;
-  ticket: QuestionTicket;
-  ticketForm: FormGroup;
+  question: QuestionTicket;
+  questionForm: FormGroup;
   loading = false;
   @ViewChild('content', { static: true }) content: ElementRef;
 
@@ -38,15 +38,15 @@ export class EditTicketPageComponent implements OnInit {
     this.service = this.serviceService.service;
     this.route.data
       .pipe(
-        tap((data) => this.ticket = data.ticket),
+        tap(data => this.question = data.question),
         switchMap(() => {
-          if (this.ticket.responsibleUsers.length) {
-            return this.responsibleUserService.loadDetails(this.ticket.getResponsibleUsersTn());
+          if (this.question.responsibleUsers.length) {
+            return this.responsibleUserService.loadDetails(this.question.getResponsibleUsersTn());
           } else {
             return of([]);
           }
         }),
-        tap(details => this.ticket.associateResponsibleUserDetails(details))
+        tap(details => this.question.associateResponsibleUserDetails(details)),
       )
       .subscribe(() => this.buildForm());
   }
@@ -56,17 +56,17 @@ export class EditTicketPageComponent implements OnInit {
    */
   save(): void {
     this.submitted = true;
-    if (this.ticketForm.invalid) {
+    if (this.questionForm.invalid) {
       return;
     }
 
     this.loading = true;
-    this.ticketService.updateTicket(this.ticket, this.ticketForm.getRawValue())
+    this.ticketService.updateQuestion(this.question, this.questionForm.getRawValue())
       .pipe(
         finalize(() => this.loading = false),
         tap((updatedTicket: QuestionTicket) => {
           this.redirectToService();
-          this.serviceService.replaceTicket(this.ticket.id, updatedTicket);
+          this.serviceService.replaceTicket(this.question.id, updatedTicket);
           this.notifyService.setMessage('Вопрос обновлен');
         }),
         switchMap(updatedTicket => {
@@ -88,17 +88,18 @@ export class EditTicketPageComponent implements OnInit {
   }
 
   private buildForm(): void {
-    this.ticketForm = this.formBuilder.group({
-      id: [this.ticket.id],
-      service_id: [this.ticket.serviceId],
-      name: [this.ticket.name, [Validators.required, Validators.maxLength(255)]],
-      ticket_type: [this.ticket.ticketType],
-      is_hidden: [this.ticket.isHidden],
-      sla: [this.ticket.sla],
-      popularity: [this.ticket.popularity],
-      tags: [this.ticket.tags],
+    this.questionForm = this.formBuilder.group({
+      ticket: this.formBuilder.group({
+        id: [this.question.ticketId],
+        service_id: [this.question.serviceId],
+        name: [this.question.name, [Validators.required, Validators.maxLength(255)]],
+        is_hidden: [this.question.isHidden],
+        sla: [this.question.sla],
+        popularity: [this.question.popularity],
+        tags: [this.question.tags],
+        responsible_users: [this.question.responsibleUsers]
+      }),
       answers: this.formBuilder.array([]),
-      responsible_users: [this.ticket.responsibleUsers]
     });
   }
 

@@ -63,7 +63,7 @@ describe('Ticket', () => {
     it('should accept values', () => {
       ticket = new CustomTicket(ticketI);
 
-      expect(ticket.id).toEqual(ticketI.id);
+      expect(ticket.ticketId).toEqual(ticketI.id);
       expect(ticket.serviceId).toEqual(ticketI.service_id);
       expect(ticket.name).toEqual(ticketI.name);
       expect(ticket.isHidden).toEqual(ticketI.is_hidden);

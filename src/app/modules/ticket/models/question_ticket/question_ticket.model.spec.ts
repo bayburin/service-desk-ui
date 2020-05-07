@@ -75,6 +75,12 @@ describe('QuestionTicket', () => {
       expect(new QuestionTicket(questionTicketI)).toBeTruthy();
     });
 
+    it('should accept values', () => {
+      const question = new QuestionTicket(questionTicketI);
+
+      expect(question.id).toEqual(questionTicketI.id);
+    });
+
     it('should create instances of nested answers', () => {
       const answers = [{ id: 1, answer: 'Тестовый ответ' } as AnswerI];
       questionTicketI.answers = answers;

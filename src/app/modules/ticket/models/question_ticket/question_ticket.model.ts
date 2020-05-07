@@ -15,6 +15,7 @@ export class QuestionTicket extends Ticket {
 
   constructor(questionTicket: any = {}) {
     super(questionTicket.ticket);
+    this.id = questionTicket.id;
 
     if (questionTicket.correction) {
       this.initializeCorrection(questionTicket.correction);

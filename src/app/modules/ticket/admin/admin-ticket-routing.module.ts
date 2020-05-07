@@ -43,7 +43,7 @@ const routes: Routes = [
         path: ':id/edit',
         component: EditTicketPageComponent,
         canActivate: [ResponsibleGuard],
-        resolve: { ticket: TicketResolver },
+        resolve: { question: TicketResolver },
         data: {
           policy: ServicePolicy,
           action: 'newTicket'

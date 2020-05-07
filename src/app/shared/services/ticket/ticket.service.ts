@@ -28,9 +28,8 @@ export class TicketService {
    */
   loadDraftTicketsFor(service: Service): Observable<QuestionTicket[]> {
     const ticketsUri = `${environment.serverUrl}/api/v1/services/${service.id}/tickets`;
-    const httpParams = new HttpParams().set('state', 'draft');
 
-    return this.http.get(ticketsUri, { params: httpParams })
+    return this.http.get(ticketsUri)
       .pipe(
         map((questions: QuestionTicketI[]) => questions.map(question => TicketFactory.create(TicketTypes.QUESTION, question))),
         tap(tickets => this.draftTickets = tickets)
@@ -64,7 +63,7 @@ export class TicketService {
     const questionUri = `${environment.serverUrl}/api/v1/services/${questionI.ticket.service_id}/tickets`;
 
     return this.http.post(questionUri, { question: questionI })
-      .pipe(map((question: TicketI) => TicketFactory.create(TicketTypes.QUESTION, question)));
+      .pipe(map((question: QuestionTicketI) => TicketFactory.create(TicketTypes.QUESTION, question)));
   }
 
   /**
@@ -83,32 +82,32 @@ export class TicketService {
    * Загрузить вопрос.
    *
    * @param serviceId - id услуги.
-   * @param ticketId - id вопроса.
+   * @param questionId - id вопроса.
    */
-  loadTicket(serviceId: number, ticketId: number): Observable<Ticket> {
-    const ticketUri = `${environment.serverUrl}/api/v1/services/${serviceId}/tickets/${ticketId}`;
+  loadQuestion(serviceId: number, questionId: number): Observable<QuestionTicket> {
+    const questionUri = `${environment.serverUrl}/api/v1/services/${serviceId}/tickets/${questionId}`;
 
-    return this.http.get(ticketUri).pipe(map((ticket: TicketI) => TicketFactory.create(ticket.ticket_type, ticket)));
+    return this.http.get(questionUri).pipe(map((question: QuestionTicketI) => TicketFactory.create(TicketTypes.QUESTION, question)));
   }
 
   /**
    * Обновить вопрос.
    *
-   * @params ticket - объект Ticket
+   * @params questionTicket - объект QuestionTicket
    * @params data - новые данные.
    */
-  updateTicket(ticket: Ticket, data: any): Observable<Ticket> {
-    const ticketUri = `${environment.serverUrl}/api/v1/services/${ticket.serviceId}/tickets/${ticket.id}`;
+  updateQuestion(questionTicket: QuestionTicket, data: QuestionTicketI): Observable<QuestionTicket> {
+    const questionUri = `${environment.serverUrl}/api/v1/services/${questionTicket.serviceId}/tickets/${questionTicket.id}`;
 
-    ticket.responsibleUsers.forEach(user => {
-      if (!data.responsible_users.find((u: ResponsibleUserI) => u.id === user.id)) {
+    questionTicket.responsibleUsers.forEach(user => {
+      if (!data.ticket.responsible_users.find((u: ResponsibleUserI) => u.id === user.id)) {
         user._destroy = true;
-        data.responsible_users.push(user);
+        data.ticket.responsible_users.push(user);
       }
     });
 
-    return this.http.put(ticketUri, { ticket: data })
-      .pipe(map((ticketI: TicketI) => TicketFactory.create(ticketI.ticket_type, ticketI)));
+    return this.http.put(questionUri, { question: data })
+      .pipe(map((questionI: QuestionTicketI) => TicketFactory.create(TicketTypes.QUESTION, questionI)));
   }
 
   /**
