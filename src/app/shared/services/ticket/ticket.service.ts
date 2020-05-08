@@ -120,7 +120,7 @@ export class TicketService {
     const httpParams = new HttpParams().append('ids', `${[ticketIds]}`);
 
     return this.http.post(ticketUri, {}, { params: httpParams })
-      .pipe(map((ticketsI: TicketI[]) => ticketsI.map(ticket => TicketFactory.create(ticket.ticket_type, ticket))));
+      .pipe(map((ticketsI: QuestionTicketI[]) => ticketsI.map(ticket => TicketFactory.create(ticket.ticket.ticketable_type, ticket))));
   }
 
   /**
