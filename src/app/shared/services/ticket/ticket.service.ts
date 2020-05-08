@@ -49,7 +49,7 @@ export class TicketService {
    * Отправляет запрос на сервер на изменение рейтинга указанного вопроса.
    */
   raiseRating(ticket: Ticket): Observable<TicketI> {
-    const raiseRatingUrl = `${environment.serverUrl}/api/v1/services/${ticket.serviceId}/question_tickets/${ticket.id}/raise_rating`;
+    const raiseRatingUrl = `${environment.serverUrl}/api/v1/services/${ticket.serviceId}/question_tickets/${ticket.ticketId}/raise_rating`;
 
     return this.http.post<TicketI>(raiseRatingUrl, {});
   }
