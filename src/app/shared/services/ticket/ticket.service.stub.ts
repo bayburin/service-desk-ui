@@ -11,5 +11,5 @@ export class StubTicketService {
   updateQuestion() { return of({}); }
   publishTickets() { return of({}); }
   removeDraftTicket() {}
-  destroyTicket() {}
+  destroyQuestion() {}
 }

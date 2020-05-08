@@ -123,7 +123,7 @@ export class QuestionComponent implements OnInit {
       return;
     }
 
-    this.ticketService.destroyTicket(this.question).subscribe(() => {
+    this.ticketService.destroyQuestion(this.question).subscribe(() => {
       this.notifyService.setMessage('Вопрос удален');
       this.serviceService.removeTickets([this.question]);
     });
@@ -137,7 +137,7 @@ export class QuestionComponent implements OnInit {
       return;
     }
 
-    this.ticketService.destroyTicket(this.question).subscribe(() => {
+    this.ticketService.destroyQuestion(this.question).subscribe(() => {
       this.notifyService.setMessage('Черновик удален');
 
       if (this.question.original) {

@@ -137,13 +137,13 @@ export class TicketService {
   }
 
   /**
-   * Удалить тикет.
+   * Удалить вопрос.
    *
-   * @param ticket - удаляемый тикет.
+   * @param questionTicket - удаляемый тикет.
    */
-  destroyTicket(ticket: Ticket): Observable<any> {
-    const ticketUri = `${environment.serverUrl}/api/v1/services/${ticket.serviceId}/tickets/${ticket.id}`;
+  destroyQuestion(questionTicket: QuestionTicket): Observable<any> {
+    const questionUri = `${environment.serverUrl}/api/v1/services/${questionTicket.serviceId}/tickets/${questionTicket.id}`;
 
-    return this.http.delete(ticketUri);
+    return this.http.delete(questionUri);
   }
 }
