@@ -8,6 +8,7 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 
 export class QuestionTicket extends Ticket {
+  originalId: number;
   answers: Answer[];
   correction: QuestionTicket;
   original: QuestionTicket;
@@ -16,6 +17,7 @@ export class QuestionTicket extends Ticket {
   constructor(questionTicket: any = {}) {
     super(questionTicket.ticket);
     this.id = questionTicket.id;
+    this.originalId = questionTicket.original_id;
 
     if (questionTicket.correction) {
       this.initializeCorrection(questionTicket.correction);
@@ -25,7 +27,7 @@ export class QuestionTicket extends Ticket {
   }
 
   getShowLink(): string {
-    return `/categories/${this.service.categoryId}/services/${this.serviceId}?ticket=${this.id}`;
+    return `/categories/${this.service.categoryId}/services/${this.serviceId}?ticket=${this.ticketId}`;
   }
 
   pageComponent(): string {
@@ -38,12 +40,12 @@ export class QuestionTicket extends Ticket {
    * @param id - проверяемый id
    */
   hasId(id: number): boolean {
-    if (this.id === id) {
+    if (this.ticketId == id) {
       return true;
     } else if (this.isDraftState()) {
-      return this.originalId === id;
+      return this.original && this.original.ticketId == id;
     } else if (this.isPublishedState()) {
-      return this.correction && this.correction.id === id;
+      return this.correction && this.correction.ticketId == id;
     } else {
       return false;
     }

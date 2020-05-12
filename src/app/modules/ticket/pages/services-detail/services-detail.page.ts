@@ -9,6 +9,7 @@ import { ServiceDetailComponent } from '@modules/ticket/components/service-detai
 import { DynamicTemplateContentComponent } from '@modules/ticket/components/dynamic-template-content/dynamic-template-content.component';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { UserPolicy } from '@shared/policies/user/user.policy';
+import { QuestionPageContentComponent } from '@modules/ticket/components/question-page-content/question-page-content.component';
 
 @Component({
   selector: 'app-services-detail-page',
@@ -40,8 +41,9 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
       return;
     }
 
-    const dynamicTemplateComponentArr = this.serviceDetailComponent.dynamicTemplateComponent.toArray();
-    this.questionStream.next(dynamicTemplateComponentArr);
+    // const dynamicTemplateComponentArr = this.serviceDetailComponent.dynamicTemplateComponent.toArray();
+    const questionComponentArr = this.serviceDetailComponent.questionComponent.toArray();
+    this.questionStream.next(questionComponentArr);
   }
 
   /**
@@ -82,10 +84,11 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
    *
    * @param componentArr - массив компонентов, содержащих тикет.
    */
-  private openSelectedQuestion(componentArr: DynamicTemplateContentComponent[]): void {
-    const selectedComponent = componentArr.find(el => el.data.id == this.ticketId);
+  private openSelectedQuestion(componentArr: QuestionPageContentComponent[]): void {
+    const selectedComponent = componentArr.find(el => el.data.ticketId == this.ticketId);
 
-    selectedComponent.componentRef.instance.toggleTicket();
+    // selectedComponent.componentRef.instance.toggleTicket();
+    selectedComponent.toggleTicket();
     this.scrollToTicket();
   }
 

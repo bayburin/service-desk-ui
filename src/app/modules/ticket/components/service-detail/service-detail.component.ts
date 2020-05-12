@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, ViewChildren, QueryList, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 
 import { Service } from '@modules/ticket/models/service/service.model';
-import { DynamicTemplateContentComponent } from '@modules/ticket/components/dynamic-template-content/dynamic-template-content.component';
+// import { DynamicTemplateContentComponent } from '@modules/ticket/components/dynamic-template-content/dynamic-template-content.component';
 import { contentBlockAnimation } from '@animations/content.animation';
 import { ServicePolicy } from '@shared/policies/service/service.policy';
 import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
+import { QuestionPageContentComponent } from '../question-page-content/question-page-content.component';
 
 @Component({
   selector: 'app-service-detail',
@@ -14,7 +15,8 @@ import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_
 })
 export class ServiceDetailComponent implements OnInit, OnChanges {
   @Input() service: Service;
-  @ViewChildren(DynamicTemplateContentComponent) dynamicTemplateComponent: QueryList<DynamicTemplateContentComponent>;
+  // @ViewChildren(DynamicTemplateContentComponent) dynamicTemplateComponent: QueryList<DynamicTemplateContentComponent>;
+  @ViewChildren(QuestionPageContentComponent) questionComponent: QueryList<QuestionPageContentComponent>;
   showTicketFlags: boolean;
 
   constructor(private policy: ServicePolicy) {}

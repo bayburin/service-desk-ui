@@ -5,10 +5,11 @@
       <a id="adminMode" *appAuthorize="[service, 'newTicket']" routerLink="admin/tickets" class="btn btn-danger">Режим администратора</a>
     </div>
     <app-responsible-user-details [users]="service.responsibleUsers" label="Ответственные за услугу"></app-responsible-user-details>
+    <h2>Вопросы</h2>
     <div class="sd-dlist-divider-b mt-2">
       <p *ngIf="!service.questionTickets.length" class="search-title">Список вопросов пуст</p>
       <app-question-page-content *ngFor="let question of service.questionTickets; trackBy: trackByTicket" [data]="question"
-      [showFlags]="showTicketFlags"></app-question-page-content>
+        [showFlags]="showTicketFlags"></app-question-page-content>
     </div>
   </div>
 </section>

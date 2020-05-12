@@ -24,7 +24,6 @@ export abstract class Ticket implements CommonServiceI {
   id: number;
   ticketId: number;
   serviceId: number;
-  originalId: number;
   name: string;
   isHidden: boolean;
   sla: number;
@@ -50,7 +49,6 @@ export abstract class Ticket implements CommonServiceI {
   constructor(ticket: any = {}) {
     this.ticketId = ticket.id;
     this.serviceId = ticket.service_id;
-    this.originalId = ticket.original_id;
     this.name = ticket.name;
     this.state = ticket.state;
     this.isHidden = ticket.is_hidden;

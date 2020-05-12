@@ -18,7 +18,7 @@ import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 describe('ServiceDetailComponent', () => {
   let component: ServiceDetailComponent;
   let fixture: ComponentFixture<ServiceDetailComponent>;
-  const tickets = [
+  const questionTickets = [
     { id: 1, service_id: 1, name: 'Тестовый вопрос 1', ticket_type: TicketTypes.QUESTION, state: 'published' },
     { id: 2, service_id: 2, name: 'Тестовая заявка', ticket_type: TicketTypes.CASE }
   ] as TicketI[];
@@ -26,7 +26,7 @@ describe('ServiceDetailComponent', () => {
     id: 1,
     category_id: 1,
     name: 'Тестовая услуга',
-    tickets,
+    question_tickets: questionTickets,
     responsible_users: [{ tn: 12_123 }]
   });
 
@@ -61,10 +61,16 @@ describe('ServiceDetailComponent', () => {
     expect(fixture.debugElement.nativeElement.querySelector('app-section-header')).toBeTruthy();
   });
 
-  it('should show app-dynamic-template-content component', () => {
+  // it('should show app-dynamic-template-content component', () => {
+  //   fixture.detectChanges();
+
+  //   expect(fixture.debugElement.nativeElement.querySelectorAll('app-dynamic-template-content').length).toEqual(tickets.length);
+  // });
+
+  it('should show app-question-page-content component', () => {
     fixture.detectChanges();
 
-    expect(fixture.debugElement.nativeElement.querySelectorAll('app-dynamic-template-content').length).toEqual(tickets.length);
+    expect(fixture.debugElement.nativeElement.querySelectorAll('app-question-page-content').length).toEqual(questionTickets.length);
   });
 
   it('should show app-responsible-user-details component', () => {
