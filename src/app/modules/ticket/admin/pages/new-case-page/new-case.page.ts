@@ -44,15 +44,15 @@ export class NewCasePageComponent implements OnInit {
     }
 
     this.loading = true;
-    this.ticketService.createTicket(this.ticketForm.getRawValue())
-      .pipe(finalize(() => this.loading = false))
-      .subscribe(
-        () => {
-          this.redirectToService();
-          this.notifyService.setMessage('Новый вид заявки добавлен');
-        },
-        error => console.log(error)
-      );
+    // this.ticketService.createTicket(this.ticketForm.getRawValue())
+    //   .pipe(finalize(() => this.loading = false))
+    //   .subscribe(
+    //     () => {
+    //       this.redirectToService();
+    //       this.notifyService.setMessage('Новый вид заявки добавлен');
+    //     },
+    //     error => console.log(error)
+    //   );
   }
 
   /**
