@@ -11,12 +11,12 @@ import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory'
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { QuestionTicketI } from '@interfaces/question-ticket.interface';
-import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TicketService {
+export class QuestionTicketService {
   draftTickets: QuestionTicket[] = [];
 
   constructor(private http: HttpClient) {}

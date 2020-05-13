@@ -3,7 +3,7 @@ import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core
 import { Service } from '@modules/ticket/models/service/service.model';
 import { contentBlockAnimation } from '@animations/content.animation';
 import { QuestionComponent } from '../question/question.component';
-import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
 
 @Component({
   selector: 'app-service-detail',

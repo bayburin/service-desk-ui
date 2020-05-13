@@ -10,7 +10,7 @@ import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
 import { SearchSortingPipe } from '@shared/pipes/search-sorting/search-sorting.pipe';
 import { TagI } from '@interfaces/tag.interface';
-import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
 
 @Injectable({
   providedIn: 'root'

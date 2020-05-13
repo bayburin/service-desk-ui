@@ -6,6 +6,7 @@ export class CaseTicket extends Ticket {
 
   constructor(caseTicket: any = {}) {
     super(caseTicket);
+    this.id = caseTicket.id;
   }
 
   getShowLink(): string {

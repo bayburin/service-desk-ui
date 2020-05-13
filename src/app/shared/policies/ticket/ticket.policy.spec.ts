@@ -5,7 +5,7 @@ import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory'
 import { TicketTypes, TicketStates } from '@modules/ticket/models/ticket/ticket.model';
 import { UserService } from '@shared/services/user/user.service';
 import { StubUserService, user } from '@shared/services/user/user.service.stub';
-import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
 
 describe('TicketPolicy', () => {
   let ticketPolicy: TicketPolicy;

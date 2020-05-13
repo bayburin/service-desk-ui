@@ -6,8 +6,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { ServiceService } from '@shared/services/service/service.service';
-import { TicketService } from '@shared/services/ticket/ticket.service';
-import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
+import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
+import { StubQuestionTicketService } from '@shared/services/question-ticket/question-ticket.service.stub';
 import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
@@ -20,7 +20,7 @@ import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.in
 describe('TicketsDetailPageComponent', () => {
   let component: TicketsDetailPageComponent;
   let fixture: ComponentFixture<TicketsDetailPageComponent>;
-  let ticketService: TicketService;
+  let questionTicketService: QuestionTicketService;
   let serviceService: ServiceService;
   let tickets: Ticket[];
   let service: Service;
@@ -34,7 +34,7 @@ describe('TicketsDetailPageComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
-        { provide: TicketService, useClass: StubTicketService },
+        { provide: QuestionTicketService, useClass: StubQuestionTicketService },
         { provide: ResponsibleUserService, useClass: StubResponsibleUserService }
       ]
     })
@@ -44,7 +44,7 @@ describe('TicketsDetailPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TicketsDetailPageComponent);
     component = fixture.componentInstance;
-    ticketService = TestBed.get(TicketService);
+    questionTicketService = TestBed.get(QuestionTicketService);
     serviceService = TestBed.get(ServiceService);
     responsibleUserService = TestBed.get(ResponsibleUserService);
     details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
@@ -60,7 +60,7 @@ describe('TicketsDetailPageComponent', () => {
     });
     serviceService.service = service;
 
-    spyOn(ticketService, 'loadDraftTicketsFor').and.returnValue(of(tickets));
+    spyOn(questionTicketService, 'loadDraftTicketsFor').and.returnValue(of(tickets));
     spyOn(serviceService, 'addTickets');
     spyOn(responsibleUserService, 'loadDetails').and.returnValues(of(details));
     // spyOn();
@@ -74,7 +74,7 @@ describe('TicketsDetailPageComponent', () => {
   });
 
   it('should loads tickets with draft state from server', () => {
-    expect(ticketService.loadDraftTicketsFor).toHaveBeenCalledWith(component.service);
+    expect(questionTicketService.loadDraftTicketsFor).toHaveBeenCalledWith(component.service);
   });
 
   it('should call "loadDetails" method of responsibleUserService service', () => {
@@ -95,6 +95,6 @@ describe('TicketsDetailPageComponent', () => {
     spyOn(serviceService, 'removeTickets');
     (component as any).router.navigateByUrl('/');
 
-    expect(serviceService.removeTickets).toHaveBeenCalledWith(ticketService.draftTickets);
+    expect(serviceService.removeTickets).toHaveBeenCalledWith(questionTicketService.draftTickets);
   });
 });

@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 
-import { TicketService } from '@shared/services/ticket/ticket.service';
+import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { NotificationService } from '@shared/services/notification/notification.service';
@@ -25,7 +25,7 @@ export class NewCasePageComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private serviceService: ServiceService,
-    private ticketService: TicketService,
+    private questionTicketService: QuestionTicketService,
     private notifyService: NotificationService
   ) {}
 
@@ -44,7 +44,7 @@ export class NewCasePageComponent implements OnInit {
     }
 
     this.loading = true;
-    // this.ticketService.createTicket(this.ticketForm.getRawValue())
+    // this.questionTicketService.createTicket(this.ticketForm.getRawValue())
     //   .pipe(finalize(() => this.loading = false))
     //   .subscribe(
     //     () => {

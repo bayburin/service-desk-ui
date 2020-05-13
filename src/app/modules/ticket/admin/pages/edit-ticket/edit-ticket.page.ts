@@ -4,10 +4,10 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { of } from 'rxjs';
 import { finalize, tap, switchMap } from 'rxjs/operators';
 
-import { TicketService } from '@shared/services/ticket/ticket.service';
+import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
-import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 
@@ -29,7 +29,7 @@ export class EditTicketPageComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private serviceService: ServiceService,
-    private ticketService: TicketService,
+    private questionTicketService: QuestionTicketService,
     private notifyService: NotificationService,
     private responsibleUserService: ResponsibleUserService
   ) { }
@@ -61,7 +61,7 @@ export class EditTicketPageComponent implements OnInit {
     }
 
     this.loading = true;
-    this.ticketService.updateQuestion(this.question, this.questionForm.getRawValue())
+    this.questionTicketService.updateQuestion(this.question, this.questionForm.getRawValue())
       .pipe(
         finalize(() => this.loading = false),
         tap((updatedTicket: QuestionTicket) => {

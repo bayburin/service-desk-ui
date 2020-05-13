@@ -1,7 +1,7 @@
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
-import { TicketInitializer } from './ticket_initializer';
-import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
-import { CaseTicket } from '@modules/ticket/models/case_ticket/case_ticket.model';
+import { TicketInitializer } from './ticket-initializer';
+import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { CaseTicket } from '@modules/ticket/models/case-ticket/case-ticket.model';
 
 export class TicketFactory {
   static create(type: TicketTypes, params: any): QuestionTicket;

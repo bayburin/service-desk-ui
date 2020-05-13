@@ -1,6 +1,6 @@
-import { CaseTicketFactory } from './case_ticket.factory';
-import { TicketFactoryT } from './ticket_factory.abstract';
-import { QuestionTicketFactory } from './question_ticket_factory';
+import { CaseTicketFactory } from './case-ticket.factory';
+import { TicketFactoryT } from './ticket.factory.abstract';
+import { QuestionTicketFactory } from './question-ticket.factory';
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 export class TicketInitializer {

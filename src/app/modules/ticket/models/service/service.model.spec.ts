@@ -8,7 +8,7 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { Ticket, TicketTypes } from '../ticket/ticket.model';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 import { QuestionTicketI } from '@interfaces/question-ticket.interface';
-import { QuestionTicket } from '../question_ticket/question_ticket.model';
+import { QuestionTicket } from '../question-ticket/question-ticket.model';
 
 describe('Service', () => {
   let serviceI: ServiceI;

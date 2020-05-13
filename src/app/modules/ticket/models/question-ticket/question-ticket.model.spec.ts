@@ -1,4 +1,4 @@
-import { QuestionTicket } from './question_ticket.model';
+import { QuestionTicket } from './question-ticket.model';
 import { TicketI } from '@interfaces/ticket.interface';
 import { ServiceI } from '@interfaces/service.interface';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';

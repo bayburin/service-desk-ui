@@ -7,7 +7,7 @@ import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { User } from '@shared/models/user/user.model';
 import { TicketI } from '@interfaces/ticket.interface';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
-import { QuestionTicket } from '../question_ticket/question_ticket.model';
+import { QuestionTicket } from '../question-ticket/question-ticket.model';
 
 export class Service implements CommonServiceI {
   id: number;

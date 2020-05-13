@@ -1,5 +1,5 @@
-import { TicketFactoryT } from './ticket_factory.abstract';
-import { CaseTicket } from '@modules/ticket/models/case_ticket/case_ticket.model';
+import { TicketFactoryT } from './ticket.factory.abstract';
+import { CaseTicket } from '@modules/ticket/models/case-ticket/case-ticket.model';
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 export class CaseTicketFactory extends TicketFactoryT {

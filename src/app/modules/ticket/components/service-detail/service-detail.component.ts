@@ -4,7 +4,7 @@ import { Service } from '@modules/ticket/models/service/service.model';
 // import { DynamicTemplateContentComponent } from '@modules/ticket/components/dynamic-template-content/dynamic-template-content.component';
 import { contentBlockAnimation } from '@animations/content.animation';
 import { ServicePolicy } from '@shared/policies/service/service.policy';
-import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
 import { QuestionPageContentComponent } from '../question-page-content/question-page-content.component';
 
 @Component({

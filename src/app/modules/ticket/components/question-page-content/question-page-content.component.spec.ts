@@ -5,25 +5,25 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
 import { QuestionPageContentComponent } from './question-page-content.component';
-import { TicketService } from '@shared/services/ticket/ticket.service';
+import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { AnswerI } from '@interfaces/answer.interface';
-import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
+import { StubQuestionTicketService } from '@shared/services/question-ticket/question-ticket.service.stub';
 import { AttachmentService } from '@shared/services/attachment/attachment.service';
 import { StubAttachmentService } from '@shared/services/attachment/attachment.service.stub';
 import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
 import { StubTicketPolicy } from '@shared/policies/ticket/ticket.policy.stub';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
-import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
 
 describe('QuestionPageContentComponent', () => {
   let component: QuestionPageContentComponent;
   let fixture: ComponentFixture<QuestionPageContentComponent>;
   let ticket: QuestionTicket;
-  let ticketService: TicketService;
+  let questionTicketService: QuestionTicketService;
   let attachmentService: AttachmentService;
   const attachment = {
     id: 1,
@@ -40,7 +40,7 @@ describe('QuestionPageContentComponent', () => {
       declarations: [QuestionPageContentComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
-        { provide: TicketService, useClass: StubTicketService },
+        { provide: QuestionTicketService, useClass: StubQuestionTicketService },
         { provide: AttachmentService, useClass: StubAttachmentService },
         { provide: TicketPolicy, useClass: StubTicketPolicy }
       ]
@@ -53,7 +53,7 @@ describe('QuestionPageContentComponent', () => {
     component = fixture.componentInstance;
     ticket = TicketFactory.create(TicketTypes.QUESTION, { id: 1, name: 'Тестовый вопрос', answers });
     component.data = ticket;
-    ticketService = TestBed.get(TicketService);
+    questionTicketService = TestBed.get(QuestionTicketService);
     attachmentService = TestBed.get(AttachmentService);
     fixture.detectChanges();
   });
@@ -64,10 +64,10 @@ describe('QuestionPageContentComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call "raiseRating" method for TicketService if "ratingStream" emitted', () => {
-    spyOn(ticketService, 'raiseRating').and.callThrough();
+  it('should call "raiseRating" method for QuestionTicketService if "ratingStream" emitted', () => {
+    spyOn(questionTicketService, 'raiseRating').and.callThrough();
     component.ratingStream.subscribe(() => {
-      expect(ticketService.raiseRating).toHaveBeenCalledWith(ticket);
+      expect(questionTicketService.raiseRating).toHaveBeenCalledWith(ticket);
     });
 
     component.ratingStream.next(ticket);
@@ -104,7 +104,7 @@ describe('QuestionPageContentComponent', () => {
       filename: 'test file'
     } as AnswerAttachmentI;
 
-    it('should call "downloadAttachmentFromAnswer" method for TicketService', () => {
+    it('should call "downloadAttachmentFromAnswer" method for QuestionTicketService', () => {
       spyOn(attachmentService, 'downloadAttachment').and.returnValue(of(new Blob()));
       component.downloadAttachment(attachment);
 

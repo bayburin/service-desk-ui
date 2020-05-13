@@ -9,8 +9,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NewTicketPageComponent } from './new-ticket.page';
 import { ServiceService } from '@shared/services/service/service.service';
-import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
-import { TicketService } from '@shared/services/ticket/ticket.service';
+import { StubQuestionTicketService } from '@shared/services/question-ticket/question-ticket.service.stub';
+import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
 import { StubServiceService } from '@shared/services/service/service.service.stub';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceI } from '@interfaces/service.interface';
@@ -46,7 +46,7 @@ describe('NewTicketPageComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
-        { provide: TicketService, useClass: StubTicketService },
+        { provide: QuestionTicketService, useClass: StubQuestionTicketService },
         { provide: NotificationService, useClass: StubNotificationService },
         { provide: ResponsibleUserService, useClass: StubResponsibleUserService }
       ]
@@ -85,20 +85,20 @@ describe('NewTicketPageComponent', () => {
   });
 
   describe('#save', () => {
-    let ticketService: TicketService;
+    let questionTicketService: QuestionTicketService;
     let details: ResponsibleUserDetailsI[];
 
     beforeEach(() => {
-      ticketService = TestBed.get(TicketService);
+      questionTicketService = TestBed.get(QuestionTicketService);
     });
 
     describe('when form is invalid', () => {
       it('should not save ticket', () => {
-        spyOn(ticketService, 'createQuestion');
+        spyOn(questionTicketService, 'createQuestion');
         fixture.detectChanges();
         component.save();
 
-        expect(ticketService.createQuestion).not.toHaveBeenCalled();
+        expect(questionTicketService.createQuestion).not.toHaveBeenCalled();
       });
     });
 
@@ -112,15 +112,15 @@ describe('NewTicketPageComponent', () => {
         ticket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
         fixture.detectChanges();
         (component.questionForm.controls.ticket as FormGroup).controls.name.setValue('Тестовый вопрос');
-        spyOn(ticketService, 'createQuestion').and.returnValue(of(ticket));
+        spyOn(questionTicketService, 'createQuestion').and.returnValue(of(ticket));
         spyOn(responsibleUserService, 'loadDetails').and.returnValue(of(details));
         spyOn(ticket, 'associateResponsibleUserDetails');
       });
 
-      it('should call "createTicket" method from TicketService with ticket params', () => {
+      it('should call "createTicket" method from QuestionTicketService with ticket params', () => {
         component.save();
 
-        expect(ticketService.createQuestion).toHaveBeenCalledWith(component.questionForm.getRawValue());
+        expect(questionTicketService.createQuestion).toHaveBeenCalledWith(component.questionForm.getRawValue());
       });
 
       it('should redirect to parent page', inject([Router], (router: Router) => {

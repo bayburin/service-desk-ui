@@ -7,8 +7,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 
 import { TicketFormComponent } from './ticket-form.component';
-import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
-import { TicketService } from '@shared/services/ticket/ticket.service';
+import { StubQuestionTicketService } from '@shared/services/question-ticket/question-ticket.service.stub';
+import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
 import { StubServiceService } from '@shared/services/service/service.service.stub';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
@@ -20,7 +20,7 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
-import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
 import { QuestionTicketI } from '@interfaces/question-ticket.interface';
 
 @Component({
@@ -64,7 +64,7 @@ describe('TicketFormComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
-        { provide: TicketService, useClass: StubTicketService },
+        { provide: QuestionTicketService, useClass: StubQuestionTicketService },
         { provide: ResponsibleUserService, useClass: StubResponsibleUserService }
       ]
     })

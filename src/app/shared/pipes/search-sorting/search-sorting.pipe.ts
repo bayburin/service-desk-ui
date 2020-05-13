@@ -3,7 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Category } from '@modules/ticket/models/category/category.model';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { CaseTicket } from '@modules/ticket/models/case_ticket/case_ticket.model';
+import { CaseTicket } from '@modules/ticket/models/case-ticket/case-ticket.model';
 
 @Pipe({
   name: 'searchSorting'

@@ -3,11 +3,11 @@ import { finalize, tap, switchMap, filter, delay, map, takeWhile, first } from '
 import { Router, NavigationStart, ActivatedRoute } from '@angular/router';
 import { Subscription, Subject, zip } from 'rxjs';
 
-import { TicketService } from '@shared/services/ticket/ticket.service';
+import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { contentBlockAnimation } from '@animations/content.animation';
-import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { ServiceDetailComponent } from '@modules/ticket/admin/components/service-detail/service-detail.component';
 import { QuestionComponent } from '../../components/question/question.component';
@@ -31,7 +31,7 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
 
   constructor(
     private serviceService: ServiceService,
-    private ticketService: TicketService,
+    private questionTicketService: QuestionTicketService,
     private router: Router,
     private route: ActivatedRoute,
     private responsibleUserService: ResponsibleUserService
@@ -44,7 +44,7 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
     this.openQuestionStream();
     this.routeSub = this.router.events.subscribe(event => {
       if (event instanceof NavigationStart && !event.url.includes('/admin')) {
-        this.serviceService.removeTickets(this.ticketService.draftTickets);
+        this.serviceService.removeTickets(this.questionTicketService.draftTickets);
       }
     });
 
@@ -69,7 +69,7 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
 
   private loadDraftTickets() {
     this.loading = true;
-    this.ticketService.loadDraftTicketsFor(this.service)
+    this.questionTicketService.loadDraftTicketsFor(this.service)
       .pipe(
         finalize(() => this.loading = false),
         tap((tickets: QuestionTicket[]) => {

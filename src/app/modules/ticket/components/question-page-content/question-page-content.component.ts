@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 import { first, switchMap, finalize } from 'rxjs/operators';
 
-import { TicketService } from '@shared/services/ticket/ticket.service';
+import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { AnswerI } from '@interfaces/answer.interface';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
@@ -25,7 +25,7 @@ export class QuestionPageContentComponent implements OnInit {
   linkAnimation = 'hide';
 
   constructor(
-    private ticketService: TicketService,
+    private questionTicketService: QuestionTicketService,
     private attachmentService: AttachmentService,
     private policy: TicketPolicy
   ) { }
@@ -34,7 +34,7 @@ export class QuestionPageContentComponent implements OnInit {
     this.ratingStream
       .pipe(
         first(),
-        switchMap(() => this.ticketService.raiseRating(this.data))
+        switchMap(() => this.questionTicketService.raiseRating(this.data))
       )
       .subscribe();
 

@@ -5,7 +5,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuestionFlagsComponent } from './question-flags.component';
 import { TicketTypes, TicketStates } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
-import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
 
 describe('QuestionFlagsComponent', () => {
   let component: QuestionFlagsComponent;
