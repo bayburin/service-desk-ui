@@ -10,6 +10,7 @@ import { toggleAnswer } from '@modules/ticket/animations/toggle-answer.animation
 import { AttachmentService } from '@shared/services/attachment/attachment.service';
 import { QuestionTicketPolicy } from '@shared/policies/question-ticket/question-ticket.policy';
 import { showFlagRight } from '@modules/ticket/animations/show-flag-right.animation';
+import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
 
 @Component({
   selector: 'app-question-page-content',
@@ -18,7 +19,7 @@ import { showFlagRight } from '@modules/ticket/animations/show-flag-right.animat
   animations: [toggleAnswer, showFlagRight]
 })
 export class QuestionPageContentComponent implements OnInit {
-  @Input() data: Ticket;
+  @Input() data: QuestionTicket;
   @Input() standaloneLink: boolean;
   @Input() showFlags: boolean;
   ratingStream = new Subject<Ticket>();

@@ -6,7 +6,7 @@ import { finalize, filter, debounceTime, tap, switchMap, map } from 'rxjs/operat
 import { TagI } from '@interfaces/tag.interface';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { ServiceService } from '@shared/services/service/service.service';
-import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
+import { TagService } from '@shared/services/tag/tag.service';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { ResponsibleUserFactory } from '@modules/ticket/factories/responsible-user.factory';
 import { contentBlockAnimation } from '@animations/content.animation';
@@ -35,7 +35,7 @@ export class CommonTicketInformationComponent implements OnInit {
 
   constructor(
     private serviceService: ServiceService,
-    private questionTicketService: QuestionTicketService,
+    private tagService: TagService,
     private responsibleUserService: ResponsibleUserService
   ) { }
 
@@ -128,7 +128,7 @@ export class CommonTicketInformationComponent implements OnInit {
         filter(term => term && term.length >= 2),
         debounceTime(300),
         tap(() => this.loading.tags = true),
-        switchMap(term => this.questionTicketService.loadTags(term).pipe(finalize(() => this.loading.tags = false)))
+        switchMap(term => this.tagService.loadTags(term).pipe(finalize(() => this.loading.tags = false)))
       )
     );
   }

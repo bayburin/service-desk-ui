@@ -44,7 +44,7 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
     this.openQuestionStream();
     this.routeSub = this.router.events.subscribe(event => {
       if (event instanceof NavigationStart && !event.url.includes('/admin')) {
-        this.serviceService.removeTickets(this.questionTicketService.draftTickets);
+        this.serviceService.removeTickets(this.questionTicketService.draftQuestions);
       }
     });
 
@@ -69,7 +69,7 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
 
   private loadDraftTickets() {
     this.loading = true;
-    this.questionTicketService.loadDraftTicketsFor(this.service)
+    this.questionTicketService.loadDraftQuestionsFor(this.service)
       .pipe(
         finalize(() => this.loading = false),
         tap((tickets: QuestionTicket[]) => {

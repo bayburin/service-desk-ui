@@ -60,7 +60,7 @@ describe('TicketsDetailPageComponent', () => {
     });
     serviceService.service = service;
 
-    spyOn(questionTicketService, 'loadDraftTicketsFor').and.returnValue(of(tickets));
+    spyOn(questionTicketService, 'loadDraftQuestionsFor').and.returnValue(of(tickets));
     spyOn(serviceService, 'addTickets');
     spyOn(responsibleUserService, 'loadDetails').and.returnValues(of(details));
     // spyOn();
@@ -74,7 +74,7 @@ describe('TicketsDetailPageComponent', () => {
   });
 
   it('should loads tickets with draft state from server', () => {
-    expect(questionTicketService.loadDraftTicketsFor).toHaveBeenCalledWith(component.service);
+    expect(questionTicketService.loadDraftQuestionsFor).toHaveBeenCalledWith(component.service);
   });
 
   it('should call "loadDetails" method of responsibleUserService service', () => {
@@ -95,6 +95,6 @@ describe('TicketsDetailPageComponent', () => {
     spyOn(serviceService, 'removeTickets');
     (component as any).router.navigateByUrl('/');
 
-    expect(serviceService.removeTickets).toHaveBeenCalledWith(questionTicketService.draftTickets);
+    expect(serviceService.removeTickets).toHaveBeenCalledWith(questionTicketService.draftQuestions);
   });
 });

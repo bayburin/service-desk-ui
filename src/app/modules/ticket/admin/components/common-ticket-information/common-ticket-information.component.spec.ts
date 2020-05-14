@@ -7,8 +7,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 
 import { CommonTicketInformationComponent } from './common-ticket-information.component';
-import { StubQuestionTicketService } from '@shared/services/question-ticket/question-ticket.service.stub';
-import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
 import { StubServiceService } from '@shared/services/service/service.service.stub';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
@@ -24,6 +22,8 @@ import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.in
 import { ResponsibleUserFactory } from '@modules/ticket/factories/responsible-user.factory';
 import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
 import { QuestionTicketI } from '@interfaces/question-ticket.interface';
+import { TagService } from '@shared/services/tag/tag.service';
+import { StubTagService } from '@shared/services/tag/tag.service.stub';
 
 describe('CommonTicketInformationComponent', () => {
   let component: CommonTicketInformationComponent;
@@ -49,7 +49,7 @@ describe('CommonTicketInformationComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
-        { provide: QuestionTicketService, useClass: StubQuestionTicketService },
+        { provide: TagService, useClass: StubTagService },
         { provide: ResponsibleUserService, useClass: StubResponsibleUserService }
       ]
     })

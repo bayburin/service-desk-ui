@@ -94,7 +94,7 @@ export class QuestionComponent implements OnInit {
 
     const id = this.question.correction ? this.question.correction.id : this.question.id;
 
-    this.questionTicketService.publishTickets([id])
+    this.questionTicketService.publishQuestions([id])
       .pipe(
         tap((tickets: QuestionTicket[]) => {
           if (tickets.length === 0) {
@@ -102,7 +102,7 @@ export class QuestionComponent implements OnInit {
           }
 
           this.serviceService.replaceTicket((this.question.original || this.question).id, tickets[0]);
-          this.questionTicketService.removeDraftTicket(tickets[0]);
+          this.questionTicketService.removeDraftQuestion(tickets[0]);
           this.notifyService.setMessage('Вопрос опубликован');
         }),
         switchMap((tickets: QuestionTicket[]) => {

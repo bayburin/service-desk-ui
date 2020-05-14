@@ -3,10 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { environment } from 'environments/environment';
-import { TicketI } from '@interfaces/ticket.interface';
-import { TagI } from '@interfaces/tag.interface';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
@@ -17,7 +15,7 @@ import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-
   providedIn: 'root'
 })
 export class QuestionTicketService {
-  draftTickets: QuestionTicket[] = [];
+  draftQuestions: QuestionTicket[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -26,32 +24,34 @@ export class QuestionTicketService {
    *
    * @param service - услуга.
    */
-  loadDraftTicketsFor(service: Service): Observable<QuestionTicket[]> {
-    const ticketsUri = `${environment.serverUrl}/api/v1/services/${service.id}/question_tickets`;
+  loadDraftQuestionsFor(service: Service): Observable<QuestionTicket[]> {
+    const questionsUri = this.apiBaseUri(service.id);
 
-    return this.http.get(ticketsUri)
+    return this.http.get(questionsUri)
       .pipe(
         map((questions: QuestionTicketI[]) => questions.map(question => TicketFactory.create(TicketTypes.QUESTION, question))),
-        tap(tickets => this.draftTickets = tickets)
+        tap(questions => this.draftQuestions = questions)
       );
   }
 
   /**
    * Добавляет вопросы к списку черновых.
    *
-   * @param ticket - список вопросов
+   * @param questions - список вопросов
    */
-  addDraftTickets(tickets: QuestionTicket[]): void {
-    this.draftTickets.push(...tickets);
+  addDraftQuestions(questions: QuestionTicket[]): void {
+    this.draftQuestions.push(...questions);
   }
 
   /**
    * Отправляет запрос на сервер на изменение рейтинга указанного вопроса.
+   *
+   * @param question - вопрос, у которого необходимо поднять рейтинг
    */
-  raiseRating(ticket: Ticket): Observable<TicketI> {
-    const raiseRatingUrl = `${environment.serverUrl}/api/v1/services/${ticket.serviceId}/question_tickets/${ticket.ticketId}/raise_rating`;
+  raiseRating(question: QuestionTicket): Observable<QuestionTicketI> {
+    const raiseRatingUrl = `${this.apiBaseUri(question.serviceId)}/${question.ticketId}/raise_rating`;
 
-    return this.http.post<TicketI>(raiseRatingUrl, {});
+    return this.http.post<QuestionTicketI>(raiseRatingUrl, {});
   }
 
   /**
@@ -60,22 +60,10 @@ export class QuestionTicketService {
    * @param questionI - объект questionTicket
    */
   createQuestion(questionI: QuestionTicketI): Observable<QuestionTicket> {
-    const questionUri = `${environment.serverUrl}/api/v1/services/${questionI.ticket.service_id}/question_tickets`;
+    const questionUri = this.apiBaseUri(questionI.ticket.service_id);
 
     return this.http.post(questionUri, { question: questionI })
       .pipe(map((question: QuestionTicketI) => TicketFactory.create(TicketTypes.QUESTION, question)));
-  }
-
-  /**
-   * Загружает список тегов.
-   *
-   * @param - поисковая строка
-   */
-  loadTags(term: string): Observable<TagI[]> {
-    const tagUri = `${environment.serverUrl}/api/v1/tags`;
-    const httpParams = new HttpParams().set('search', term);
-
-    return this.http.get<TagI[]>(tagUri, { params: httpParams });
   }
 
   /**
@@ -85,7 +73,7 @@ export class QuestionTicketService {
    * @param questionId - id вопроса.
    */
   loadQuestion(serviceId: number, questionId: number): Observable<QuestionTicket> {
-    const questionUri = `${environment.serverUrl}/api/v1/services/${serviceId}/question_tickets/${questionId}`;
+    const questionUri = `${this.apiBaseUri(serviceId)}/${questionId}`;
 
     return this.http.get(questionUri).pipe(map((question: QuestionTicketI) => TicketFactory.create(TicketTypes.QUESTION, question)));
   }
@@ -97,7 +85,7 @@ export class QuestionTicketService {
    * @params data - новые данные.
    */
   updateQuestion(questionTicket: QuestionTicket, data: QuestionTicketI): Observable<QuestionTicket> {
-    const questionUri = `${environment.serverUrl}/api/v1/services/${questionTicket.serviceId}/question_tickets/${questionTicket.id}`;
+    const questionUri = `${this.apiBaseUri(questionTicket.serviceId)}/${questionTicket.id}`;
 
     questionTicket.responsibleUsers.forEach(user => {
       if (!data.ticket.responsible_users.find((u: ResponsibleUserI) => u.id === user.id)) {
@@ -113,26 +101,28 @@ export class QuestionTicketService {
   /**
    * Утвердить изменения в указанных вопросах.
    *
-   * @param ticketIds - список id вопросов для утверждения изменений.
+   * @param questionIds - список id вопросов для утверждения изменений.
    */
-  publishTickets(ticketIds: number[]): Observable<Ticket[]> {
-    const ticketUri = `${environment.serverUrl}/api/v1/question_tickets/publish`;
-    const httpParams = new HttpParams().append('ids', `${[ticketIds]}`);
+  publishQuestions(questionIds: number[]): Observable<QuestionTicket[]> {
+    const questionUri = `${environment.serverUrl}/api/v1/question_tickets/publish`;
+    const httpParams = new HttpParams().append('ids', `${[questionIds]}`);
 
-    return this.http.post(ticketUri, {}, { params: httpParams })
-      .pipe(map((ticketsI: QuestionTicketI[]) => ticketsI.map(ticket => TicketFactory.create(ticket.ticket.ticketable_type, ticket))));
+    return this.http.post(questionUri, {}, { params: httpParams })
+      .pipe(
+        map((questionsI: QuestionTicketI[]) => questionsI.map(question => TicketFactory.create(TicketTypes.QUESTION, question)))
+      );
   }
 
   /**
-   * Удалить тикет из списка черновых.
+   * Удалить вопрос из списка черновых.
    *
-   * @param ticket - удаляемый тикет.
+   * @param question - удаляемый вопрос.
    */
-  removeDraftTicket(ticket: Ticket): void {
-    const index = this.draftTickets.findIndex(draft => draft.id === ticket.id);
+  removeDraftQuestion(question: QuestionTicket): void {
+    const index = this.draftQuestions.findIndex(draft => draft.id === question.id);
 
     if (index !== -1) {
-      this.draftTickets.splice(index, 1);
+      this.draftQuestions.splice(index, 1);
     }
   }
 
@@ -142,8 +132,12 @@ export class QuestionTicketService {
    * @param questionTicket - удаляемый тикет.
    */
   destroyQuestion(questionTicket: QuestionTicket): Observable<any> {
-    const questionUri = `${environment.serverUrl}/api/v1/services/${questionTicket.serviceId}/question_tickets/${questionTicket.id}`;
+    const questionUri = `${this.apiBaseUri(questionTicket.serviceId)}/${questionTicket.id}`;
 
     return this.http.delete(questionUri);
+  }
+
+  private apiBaseUri(serviceId: number) {
+    return `${environment.serverUrl}/api/v1/services/${serviceId}/question_tickets`;
   }
 }
