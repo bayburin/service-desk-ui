@@ -13,15 +13,16 @@ import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 describe('SearchService', () => {
   let searchService: SearchService;
   let httpTestingController: HttpTestingController;
+  const questionI = { id: 3, ticket: { id: 4, ticketable_type: 'QuestionTicket', name: 'Тестовый вопрос', service_id: 2 } };
   const serverData = [
     { id: 1, name: 'Тестовая категория' },
     { id: 2, name: 'Тестовая услуга', category_id: 1 },
-    { id: 3, name: 'Тестовый вопрос', service_id: 2, ticket_type: TicketTypes.QUESTION }
+    questionI
   ];
   const expectedResult = [
     CategoryFactory.create({ id: 1, name: 'Тестовая категория' }),
     ServiceFactory.create({ id: 2, name: 'Тестовая услуга', category_id: 1 }),
-    TicketFactory.create(TicketTypes.QUESTION, { id: 3, name: 'Тестовый вопрос', service_id: 2, ticket_type: TicketTypes.QUESTION })
+    TicketFactory.create(TicketTypes.QUESTION, questionI)
   ];
   const searchStr = 'search string';
   const params = new HttpParams().set('search', searchStr);

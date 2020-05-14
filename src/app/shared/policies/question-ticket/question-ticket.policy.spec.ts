@@ -1,32 +1,38 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TicketPolicy } from './ticket.policy';
+import { QuestionTicketPolicy } from './question-ticket.policy';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { TicketTypes, TicketStates } from '@modules/ticket/models/ticket/ticket.model';
 import { UserService } from '@shared/services/user/user.service';
 import { StubUserService, user } from '@shared/services/user/user.service.stub';
 import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
+import { QuestionTicketI } from '@interfaces/question-ticket.interface';
+import { ServiceI } from '@interfaces/service.interface';
+import { TicketI } from '@interfaces/ticket.interface';
 
-describe('TicketPolicy', () => {
-  let ticketPolicy: TicketPolicy;
+describe('QuestionTicketPolicy', () => {
+  let ticketPolicy: QuestionTicketPolicy;
   let ticket: QuestionTicket;
-  let ticketResponsible;
-  let serviceResponsible;
-  let ticketI;
-  let serviceI;
+  let ticketResponsible: ResponsibleUserI;
+  let serviceResponsible: ResponsibleUserI;
+  let ticketI: TicketI;
+  let questionI: QuestionTicketI;
+  let serviceI: ServiceI;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [{ provide: UserService, useClass: StubUserService }]
     });
 
-    ticketResponsible = { tn: user.tn };
-    serviceResponsible = { tn: user.tn };
-    serviceI = { name: 'Тестовая услуга', is_hidden: false, responsible_users: [serviceResponsible] };
-    ticketI = { name: 'Тестовый вопрос', service: serviceI, responsible_users: [ticketResponsible] };
+    ticketResponsible = { tn: user.tn } as ResponsibleUserI;
+    serviceResponsible = { tn: user.tn } as ResponsibleUserI;
+    serviceI = { name: 'Тестовая услуга', is_hidden: false, responsible_users: [serviceResponsible] } as ServiceI;
+    ticketI = { id: 1, name: 'Тестовый вопрос', service: serviceI, responsible_users: [ticketResponsible] } as TicketI;
+    questionI = { id: 2, ticket: ticketI } as QuestionTicketI;
 
-    ticketPolicy = TestBed.get(TicketPolicy);
-    ticket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
+    ticketPolicy = TestBed.get(QuestionTicketPolicy);
+    ticket = TicketFactory.create(TicketTypes.QUESTION, questionI);
     ticketPolicy.object = ticket;
   });
 

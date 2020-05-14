@@ -1,4 +1,4 @@
-export class StubTicketPolicy {
+export class StubQuestionTicketPolicy {
   authorize() {}
   showFlags() {}
   publish() {}

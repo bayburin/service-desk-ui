@@ -8,7 +8,7 @@ import { AnswerI } from '@interfaces/answer.interface';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { toggleAnswer } from '@modules/ticket/animations/toggle-answer.animation';
 import { AttachmentService } from '@shared/services/attachment/attachment.service';
-import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
+import { QuestionTicketPolicy } from '@shared/policies/question-ticket/question-ticket.policy';
 import { showFlagRight } from '@modules/ticket/animations/show-flag-right.animation';
 
 @Component({
@@ -27,7 +27,7 @@ export class QuestionPageContentComponent implements OnInit {
   constructor(
     private questionTicketService: QuestionTicketService,
     private attachmentService: AttachmentService,
-    private policy: TicketPolicy
+    private policy: QuestionTicketPolicy
   ) { }
 
   ngOnInit() {

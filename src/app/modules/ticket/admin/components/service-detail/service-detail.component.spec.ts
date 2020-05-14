@@ -7,7 +7,6 @@ import { By } from '@angular/platform-browser';
 import { ServiceDetailComponent } from './service-detail.component';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
-import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 describe('ServiceDetailComponent', () => {
   let component: ServiceDetailComponent;
@@ -29,9 +28,9 @@ describe('ServiceDetailComponent', () => {
     service = ServiceFactory.create({
       id: 1,
       name: 'Тестовая услуга',
-      tickets: [
-        { id: 2, name: 'Вопрос 1', ticket_type: TicketTypes.QUESTION },
-        { id: 3, name: 'Вопрос 2', ticket_type: TicketTypes.QUESTION }
+      question_tickets: [
+        { id: 2, ticket: { name: 'Вопрос 1' } },
+        { id: 3, ticket: { name: 'Вопрос 2' } }
       ]
     });
     component.service = service;
@@ -47,7 +46,7 @@ describe('ServiceDetailComponent', () => {
   });
 
   it('should show app-question components', () => {
-    expect(fixture.debugElement.nativeElement.querySelectorAll('app-question').length).toEqual(service.tickets.length);
+    expect(fixture.debugElement.nativeElement.querySelectorAll('app-question').length).toEqual(service.questionTickets.length);
   });
 
   it('should show link to user mode', () => {

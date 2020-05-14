@@ -13,8 +13,8 @@ import { AnswerI } from '@interfaces/answer.interface';
 import { StubQuestionTicketService } from '@shared/services/question-ticket/question-ticket.service.stub';
 import { AttachmentService } from '@shared/services/attachment/attachment.service';
 import { StubAttachmentService } from '@shared/services/attachment/attachment.service.stub';
-import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
-import { StubTicketPolicy } from '@shared/policies/ticket/ticket.policy.stub';
+import { QuestionTicketPolicy } from '@shared/policies/question-ticket/question-ticket.policy';
+import { StubQuestionTicketPolicy } from '@shared/policies/question-ticket/question-ticket.policy.stub';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
@@ -22,7 +22,7 @@ import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-
 describe('QuestionPageContentComponent', () => {
   let component: QuestionPageContentComponent;
   let fixture: ComponentFixture<QuestionPageContentComponent>;
-  let ticket: QuestionTicket;
+  let question: QuestionTicket;
   let questionTicketService: QuestionTicketService;
   let attachmentService: AttachmentService;
   const attachment = {
@@ -42,7 +42,7 @@ describe('QuestionPageContentComponent', () => {
       providers: [
         { provide: QuestionTicketService, useClass: StubQuestionTicketService },
         { provide: AttachmentService, useClass: StubAttachmentService },
-        { provide: TicketPolicy, useClass: StubTicketPolicy }
+        { provide: QuestionTicketPolicy, useClass: StubQuestionTicketPolicy }
       ]
     })
     .compileComponents();
@@ -51,8 +51,8 @@ describe('QuestionPageContentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuestionPageContentComponent);
     component = fixture.componentInstance;
-    ticket = TicketFactory.create(TicketTypes.QUESTION, { id: 1, name: 'Тестовый вопрос', answers });
-    component.data = ticket;
+    question = TicketFactory.create(TicketTypes.QUESTION, { id: 1, ticket: { id: 2, name: 'Тестовый вопрос' }, answers });
+    component.data = question;
     questionTicketService = TestBed.get(QuestionTicketService);
     attachmentService = TestBed.get(AttachmentService);
     fixture.detectChanges();
@@ -67,17 +67,17 @@ describe('QuestionPageContentComponent', () => {
   it('should call "raiseRating" method for QuestionTicketService if "ratingStream" emitted', () => {
     spyOn(questionTicketService, 'raiseRating').and.callThrough();
     component.ratingStream.subscribe(() => {
-      expect(questionTicketService.raiseRating).toHaveBeenCalledWith(ticket);
+      expect(questionTicketService.raiseRating).toHaveBeenCalledWith(question);
     });
 
-    component.ratingStream.next(ticket);
+    component.ratingStream.next(question);
   });
 
   describe('#toggleTicket', () => {
     it('should change "open" attribute', () => {
       component.toggleTicket();
 
-      expect(ticket.open).toEqual(true);
+      expect(question.open).toEqual(true);
     });
 
     it('should emit to "ratingStream" subject', () => {
@@ -93,7 +93,7 @@ describe('QuestionPageContentComponent', () => {
       component.toggleTicket();
 
       expect(component.ratingStream.next).not.toHaveBeenCalled();
-      expect(ticket.open).not.toEqual(true);
+      expect(question.open).not.toEqual(true);
     });
   });
 
@@ -118,18 +118,18 @@ describe('QuestionPageContentComponent', () => {
     const selectedAnswer = answers[0];
 
     it('should show question', () => {
-      expect(fixture.debugElement.nativeElement.textContent).toContain(ticket.name);
+      expect(fixture.debugElement.nativeElement.textContent).toContain(question.name);
     });
 
     it('should show markdown answers', () => {
-      ticket.answers.forEach(answer => {
+      question.answers.forEach(answer => {
         expect(fixture.debugElement.nativeElement.textContent).not.toContain(answer.answer);
       });
 
       fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-list-question-group').click();
       fixture.detectChanges();
 
-      expect(fixture.debugElement.queryAll(By.css('markdown')).length).toEqual(ticket.answers.length);
+      expect(fixture.debugElement.queryAll(By.css('markdown')).length).toEqual(question.answers.length);
       // ticket.answers.forEach(answer => {
       //   expect(fixture.debugElement.nativeElement.textContent).toContain(answer.answer);
       // });
@@ -158,7 +158,7 @@ describe('QuestionPageContentComponent', () => {
     });
 
     it('should show app-responsible-user-details component', () => {
-      ticket.responsibleUsers = [{ tn: 17664, details: { full_name: 'ФИО' } as ResponsibleUserDetailsI } as ResponsibleUserI];
+      question.responsibleUsers = [{ tn: 17664, details: { full_name: 'ФИО' } as ResponsibleUserDetailsI } as ResponsibleUserI];
       fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-list-question-group').click();
       fixture.detectChanges();
 
