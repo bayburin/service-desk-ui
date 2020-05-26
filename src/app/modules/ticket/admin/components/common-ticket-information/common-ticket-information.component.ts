@@ -105,7 +105,7 @@ export class CommonTicketInformationComponent implements OnInit {
 
   private loadServiceTags(): void {
     this.loading.serviceTags = true;
-    this.serviceService.loadTags()
+    this.tagService.popular(this.serviceService.service.id)
       .pipe(finalize(() => this.loading.serviceTags = false))
       .subscribe((tags: TagI[]) => {
         this.serviceTags = tags.map(tag => {

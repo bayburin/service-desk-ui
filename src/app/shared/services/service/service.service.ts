@@ -64,16 +64,6 @@ export class ServiceService implements BreadcrumbServiceI {
   }
 
   /**
-   * Загружает список тегов для текущего сервиса, отсортированный по популярности.
-   */
-  loadTags(): Observable<TagI[]> {
-    const tagsUri = `${environment.serverUrl}/api/v1/tags/popularity`;
-    const httpParams = new HttpParams().set('service_id', `${this.service.id}`);
-
-    return this.http.get<TagI[]>(tagsUri, { params: httpParams });
-  }
-
-  /**
    * Добавить вопросы к услуге.
    *
    * @param questions - вопросы.

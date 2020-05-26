@@ -47,4 +47,26 @@ describe('TagService', () => {
       }).flush(tags);
     });
   });
+
+  describe('#popular', () => {
+    it('should return Observable with array of tags', () => {
+      const serviceId = 1;
+      const limit = 20;
+      const tagsUri = `${environment.serverUrl}/api/v1/tags/popular`;
+      const params = new HttpParams().set('service_id', `${serviceId}`).set('limit', `${limit}`);
+      const tags: TagI[] = [
+        { id: 1, name: 'Tag 1', popularity: 4 },
+        { id: 2, name: 'Tag 2', popularity: 1 }
+      ];
+
+      tagService.popular(serviceId, limit).subscribe(result => {
+        expect(result).toEqual(tags);
+      });
+
+      httpTestingController.expectOne({
+        method: 'GET',
+        url: `${tagsUri}?${params}`
+      }).flush(tags);
+    });
+  });
 });

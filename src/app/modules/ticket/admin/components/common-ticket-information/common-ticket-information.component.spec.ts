@@ -34,8 +34,10 @@ describe('CommonTicketInformationComponent', () => {
   let ticket: QuestionTicket;
   let questionI: QuestionTicketI;
   let serviceService: ServiceService;
+  let tagService: TagService;
   let ticketTag: TagI;
   let responsibleUserService: ResponsibleUserService;
+  let tags: TagI[];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -62,6 +64,7 @@ describe('CommonTicketInformationComponent', () => {
 
     const formBuilder = TestBed.get(FormBuilder);
     serviceService = TestBed.get(ServiceService);
+    tagService = TestBed.get(TagService);
     responsibleUserService = TestBed.get(ResponsibleUserService);
 
     serviceI = {
@@ -71,10 +74,11 @@ describe('CommonTicketInformationComponent', () => {
       is_hidden: false
     } as ServiceI;
     service = ServiceFactory.create(serviceI);
+    serviceService.service = service;
     ticketTag = { id: 1, name: 'Тег 1' };
     ticketI = {
       id: 3,
-      service_id: 1,
+      service_id: service.id,
       name: 'Тестовый вопрос',
       ticket_type: TicketTypes.QUESTION,
       ticketable_id: 4,
@@ -102,6 +106,12 @@ describe('CommonTicketInformationComponent', () => {
         tags: [[]],
         responsible_users: [[]]
     });
+
+    tags = [
+      { id: 1, name: 'Тег 1', popularity: 5 },
+      { id: 2, name: 'Тег 2', popularity: 1 }
+    ];
+    spyOn(tagService, 'popular').and.returnValue(of(tags));
   });
 
   it('should create', () => {
@@ -129,15 +139,15 @@ describe('CommonTicketInformationComponent', () => {
   });
 
   describe('Tag features', () => {
-    let tags: TagI[];
+    // let tags: TagI[];
 
-    beforeEach(() => {
-      tags = [
-        { id: 1, name: 'Тег 1', popularity: 5 },
-        { id: 2, name: 'Тег 2', popularity: 1 }
-      ];
-      spyOn(serviceService, 'loadTags').and.returnValue(of(tags));
-    });
+    // beforeEach(() => {
+    //   tags = [
+    //     { id: 1, name: 'Тег 1', popularity: 5 },
+    //     { id: 2, name: 'Тег 2', popularity: 1 }
+    //   ];
+    //   spyOn(tagService, 'popular').and.returnValue(of(tags));
+    // });
 
     describe('when ticket exists', () => {
       beforeEach(() => {
