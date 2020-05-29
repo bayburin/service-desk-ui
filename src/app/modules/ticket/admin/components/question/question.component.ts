@@ -101,7 +101,7 @@ export class QuestionComponent implements OnInit {
             return;
           }
 
-          this.serviceService.replaceTicket((this.question.original || this.question).id, tickets[0]);
+          this.serviceService.replaceQuestion((this.question.original || this.question).id, tickets[0]);
           this.questionTicketService.removeDraftQuestion(tickets[0]);
           this.notifyService.setMessage('Вопрос опубликован');
         }),
@@ -125,7 +125,7 @@ export class QuestionComponent implements OnInit {
 
     this.questionTicketService.destroyQuestion(this.question).subscribe(() => {
       this.notifyService.setMessage('Вопрос удален');
-      this.serviceService.removeTickets([this.question]);
+      this.serviceService.removeQuestions([this.question]);
     });
   }
 
@@ -144,7 +144,7 @@ export class QuestionComponent implements OnInit {
         this.showOriginal();
         this.question.correction = null;
       } else {
-        this.serviceService.removeTickets([this.question]);
+        this.serviceService.removeQuestions([this.question]);
       }
     });
   }

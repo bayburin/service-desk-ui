@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap, shareReplay } from 'rxjs/operators';
 
@@ -9,8 +9,8 @@ import { ServiceI } from '@interfaces/service.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
 import { SearchSortingPipe } from '@shared/pipes/search-sorting/search-sorting.pipe';
-import { TagI } from '@interfaces/tag.interface';
 import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { TicketDataI } from '../ticket/ticket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -63,22 +63,25 @@ export class ServiceService implements BreadcrumbServiceI {
     }
   }
 
+  // FIXME: Метод должен быть изменен
   /**
-   * Добавить вопросы к услуге.
+   * Добавить тикеты к услуге.
    *
-   * @param questions - вопросы.
+   * @param data - вопросы.
    */
-  addTickets(questions: QuestionTicket[]): void {
-    this.service.questionTickets = questions.concat(this.service.questionTickets);
+  addTickets(data: TicketDataI): void {
+    this.service.questionTickets = data.questions.concat(this.service.questionTickets);
+    // this.service.caseTickets = data.cases.concat(this.service.caseTickets);
   }
 
+  // FIXME: Метод должен быть изменен
   /**
    * Находит ticket в списке и заменяет указанным.
    *
    * @param ticketId - id заменяемого объекта QuestionTicket.
    * @param ticket - новый объект QuestionTicket.
    */
-  replaceTicket(questionId: number, newQuestion: QuestionTicket): void {
+  replaceQuestion(questionId: number, newQuestion: QuestionTicket): void {
     let original: QuestionTicket;
 
     const index = this.service.questionTickets.findIndex(question => {
@@ -100,20 +103,23 @@ export class ServiceService implements BreadcrumbServiceI {
     }
   }
 
+  // FIXME: Метод должен быть изменен
   /**
    * Удалить вопросы из услуги.
    *
    * @param questions - вопросы.
    */
-  removeTickets(questions: QuestionTicket[]): void {
+  removeQuestions(questions: QuestionTicket[]): void {
     this.service.questionTickets = this.service.questionTickets.filter(el => !questions.find(draft => draft.id === el.id));
   }
 
+  // FIXME: Метод должен быть изменен
   /**
    * Удалить черновые вопросы.
    */
   removeDraftTickets(): void {
     this.service.questionTickets = this.service.questionTickets.filter(question => !question.isDraftState());
+    // this.service.caseTickets = this.service.caseTickets.filter(question => !question.isDraftState());
   }
 
   getNodeName(): Observable<string> {

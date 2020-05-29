@@ -47,7 +47,7 @@ export class QuestionPageContentComponent implements OnInit {
   /**
    * "Раскрывает" вопрос и отправляет запрос на сервер для изменения его рейтинга.
    */
-  toggleTicket(): void {
+  toggleQuestion(): void {
     if (this.standaloneLink) {
       return;
     }

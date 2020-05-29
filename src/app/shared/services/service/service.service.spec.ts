@@ -1,9 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpParams } from '@angular/common/http';
 
 import { environment } from 'environments/environment';
-import { TicketI } from '@interfaces/ticket.interface';
 import { ServiceI } from '@interfaces/service.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { ServiceService } from './service.service';
@@ -12,9 +10,9 @@ import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { Category } from '@modules/ticket/models/category/category.model';
-import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
-import { TagI } from '@interfaces/tag.interface';
-import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { TicketDataI } from '../ticket/ticket.service';
 
 describe('ServiceService', () => {
   let httpTestingController: HttpTestingController;
@@ -66,15 +64,15 @@ describe('ServiceService', () => {
 
   describe('#loadService', () => {
     let loadServiceUri: string;
-    let ticketI: TicketI;
-    let ticket: Ticket;
+    // let ticketI: TicketI;
+    // let ticket: Ticket;
 
     beforeEach(() => {
       loadServiceUri = `${environment.serverUrl}/api/v1/categories/${category.id}/services/${service.id}`;
-      ticketI = { id: 1, service_id: service.id, ticket_type: TicketTypes.CASE } as TicketI;
-      ticket = TicketFactory.create(TicketTypes.CASE, ticketI);
-      serviceI.tickets = [ticketI];
-      service.tickets = [ticket];
+      // ticketI = { id: 1, service_id: service.id } as TicketI;
+      // ticket = TicketFactory.create(TicketTypes.CASE, ticketI);
+      // serviceI.tickets = [ticketI];
+      // service.tickets = [ticket];
     });
 
     it('should return Observable with Service data', () => {
@@ -88,18 +86,18 @@ describe('ServiceService', () => {
       }).flush(serviceI);
     });
 
-    it('should filter tickets array into Service object', () => {
-      const spy = spyOn(sortPipe, 'transform');
+    // it('should filter tickets array into Service object', () => {
+    //   const spy = spyOn(sortPipe, 'transform');
 
-      serviceService.loadService(category.id, service.id).subscribe(() => {
-        expect(spy).toHaveBeenCalledWith(service.tickets);
-      });
+    //   serviceService.loadService(category.id, service.id).subscribe(() => {
+    //     expect(spy).toHaveBeenCalledWith(service.tickets);
+    //   });
 
-      httpTestingController.expectOne({
-        method: 'GET',
-        url: loadServiceUri
-      }).flush(serviceI);
-    });
+    //   httpTestingController.expectOne({
+    //     method: 'GET',
+    //     url: loadServiceUri
+    //   }).flush(serviceI);
+    // });
 
     it('should emit Service data to service subject', () => {
       const spy = spyOn((serviceService as any).service$, 'next');
@@ -124,7 +122,6 @@ describe('ServiceService', () => {
         url: loadServiceUri
       }).flush(serviceI);
     });
-
 
     describe('with "caching" flag', () => {
       it('should set into "returnCached" attribute true value', () => {
@@ -176,98 +173,76 @@ describe('ServiceService', () => {
     });
   });
 
-  describe('#loadTags', () => {
-    beforeEach(() => {
-      serviceService.service = service;
-    });
-
-    it('should return Observable with array of tags', () => {
-      const tagsUri = `${environment.serverUrl}/api/v1/tags/popularity`;
-      const params = new HttpParams().set('service_id', `${service.id}`);
-      const tags: TagI[] = [
-        { id: 1, name: 'Tag 1', popularity: 4 },
-        { id: 2, name: 'Tag 2', popularity: 1 }
-      ];
-
-      serviceService.loadTags().subscribe(result => {
-        expect(result).toEqual(tags);
-      });
-
-      httpTestingController.expectOne({
-        method: 'GET',
-        url: `${tagsUri}?${params}`
-      }).flush(tags);
-    });
-  });
-
   describe('Operations with tickets', () => {
-    let newTicket: QuestionTicket;
+    let question: QuestionTicket;
+    const newTickets: TicketDataI = {} as TicketDataI;
 
     beforeEach(() => {
-      newTicket = TicketFactory.create(TicketTypes.QUESTION, { id: 10, name: 'Новый вопрос' });
+      question = TicketFactory.create(TicketTypes.QUESTION, { id: 10, name: 'Новый вопрос' })
+      newTickets.questions = [question];
       serviceService.service = service;
-      serviceService.addTickets([newTicket]);
+      serviceService.addTickets(newTickets);
     });
 
     describe('#addTickets', () => {
-      it('should add tickets to "tickets" array', () => {
-        expect(serviceService.service.tickets).toContain(newTicket);
+      it('should add tickets to "questionTickets" array', () => {
+        expect(serviceService.service.questionTickets).toContain(question);
       });
     });
 
-    describe('#replaceTickets', () => {
+    describe('#replaceQuestions', () => {
       let ticket: QuestionTicket;
       let correction: QuestionTicket;
 
       beforeEach(() => {
-        ticket = TicketFactory.create(TicketTypes.QUESTION, { id: 1, name: 'Тестовый вопрос' });
-        newTicket = TicketFactory.create(TicketTypes.QUESTION, { id: ticket.id, name: 'Тестовый вопрос. Новая редакция' });
-        correction = TicketFactory.create(TicketTypes.QUESTION, { id: 2, name: 'Тестовый вопрос. Старая редакция.' });
-        service.tickets = [ticket];
+        ticket = TicketFactory.create(TicketTypes.QUESTION, { id: 1, ticket: { name: 'Тестовый вопрос' } });
+        question = TicketFactory.create(TicketTypes.QUESTION, { id: ticket.id, ticket: { name: 'Тестовый вопрос. Новая редакция' } });
+        correction = TicketFactory.create(TicketTypes.QUESTION, { id: 2, ticket: { name: 'Тестовый вопрос. Старая редакция.' } });
+        service.questionTickets = [ticket];
       });
 
       it('should replace ticket', () => {
-        serviceService.replaceTicket(ticket.id, newTicket);
+        serviceService.replaceQuestion(ticket.id, question);
 
-        expect(service.tickets[0]).toEqual(newTicket);
+        expect(service.questionTickets[0]).toEqual(question);
       });
 
       it('should not replace ticket if its not found', () => {
-        serviceService.replaceTicket(ticket.id + 1, newTicket);
+        serviceService.replaceQuestion(ticket.id + 1, question);
 
-        expect(service.tickets[0]).not.toEqual(newTicket);
+        expect(service.questionTickets[0]).not.toEqual(question);
       });
 
       it('should set "original" attribute if correction exists', () => {
         ticket.correction = correction;
-        serviceService.replaceTicket(ticket.correction.id, newTicket);
+        serviceService.replaceQuestion(ticket.correction.id, question);
 
-        expect((service.tickets[0] as QuestionTicket).correction).toEqual(newTicket);
-        expect((service.tickets[0] as QuestionTicket).correction.original).toEqual(ticket);
+        expect((service.questionTickets[0] as QuestionTicket).correction).toEqual(question);
+        expect((service.questionTickets[0] as QuestionTicket).correction.original).toEqual(ticket);
       });
     });
 
-    describe('#removeTickets', () => {
+    describe('#removeQuestions', () => {
       it('should remove tickets from "tickets" array', () => {
-        serviceService.removeTickets([newTicket]);
+        serviceService.removeQuestions([question]);
 
-        expect(serviceService.service.tickets).not.toContain(newTicket);
+        expect(serviceService.service.questionTickets).not.toContain(question);
       });
     });
 
     describe('#removeDraftTickets', () => {
-      let draftTicket: Ticket;
+      let draftTicket: QuestionTicket;
 
       beforeEach(() => {
-        draftTicket = TicketFactory.create(TicketTypes.QUESTION, { id: 3, state: 'draft', name: 'Тестовый вопрос 3' });
-        service.tickets.push(draftTicket);
+        draftTicket = TicketFactory.create(TicketTypes.QUESTION, { id: 3, ticket: { state: 'draft', name: 'Тестовый вопрос 3' } });
+        service.questionTickets.push(draftTicket);
       });
 
       it('should remove tickets from "tickets" array which have draft state', () => {
         serviceService.removeDraftTickets();
 
-        expect(serviceService.service.tickets).toContain(newTicket);
-        expect(serviceService.service.tickets).not.toContain(draftTicket);
+        expect(serviceService.service.questionTickets).toContain(question);
+        expect(serviceService.service.questionTickets).not.toContain(draftTicket);
       });
     });
   });

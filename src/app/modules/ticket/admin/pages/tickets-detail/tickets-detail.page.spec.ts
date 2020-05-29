@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TicketsDetailPageComponent } from './tickets-detail.page';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -8,7 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ServiceService } from '@shared/services/service/service.service';
 import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
 import { StubQuestionTicketService } from '@shared/services/question-ticket/question-ticket.service.stub';
-import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
@@ -16,26 +17,32 @@ import { StubServiceService } from '@shared/services/service/service.service.stu
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
+import { TicketService, TicketDataI } from '@shared/services/ticket/ticket.service';
+import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
+import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
 
 describe('TicketsDetailPageComponent', () => {
   let component: TicketsDetailPageComponent;
   let fixture: ComponentFixture<TicketsDetailPageComponent>;
   let questionTicketService: QuestionTicketService;
+  let ticketService: TicketService;
   let serviceService: ServiceService;
-  let tickets: Ticket[];
+  let questions: QuestionTicket[];
   let service: Service;
   let responsibleUserService: ResponsibleUserService;
   let details: ResponsibleUserDetailsI[];
+  let data: TicketDataI;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, RouterTestingModule],
+      imports: [NoopAnimationsModule, RouterTestingModule, HttpClientTestingModule],
       declarations: [TicketsDetailPageComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
         { provide: QuestionTicketService, useClass: StubQuestionTicketService },
-        { provide: ResponsibleUserService, useClass: StubResponsibleUserService }
+        { provide: ResponsibleUserService, useClass: StubResponsibleUserService },
+        { provide: TicketService, useClass: StubTicketService },
       ]
     })
     .compileComponents();
@@ -46,25 +53,28 @@ describe('TicketsDetailPageComponent', () => {
     component = fixture.componentInstance;
     questionTicketService = TestBed.get(QuestionTicketService);
     serviceService = TestBed.get(ServiceService);
+    ticketService = TestBed.get(TicketService);
     responsibleUserService = TestBed.get(ResponsibleUserService);
     details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
-    tickets = [
-      TicketFactory.create(TicketTypes.QUESTION, { id: 2, name: 'Вопрос 2' }),
-      TicketFactory.create(TicketTypes.QUESTION, { id: 3, name: 'Вопрос 3' })
+    questions = [
+      TicketFactory.create(TicketTypes.QUESTION, { id: 2, ticket: { id: 1, name: 'Вопрос 2' } }),
+      TicketFactory.create(TicketTypes.QUESTION, { id: 3, ticket: { id: 2, name: 'Вопрос 3' } })
     ];
+    data = { questions, cases: [] };
     service = ServiceFactory.create({
       id: 1,
       categoryId: 2,
       name: 'Тестовая услуга',
-      tickets: [{ id: 1, name: 'Вопрос 1', ticket_type: TicketTypes.QUESTION }]
+      question_tickets: [{ id: 1, ticket: { name: 'Вопрос 1' } }]
     });
     serviceService.service = service;
 
-    spyOn(questionTicketService, 'loadDraftQuestionsFor').and.returnValue(of(tickets));
+    spyOn(ticketService, 'loadDraftTickets').and.returnValue(of(data));
     spyOn(serviceService, 'addTickets');
+    spyOn(serviceService, 'removeDraftTickets');
+    spyOn(questionTicketService, 'addDraftQuestions');
     spyOn(responsibleUserService, 'loadDetails').and.returnValues(of(details));
-    // spyOn();
-    tickets.forEach(ticket => spyOn(ticket, 'associateResponsibleUserDetails'));
+    questions.forEach(ticket => spyOn(ticket, 'associateResponsibleUserDetails'));
 
     fixture.detectChanges();
   });
@@ -73,28 +83,38 @@ describe('TicketsDetailPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should loads tickets with draft state from server', () => {
-    expect(questionTicketService.loadDraftQuestionsFor).toHaveBeenCalledWith(component.service);
-  });
+  describe('#loadTickets', () => {
+    it('should loads tickets with draft state from server', () => {
+      expect(ticketService.loadDraftTickets).toHaveBeenCalledWith(component.service);
+    });
 
-  it('should call "loadDetails" method of responsibleUserService service', () => {
-    expect(responsibleUserService.loadDetails).toHaveBeenCalled();
-  });
+    it('should call "loadDetails" method of responsibleUserService service', () => {
+      expect(responsibleUserService.loadDetails).toHaveBeenCalled();
+    });
 
-  it('should call "associateResponsibleUserDetails" method for created ticket with occured details', () => {
-    tickets.forEach(ticket => {
-      expect(ticket.associateResponsibleUserDetails).toHaveBeenCalledWith(details);
+    it('should call "associateResponsibleUserDetails" method for created question with occured details', () => {
+      questions.forEach(question => {
+        expect(question.associateResponsibleUserDetails).toHaveBeenCalledWith(details);
+      });
+    });
+
+    it('should call "removeDraftTickets" method', () => {
+      expect(serviceService.removeDraftTickets).toHaveBeenCalled();
+    });
+
+    it('should call "addTickets" method with received tickets', () => {
+      expect(serviceService.addTickets).toHaveBeenCalledWith(data);
+    });
+
+    it('should call "addDraftQuestions" method with received tickets', () => {
+      expect(questionTicketService.addDraftQuestions).toHaveBeenCalledWith(data.questions);
     });
   });
 
-  it('should call "addTickets" method with received tickets', () => {
-    expect(serviceService.addTickets).toHaveBeenCalledWith(tickets);
-  });
-
-  it('should call "removeTickets" method with draft tickets if user leaves the admin module', () => {
-    spyOn(serviceService, 'removeTickets');
+  it('should call "removeQuestions" method with draft tickets if user leaves the admin module', () => {
+    spyOn(serviceService, 'removeQuestions');
     (component as any).router.navigateByUrl('/');
 
-    expect(serviceService.removeTickets).toHaveBeenCalledWith(questionTicketService.draftQuestions);
+    expect(serviceService.removeQuestions).toHaveBeenCalledWith(questionTicketService.draftQuestions);
   });
 });

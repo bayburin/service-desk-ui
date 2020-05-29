@@ -1,3 +1,4 @@
+import { QuestionTicketI } from '@interfaces/question-ticket.interface';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,8 +12,8 @@ import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory'
 import { TicketTypes, TicketStates } from '@modules/ticket/models/ticket/ticket.model';
 import { ServiceService } from '@shared/services/service/service.service';
 import { StubServiceService } from '@shared/services/service/service.service.stub';
-import { TicketService } from '@shared/services/ticket/ticket.service';
-import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
+import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
+import { StubQuestionTicketService } from '@shared/services/question-ticket/question-ticket.service.stub';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { StubNotificationService } from '@shared/services/notification/notification.service.stub';
 import { TicketI } from '@interfaces/ticket.interface';
@@ -22,15 +23,15 @@ import { StubUserService } from '@shared/services/user/user.service.stub';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
-import { QuestionTicket } from '@modules/ticket/models/question_ticket/question_ticket.model';
+import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
 
 describe('QuestionComponent', () => {
   let component: QuestionComponent;
   let fixture: ComponentFixture<QuestionComponent>;
   let question: QuestionTicket;
   let serviceService: ServiceService;
-  let ticketService: TicketService;
-  let correction: TicketI;
+  let questionTicketService: QuestionTicketService;
+  let correction: QuestionTicketI;
   let notifyService: NotificationService;
   let responsibleUserService: ResponsibleUserService;
 
@@ -41,7 +42,7 @@ describe('QuestionComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
-        { provide: TicketService, useClass: StubTicketService },
+        { provide: QuestionTicketService, useClass: StubQuestionTicketService },
         { provide: NotificationService, useClass: StubNotificationService },
         { provide: UserService, useClass: StubUserService },
         { provide: ResponsibleUserService, useClass: StubResponsibleUserService }
@@ -54,29 +55,33 @@ describe('QuestionComponent', () => {
     fixture = TestBed.createComponent(QuestionComponent);
     component = fixture.componentInstance;
     serviceService = TestBed.get(ServiceService);
-    ticketService = TestBed.get(TicketService);
+    questionTicketService = TestBed.get(QuestionTicketService);
     notifyService = TestBed.get(NotificationService);
     correction = {
       id: 3,
-      service_id: 2,
-      name: 'Измененный вопрос',
       original_id: 1,
-      state: 'draft',
-      open: false
-    } as TicketI;
+      ticket: {
+        service_id: 2,
+        name: 'Измененный вопрос',
+        state: 'draft',
+        open: false
+      } as TicketI
+    } as QuestionTicketI;
     question = TicketFactory.create(TicketTypes.QUESTION, {
       id: 1,
-      service_id: 2,
       correction,
-      name: 'Тестовый вопрос',
-      state: 'published',
-      responsible_users: [
-        { tn: 123, details: { full_name: 'ФИО' } }
-      ],
-      tags: [
-        { id: 1, name: 'Тег 1' },
-        { id: 2, name: 'Тег 2' }
-      ],
+      ticket: {
+        service_id: 2,
+        name: 'Тестовый вопрос',
+        state: 'published',
+        responsible_users: [
+          { tn: 123, details: { full_name: 'ФИО' } }
+        ],
+        tags: [
+          { id: 1, name: 'Тег 1' },
+          { id: 2, name: 'Тег 2' }
+        ]
+      },
       answers: [
         { id: 2, answer: 'Ответ 1' },
         { id: 3, answer: 'Ответ 2' }
@@ -141,8 +146,8 @@ describe('QuestionComponent', () => {
       details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
 
       spyOn(window, 'confirm').and.returnValue(true);
-      spyOn(serviceService, 'replaceTicket');
-      spyOn(ticketService, 'removeDraftTicket');
+      spyOn(serviceService, 'replaceQuestion');
+      spyOn(questionTicketService, 'removeDraftQuestion');
       spyOn(responsibleUserService, 'loadDetails').and.returnValue(of(details));
     });
 
@@ -151,26 +156,26 @@ describe('QuestionComponent', () => {
         question = question.correction;
         result = TicketFactory.create(TicketTypes.QUESTION, correction);
         result.state = TicketStates.PUBLISHED;
-        spyOn(ticketService, 'publishTickets').and.returnValue(of([result]));
+        spyOn(questionTicketService, 'publishQuestions').and.returnValue(of([result]));
         spyOn(notifyService, 'setMessage');
         spyOn(result, 'associateResponsibleUserDetails');
         component.publishQuestion();
       });
 
-      it('should call "publishTickets" method', () => {
-        expect(ticketService.publishTickets).toHaveBeenCalledWith([question.id]);
+      it('should call "publishQuestions" method', () => {
+        expect(questionTicketService.publishQuestions).toHaveBeenCalledWith([question.id]);
       });
 
-      it('should call "replaceTicket" method', () => {
-        expect(serviceService.replaceTicket).toHaveBeenCalledWith(question.original.id, result);
+      it('should call "replaceQuestion" method', () => {
+        expect(serviceService.replaceQuestion).toHaveBeenCalledWith(question.original.id, result);
       });
 
       it('should call "setMessage" method', () => {
         expect(notifyService.setMessage).toHaveBeenCalled();
       });
 
-      it('should call "removeDraftTicket" method for TicketService', () => {
-        expect(ticketService.removeDraftTicket).toHaveBeenCalledWith(result);
+      it('should call "removeDraftQuestion" method for QuestionTicketService', () => {
+        expect(questionTicketService.removeDraftQuestion).toHaveBeenCalledWith(result);
       });
 
       it('should call "loadDetails" method of ResponsibleUserService service', () => {
@@ -184,12 +189,12 @@ describe('QuestionComponent', () => {
 
     describe('when server returns empty array', () => {
       beforeEach(() => {
-        spyOn(ticketService, 'publishTickets').and.returnValue(of([]));
+        spyOn(questionTicketService, 'publishQuestions').and.returnValue(of([]));
         component.publishQuestion();
       });
 
       it('should exit from method', () => {
-        expect(serviceService.replaceTicket).not.toHaveBeenCalled();
+        expect(serviceService.replaceQuestion).not.toHaveBeenCalled();
       });
     });
   });
@@ -197,37 +202,37 @@ describe('QuestionComponent', () => {
   describe('#destroyPublishedQuestion', () => {
     beforeEach(() => {
       spyOn(window, 'confirm').and.returnValue(true);
-      spyOn(ticketService, 'destroyTicket').and.returnValue(of(question));
+      spyOn(questionTicketService, 'destroyQuestion').and.returnValue(of(question));
       spyOn(notifyService, 'setMessage');
-      spyOn(serviceService, 'removeTickets');
+      spyOn(serviceService, 'removeQuestions');
       component.destroyPublishedQuestion();
     });
 
     it('should call "destroyTicket" method', () => {
-      expect(ticketService.destroyTicket).toHaveBeenCalled();
+      expect(questionTicketService.destroyQuestion).toHaveBeenCalled();
     });
 
     it('should call "setMessage" method', () => {
       expect(notifyService.setMessage).toHaveBeenCalled();
     });
 
-    it('should call "removeTickets" method', () => {
-      expect(serviceService.removeTickets).toHaveBeenCalled();
+    it('should call "removeQuestions" method', () => {
+      expect(serviceService.removeQuestions).toHaveBeenCalled();
     });
   });
 
   describe('#destroyDraftQuestion', () => {
     beforeEach(() => {
       spyOn(window, 'confirm').and.returnValue(true);
-      spyOn(ticketService, 'destroyTicket').and.returnValue(of({}));
+      spyOn(questionTicketService, 'destroyQuestion').and.returnValue(of({}));
       spyOn(notifyService, 'setMessage');
-      spyOn(serviceService, 'removeTickets');
+      spyOn(serviceService, 'removeQuestions');
     });
 
     it('should call "destroyTicket" method', () => {
       component.destroyDraftQuestion();
 
-      expect(ticketService.destroyTicket).toHaveBeenCalled();
+      expect(questionTicketService.destroyQuestion).toHaveBeenCalled();
     });
 
     it('should call "setMessage" method', () => {
@@ -236,11 +241,11 @@ describe('QuestionComponent', () => {
       expect(notifyService.setMessage).toHaveBeenCalled();
     });
 
-    it('should call "removeTickets" method', () => {
+    it('should call "removeQuestions" method', () => {
       component.question.original = null;
       component.destroyDraftQuestion();
 
-      expect(serviceService.removeTickets).toHaveBeenCalled();
+      expect(serviceService.removeQuestions).toHaveBeenCalled();
     });
 
     describe('when question has original', () => {

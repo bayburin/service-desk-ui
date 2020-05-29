@@ -73,16 +73,16 @@ describe('QuestionPageContentComponent', () => {
     component.ratingStream.next(question);
   });
 
-  describe('#toggleTicket', () => {
+  describe('#toggleQuestion', () => {
     it('should change "open" attribute', () => {
-      component.toggleTicket();
+      component.toggleQuestion();
 
       expect(question.open).toEqual(true);
     });
 
     it('should emit to "ratingStream" subject', () => {
       spyOn(component.ratingStream, 'next');
-      component.toggleTicket();
+      component.toggleQuestion();
 
       expect(component.ratingStream.next).toHaveBeenCalled();
     });
@@ -90,7 +90,7 @@ describe('QuestionPageContentComponent', () => {
     it('should not do anything if standaloneLink is setted', () => {
       component.standaloneLink = true;
       spyOn(component.ratingStream, 'next');
-      component.toggleTicket();
+      component.toggleQuestion();
 
       expect(component.ratingStream.next).not.toHaveBeenCalled();
       expect(question.open).not.toEqual(true);

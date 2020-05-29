@@ -16,7 +16,7 @@ import { ServiceI } from '@interfaces/service.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { StubNotificationService } from '@shared/services/notification/notification.service.stub';
-import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketI } from '@interfaces/ticket.interface';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
@@ -187,13 +187,6 @@ describe('EditTicketPageComponent', () => {
         expect(spy.calls.first().args[0]).toEqual(['../../']);
       }));
 
-      it('should replace ticket in "tickets" array', () => {
-        spyOn(serviceService, 'replaceTicket');
-        component.save();
-
-        expect(serviceService.replaceTicket).toHaveBeenCalledWith(question.id, newQuestion);
-      });
-
       it('should notify user', () => {
         spyOn(notifyService, 'setMessage');
         component.save();
@@ -205,12 +198,6 @@ describe('EditTicketPageComponent', () => {
         component.save();
 
         expect(responsibleUserService.loadDetails).toHaveBeenCalled();
-      });
-
-      it('should call "associateResponsibleUserDetails" method for updated ticket with occured details', () => {
-        component.save();
-
-        expect(newQuestion.associateResponsibleUserDetails).toHaveBeenCalledWith(details);
       });
     });
   });

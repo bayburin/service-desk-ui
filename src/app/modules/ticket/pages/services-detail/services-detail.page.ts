@@ -6,7 +6,7 @@ import { finalize, filter, first, map, delay, tap, switchMap } from 'rxjs/operat
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceDetailComponent } from '@modules/ticket/components/service-detail/service-detail.component';
-import { DynamicTemplateContentComponent } from '@modules/ticket/components/dynamic-template-content/dynamic-template-content.component';
+// import { DynamicTemplateContentComponent } from '@modules/ticket/components/dynamic-template-content/dynamic-template-content.component';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { UserPolicy } from '@shared/policies/user/user.policy';
 import { QuestionPageContentComponent } from '@modules/ticket/components/question-page-content/question-page-content.component';
@@ -80,15 +80,15 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
   }
 
   /**
-   * Вызывает метод toggleTicket() у компонента для раскрытия вопроса.
+   * Вызывает метод toggleQuestion() у компонента для раскрытия вопроса.
    *
    * @param componentArr - массив компонентов, содержащих тикет.
    */
   private openSelectedQuestion(componentArr: QuestionPageContentComponent[]): void {
     const selectedComponent = componentArr.find(el => el.data.ticketId == this.ticketId);
 
-    // selectedComponent.componentRef.instance.toggleTicket();
-    selectedComponent.toggleTicket();
+    // selectedComponent.componentRef.instance.toggleQuestion();
+    selectedComponent.toggleQuestion();
     this.scrollToTicket();
   }
 

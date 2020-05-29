@@ -64,15 +64,10 @@ export class EditTicketPageComponent implements OnInit {
     this.questionTicketService.updateQuestion(this.question, this.questionForm.getRawValue())
       .pipe(
         finalize(() => this.loading = false),
-        tap((updatedTicket: QuestionTicket) => {
+        tap(() => {
           this.redirectToService();
-          this.serviceService.replaceTicket(this.question.id, updatedTicket);
           this.notifyService.setMessage('Вопрос обновлен');
         }),
-        switchMap(updatedTicket => {
-          return this.responsibleUserService.loadDetails(updatedTicket.getResponsibleUsersTn())
-            .pipe(tap(details => updatedTicket.associateResponsibleUserDetails(details)));
-        })
       )
       .subscribe(
         () => {},
