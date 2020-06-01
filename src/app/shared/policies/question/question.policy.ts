@@ -5,7 +5,7 @@ import { ApplicationPolicy } from '@shared/policies/application/application.poli
 @Injectable({
   providedIn: 'root'
 })
-export class QuestionTicketPolicy extends ApplicationPolicy {
+export class QuestionPolicy extends ApplicationPolicy {
   showFlags(): boolean {
     if (this.user.hasRole('service_responsible')) {
       return this.object.isBelongsTo(this.user) || this.object.isBelongsByServiceTo(this.user);

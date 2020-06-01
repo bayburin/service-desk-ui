@@ -11,7 +11,7 @@ import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory'
 import { Service } from '@modules/ticket/models/service/service.model';
 import { Category } from '@modules/ticket/models/category/category.model';
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
-import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { Question } from '@modules/ticket/models/question/question.model';
 import { TicketDataI } from '../ticket/ticket.service';
 
 describe('ServiceService', () => {
@@ -174,7 +174,7 @@ describe('ServiceService', () => {
   });
 
   describe('Operations with tickets', () => {
-    let question: QuestionTicket;
+    let question: Question;
     const newTickets: TicketDataI = {} as TicketDataI;
 
     beforeEach(() => {
@@ -185,40 +185,40 @@ describe('ServiceService', () => {
     });
 
     describe('#addTickets', () => {
-      it('should add tickets to "questionTickets" array', () => {
-        expect(serviceService.service.questionTickets).toContain(question);
+      it('should add tickets to "questions" array', () => {
+        expect(serviceService.service.questions).toContain(question);
       });
     });
 
     describe('#replaceQuestions', () => {
-      let ticket: QuestionTicket;
-      let correction: QuestionTicket;
+      let ticket: Question;
+      let correction: Question;
 
       beforeEach(() => {
         ticket = TicketFactory.create(TicketTypes.QUESTION, { id: 1, ticket: { name: 'Тестовый вопрос' } });
         question = TicketFactory.create(TicketTypes.QUESTION, { id: ticket.id, ticket: { name: 'Тестовый вопрос. Новая редакция' } });
         correction = TicketFactory.create(TicketTypes.QUESTION, { id: 2, ticket: { name: 'Тестовый вопрос. Старая редакция.' } });
-        service.questionTickets = [ticket];
+        service.questions = [ticket];
       });
 
       it('should replace ticket', () => {
         serviceService.replaceQuestion(ticket.id, question);
 
-        expect(service.questionTickets[0]).toEqual(question);
+        expect(service.questions[0]).toEqual(question);
       });
 
       it('should not replace ticket if its not found', () => {
         serviceService.replaceQuestion(ticket.id + 1, question);
 
-        expect(service.questionTickets[0]).not.toEqual(question);
+        expect(service.questions[0]).not.toEqual(question);
       });
 
       it('should set "original" attribute if correction exists', () => {
         ticket.correction = correction;
         serviceService.replaceQuestion(ticket.correction.id, question);
 
-        expect((service.questionTickets[0] as QuestionTicket).correction).toEqual(question);
-        expect((service.questionTickets[0] as QuestionTicket).correction.original).toEqual(ticket);
+        expect((service.questions[0] as Question).correction).toEqual(question);
+        expect((service.questions[0] as Question).correction.original).toEqual(ticket);
       });
     });
 
@@ -226,23 +226,23 @@ describe('ServiceService', () => {
       it('should remove tickets from "tickets" array', () => {
         serviceService.removeQuestions([question]);
 
-        expect(serviceService.service.questionTickets).not.toContain(question);
+        expect(serviceService.service.questions).not.toContain(question);
       });
     });
 
     describe('#removeDraftTickets', () => {
-      let draftTicket: QuestionTicket;
+      let draftTicket: Question;
 
       beforeEach(() => {
         draftTicket = TicketFactory.create(TicketTypes.QUESTION, { id: 3, ticket: { state: 'draft', name: 'Тестовый вопрос 3' } });
-        service.questionTickets.push(draftTicket);
+        service.questions.push(draftTicket);
       });
 
       it('should remove tickets from "tickets" array which have draft state', () => {
         serviceService.removeDraftTickets();
 
-        expect(serviceService.service.questionTickets).toContain(question);
-        expect(serviceService.service.questionTickets).not.toContain(draftTicket);
+        expect(serviceService.service.questions).toContain(question);
+        expect(serviceService.service.questions).not.toContain(draftTicket);
       });
     });
   });

@@ -18,7 +18,7 @@ import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 describe('ServiceDetailComponent', () => {
   let component: ServiceDetailComponent;
   let fixture: ComponentFixture<ServiceDetailComponent>;
-  const questionTickets = [
+  const questions = [
     { id: 1, service_id: 1, name: 'Тестовый вопрос 1', ticket_type: TicketTypes.QUESTION, state: 'published' },
     { id: 2, service_id: 2, name: 'Тестовая заявка', ticket_type: TicketTypes.CASE }
   ] as TicketI[];
@@ -26,7 +26,7 @@ describe('ServiceDetailComponent', () => {
     id: 1,
     category_id: 1,
     name: 'Тестовая услуга',
-    question_tickets: questionTickets,
+    questions,
     responsible_users: [{ tn: 12_123 }]
   });
 
@@ -70,7 +70,7 @@ describe('ServiceDetailComponent', () => {
   it('should show app-question-page-content component', () => {
     fixture.detectChanges();
 
-    expect(fixture.debugElement.nativeElement.querySelectorAll('app-question-page-content').length).toEqual(questionTickets.length);
+    expect(fixture.debugElement.nativeElement.querySelectorAll('app-question-page-content').length).toEqual(questions.length);
   });
 
   it('should show app-responsible-user-details component', () => {

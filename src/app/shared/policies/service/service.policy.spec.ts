@@ -6,7 +6,7 @@ import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { UserService } from '@shared/services/user/user.service';
 import { StubUserService, user } from '@shared/services/user/user.service.stub';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
-import { QuestionTicketI } from '@interfaces/question-ticket.interface';
+import { QuestionI } from '@interfaces/question.interface';
 import { TicketI } from '@interfaces/ticket.interface';
 import { ServiceI } from '@interfaces/service.interface';
 
@@ -15,7 +15,7 @@ describe('ServicePolicy', () => {
   let service: Service;
   let ticketResponsible: ResponsibleUserI;
   let serviceResponsible: ResponsibleUserI;
-  let questionI: QuestionTicketI;
+  let questionI: QuestionI;
   let serviceI: ServiceI;
 
   beforeEach(() => {
@@ -25,11 +25,11 @@ describe('ServicePolicy', () => {
 
     ticketResponsible = { tn: user.tn } as ResponsibleUserI;
     serviceResponsible = { tn: user.tn } as ResponsibleUserI;
-    questionI = { id: 1, ticket: { name: 'Тестовый вопрос', responsible_users: [ticketResponsible] } as TicketI } as QuestionTicketI;
+    questionI = { id: 1, ticket: { name: 'Тестовый вопрос', responsible_users: [ticketResponsible] } as TicketI } as QuestionI;
     serviceI = {
       name: 'Тестовая услуга',
       is_hidden: false,
-      question_tickets: [questionI],
+      questions: [questionI],
       responsible_users: [serviceResponsible]
     } as ServiceI;
 

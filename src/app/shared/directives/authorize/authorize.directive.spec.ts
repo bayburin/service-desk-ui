@@ -3,12 +3,12 @@ import { Component, TemplateRef, ViewContainerRef } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { ServicePolicy } from '@shared/policies/service/service.policy';
-import { QuestionTicketPolicy } from '@shared/policies/question-ticket/question-ticket.policy';
+import { QuestionPolicy } from '@shared/policies/question/question.policy';
 import { AuthorizeDirective } from './authorize.directive';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { UserService } from '@shared/services/user/user.service';
 import { StubUserService } from '@shared/services/user/user.service.stub';
-import { StubQuestionTicketPolicy } from '@shared/policies/question-ticket/question-ticket.policy.stub';
+import { StubQuestionPolicy } from '@shared/policies/question/question.policy.stub';
 import { StubServicePolicy } from '@shared/policies/service/service.policy.stub';
 
 @Component({
@@ -33,7 +33,7 @@ describe('AuthorizeDirective', () => {
         TemplateRef,
         ViewContainerRef,
         { provide: UserService, useClass: StubUserService },
-        { provide: QuestionTicketPolicy, useClass: StubQuestionTicketPolicy },
+        { provide: QuestionPolicy, useClass: StubQuestionPolicy },
         { provide: ServicePolicy, useClass: StubServicePolicy }
       ]
     }).compileComponents();

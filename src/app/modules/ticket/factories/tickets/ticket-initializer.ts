@@ -1,6 +1,6 @@
 import { CaseTicketFactory } from './case-ticket.factory';
 import { TicketFactoryT } from './ticket.factory.abstract';
-import { QuestionTicketFactory } from './question-ticket.factory';
+import { QuestionFactory } from './question.factory';
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 export class TicketInitializer {
@@ -9,7 +9,7 @@ export class TicketInitializer {
       case TicketTypes.CASE:
         return new CaseTicketFactory();
       case TicketTypes.QUESTION:
-        return new QuestionTicketFactory();
+        return new QuestionFactory();
       default:
         throw new Error('Неизвестный тип тикета');
     }

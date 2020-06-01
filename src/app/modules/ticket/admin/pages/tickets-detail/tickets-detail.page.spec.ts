@@ -7,8 +7,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { ServiceService } from '@shared/services/service/service.service';
-import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
-import { StubQuestionTicketService } from '@shared/services/question-ticket/question-ticket.service.stub';
+import { QuestionService } from '@shared/services/question/question.service';
+import { StubQuestionService } from '@shared/services/question/question.service.stub';
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
@@ -19,15 +19,15 @@ import { StubResponsibleUserService } from '@shared/services/responsible_user/re
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 import { TicketService, TicketDataI } from '@shared/services/ticket/ticket.service';
 import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
-import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { Question } from '@modules/ticket/models/question/question.model';
 
 describe('TicketsDetailPageComponent', () => {
   let component: TicketsDetailPageComponent;
   let fixture: ComponentFixture<TicketsDetailPageComponent>;
-  let questionTicketService: QuestionTicketService;
+  let questionService: QuestionService;
   let ticketService: TicketService;
   let serviceService: ServiceService;
-  let questions: QuestionTicket[];
+  let questions: Question[];
   let service: Service;
   let responsibleUserService: ResponsibleUserService;
   let details: ResponsibleUserDetailsI[];
@@ -40,7 +40,7 @@ describe('TicketsDetailPageComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
-        { provide: QuestionTicketService, useClass: StubQuestionTicketService },
+        { provide: QuestionService, useClass: StubQuestionService },
         { provide: ResponsibleUserService, useClass: StubResponsibleUserService },
         { provide: TicketService, useClass: StubTicketService },
       ]
@@ -51,7 +51,7 @@ describe('TicketsDetailPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TicketsDetailPageComponent);
     component = fixture.componentInstance;
-    questionTicketService = TestBed.get(QuestionTicketService);
+    questionService = TestBed.get(QuestionService);
     serviceService = TestBed.get(ServiceService);
     ticketService = TestBed.get(TicketService);
     responsibleUserService = TestBed.get(ResponsibleUserService);
@@ -65,14 +65,14 @@ describe('TicketsDetailPageComponent', () => {
       id: 1,
       categoryId: 2,
       name: 'Тестовая услуга',
-      question_tickets: [{ id: 1, ticket: { name: 'Вопрос 1' } }]
+      questions: [{ id: 1, ticket: { name: 'Вопрос 1' } }]
     });
     serviceService.service = service;
 
     spyOn(ticketService, 'loadDraftTickets').and.returnValue(of(data));
     spyOn(serviceService, 'addTickets');
     spyOn(serviceService, 'removeDraftTickets');
-    spyOn(questionTicketService, 'addDraftQuestions');
+    spyOn(questionService, 'addDraftQuestions');
     spyOn(responsibleUserService, 'loadDetails').and.returnValues(of(details));
     questions.forEach(ticket => spyOn(ticket, 'associateResponsibleUserDetails'));
 
@@ -107,7 +107,7 @@ describe('TicketsDetailPageComponent', () => {
     });
 
     it('should call "addDraftQuestions" method with received tickets', () => {
-      expect(questionTicketService.addDraftQuestions).toHaveBeenCalledWith(data.questions);
+      expect(questionService.addDraftQuestions).toHaveBeenCalledWith(data.questions);
     });
   });
 
@@ -115,6 +115,6 @@ describe('TicketsDetailPageComponent', () => {
     spyOn(serviceService, 'removeQuestions');
     (component as any).router.navigateByUrl('/');
 
-    expect(serviceService.removeQuestions).toHaveBeenCalledWith(questionTicketService.draftQuestions);
+    expect(serviceService.removeQuestions).toHaveBeenCalledWith(questionService.draftQuestions);
   });
 });

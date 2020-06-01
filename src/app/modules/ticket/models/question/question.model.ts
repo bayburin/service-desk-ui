@@ -7,23 +7,23 @@ import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.in
 import { TicketI } from '@interfaces/ticket.interface';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 
-export class QuestionTicket extends Ticket {
+export class Question extends Ticket {
   originalId: number;
   answers: Answer[];
-  correction: QuestionTicket;
-  original: QuestionTicket;
+  correction: Question;
+  original: Question;
   readonly ticketType = TicketTypes.QUESTION;
 
-  constructor(questionTicket: any = {}) {
-    super(questionTicket.ticket);
-    this.id = questionTicket.id;
-    this.originalId = questionTicket.original_id;
+  constructor(question: any = {}) {
+    super(question.ticket);
+    this.id = question.id;
+    this.originalId = question.original_id;
 
-    if (questionTicket.correction) {
-      this.initializeCorrection(questionTicket.correction);
+    if (question.correction) {
+      this.initializeCorrection(question.correction);
     }
 
-    this.buildAnswers(questionTicket.answers);
+    this.buildAnswers(question.answers);
   }
 
   getShowLink(): string {
@@ -83,7 +83,7 @@ export class QuestionTicket extends Ticket {
   }
 
   private initializeCorrection(correction: TicketI) {
-    this.correction = TicketFactory.create(TicketTypes.QUESTION, correction) as QuestionTicket;
+    this.correction = TicketFactory.create(TicketTypes.QUESTION, correction) as Question;
     this.correction.original = this;
   }
 }

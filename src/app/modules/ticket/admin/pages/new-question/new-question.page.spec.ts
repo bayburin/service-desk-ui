@@ -7,10 +7,10 @@ import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NewTicketPageComponent } from './new-ticket.page';
+import { NewQuestionPageComponent } from './new-question.page';
 import { ServiceService } from '@shared/services/service/service.service';
-import { StubQuestionTicketService } from '@shared/services/question-ticket/question-ticket.service.stub';
-import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
+import { StubQuestionService } from '@shared/services/question/question.service.stub';
+import { QuestionService } from '@shared/services/question/question.service';
 import { StubServiceService } from '@shared/services/service/service.service.stub';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceI } from '@interfaces/service.interface';
@@ -25,9 +25,9 @@ import { StubResponsibleUserService } from '@shared/services/responsible_user/re
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 import { By } from '@angular/platform-browser';
 
-describe('NewTicketPageComponent', () => {
-  let component: NewTicketPageComponent;
-  let fixture: ComponentFixture<NewTicketPageComponent>;
+describe('NewQuestionPageComponent', () => {
+  let component: NewQuestionPageComponent;
+  let fixture: ComponentFixture<NewQuestionPageComponent>;
   let serviceI: ServiceI;
   let service: Service;
   let serviceService: ServiceService;
@@ -42,11 +42,11 @@ describe('NewTicketPageComponent', () => {
         NgbModule,
         ReactiveFormsModule,
       ],
-      declarations: [NewTicketPageComponent],
+      declarations: [NewQuestionPageComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
-        { provide: QuestionTicketService, useClass: StubQuestionTicketService },
+        { provide: QuestionService, useClass: StubQuestionService },
         { provide: NotificationService, useClass: StubNotificationService },
         { provide: ResponsibleUserService, useClass: StubResponsibleUserService }
       ]
@@ -55,7 +55,7 @@ describe('NewTicketPageComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewTicketPageComponent);
+    fixture = TestBed.createComponent(NewQuestionPageComponent);
     component = fixture.componentInstance;
     serviceService = TestBed.get(ServiceService);
     notifyService = TestBed.get(NotificationService);
@@ -85,20 +85,20 @@ describe('NewTicketPageComponent', () => {
   });
 
   describe('#save', () => {
-    let questionTicketService: QuestionTicketService;
+    let questionService: QuestionService;
     let details: ResponsibleUserDetailsI[];
 
     beforeEach(() => {
-      questionTicketService = TestBed.get(QuestionTicketService);
+      questionService = TestBed.get(QuestionService);
     });
 
     describe('when form is invalid', () => {
       it('should not save ticket', () => {
-        spyOn(questionTicketService, 'createQuestion');
+        spyOn(questionService, 'createQuestion');
         fixture.detectChanges();
         component.save();
 
-        expect(questionTicketService.createQuestion).not.toHaveBeenCalled();
+        expect(questionService.createQuestion).not.toHaveBeenCalled();
       });
     });
 
@@ -112,15 +112,15 @@ describe('NewTicketPageComponent', () => {
         ticket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
         fixture.detectChanges();
         (component.questionForm.controls.ticket as FormGroup).controls.name.setValue('Тестовый вопрос');
-        spyOn(questionTicketService, 'createQuestion').and.returnValue(of(ticket));
+        spyOn(questionService, 'createQuestion').and.returnValue(of(ticket));
         spyOn(responsibleUserService, 'loadDetails').and.returnValue(of(details));
         spyOn(ticket, 'associateResponsibleUserDetails');
       });
 
-      it('should call "createTicket" method from QuestionTicketService with ticket params', () => {
+      it('should call "createTicket" method from QuestionService with ticket params', () => {
         component.save();
 
-        expect(questionTicketService.createQuestion).toHaveBeenCalledWith(component.questionForm.getRawValue());
+        expect(questionService.createQuestion).toHaveBeenCalledWith(component.questionForm.getRawValue());
       });
 
       it('should redirect to parent page', inject([Router], (router: Router) => {

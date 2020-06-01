@@ -7,8 +7,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 
 import { TicketFormComponent } from './ticket-form.component';
-import { StubQuestionTicketService } from '@shared/services/question-ticket/question-ticket.service.stub';
-import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
+import { StubQuestionService } from '@shared/services/question/question.service.stub';
+import { QuestionService } from '@shared/services/question/question.service';
 import { StubServiceService } from '@shared/services/service/service.service.stub';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
@@ -20,8 +20,8 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
-import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
-import { QuestionTicketI } from '@interfaces/question-ticket.interface';
+import { Question } from '@modules/ticket/models/question/question.model';
+import { QuestionI } from '@interfaces/question.interface';
 
 @Component({
   selector: 'app-answer-accessor',
@@ -46,8 +46,8 @@ describe('TicketFormComponent', () => {
   let serviceI: ServiceI;
   let service: Service;
   let ticketI: TicketI;
-  let question: QuestionTicket;
-  let questionI: QuestionTicketI;
+  let question: Question;
+  let questionI: QuestionI;
   let serviceService: ServiceService;
   let ticketTag: TagI;
   let responsibleUserService: ResponsibleUserService;
@@ -64,7 +64,7 @@ describe('TicketFormComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
-        { provide: QuestionTicketService, useClass: StubQuestionTicketService },
+        { provide: QuestionService, useClass: StubQuestionService },
         { provide: ResponsibleUserService, useClass: StubResponsibleUserService }
       ]
     })

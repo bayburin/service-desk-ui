@@ -3,7 +3,7 @@ import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core
 import { Service } from '@modules/ticket/models/service/service.model';
 import { contentBlockAnimation } from '@animations/content.animation';
 import { QuestionComponent } from '../question/question.component';
-import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { Question } from '@modules/ticket/models/question/question.model';
 
 @Component({
   selector: 'app-service-detail',
@@ -19,7 +19,7 @@ export class ServiceDetailComponent implements OnInit {
 
   ngOnInit() {}
 
-  trackByQuestionTicket(index, question: QuestionTicket) {
+  trackByQuestion(index, question: Question) {
     return question.correction ? question.correction : question;
   }
 }

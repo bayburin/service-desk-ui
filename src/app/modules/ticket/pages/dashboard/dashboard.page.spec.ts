@@ -14,7 +14,7 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { UserRecommendationI } from '@interfaces/user-recommendation.interface';
 import { StubDashboardService } from '@modules/ticket/services/dashboard/dashboard.service.stub';
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
-import { QuestionTicketI } from '@interfaces/question-ticket.interface';
+import { QuestionI } from '@interfaces/question.interface';
 
 describe('DashboardComponent', () => {
   let component: DashboardPageComponent;
@@ -25,18 +25,18 @@ describe('DashboardComponent', () => {
     CategoryFactory.create({ id: 2, name: 'Категория 2' })
   ];
   const questions1 = [
-    { id: 1, ticket: { name: 'Тестовый вопрос 1', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionTicketI,
-    { id: 2, ticket: { name: 'Тестовый вопрос 2', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionTicketI,
-    { id: 3, ticket: { name: 'Тестовый вопрос 3', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionTicketI,
-    { id: 3, ticket: { name: 'Тестовый вопрос 4', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionTicketI
+    { id: 1, ticket: { name: 'Тестовый вопрос 1', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionI,
+    { id: 2, ticket: { name: 'Тестовый вопрос 2', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionI,
+    { id: 3, ticket: { name: 'Тестовый вопрос 3', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionI,
+    { id: 3, ticket: { name: 'Тестовый вопрос 4', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionI
   ];
   const questions2 = [
-    { id: 3, ticket: { name: 'Тестовый вопрос 5', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionTicketI,
-    { id: 4, ticket: { name: 'Тестовый вопрос 6', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionTicketI
+    { id: 3, ticket: { name: 'Тестовый вопрос 5', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionI,
+    { id: 4, ticket: { name: 'Тестовый вопрос 6', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionI
   ];
   const services = [
-    ServiceFactory.create({ id: 3, category_id: 1, name: 'Услуга 1', question_tickets: questions1 }),
-    ServiceFactory.create({ id: 4, category_id: 2, name: 'Услуга 2', question_tickets: questions2 })
+    ServiceFactory.create({ id: 3, category_id: 1, name: 'Услуга 1', questions: questions1 }),
+    ServiceFactory.create({ id: 4, category_id: 2, name: 'Услуга 2', questions: questions2 })
   ];
   const recommendations = [
     { id: 1, title: 'Рекоммендация 1', order: 10 },

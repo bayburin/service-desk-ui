@@ -10,7 +10,7 @@ import { AbstractState } from './states/abstract.state';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 
 export const enum TicketTypes {
-  QUESTION = 'QuestionTicket',
+  QUESTION = 'Question',
   CASE = 'CaseTicket',
   COMMON_CASE = 'CommonCaseTicket'
 }

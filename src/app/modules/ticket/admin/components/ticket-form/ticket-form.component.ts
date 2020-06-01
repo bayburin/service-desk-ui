@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 import { contentBlockAnimation } from '@animations/content.animation';
-import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { Question } from '@modules/ticket/models/question/question.model';
 import { Answer } from '@modules/ticket/models/answer/answer.model';
 
 @Component({
@@ -14,7 +14,7 @@ import { Answer } from '@modules/ticket/models/answer/answer.model';
 export class TicketFormComponent implements OnInit {
   preview = [];
   @Input() questionForm: FormGroup;
-  @Input() question: QuestionTicket;
+  @Input() question: Question;
   @Input() submitted: boolean;
 
   constructor(private formBuilder: FormBuilder) {}

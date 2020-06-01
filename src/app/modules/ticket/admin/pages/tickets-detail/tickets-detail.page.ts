@@ -3,7 +3,7 @@ import { finalize, tap, switchMap, filter, delay, map, takeWhile, first } from '
 import { Router, NavigationStart, ActivatedRoute } from '@angular/router';
 import { Subscription, Subject, zip } from 'rxjs';
 
-import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
+import { QuestionService } from '@shared/services/question/question.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { contentBlockAnimation } from '@animations/content.animation';
@@ -31,7 +31,7 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
 
   constructor(
     private serviceService: ServiceService,
-    private questionTicketService: QuestionTicketService,
+    private questionService: QuestionService,
     private router: Router,
     private route: ActivatedRoute,
     private responsibleUserService: ResponsibleUserService,
@@ -45,7 +45,7 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
     this.openQuestionStream();
     this.routeSub = this.router.events.subscribe(event => {
       if (event instanceof NavigationStart && !event.url.includes('/admin')) {
-        this.serviceService.removeQuestions(this.questionTicketService.draftQuestions);
+        this.serviceService.removeQuestions(this.questionService.draftQuestions);
       }
     });
 
@@ -77,7 +77,7 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
         tap((data: TicketDataI) => {
           this.serviceService.removeDraftTickets();
           this.serviceService.addTickets(data);
-          this.questionTicketService.addDraftQuestions(data.questions);
+          this.questionService.addDraftQuestions(data.questions);
           this.loadedDraft.next(true);
         }),
         switchMap(data => {
@@ -95,10 +95,10 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
       )
       .subscribe();
 
-    // this.questionTicketService.loadDraftQuestionsFor(this.service)
+    // this.questionService.loadDraftQuestionsFor(this.service)
     //   .pipe(
     //     finalize(() => this.loading = false),
-    //     tap((tickets: QuestionTicket[]) => {
+    //     tap((tickets: Question[]) => {
     //       this.serviceService.removeDraftTickets();
     //       this.serviceService.addTickets(tickets);
     //       this.loadedDraft.next(true);

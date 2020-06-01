@@ -8,14 +8,14 @@ import { environment } from 'environments/environment';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
-import { QuestionTicketI } from '@interfaces/question-ticket.interface';
-import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { QuestionI } from '@interfaces/question.interface';
+import { Question } from '@modules/ticket/models/question/question.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class QuestionTicketService {
-  draftQuestions: QuestionTicket[] = [];
+export class QuestionService {
+  draftQuestions: Question[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -24,12 +24,12 @@ export class QuestionTicketService {
    *
    * @param service - услуга.
    */
-  loadDraftQuestionsFor(service: Service): Observable<QuestionTicket[]> {
+  loadDraftQuestionsFor(service: Service): Observable<Question[]> {
     const questionsUri = this.apiBaseUri(service.id);
 
     return this.http.get(questionsUri)
       .pipe(
-        map((questions: QuestionTicketI[]) => questions.map(question => TicketFactory.create(TicketTypes.QUESTION, question))),
+        map((questions: QuestionI[]) => questions.map(question => TicketFactory.create(TicketTypes.QUESTION, question))),
         tap(questions => this.draftQuestions = questions)
       );
   }
@@ -39,7 +39,7 @@ export class QuestionTicketService {
    *
    * @param questions - список вопросов
    */
-  addDraftQuestions(questions: QuestionTicket[]): void {
+  addDraftQuestions(questions: Question[]): void {
     this.draftQuestions.push(...questions);
   }
 
@@ -48,22 +48,22 @@ export class QuestionTicketService {
    *
    * @param question - вопрос, у которого необходимо поднять рейтинг
    */
-  raiseRating(question: QuestionTicket): Observable<QuestionTicketI> {
+  raiseRating(question: Question): Observable<QuestionI> {
     const raiseRatingUrl = `${this.apiBaseUri(question.serviceId)}/${question.ticketId}/raise_rating`;
 
-    return this.http.post<QuestionTicketI>(raiseRatingUrl, {});
+    return this.http.post<QuestionI>(raiseRatingUrl, {});
   }
 
   /**
    * Создает вопрос.
    *
-   * @param questionI - объект questionTicket
+   * @param questionI - объект QuestionI
    */
-  createQuestion(questionI: QuestionTicketI): Observable<QuestionTicket> {
+  createQuestion(questionI: QuestionI): Observable<Question> {
     const questionUri = this.apiBaseUri(questionI.ticket.service_id);
 
     return this.http.post(questionUri, { question: questionI })
-      .pipe(map((question: QuestionTicketI) => TicketFactory.create(TicketTypes.QUESTION, question)));
+      .pipe(map((question: QuestionI) => TicketFactory.create(TicketTypes.QUESTION, question)));
   }
 
   /**
@@ -72,22 +72,22 @@ export class QuestionTicketService {
    * @param serviceId - id услуги.
    * @param questionId - id вопроса.
    */
-  loadQuestion(serviceId: number, questionId: number): Observable<QuestionTicket> {
+  loadQuestion(serviceId: number, questionId: number): Observable<Question> {
     const questionUri = `${this.apiBaseUri(serviceId)}/${questionId}`;
 
-    return this.http.get(questionUri).pipe(map((question: QuestionTicketI) => TicketFactory.create(TicketTypes.QUESTION, question)));
+    return this.http.get(questionUri).pipe(map((question: QuestionI) => TicketFactory.create(TicketTypes.QUESTION, question)));
   }
 
   /**
    * Обновить вопрос.
    *
-   * @params questionTicket - объект QuestionTicket
+   * @params question - объект Question
    * @params data - новые данные.
    */
-  updateQuestion(questionTicket: QuestionTicket, data: QuestionTicketI): Observable<QuestionTicket> {
-    const questionUri = `${this.apiBaseUri(questionTicket.serviceId)}/${questionTicket.id}`;
+  updateQuestion(question: Question, data: QuestionI): Observable<Question> {
+    const questionUri = `${this.apiBaseUri(question.serviceId)}/${question.id}`;
 
-    questionTicket.responsibleUsers.forEach(user => {
+    question.responsibleUsers.forEach(user => {
       if (!data.ticket.responsible_users.find((u: ResponsibleUserI) => u.id === user.id)) {
         user._destroy = true;
         data.ticket.responsible_users.push(user);
@@ -95,7 +95,7 @@ export class QuestionTicketService {
     });
 
     return this.http.put(questionUri, { question: data })
-      .pipe(map((questionI: QuestionTicketI) => TicketFactory.create(TicketTypes.QUESTION, questionI)));
+      .pipe(map((questionI: QuestionI) => TicketFactory.create(TicketTypes.QUESTION, questionI)));
   }
 
   /**
@@ -103,13 +103,13 @@ export class QuestionTicketService {
    *
    * @param questionIds - список id вопросов для утверждения изменений.
    */
-  publishQuestions(questionIds: number[]): Observable<QuestionTicket[]> {
-    const questionUri = `${environment.serverUrl}/api/v1/question_tickets/publish`;
+  publishQuestions(questionIds: number[]): Observable<Question[]> {
+    const questionUri = `${environment.serverUrl}/api/v1/questions/publish`;
     const httpParams = new HttpParams().append('ids', `${[questionIds]}`);
 
     return this.http.post(questionUri, {}, { params: httpParams })
       .pipe(
-        map((questionsI: QuestionTicketI[]) => questionsI.map(question => TicketFactory.create(TicketTypes.QUESTION, question)))
+        map((questionsI: QuestionI[]) => questionsI.map(question => TicketFactory.create(TicketTypes.QUESTION, question)))
       );
   }
 
@@ -118,7 +118,7 @@ export class QuestionTicketService {
    *
    * @param question - удаляемый вопрос.
    */
-  removeDraftQuestion(question: QuestionTicket): void {
+  removeDraftQuestion(question: Question): void {
     const index = this.draftQuestions.findIndex(draft => draft.id === question.id);
 
     if (index !== -1) {
@@ -129,15 +129,15 @@ export class QuestionTicketService {
   /**
    * Удалить вопрос.
    *
-   * @param questionTicket - удаляемый тикет.
+   * @param question - удаляемый вопрос.
    */
-  destroyQuestion(questionTicket: QuestionTicket): Observable<any> {
-    const questionUri = `${this.apiBaseUri(questionTicket.serviceId)}/${questionTicket.id}`;
+  destroyQuestion(question: Question): Observable<any> {
+    const questionUri = `${this.apiBaseUri(question.serviceId)}/${question.id}`;
 
     return this.http.delete(questionUri);
   }
 
   private apiBaseUri(serviceId: number) {
-    return `${environment.serverUrl}/api/v1/services/${serviceId}/question_tickets`;
+    return `${environment.serverUrl}/api/v1/services/${serviceId}/questions`;
   }
 }

@@ -10,8 +10,8 @@
     <section class="sd-dlist-divider-b">
       <h2>Вопросы</h2>
       <div class="mt-2">
-        <p *ngIf="!service.questionTickets.length" class="search-title">Список вопросов пуст</p>
-        <app-question *ngFor="let question of service.questionTickets; trackBy: trackByQuestionTicket" [question]="question"></app-question>
+        <p *ngIf="!service.questions.length" class="search-title">Список вопросов пуст</p>
+        <app-question *ngFor="let question of service.questions; trackBy: trackByQuestion" [question]="question"></app-question>
       </div>
     </section>
     <section class="sd-dlist-divider-b">

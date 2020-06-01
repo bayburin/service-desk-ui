@@ -20,8 +20,8 @@ import { ResponsibleUserService } from '@shared/services/responsible_user/respon
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 import { ResponsibleUserFactory } from '@modules/ticket/factories/responsible-user.factory';
-import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
-import { QuestionTicketI } from '@interfaces/question-ticket.interface';
+import { Question } from '@modules/ticket/models/question/question.model';
+import { QuestionI } from '@interfaces/question.interface';
 import { TagService } from '@shared/services/tag/tag.service';
 import { StubTagService } from '@shared/services/tag/tag.service.stub';
 
@@ -31,8 +31,8 @@ describe('CommonTicketInformationComponent', () => {
   let serviceI: ServiceI;
   let service: Service;
   let ticketI: TicketI;
-  let ticket: QuestionTicket;
-  let questionI: QuestionTicketI;
+  let ticket: Question;
+  let questionI: QuestionI;
   let serviceService: ServiceService;
   let tagService: TagService;
   let ticketTag: TagI;

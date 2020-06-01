@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { QuestionTicketPolicy } from '@shared/policies/question-ticket/question-ticket.policy';
+import { QuestionPolicy } from '@shared/policies/question/question.policy';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ServicePolicy } from '@shared/policies/service/service.policy';
 
@@ -13,7 +13,7 @@ export class PolicyFactory {
 
   getPolicyBy(object: any) {
     if (object instanceof Ticket) {
-      return this.injector.get(QuestionTicketPolicy);
+      return this.injector.get(QuestionPolicy);
     } else if (object instanceof Service) {
       return this.injector.get(ServicePolicy);
     } else {

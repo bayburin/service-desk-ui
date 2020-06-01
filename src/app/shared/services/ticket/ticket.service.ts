@@ -5,12 +5,12 @@ import { map } from 'rxjs/operators';
 
 import { environment } from 'environments/environment';
 import { Service } from '@modules/ticket/models/service/service.model';
-import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { Question } from '@modules/ticket/models/question/question.model';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 export interface TicketDataI {
-  questions: QuestionTicket[];
+  questions: Question[];
   cases: any[];
 }
 

@@ -4,7 +4,7 @@ import { Service } from '@modules/ticket/models/service/service.model';
 // import { DynamicTemplateContentComponent } from '@modules/ticket/components/dynamic-template-content/dynamic-template-content.component';
 import { contentBlockAnimation } from '@animations/content.animation';
 import { ServicePolicy } from '@shared/policies/service/service.policy';
-import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { Question } from '@modules/ticket/models/question/question.model';
 import { QuestionPageContentComponent } from '../question-page-content/question-page-content.component';
 
 @Component({
@@ -31,7 +31,7 @@ export class ServiceDetailComponent implements OnInit, OnChanges {
     }
   }
 
-  trackByTicket(index, question: QuestionTicket) {
+  trackByTicket(index, question: Question) {
     return question.id;
   }
 }

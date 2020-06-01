@@ -1,23 +1,23 @@
 import { TestBed } from '@angular/core/testing';
 
-import { QuestionTicketPolicy } from './question-ticket.policy';
+import { QuestionPolicy } from './question.policy';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { TicketTypes, TicketStates } from '@modules/ticket/models/ticket/ticket.model';
 import { UserService } from '@shared/services/user/user.service';
 import { StubUserService, user } from '@shared/services/user/user.service.stub';
-import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { Question } from '@modules/ticket/models/question/question.model';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
-import { QuestionTicketI } from '@interfaces/question-ticket.interface';
+import { QuestionI } from '@interfaces/question.interface';
 import { ServiceI } from '@interfaces/service.interface';
 import { TicketI } from '@interfaces/ticket.interface';
 
-describe('QuestionTicketPolicy', () => {
-  let ticketPolicy: QuestionTicketPolicy;
-  let ticket: QuestionTicket;
+describe('QuestionPolicy', () => {
+  let ticketPolicy: QuestionPolicy;
+  let ticket: Question;
   let ticketResponsible: ResponsibleUserI;
   let serviceResponsible: ResponsibleUserI;
   let ticketI: TicketI;
-  let questionI: QuestionTicketI;
+  let questionI: QuestionI;
   let serviceI: ServiceI;
 
   beforeEach(() => {
@@ -29,9 +29,9 @@ describe('QuestionTicketPolicy', () => {
     serviceResponsible = { tn: user.tn } as ResponsibleUserI;
     serviceI = { name: 'Тестовая услуга', is_hidden: false, responsible_users: [serviceResponsible] } as ServiceI;
     ticketI = { id: 1, name: 'Тестовый вопрос', service: serviceI, responsible_users: [ticketResponsible] } as TicketI;
-    questionI = { id: 2, ticket: ticketI } as QuestionTicketI;
+    questionI = { id: 2, ticket: ticketI } as QuestionI;
 
-    ticketPolicy = TestBed.get(QuestionTicketPolicy);
+    ticketPolicy = TestBed.get(QuestionPolicy);
     ticket = TicketFactory.create(TicketTypes.QUESTION, questionI);
     ticketPolicy.object = ticket;
   });

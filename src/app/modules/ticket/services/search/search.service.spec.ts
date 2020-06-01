@@ -13,7 +13,7 @@ import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 describe('SearchService', () => {
   let searchService: SearchService;
   let httpTestingController: HttpTestingController;
-  const questionI = { id: 3, ticket: { id: 4, ticketable_type: 'QuestionTicket', name: 'Тестовый вопрос', service_id: 2 } };
+  const questionI = { id: 3, ticket: { id: 4, ticketable_type: 'Question', name: 'Тестовый вопрос', service_id: 2 } };
   const serverData = [
     { id: 1, name: 'Тестовая категория' },
     { id: 2, name: 'Тестовая услуга', category_id: 1 },

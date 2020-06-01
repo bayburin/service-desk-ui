@@ -2,10 +2,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { toggleAnswer } from '@modules/ticket/animations/toggle-answer.animation';
-import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { Question } from '@modules/ticket/models/question/question.model';
 import { Answer } from '@modules/ticket/models/answer/answer.model';
 import { ServiceService } from '@shared/services/service/service.service';
-import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
+import { QuestionService } from '@shared/services/question/question.service';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { TagI } from '@interfaces/tag.interface';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
@@ -18,14 +18,14 @@ import { tap, switchMap } from 'rxjs/operators';
   animations: [toggleAnswer]
 })
 export class QuestionComponent implements OnInit {
-  @Input() question: QuestionTicket;
+  @Input() question: Question;
   open: boolean;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private serviceService: ServiceService,
-    private questionTicketService: QuestionTicketService,
+    private questionService: QuestionService,
     private notifyService: NotificationService,
     private responsibleUserService: ResponsibleUserService
   ) {}
@@ -94,18 +94,18 @@ export class QuestionComponent implements OnInit {
 
     const id = this.question.correction ? this.question.correction.id : this.question.id;
 
-    this.questionTicketService.publishQuestions([id])
+    this.questionService.publishQuestions([id])
       .pipe(
-        tap((tickets: QuestionTicket[]) => {
+        tap((tickets: Question[]) => {
           if (tickets.length === 0) {
             return;
           }
 
           this.serviceService.replaceQuestion((this.question.original || this.question).id, tickets[0]);
-          this.questionTicketService.removeDraftQuestion(tickets[0]);
+          this.questionService.removeDraftQuestion(tickets[0]);
           this.notifyService.setMessage('Вопрос опубликован');
         }),
-        switchMap((tickets: QuestionTicket[]) => {
+        switchMap((tickets: Question[]) => {
           const tns = tickets.flatMap(ticket => ticket.getResponsibleUsersTn());
 
           return this.responsibleUserService.loadDetails(tns)
@@ -123,7 +123,7 @@ export class QuestionComponent implements OnInit {
       return;
     }
 
-    this.questionTicketService.destroyQuestion(this.question).subscribe(() => {
+    this.questionService.destroyQuestion(this.question).subscribe(() => {
       this.notifyService.setMessage('Вопрос удален');
       this.serviceService.removeQuestions([this.question]);
     });
@@ -137,7 +137,7 @@ export class QuestionComponent implements OnInit {
       return;
     }
 
-    this.questionTicketService.destroyQuestion(this.question).subscribe(() => {
+    this.questionService.destroyQuestion(this.question).subscribe(() => {
       this.notifyService.setMessage('Черновик удален');
 
       if (this.question.original) {

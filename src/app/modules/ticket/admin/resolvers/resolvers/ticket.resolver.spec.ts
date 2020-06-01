@@ -1,4 +1,4 @@
-import { StubQuestionTicketService } from '@shared/services/question-ticket/question-ticket.service.stub';
+import { StubQuestionService } from '@shared/services/question/question.service.stub';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -6,15 +6,15 @@ import { ActivatedRouteSnapshot } from '@angular/router';
 import { of } from 'rxjs';
 
 import { TicketResolver } from './ticket.resolver';
-import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
+import { QuestionService } from '@shared/services/question/question.service';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
-import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { Question } from '@modules/ticket/models/question/question.model';
 
 describe('TicketResolver', () => {
   let ticketResolver: TicketResolver;
-  let questionTicketService: QuestionTicketService;
-  let question: QuestionTicket;
+  let questionService: QuestionService;
+  let question: Question;
   let stubSnapshot: ActivatedRouteSnapshot;
   let stubSnapshotProxy;
 
@@ -22,13 +22,13 @@ describe('TicketResolver', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [
-        { provide: QuestionTicketService, useClass: StubQuestionTicketService },
+        { provide: QuestionService, useClass: StubQuestionService },
         TicketResolver
       ]
     });
 
     ticketResolver = TestBed.get(TicketResolver);
-    questionTicketService = TestBed.get(QuestionTicketService);
+    questionService = TestBed.get(QuestionService);
     question = TicketFactory.create(TicketTypes.QUESTION, { id: 1, ticket: { service_id: 2, name: 'Тестовый вопрос' } });
 
     stubSnapshot = jasmine.createSpyObj<ActivatedRouteSnapshot>('ActivatedRouteSnapshot', ['parent', 'params']);
@@ -44,7 +44,7 @@ describe('TicketResolver', () => {
   });
 
   it('should return Observable with loaded Ticket', () => {
-    spyOn(questionTicketService, 'loadQuestion').and.returnValue(of(question));
+    spyOn(questionService, 'loadQuestion').and.returnValue(of(question));
 
     ticketResolver.resolve(stubSnapshotProxy).subscribe(result => {
       expect(result).toEqual(question);

@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
 
-export class StubQuestionTicketService {
+export class StubQuestionService {
   loadDraftQuestionsFor() { return of(''); }
   addDraftQuestions() {}
   raiseRating() { return of(''); }

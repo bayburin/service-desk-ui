@@ -4,22 +4,22 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { of } from 'rxjs';
 import { finalize, tap, switchMap } from 'rxjs/operators';
 
-import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
+import { QuestionService } from '@shared/services/question/question.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
-import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { Question } from '@modules/ticket/models/question/question.model';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 
 @Component({
-  selector: 'app-edit-ticket-page',
-  templateUrl: './edit-ticket.page.html',
-  styleUrls: ['./edit-ticket.page.sass'],
+  selector: 'app-edit-question-page',
+  templateUrl: './edit-question.page.html',
+  styleUrls: ['./edit-question.page.sass'],
 })
-export class EditTicketPageComponent implements OnInit {
+export class EditQuestionPageComponent implements OnInit {
   submitted = false;
   service: Service;
-  question: QuestionTicket;
+  question: Question;
   questionForm: FormGroup;
   loading = false;
   @ViewChild('content', { static: true }) content: ElementRef;
@@ -29,7 +29,7 @@ export class EditTicketPageComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private serviceService: ServiceService,
-    private questionTicketService: QuestionTicketService,
+    private questionService: QuestionService,
     private notifyService: NotificationService,
     private responsibleUserService: ResponsibleUserService
   ) { }
@@ -61,7 +61,7 @@ export class EditTicketPageComponent implements OnInit {
     }
 
     this.loading = true;
-    this.questionTicketService.updateQuestion(this.question, this.questionForm.getRawValue())
+    this.questionService.updateQuestion(this.question, this.questionForm.getRawValue())
       .pipe(
         finalize(() => this.loading = false),
         tap(() => {

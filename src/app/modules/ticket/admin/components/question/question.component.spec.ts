@@ -1,4 +1,4 @@
-import { QuestionTicketI } from '@interfaces/question-ticket.interface';
+import { QuestionI } from '@interfaces/question.interface';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,8 +12,8 @@ import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory'
 import { TicketTypes, TicketStates } from '@modules/ticket/models/ticket/ticket.model';
 import { ServiceService } from '@shared/services/service/service.service';
 import { StubServiceService } from '@shared/services/service/service.service.stub';
-import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
-import { StubQuestionTicketService } from '@shared/services/question-ticket/question-ticket.service.stub';
+import { QuestionService } from '@shared/services/question/question.service';
+import { StubQuestionService } from '@shared/services/question/question.service.stub';
 import { NotificationService } from '@shared/services/notification/notification.service';
 import { StubNotificationService } from '@shared/services/notification/notification.service.stub';
 import { TicketI } from '@interfaces/ticket.interface';
@@ -23,15 +23,15 @@ import { StubUserService } from '@shared/services/user/user.service.stub';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
-import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { Question } from '@modules/ticket/models/question/question.model';
 
 describe('QuestionComponent', () => {
   let component: QuestionComponent;
   let fixture: ComponentFixture<QuestionComponent>;
-  let question: QuestionTicket;
+  let question: Question;
   let serviceService: ServiceService;
-  let questionTicketService: QuestionTicketService;
-  let correction: QuestionTicketI;
+  let questionService: QuestionService;
+  let correction: QuestionI;
   let notifyService: NotificationService;
   let responsibleUserService: ResponsibleUserService;
 
@@ -42,7 +42,7 @@ describe('QuestionComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
-        { provide: QuestionTicketService, useClass: StubQuestionTicketService },
+        { provide: QuestionService, useClass: StubQuestionService },
         { provide: NotificationService, useClass: StubNotificationService },
         { provide: UserService, useClass: StubUserService },
         { provide: ResponsibleUserService, useClass: StubResponsibleUserService }
@@ -55,7 +55,7 @@ describe('QuestionComponent', () => {
     fixture = TestBed.createComponent(QuestionComponent);
     component = fixture.componentInstance;
     serviceService = TestBed.get(ServiceService);
-    questionTicketService = TestBed.get(QuestionTicketService);
+    questionService = TestBed.get(QuestionService);
     notifyService = TestBed.get(NotificationService);
     correction = {
       id: 3,
@@ -66,7 +66,7 @@ describe('QuestionComponent', () => {
         state: 'draft',
         open: false
       } as TicketI
-    } as QuestionTicketI;
+    } as QuestionI;
     question = TicketFactory.create(TicketTypes.QUESTION, {
       id: 1,
       correction,
@@ -138,7 +138,7 @@ describe('QuestionComponent', () => {
   });
 
   describe('#publishQuestion', () => {
-    let result: QuestionTicket;
+    let result: Question;
     let details: ResponsibleUserDetailsI[];
 
     beforeEach(() => {
@@ -147,7 +147,7 @@ describe('QuestionComponent', () => {
 
       spyOn(window, 'confirm').and.returnValue(true);
       spyOn(serviceService, 'replaceQuestion');
-      spyOn(questionTicketService, 'removeDraftQuestion');
+      spyOn(questionService, 'removeDraftQuestion');
       spyOn(responsibleUserService, 'loadDetails').and.returnValue(of(details));
     });
 
@@ -156,14 +156,14 @@ describe('QuestionComponent', () => {
         question = question.correction;
         result = TicketFactory.create(TicketTypes.QUESTION, correction);
         result.state = TicketStates.PUBLISHED;
-        spyOn(questionTicketService, 'publishQuestions').and.returnValue(of([result]));
+        spyOn(questionService, 'publishQuestions').and.returnValue(of([result]));
         spyOn(notifyService, 'setMessage');
         spyOn(result, 'associateResponsibleUserDetails');
         component.publishQuestion();
       });
 
       it('should call "publishQuestions" method', () => {
-        expect(questionTicketService.publishQuestions).toHaveBeenCalledWith([question.id]);
+        expect(questionService.publishQuestions).toHaveBeenCalledWith([question.id]);
       });
 
       it('should call "replaceQuestion" method', () => {
@@ -174,8 +174,8 @@ describe('QuestionComponent', () => {
         expect(notifyService.setMessage).toHaveBeenCalled();
       });
 
-      it('should call "removeDraftQuestion" method for QuestionTicketService', () => {
-        expect(questionTicketService.removeDraftQuestion).toHaveBeenCalledWith(result);
+      it('should call "removeDraftQuestion" method for QuestionService', () => {
+        expect(questionService.removeDraftQuestion).toHaveBeenCalledWith(result);
       });
 
       it('should call "loadDetails" method of ResponsibleUserService service', () => {
@@ -189,7 +189,7 @@ describe('QuestionComponent', () => {
 
     describe('when server returns empty array', () => {
       beforeEach(() => {
-        spyOn(questionTicketService, 'publishQuestions').and.returnValue(of([]));
+        spyOn(questionService, 'publishQuestions').and.returnValue(of([]));
         component.publishQuestion();
       });
 
@@ -202,14 +202,14 @@ describe('QuestionComponent', () => {
   describe('#destroyPublishedQuestion', () => {
     beforeEach(() => {
       spyOn(window, 'confirm').and.returnValue(true);
-      spyOn(questionTicketService, 'destroyQuestion').and.returnValue(of(question));
+      spyOn(questionService, 'destroyQuestion').and.returnValue(of(question));
       spyOn(notifyService, 'setMessage');
       spyOn(serviceService, 'removeQuestions');
       component.destroyPublishedQuestion();
     });
 
     it('should call "destroyTicket" method', () => {
-      expect(questionTicketService.destroyQuestion).toHaveBeenCalled();
+      expect(questionService.destroyQuestion).toHaveBeenCalled();
     });
 
     it('should call "setMessage" method', () => {
@@ -224,7 +224,7 @@ describe('QuestionComponent', () => {
   describe('#destroyDraftQuestion', () => {
     beforeEach(() => {
       spyOn(window, 'confirm').and.returnValue(true);
-      spyOn(questionTicketService, 'destroyQuestion').and.returnValue(of({}));
+      spyOn(questionService, 'destroyQuestion').and.returnValue(of({}));
       spyOn(notifyService, 'setMessage');
       spyOn(serviceService, 'removeQuestions');
     });
@@ -232,7 +232,7 @@ describe('QuestionComponent', () => {
     it('should call "destroyTicket" method', () => {
       component.destroyDraftQuestion();
 
-      expect(questionTicketService.destroyQuestion).toHaveBeenCalled();
+      expect(questionService.destroyQuestion).toHaveBeenCalled();
     });
 
     it('should call "setMessage" method', () => {
@@ -251,7 +251,7 @@ describe('QuestionComponent', () => {
     describe('when question has original', () => {
       beforeEach(() => {
         component.question = question.correction;
-        component.question.original = {} as QuestionTicket;
+        component.question.original = {} as Question;
         spyOn(component, 'showOriginal');
         component.destroyDraftQuestion();
       });

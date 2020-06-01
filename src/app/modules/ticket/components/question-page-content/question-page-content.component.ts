@@ -2,15 +2,15 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 import { first, switchMap, finalize } from 'rxjs/operators';
 
-import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
+import { QuestionService } from '@shared/services/question/question.service';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { AnswerI } from '@interfaces/answer.interface';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { toggleAnswer } from '@modules/ticket/animations/toggle-answer.animation';
 import { AttachmentService } from '@shared/services/attachment/attachment.service';
-import { QuestionTicketPolicy } from '@shared/policies/question-ticket/question-ticket.policy';
+import { QuestionPolicy } from '@shared/policies/question/question.policy';
 import { showFlagRight } from '@modules/ticket/animations/show-flag-right.animation';
-import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-ticket.model';
+import { Question } from '@modules/ticket/models/question/question.model';
 
 @Component({
   selector: 'app-question-page-content',
@@ -19,23 +19,23 @@ import { QuestionTicket } from '@modules/ticket/models/question-ticket/question-
   animations: [toggleAnswer, showFlagRight]
 })
 export class QuestionPageContentComponent implements OnInit {
-  @Input() data: QuestionTicket;
+  @Input() data: Question;
   @Input() standaloneLink: boolean;
   @Input() showFlags: boolean;
   ratingStream = new Subject<Ticket>();
   linkAnimation = 'hide';
 
   constructor(
-    private questionTicketService: QuestionTicketService,
+    private questionService: QuestionService,
     private attachmentService: AttachmentService,
-    private policy: QuestionTicketPolicy
+    private policy: QuestionPolicy
   ) { }
 
   ngOnInit() {
     this.ratingStream
       .pipe(
         first(),
-        switchMap(() => this.questionTicketService.raiseRating(this.data))
+        switchMap(() => this.questionService.raiseRating(this.data))
       )
       .subscribe();
 

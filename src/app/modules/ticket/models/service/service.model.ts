@@ -6,9 +6,9 @@ import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory'
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { User } from '@shared/models/user/user.model';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
-import { QuestionTicket } from '../question-ticket/question-ticket.model';
+import { Question } from '../question/question.model';
 import { CaseTicket } from '../case-ticket/case-ticket.model';
-import { QuestionTicketI } from '@interfaces/question-ticket.interface';
+import { QuestionI } from '@interfaces/question.interface';
 
 export class Service implements CommonServiceI {
   id: number;
@@ -22,12 +22,12 @@ export class Service implements CommonServiceI {
   questionLimit: number;
   category: Category;
   // tickets: Ticket[];
-  questionTickets: QuestionTicket[];
+  questions: Question[];
   caseTickets: CaseTicket[] = [];
   responsibleUsers: ResponsibleUserI[];
 
   get tickets(): Ticket[] {
-    return [...this.questionTickets, ...this.caseTickets];
+    return [...this.questions, ...this.caseTickets];
   }
 
   constructor(service: any = {}) {
@@ -40,7 +40,7 @@ export class Service implements CommonServiceI {
     this.hasCommonCase = service.has_common_case;
     this.popularity = service.popularity;
     this.responsibleUsers = service.responsible_users || [];
-    this.buildQuestionTickets(service.question_tickets);
+    this.buildQuestions(service.questions);
 
     if (service.category) {
       this.category = CategoryFactory.create(service.category);
@@ -94,13 +94,13 @@ export class Service implements CommonServiceI {
     this.tickets.forEach(ticket => ticket.associateResponsibleUserDetails(details));
   }
 
-  private buildQuestionTickets(questions: QuestionTicketI[]): void {
+  private buildQuestions(questions: QuestionI[]): void {
     if (!questions || !questions.length) {
-      this.questionTickets = [];
+      this.questions = [];
 
       return;
     }
 
-    this.questionTickets = questions.map(question => TicketFactory.create(TicketTypes.QUESTION, question)) || [];
+    this.questions = questions.map(question => TicketFactory.create(TicketTypes.QUESTION, question)) || [];
   }
 }

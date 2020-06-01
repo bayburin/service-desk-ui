@@ -3,17 +3,17 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 
-import { QuestionTicketService } from '@shared/services/question-ticket/question-ticket.service';
+import { QuestionService } from '@shared/services/question/question.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { NotificationService } from '@shared/services/notification/notification.service';
 
 @Component({
-  selector: 'app-new-ticket-page',
-  templateUrl: './new-ticket.page.html',
-  styleUrls: ['./new-ticket.page.sass']
+  selector: 'app-new-question-page',
+  templateUrl: './new-question.page.html',
+  styleUrls: ['./new-question.page.sass']
 })
-export class NewTicketPageComponent implements OnInit {
+export class NewQuestionPageComponent implements OnInit {
   submitted = false;
   service: Service;
   questionForm: FormGroup;
@@ -24,7 +24,7 @@ export class NewTicketPageComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private serviceService: ServiceService,
-    private questionTicketService: QuestionTicketService,
+    private questionService: QuestionService,
     private notifyService: NotificationService
   ) {}
 
@@ -43,7 +43,7 @@ export class NewTicketPageComponent implements OnInit {
     }
 
     this.loading = true;
-    this.questionTicketService.createQuestion(this.questionForm.getRawValue())
+    this.questionService.createQuestion(this.questionForm.getRawValue())
       .pipe(finalize(() => this.loading = false))
       .subscribe(
         () => {

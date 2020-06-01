@@ -6,7 +6,7 @@ import { environment } from 'environments/environment';
 import { TicketService, TicketDataI } from './ticket.service';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
-import { QuestionTicketI } from '@interfaces/question-ticket.interface';
+import { QuestionI } from '@interfaces/question.interface';
 
 describe('TicketService', () => {
   let httpTestingController: HttpTestingController;
@@ -27,7 +27,7 @@ describe('TicketService', () => {
 
   describe('#loadDraftTickets', () => {
     const service = ServiceFactory.create({ id: 1, name: 'Тестовая услуга' });
-    const loadedQuestion = { id: 1, ticket: { name: 'Вопрос 1' } } as QuestionTicketI;
+    const loadedQuestion = { id: 1, ticket: { name: 'Вопрос 1' } } as QuestionI;
     const expectedQuestion = TicketFactory.create(TicketTypes.QUESTION, loadedQuestion);
     const ticketData = {
       questions: [loadedQuestion],
@@ -48,7 +48,7 @@ describe('TicketService', () => {
 
     // it('should save loaded data into "draftQuestions" attribute', () => {
     //   ticketService.loadDraftTickets(service).subscribe(() => {
-    //     expect(questionTicketService.draftQuestions).toEqual([expectedQuestion]);
+    //     expect(questionService.draftQuestions).toEqual([expectedQuestion]);
     //   });
 
     //   httpTestingController.expectOne({
