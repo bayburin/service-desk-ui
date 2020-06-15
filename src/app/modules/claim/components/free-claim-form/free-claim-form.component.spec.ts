@@ -78,7 +78,7 @@ describe('FreeClaimFormComponent', () => {
   describe('Unit tests', () => {
     beforeEach(() => {
       fixture.detectChanges();
-      form = component.caseForm;
+      form = component.claimForm;
     });
 
     it('should create', () => {
@@ -149,16 +149,16 @@ describe('FreeClaimFormComponent', () => {
       expect(fixture.debugElement.nativeElement.textContent).toContain(item.type['short_description']);
     });
 
-    it('should emit to caseSaved subject if case has been created', inject([Router], (router: Router) => {
-      spyOn(component.caseSaved, 'emit');
+    it('should emit to claimSaved subject if claim has been created', inject([Router], (router: Router) => {
+      spyOn(component.claimSaved, 'emit');
       fixture.detectChanges();
-      form = component.caseForm;
+      form = component.claimSaved;
       form.controls.service.setValue(service);
       form.controls.desc.setValue('Здесь описание проблемы');
       form.controls.item.setValue(item);
       fixture.debugElement.nativeElement.querySelector('button[type="submit"]').click();
 
-      expect(component.caseSaved.emit).toHaveBeenCalled();
+      expect(component.claimSaved.emit).toHaveBeenCalled();
     }));
   });
 });

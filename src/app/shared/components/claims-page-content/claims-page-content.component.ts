@@ -61,7 +61,7 @@ export class ClaimsPageContentComponent implements OnInit {
   private loadCases(init = false): void {
     this.toggleLoading(init);
 
-    this.claimService.getAllCases(this.getFilters())
+    this.claimService.getAll(this.getFilters())
       .pipe(finalize(() => this.toggleLoading()))
       .subscribe((data: { statuses: FilterI[], apps: ClaimI[]}) => {
         this.statuses = data.statuses;

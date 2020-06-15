@@ -9,7 +9,7 @@ import { ClaimI } from '@interfaces/claim.interface';
 describe('ClaimService', () => {
   let claimService: ClaimService;
   let httpTestingController: HttpTestingController;
-  const casesUri = `${environment.serverUrl}/api/v1/cases`;
+  const claimsUri = `${environment.serverUrl}/api/v1/apps`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -28,70 +28,70 @@ describe('ClaimService', () => {
     expect(claimService).toBeTruthy();
   });
 
-  describe('#getAllCases', () => {
+  describe('#getAll', () => {
     const filters = { status_id: 1 };
-    const data = { cases: [], statuses: [] };
+    const data = { apps: [], statuses: [] };
 
-    it('should return Observable with cases and statuses', () => {
+    it('should return Observable with claims and statuses', () => {
       const params = new HttpParams().set('filters', JSON.stringify(filters));
 
-      claimService.getAllCases(filters).subscribe(result => {
+      claimService.getAll(filters).subscribe(result => {
         expect(result).toEqual(data);
       });
 
       httpTestingController.expectOne({
         method: 'GET',
-        url: `${casesUri}?${params.toString()}`,
+        url: `${claimsUri}?${params.toString()}`,
       }).flush(data);
     });
 
     it('should set empty filter if filter does not exist', () => {
       const params = new HttpParams().set('filters', JSON.stringify({}));
 
-      claimService.getAllCases().subscribe();
+      claimService.getAll().subscribe();
 
       httpTestingController.expectOne({
         method: 'GET',
-        url: `${casesUri}?${params.toString()}`,
+        url: `${claimsUri}?${params.toString()}`,
       }).flush(data);
     });
   });
 
-  describe('#createCase', () => {
-    const kase = {
+  describe('#create', () => {
+    const claim = {
       service_id: 1,
       desc: 'Тестовое описание',
       item_id: 1
     } as ClaimI;
 
-    it('should return Observable with created case', () => {
-      claimService.createCase(kase).subscribe();
+    it('should return Observable with created claim', () => {
+      claimService.create(claim).subscribe();
 
       httpTestingController.expectOne({
         method: 'POST',
-        url: `${casesUri}`,
+        url: `${claimsUri}`,
       });
     });
   });
 
-  describe('#revokeCase', () => {
-    const kase = { case_id: 12 } as ClaimI;
+  describe('#revoke', () => {
+    const claim = { case_id: 12 } as ClaimI;
 
     it('should return Observable with any data', () => {
-      claimService.revokeCase(kase.case_id).subscribe();
+      claimService.revoke(claim.case_id).subscribe();
 
       httpTestingController.expectOne({
         method: 'DELETE',
-        url: `${casesUri}/${kase.case_id}`,
+        url: `${claimsUri}/${claim.case_id}`,
       });
     });
   });
 
   describe('#getRawValues', () => {
-    let kase;
+    let claim: any;
 
     beforeEach(() => {
-      kase = {
+      claim = {
         case_id: 12,
         service: { id: 1 },
         desc: 'Тестовое описание',
@@ -104,14 +104,14 @@ describe('ClaimService', () => {
       };
     });
 
-    it('should return object with raw case data', () => {
-      const result = claimService.getRawValues(kase);
+    it('should return object with raw claim data', () => {
+      const result = claimService.getRawValues(claim);
 
       expect(result).toEqual(jasmine.objectContaining({ service_id: 1 }));
     });
 
     it('should remove service and item from object', () => {
-      const result = claimService.getRawValues(kase);
+      const result = claimService.getRawValues(claim);
 
       expect(result.service).toEqual(undefined);
       expect(result['item']).toEqual(undefined);
@@ -119,9 +119,9 @@ describe('ClaimService', () => {
 
     describe('when flags "without_service" and "without_item" are set', () => {
       it('should return object without "service_id", "item_id" and "invent_num"', () => {
-        kase.without_service = true;
-        kase.without_item = true;
-        const result = claimService.getRawValues(kase);
+        claim.without_service = true;
+        claim.without_item = true;
+        const result = claimService.getRawValues(claim);
 
         expect(result.service_id).toEqual(undefined);
         expect(result.item_id).toEqual(undefined);
@@ -130,30 +130,30 @@ describe('ClaimService', () => {
     });
   });
 
-  describe('#voteCase', () => {
-    const kase  = { case_id: 1 } as ClaimI;
+  describe('#vote', () => {
+    const claim  = { case_id: 1 } as ClaimI;
 
     it('should return Observable with any data', () => {
-      claimService.voteCase(kase).subscribe();
+      claimService.vote(claim).subscribe();
 
       httpTestingController.expectOne({
         method: 'PUT',
-        url: `${casesUri}/${kase.case_id}`,
+        url: `${claimsUri}/${claim.case_id}`,
       });
     });
   });
 
   describe('#isClosed', () => {
     it('should return true if status_id = 3', () => {
-      const kase = { status_id: 3 } as ClaimI;
+      const claim = { status_id: 3 } as ClaimI;
 
-      expect(claimService.isClosed(kase)).toBeTruthy();
+      expect(claimService.isClosed(claim)).toBeTruthy();
     });
 
     it('should return true if status_id = 4', () => {
-      const kase = { status_id: 4 } as ClaimI;
+      const claim = { status_id: 4 } as ClaimI;
 
-      expect(claimService.isClosed(kase)).toBeTruthy();
+      expect(claimService.isClosed(claim)).toBeTruthy();
     });
   });
 });

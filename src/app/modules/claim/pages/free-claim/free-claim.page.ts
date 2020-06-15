@@ -12,6 +12,6 @@ export class FreeClaimPageComponent implements OnInit {
   ngOnInit() {}
 
   onSave() {
-    this.router.navigate(['/cases']);
+    this.router.navigate(['/claims']);
   }
 }

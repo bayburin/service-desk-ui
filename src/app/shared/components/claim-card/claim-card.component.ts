@@ -31,7 +31,7 @@ export class ClaimCardComponent implements OnInit {
       return false;
     }
 
-    this.claimService.revokeCase(this.kase.case_id)
+    this.claimService.revoke(this.kase.case_id)
       .subscribe(
         () => {
           this.removeCase.emit(true);
@@ -52,7 +52,7 @@ export class ClaimCardComponent implements OnInit {
    * Установить оценку качеству обслужания по заявке.
    */
   vote(): void {
-    this.claimService.voteCase(this.kase).subscribe();
+    this.claimService.vote(this.kase).subscribe();
   }
 
   /**

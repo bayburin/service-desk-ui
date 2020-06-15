@@ -22,8 +22,8 @@ export class FreeClaimFormComponent implements OnInit, OnDestroy {
   @ViewChild('instance', { static: true }) instance: NgbTypeahead;
   @ViewChild('fileView', { static: true }) fileView: ElementRef;
   @Input() formType: 'new' | 'edit';
-  @Output() caseSaved = new EventEmitter();
-  caseForm: FormGroup;
+  @Output() claimSaved = new EventEmitter();
+  claimForm: FormGroup;
   user: User;
   loading = {
   params: false,
@@ -46,21 +46,21 @@ export class FreeClaimFormComponent implements OnInit, OnDestroy {
   ) {}
 
   get form() {
-    return this.caseForm.controls;
+    return this.claimForm.controls;
   }
 
   get formItem() {
-    return this.caseForm.controls.item as FormControl;
+    return this.claimForm.controls.item as FormControl;
   }
 
   get formService() {
-    return this.caseForm.controls.service as FormControl;
+    return this.claimForm.controls.service as FormControl;
   }
 
   ngOnInit() {
     this.queryParams = this.route.snapshot.queryParams;
     this.userService.user.subscribe((user: User) => this.user = user);
-    this.caseForm = this.formBuilder.group({
+    this.claimForm = this.formBuilder.group({
       id_tn: [this.user.idTn],
       user_tn: [{ value: this.user.tn, disabled: true }],
       fio: [{ value: this.user.fio, disabled: true }],
@@ -140,15 +140,15 @@ export class FreeClaimFormComponent implements OnInit, OnDestroy {
    */
   onSubmit(): void {
     this.submitted = true;
-    if (this.caseForm.invalid) {
+    if (this.claimForm.invalid) {
       return;
     }
 
     this.loading.form = true;
     if (this.formType === 'new') {
-      this.claimService.createCase(this.getRawValue())
+      this.claimService.create(this.getRawValue())
         .pipe(finalize(() => this.loading.form = false))
-        .subscribe(() => this.caseSaved.emit());
+        .subscribe(() => this.claimSaved.emit());
     } else {
 
     }
@@ -191,7 +191,7 @@ export class FreeClaimFormComponent implements OnInit, OnDestroy {
    * Получить данные для отправки на сервер.
    */
   private getRawValue(): ClaimI {
-    return this.claimService.getRawValues(this.caseForm.getRawValue());
+    return this.claimService.getRawValues(this.claimForm.getRawValue());
   }
 
   /**

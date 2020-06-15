@@ -41,7 +41,7 @@ describe('ClaimsPageContentComponent', () => {
 
   describe('Unit tests', () => {
     beforeEach(() => {
-      spyOn(claimService, 'getAllCases').and.returnValue(of(serverData));
+      spyOn(claimService, 'getAll').and.returnValue(of(serverData));
       fixture.detectChanges();
     });
 
@@ -108,7 +108,7 @@ describe('ClaimsPageContentComponent', () => {
 
     describe('when data loaded', () => {
       beforeEach(() => {
-        spyOn(claimService, 'getAllCases').and.returnValue(of(serverData));
+        spyOn(claimService, 'getAll').and.returnValue(of(serverData));
         fixture.detectChanges();
       });
 

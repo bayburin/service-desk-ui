@@ -1,10 +1,10 @@
 import { of } from 'rxjs';
 
 export class StubClaimService {
-  getAllCases() { return of([]); }
-  createCase() { return of({}); }
-  revokeCase() { return of({}); }
+  getAll() { return of([]); }
+  create() { return of({}); }
+  revoke() { return of({}); }
   getRawValues() {}
-  voteCase() { return of({}); }
+  vote() { return of({}); }
   isClosed() {}
 }

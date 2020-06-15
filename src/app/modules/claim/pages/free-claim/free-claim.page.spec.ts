@@ -42,10 +42,10 @@ describe('FreeClaimPageComponent', () => {
     expect(fixture.debugElement.query(By.css('app-free-claim-form')).nativeElement.getAttribute('formType')).toEqual('new');
   });
 
-  it('should redirect to cases page', inject([Router], (router: Router) => {
+  it('should redirect to claims page', inject([Router], (router: Router) => {
     const spy = spyOn(router, 'navigateByUrl');
     component.onSave();
 
-    expect(`${spy.calls.first().args[0]}`).toEqual('/cases');
+    expect(`${spy.calls.first().args[0]}`).toEqual('/claim');
   }));
 });

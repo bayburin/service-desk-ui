@@ -15,48 +15,50 @@ export class ClaimService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Получает список кейсов.
+   * Получает список заявок.
    */
-  getAllCases(filters = {}): Observable<{ statuses: FilterI[], apps: ClaimI[] }> {
+  getAll(filters = {}): Observable<{ statuses: FilterI[], apps: ClaimI[] }> {
     const params = new HttpParams().append('filters', JSON.stringify(filters));
 
     return this.http.get<{ statuses: FilterI[], apps: ClaimI[] }>(this.claimsUri, { params });
   }
 
   /**
-   * Создает кейс.
+   * Создает заявку.
    *
-   * @param data - данные о кейсе.
+   * @param data - данные о заявке.
    */
-  createCase(data: ClaimI): Observable<any> {
-    return this.http.post(this.claimsUri, { case: data });
+  create(data: ClaimI): Observable<any> {
+    return this.http.post(this.claimsUri, { app: data });
   }
 
   /**
    * Отменяет заявку.
+   *
+   * @param id - номер заявки
    */
-  revokeCase(caseId: number): Observable<Object> {
-    const caseUrl = `${this.claimsUri}/${caseId}`;
+  revoke(id: number): Observable<Object> {
+    const uri = `${this.claimsUri}/${id}`;
 
-    return this.http.delete(caseUrl);
+    return this.http.delete(uri);
   }
 
   /**
-   * Возвращает объект case для отправки на сервер.
+   * Возвращает объект заявки для отправки на сервер.
    */
-  getRawValues(caseObj): ClaimI {
-    if (!caseObj.without_service) {
-      caseObj.service_id = caseObj.service.id;
+  getRawValues(claimObj: any): ClaimI {
+    if (!claimObj.without_service) {
+      claimObj.service_id = claimObj.service.id;
     }
-    if (!caseObj.without_item) {
-      caseObj.item_id = caseObj.item.item_id;
-      caseObj.invent_num = caseObj.item.invent_num;
+    if (!claimObj.without_item) {
+      claimObj.item_id = claimObj.item.item_id;
+      claimObj.invent_num = claimObj.item.invent_num;
     }
 
-    delete caseObj.service;
-    delete caseObj.item;
+    delete claimObj.service;
+    delete claimObj.item;
 
-    return caseObj;
+    return claimObj;
   }
 
   /**
@@ -64,18 +66,18 @@ export class ClaimService {
    *
    * @param data - данные заявки.
    */
-  voteCase(data: ClaimI): Observable<any> {
-    const caseUrl = `${this.claimsUri}/${data.case_id}`;
+  vote(data: ClaimI): Observable<any> {
+    const uri = `${this.claimsUri}/${data.case_id}`;
 
-    return this.http.put(caseUrl, { case: data });
+    return this.http.put(uri, { app: data });
   }
 
   /**
    * Проверяет, закрыта ли указанная заявка.
    *
-   * @param kase - заявка
+   * @param claim - заявка
    */
-  isClosed(kase: ClaimI): boolean {
-    return kase.status_id === 3 || kase.status_id === 4;
+  isClosed(claim: ClaimI): boolean {
+    return claim.status_id === 3 || claim.status_id === 4;
   }
 }
