@@ -9,8 +9,8 @@ import { ClaimService } from '@modules/claim/services/claim/claim.service';
   styleUrls: ['./claim-card.component.scss']
 })
 export class ClaimCardComponent implements OnInit {
-  @Input() kase: ClaimI;
-  @Output() removeCase = new EventEmitter<any>();
+  @Input() claim: ClaimI;
+  @Output() removeClaim = new EventEmitter<any>();
 
   constructor(private claimService: ClaimService) { }
 
@@ -18,23 +18,21 @@ export class ClaimCardComponent implements OnInit {
 
   /**
    * Отменяет заявку.
-   *
-   * @param kase - выбранная заявка.
    */
-  revokeCase() {
-    if (this.kase.status_id !== 1) {
+  revoke() {
+    if (this.claim.status_id !== 1) {
       alert('Отменить можно только заявку, имеющую статус "Не обработано". Если вы действительно хотите отменить текущую заявку, обратитесь по тел. 06.');
       return;
     }
 
-    if (!confirm('Вы действительно хотите отменить заявку №' + this.kase.case_id + '?')) {
+    if (!confirm('Вы действительно хотите отменить заявку №' + this.claim.case_id + '?')) {
       return false;
     }
 
-    this.claimService.revoke(this.kase.case_id)
+    this.claimService.revoke(this.claim.case_id)
       .subscribe(
         () => {
-          this.removeCase.emit(true);
+          this.removeClaim.emit(true);
           alert('Заявка отменена');
         },
         err => console.log(err)
@@ -45,20 +43,20 @@ export class ClaimCardComponent implements OnInit {
    * Возвращает true, если голосование разрешено.
    */
   isAllowedToVote(): boolean {
-    return this.kase.status_id === 3 && !this.kase.rating;
+    return this.claim.status_id === 3 && !this.claim.rating;
   }
 
   /**
    * Установить оценку качеству обслужания по заявке.
    */
   vote(): void {
-    this.claimService.vote(this.kase).subscribe();
+    this.claimService.vote(this.claim).subscribe();
   }
 
   /**
    * Проверякт, закрыта ли заявка.
    */
-  isCaseClosed(): boolean {
-    return this.claimService.isClosed(this.kase);
+  isClosed(): boolean {
+    return this.claimService.isClosed(this.claim);
   }
 }

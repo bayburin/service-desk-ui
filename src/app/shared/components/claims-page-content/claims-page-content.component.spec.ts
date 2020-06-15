@@ -14,7 +14,7 @@ describe('ClaimsPageContentComponent', () => {
   let component: ClaimsPageContentComponent;
   let fixture: ComponentFixture<ClaimsPageContentComponent>;
   let claimService: ClaimService;
-  let serverData: { statuses: FilterI[], cases: ClaimI[]};
+  let serverData: { statuses: FilterI[], apps: ClaimI[]};
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -33,7 +33,7 @@ describe('ClaimsPageContentComponent', () => {
     claimService = TestBed.get(ClaimService);
     serverData = {
       statuses: [{ id: 1, name: 'Все', count: 1 }] as FilterI[],
-      cases: [{ case_id: 1, status_id: 1 }, { case_id: 2, status_id: 1 }] as ClaimI[]
+      apps: [{ case_id: 1, status_id: 1 }, { case_id: 2, status_id: 1 }] as ClaimI[]
     };
   });
 
@@ -49,8 +49,8 @@ describe('ClaimsPageContentComponent', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should load cases', () => {
-      expect(component.cases).toEqual(serverData.cases);
+    it('should load claims', () => {
+      expect(component.claims).toEqual(serverData.apps);
     });
 
     it('should load statuses', () => {
@@ -65,26 +65,26 @@ describe('ClaimsPageContentComponent', () => {
         expect(component.selectedStatusId).toEqual(123);
       });
 
-      it('should load cases', () => {
-        const spy = spyOn(component as any, 'loadCases');
+      it('should load claims', () => {
+        const spy = spyOn(component as any, 'loadClaims');
         component.filterChanged(123);
 
         expect(spy).toHaveBeenCalled();
       });
     });
 
-    describe('#caseRevoked', () => {
-      it('should load cases', () => {
-        const spy = spyOn(component as any, 'loadCases');
-        component.caseRevoked();
+    describe('#claimRevoked', () => {
+      it('should load claims', () => {
+        const spy = spyOn(component as any, 'loadClaims');
+        component.claimRevoked();
 
         expect(spy).toHaveBeenCalled();
       });
     });
 
-    describe('#isAnyCasesExists', () => {
+    describe('#isAnyClaimsExists', () => {
       it('should return true if status.counnt is not equal zero', () => {
-        expect(component.isAnyCasesExists()).toBeTruthy();
+        expect(component.isAnyClaimsExists()).toBeTruthy();
       });
     });
   });
@@ -101,7 +101,7 @@ describe('ClaimsPageContentComponent', () => {
         expect(fixture.debugElement.nativeElement.querySelector('app-filters')).not.toBeTruthy();
       });
 
-      it('should show CaseCardListComponent', () => {
+      it('should show ClaimCardListComponent', () => {
         expect(fixture.debugElement.nativeElement.querySelector('app-claim-card-list')).not.toBeTruthy();
       });
     });
@@ -120,16 +120,16 @@ describe('ClaimsPageContentComponent', () => {
         expect(fixture.debugElement.nativeElement.querySelector('app-filters')).toBeTruthy();
       });
 
-      it('should show CaseCardListComponent', () => {
+      it('should show ClaimCardListComponent', () => {
         expect(fixture.debugElement.nativeElement.querySelector('app-claim-card-list')).toBeTruthy();
       });
 
-      it('should trigger navigation to "/cases/new"', () => {
+      it('should trigger navigation to "/claims/new"', () => {
         const router = TestBed.get(Router);
         const spy = spyOn(router, 'navigateByUrl');
 
-        fixture.debugElement.nativeElement.querySelector('#newCase').click();
-        expect(`${spy.calls.first().args[0]}`).toBe('/cases/new');
+        fixture.debugElement.nativeElement.querySelector('#newClaim').click();
+        expect(`${spy.calls.first().args[0]}`).toBe('/claims/new');
       });
     });
   });

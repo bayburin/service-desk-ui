@@ -1,9 +1,9 @@
 <div class="tab-content">
   <app-loading [loading]="loading" size="48px"></app-loading>
   <div *ngIf="!loading" [@contentListAnimation]="data">
-    <div class="row mb-4" *ngFor="let cases of data">
-      <div class="col-md-6" *ngFor="let case of cases; trackBy: trackByCase">
-        <app-claim-card [kase]="case" (removeCase)="revokeCase()"></app-claim-card>
+    <div class="row mb-4" *ngFor="let claims of data">
+      <div class="col-md-6" *ngFor="let claim of claims; trackBy: trackByClaim">
+        <app-claim-card [claim]="claim" (removeClaim)="revoke()"></app-claim-card>
       </div>
     </div>
   </div>

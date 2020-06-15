@@ -10,9 +10,9 @@ import { contentListAnimation } from '@animations/content.animation';
   animations: [contentListAnimation]
 })
 export class ClaimCardListComponent implements OnInit, OnChanges {
-  @Input() cases: ClaimI[] = [];
+  @Input() claims: ClaimI[] = [];
   @Input() loading = false;
-  @Output() removeCase = new EventEmitter<any>();
+  @Output() removeClaim = new EventEmitter<any>();
   data = [];
 
   constructor() {}
@@ -21,19 +21,19 @@ export class ClaimCardListComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.data = [];
-    for (let i = 0; i < this.cases.length; i += 2) {
-      this.data.push(this.cases.slice(i, i + 2));
+    for (let i = 0; i < this.claims.length; i += 2) {
+      this.data.push(this.claims.slice(i, i + 2));
     }
   }
 
   /**
    * Событие отмены заявки.
    */
-  revokeCase(): void {
-    this.removeCase.emit(true);
+  revoke(): void {
+    this.removeClaim.emit(true);
   }
 
-  trackByCase(index, kase: ClaimI) {
-    return kase.case_id;
+  trackByClaim(index, claim: ClaimI) {
+    return claim.case_id;
   }
 }

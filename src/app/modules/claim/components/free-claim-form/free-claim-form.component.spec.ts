@@ -152,10 +152,9 @@ describe('FreeClaimFormComponent', () => {
     it('should emit to claimSaved subject if claim has been created', inject([Router], (router: Router) => {
       spyOn(component.claimSaved, 'emit');
       fixture.detectChanges();
-      form = component.claimSaved;
-      form.controls.service.setValue(service);
-      form.controls.desc.setValue('Здесь описание проблемы');
-      form.controls.item.setValue(item);
+      component.form.service.setValue(service);
+      component.form.desc.setValue('Здесь описание проблемы');
+      component.form.item.setValue(item);
       fixture.debugElement.nativeElement.querySelector('button[type="submit"]').click();
 
       expect(component.claimSaved.emit).toHaveBeenCalled();

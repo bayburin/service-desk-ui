@@ -18,7 +18,7 @@ export class ClaimsPageContentComponent implements OnInit {
     initialization: false,
     table: false
   };
-  cases: ClaimI[] = [];
+  claims: ClaimI[] = [];
   statuses: FilterI[] = [];
   selectedStatusId: number;
   @Input() services: Service[] = [];
@@ -26,7 +26,7 @@ export class ClaimsPageContentComponent implements OnInit {
   constructor(private claimService: ClaimService) { }
 
   ngOnInit() {
-    this.loadCases(true);
+    this.loadClaims(true);
   }
 
   /**
@@ -36,21 +36,21 @@ export class ClaimsPageContentComponent implements OnInit {
    */
   filterChanged(id: number) {
     this.selectedStatusId = id;
-    this.loadCases();
+    this.loadClaims();
   }
 
   /**
    * Событие отмены заявки.
    */
-  caseRevoked() {
-    this.loadCases();
+  claimRevoked() {
+    this.loadClaims();
   }
 
   /**
    * Проверяет, существуют ли какие-либо кейсы у текущего пользователя.
    */
-  isAnyCasesExists() {
-    return this.statuses.some(status => status.count != 0);
+  isAnyClaimsExists() {
+    return this.statuses.some(status => status.count !== 0);
   }
 
   /**
@@ -58,14 +58,14 @@ export class ClaimsPageContentComponent implements OnInit {
    *
    * @param init - указывает, происходит ли запрос впервые (на этот момент мы не знаем, имеются у пользователь какие-либо заявки).
    */
-  private loadCases(init = false): void {
+  private loadClaims(init = false): void {
     this.toggleLoading(init);
 
     this.claimService.getAll(this.getFilters())
       .pipe(finalize(() => this.toggleLoading()))
       .subscribe((data: { statuses: FilterI[], apps: ClaimI[]}) => {
         this.statuses = data.statuses;
-        this.cases = data.apps;
+        this.claims = data.apps;
       });
   }
 

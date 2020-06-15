@@ -46,6 +46,6 @@ describe('FreeClaimPageComponent', () => {
     const spy = spyOn(router, 'navigateByUrl');
     component.onSave();
 
-    expect(`${spy.calls.first().args[0]}`).toEqual('/claim');
+    expect(`${spy.calls.first().args[0]}`).toEqual('/claims');
   }));
 });

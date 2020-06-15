@@ -8,7 +8,7 @@ import { ClaimCardListComponent } from './claim-card-list.component';
 describe('ClaimCardListComponent', () => {
   let component: ClaimCardListComponent;
   let fixture: ComponentFixture<ClaimCardListComponent>;
-  let cases: ClaimI[];
+  let claims: ClaimI[];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -24,7 +24,7 @@ describe('ClaimCardListComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    cases = [
+    claims = [
       { case_id: 1, status_id: 1 },
       { case_id: 2, status_id: 2 },
       { case_id: 3, status_id: 3 },
@@ -38,7 +38,7 @@ describe('ClaimCardListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should transform array of cases into array that contains nested arrays', () => {
+  it('should transform array of claims into array that contains nested arrays', () => {
     const result = [
       [
         { case_id: 1, status_id: 1 },
@@ -50,17 +50,17 @@ describe('ClaimCardListComponent', () => {
       ]
     ];
 
-    component.cases = cases;
+    component.claims = claims;
     component.ngOnChanges();
 
     expect(component.data).toEqual(result);
   });
 
-  describe('#revokeCase', () => {
-    it('should emit true to the removeCase subject', () => {
-      const spy = spyOn(component.removeCase, 'emit');
+  describe('#revoke', () => {
+    it('should emit true to the removeClaim subject', () => {
+      const spy = spyOn(component.removeClaim, 'emit');
 
-      component.revokeCase();
+      component.revoke();
       expect(spy).toHaveBeenCalledWith(true);
     });
   });
@@ -68,12 +68,12 @@ describe('ClaimCardListComponent', () => {
 // Shallow tests ===========================================================================================================================
 
   describe('#Shallow tests', () => {
-    it('should show all loaded cases', () => {
-      component.cases = cases;
+    it('should show all loaded claims', () => {
+      component.claims = claims;
       component.ngOnChanges();
       fixture.detectChanges();
 
-      expect(fixture.debugElement.nativeElement.querySelectorAll('app-claim-card').length).toEqual(cases.length);
+      expect(fixture.debugElement.nativeElement.querySelectorAll('app-claim-card').length).toEqual(claims.length);
     });
   });
 });
