@@ -10,7 +10,7 @@ import { SharedModule } from '@shared/shared.module';
 import { APP_CONFIG, AppConfig } from './config/app.config';
 import { AppRoutingModule } from './app-routing.module';
 import { TicketModule } from './modules/ticket/ticket.module';
-import { CaseModule } from './modules/case/case.module';
+import { ClaimModule } from './modules/claim/claim.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MarkedOptions } from 'ngx-markdown';
 
@@ -41,7 +41,7 @@ import { StreamService } from '@shared/services/stream/stream.service';
     SharedModule,
     HttpClientModule,
     TicketModule,
-    CaseModule,
+    ClaimModule,
     AuthModule,
     AppRoutingModule,
     MarkdownModule.forRoot({

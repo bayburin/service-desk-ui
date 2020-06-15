@@ -103,8 +103,8 @@ describe('CategoriesDetailPageComponent', () => {
       });
     });
 
-    it('should show app-cases-page-content component', () => {
-      expect(fixture.debugElement.nativeElement.querySelector('app-cases-page-content')).toBeTruthy();
+    it('should show app-claims-page-content component', () => {
+      expect(fixture.debugElement.nativeElement.querySelector('app-claims-page-content')).toBeTruthy();
     });
 
     it('should render app-question-page-content components', () => {
