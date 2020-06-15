@@ -14,6 +14,6 @@ export class CaseTicket extends Ticket {
   }
 
   pageComponent(): string {
-    return 'app-case-page-content';
+    return 'app-claim-page-content';
   }
 }

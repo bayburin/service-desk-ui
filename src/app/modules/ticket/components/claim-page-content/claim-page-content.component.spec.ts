@@ -1,25 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { CasePageContentComponent } from './case-page-content.component';
+import { ClaimPageContentComponent } from './claim-page-content.component';
 import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 
-describe('CasePageContentComponent', () => {
-  let component: CasePageContentComponent;
-  let fixture: ComponentFixture<CasePageContentComponent>;
+describe('ClaimPageContentComponent', () => {
+  let component: ClaimPageContentComponent;
+  let fixture: ComponentFixture<ClaimPageContentComponent>;
   let ticket: Ticket;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [CasePageContentComponent]
+      declarations: [ClaimPageContentComponent]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CasePageContentComponent);
+    fixture = TestBed.createComponent(ClaimPageContentComponent);
     component = fixture.componentInstance;
     ticket = TicketFactory.create(TicketTypes.CASE, { id: 1, serviceId: 2, name: 'Тестовая заявка' });
     component.data = ticket;
