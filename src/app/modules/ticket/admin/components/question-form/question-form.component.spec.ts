@@ -6,7 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 
-import { TicketFormComponent } from './ticket-form.component';
+import { QuestionFormComponent } from './question-form.component';
 import { StubQuestionService } from '@shared/services/question/question.service.stub';
 import { QuestionService } from '@shared/services/question/question.service';
 import { StubServiceService } from '@shared/services/service/service.service.stub';
@@ -40,9 +40,9 @@ class StubAnswerAccessorComponent implements ControlValueAccessor {
   registerOnTouched(fn: any): void {}
 }
 
-describe('TicketFormComponent', () => {
-  let component: TicketFormComponent;
-  let fixture: ComponentFixture<TicketFormComponent>;
+describe('QuestionFormComponent', () => {
+  let component: QuestionFormComponent;
+  let fixture: ComponentFixture<QuestionFormComponent>;
   let serviceI: ServiceI;
   let service: Service;
   let ticketI: TicketI;
@@ -60,7 +60,7 @@ describe('TicketFormComponent', () => {
         ReactiveFormsModule,
         NoopAnimationsModule
       ],
-      declarations: [TicketFormComponent, StubAnswerAccessorComponent],
+      declarations: [QuestionFormComponent, StubAnswerAccessorComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: ServiceService, useClass: StubServiceService },
@@ -72,7 +72,7 @@ describe('TicketFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TicketFormComponent);
+    fixture = TestBed.createComponent(QuestionFormComponent);
     component = fixture.componentInstance;
 
     const formBuilder = TestBed.get(FormBuilder);

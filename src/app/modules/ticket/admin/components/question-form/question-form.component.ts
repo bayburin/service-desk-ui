@@ -6,12 +6,12 @@ import { Question } from '@modules/ticket/models/question/question.model';
 import { Answer } from '@modules/ticket/models/answer/answer.model';
 
 @Component({
-  selector: 'app-ticket-form',
-  templateUrl: './ticket-form.component.html',
-  styleUrls: ['./ticket-form.component.sass'],
+  selector: 'app-question-form',
+  templateUrl: './question-form.component.html',
+  styleUrls: ['./question-form.component.sass'],
   animations: [contentBlockAnimation]
 })
-export class TicketFormComponent implements OnInit {
+export class QuestionFormComponent implements OnInit {
   preview = [];
   @Input() questionForm: FormGroup;
   @Input() question: Question;

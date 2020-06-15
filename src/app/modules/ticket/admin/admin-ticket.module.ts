@@ -12,7 +12,7 @@ import { ServiceDetailComponent } from './components/service-detail/service-deta
 import { AnswerComponent } from './components/answer/answer.component';
 import { AttachmentComponent } from './components/attachment/attachment.component';
 import { EditQuestionPageComponent } from './pages/edit-question/edit-question.page';
-import { TicketFormComponent } from './components/ticket-form/ticket-form.component';
+import { QuestionFormComponent } from './components/question-form/question-form.component';
 import { TicketsDetailPageComponent } from './pages/tickets-detail/tickets-detail.page';
 import { MarkdownHelpComponent } from './components/markdown-help/markdown-help.component';
 import { AnswerAccessorComponent } from './components/answer-accessor/answer-accessor.component';
@@ -29,7 +29,7 @@ import { CommonTicketInformationComponent } from './components/common-ticket-inf
     AnswerComponent,
     AttachmentComponent,
     EditQuestionPageComponent,
-    TicketFormComponent,
+    QuestionFormComponent,
     TicketsDetailPageComponent,
     MarkdownHelpComponent,
     AnswerAccessorComponent,
