@@ -2,25 +2,25 @@
   <div class="container">
     <div class="d-flex flex-row align-items-start">
       <app-section-header [header]="service.name + ' - администрирование'" [addClass]="'text-danger'" class="mr-auto"></app-section-header>
-      <a id="newCase" routerLink="claim_form/new" class="btn btn-gray-white">Новая заявка</a>
+      <!-- <a id="newCase" routerLink="claim_form/new" class="btn btn-gray-white">Новая заявка</a> -->
       <a id="newQuestion" routerLink="new" class="btn btn-gray-white ml-2">Новый вопрос</a>
       <a id="userMode" [routerLink]="['../../../../../../../']" class="btn btn-gray-white ml-2">Режим пользователя</a>
     </div>
     <app-responsible-user-details [users]="service.responsibleUsers" label="Ответственные за услугу"></app-responsible-user-details>
     <section class="sd-dlist-divider-b">
-      <h2>Вопросы</h2>
+      <!-- <h2>Вопросы</h2> -->
       <div class="mt-2">
         <p *ngIf="!service.questions.length" class="search-title">Список вопросов пуст</p>
         <app-question *ngFor="let question of service.questions; trackBy: trackByQuestion" [question]="question"></app-question>
       </div>
     </section>
-    <section class="sd-dlist-divider-b">
+    <!-- <section class="sd-dlist-divider-b">
       <h2>Заявки</h2>
       <div class="mt-2">
         <p *ngIf="!service.claimTickets.length" class="search-title">Список заявок пуст</p>
-        <!-- <app-claim-page-content *ngFor="let case of service.claimTickets; trackBy: trackByTicket" [data]="case"></app-claim-page-content> -->
+        <app-claim-page-content *ngFor="let case of service.claimTickets; trackBy: trackByTicket" [data]="case"></app-claim-page-content>
       </div>
-    </section>
+    </section> -->
   </div>
 </section>
 <router-outlet></router-outlet>

@@ -6,19 +6,19 @@
     </div>
     <app-responsible-user-details [users]="service.responsibleUsers" label="Ответственные за услугу"></app-responsible-user-details>
     <section class="sd-dlist-divider-b">
-      <h2>Вопросы</h2>
+      <!-- <h2>Вопросы</h2> -->
       <div class="mt-2">
         <p *ngIf="!service.questions.length" class="search-title">Список вопросов пуст</p>
         <app-question-page-content *ngFor="let question of service.questions; trackBy: trackByTicket" [data]="question"
           [showFlags]="showTicketFlags"></app-question-page-content>
       </div>
     </section>
-    <section class="sd-dlist-divider-b">
+    <!-- <section class="sd-dlist-divider-b">
       <h2>Заявки</h2>
       <div class="mt-2">
         <p *ngIf="!service.claimTickets.length" class="search-title">Список заявок пуст</p>
         <app-claim-page-content *ngFor="let case of service.claimTickets; trackBy: trackByTicket" [data]="case"></app-claim-page-content>
       </div>
-    </section>
+    </section> -->
   </div>
 </section>
