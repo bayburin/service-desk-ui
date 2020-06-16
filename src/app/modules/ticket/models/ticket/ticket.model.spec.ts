@@ -37,7 +37,6 @@ describe('Ticket', () => {
       service_id: 1,
       // original_id: 0,
       name: 'Тестовый вопрос',
-      ticket_type: TicketTypes.QUESTION,
       ticketable_id: 1,
       ticketable_type: TicketTypes.QUESTION,
       state: 'draft',

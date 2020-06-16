@@ -66,7 +66,6 @@ export class NewClaimPageComponent implements OnInit {
     this.ticketForm = this.formBuilder.group({
       service_id: [this.service.id],
       name: ['', [Validators.required, Validators.maxLength(255)]],
-      ticket_type: [TicketTypes.CLAIM],
       is_hidden: [false],
       sla: [null],
       popularity: [0],

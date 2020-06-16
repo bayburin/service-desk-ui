@@ -18,8 +18,8 @@ describe('CategoriesDetailPageComponent', () => {
   let fixture: ComponentFixture<CategoriesDetailPageComponent>;
   let categoryService: CategoryService;
   const tickets = [
-    { id: 4, service_id: 1, name: 'Вопрос', ticket_type: TicketTypes.QUESTION } as TicketI,
-    { id: 4, service_id: 1, name: 'Заявка', ticket_type: TicketTypes.CLAIM } as TicketI
+    { id: 4, service_id: 1, name: 'Вопрос' } as TicketI,
+    { id: 4, service_id: 1, name: 'Заявка' } as TicketI
   ];
   const services = [
     { id: 2, category_id: 1, name: 'Тестовая услуга 1' } as ServiceI,

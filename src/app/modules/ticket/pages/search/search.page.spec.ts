@@ -39,7 +39,7 @@ describe('SearchComponent', () => {
   const searchResult = [
     CategoryFactory.create({ name: 'Тестовая категория' }),
     ServiceFactory.create({ name: 'Тестовая услуга' }),
-    TicketFactory.create(TicketTypes.QUESTION, { name: 'Тестовый вопрос', ticket_type: TicketTypes.QUESTION })
+    TicketFactory.create(TicketTypes.QUESTION, { name: 'Тестовый вопрос', ticketable_type: TicketTypes.QUESTION })
   ];
 
   beforeEach(async(() => {

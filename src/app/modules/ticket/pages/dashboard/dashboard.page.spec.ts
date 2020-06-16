@@ -25,14 +25,14 @@ describe('DashboardComponent', () => {
     CategoryFactory.create({ id: 2, name: 'Категория 2' })
   ];
   const questions1 = [
-    { id: 1, ticket: { name: 'Тестовый вопрос 1', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionI,
-    { id: 2, ticket: { name: 'Тестовый вопрос 2', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionI,
-    { id: 3, ticket: { name: 'Тестовый вопрос 3', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionI,
-    { id: 3, ticket: { name: 'Тестовый вопрос 4', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionI
+    { id: 1, ticket: { name: 'Тестовый вопрос 1', ticketable_type: TicketTypes.QUESTION } as TicketI } as QuestionI,
+    { id: 2, ticket: { name: 'Тестовый вопрос 2', ticketable_type: TicketTypes.QUESTION } as TicketI } as QuestionI,
+    { id: 3, ticket: { name: 'Тестовый вопрос 3', ticketable_type: TicketTypes.QUESTION } as TicketI } as QuestionI,
+    { id: 3, ticket: { name: 'Тестовый вопрос 4', ticketable_type: TicketTypes.QUESTION } as TicketI } as QuestionI
   ];
   const questions2 = [
-    { id: 3, ticket: { name: 'Тестовый вопрос 5', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionI,
-    { id: 4, ticket: { name: 'Тестовый вопрос 6', ticket_type: TicketTypes.QUESTION } as TicketI } as QuestionI
+    { id: 3, ticket: { name: 'Тестовый вопрос 5', ticketable_type: TicketTypes.QUESTION } as TicketI } as QuestionI,
+    { id: 4, ticket: { name: 'Тестовый вопрос 6', ticketable_type: TicketTypes.QUESTION } as TicketI } as QuestionI
   ];
   const services = [
     ServiceFactory.create({ id: 3, category_id: 1, name: 'Услуга 1', questions: questions1 }),

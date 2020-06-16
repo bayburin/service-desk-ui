@@ -44,8 +44,8 @@ describe('ServicesDetailPageComponent', () => {
   let responsibleUserService: ResponsibleUserService;
   let details: ResponsibleUserDetailsI[];
   const tickets = [
-    { id: 1, service_id: 2, name: 'Тестовый вопрос 1', ticket_type: TicketTypes.QUESTION } as TicketI,
-    { id: 2, service_id: 2, name: 'Тестовый вопрос 2', ticket_type: TicketTypes.QUESTION } as TicketI
+    { id: 1, service_id: 2, name: 'Тестовый вопрос 1', ticketable_type: TicketTypes.QUESTION } as TicketI,
+    { id: 2, service_id: 2, name: 'Тестовый вопрос 2', ticketable_type: TicketTypes.QUESTION } as TicketI
   ];
   const service = ServiceFactory.create({ id: 2, name: 'Тестовая заявка', category_id: 3, tickets });
   const stubRoute = jasmine.createSpyObj<ActivatedRoute>('ActivatedRoute', ['snapshot', 'parent', 'children']);

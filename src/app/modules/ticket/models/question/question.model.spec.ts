@@ -34,7 +34,6 @@ describe('Question', () => {
       id: 2,
       service_id: 1,
       name: 'Исправленный вопрос',
-      ticket_type: TicketTypes.QUESTION,
       state: 'draft'
     } as TicketI;
     correctionI = {
@@ -46,7 +45,6 @@ describe('Question', () => {
       id: 1,
       service_id: 1,
       name: 'Тестовый вопрос',
-      ticket_type: TicketTypes.QUESTION,
       ticketable_id: 1,
       ticketable_type: TicketTypes.QUESTION,
       state: 'draft',

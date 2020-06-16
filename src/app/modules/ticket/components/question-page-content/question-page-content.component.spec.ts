@@ -30,8 +30,8 @@ describe('QuestionPageContentComponent', () => {
     filename: 'Тестовый файл'
   } as AnswerAttachmentI;
   const answers: AnswerI[] = [
-    { id: 1, ticket_id: 1, answer: 'Тестовый ответ 1', link: 'http://test_link', attachments: [attachment] } as AnswerI,
-    { id: 2, ticket_id: 1, answer: 'Тестовый ответ 2' } as AnswerI
+    { id: 1, question_id: 1, answer: 'Тестовый ответ 1', link: 'http://test_link', attachments: [attachment] } as AnswerI,
+    { id: 2, question_id: 1, answer: 'Тестовый ответ 2' } as AnswerI
   ];
 
   beforeEach(async(() => {

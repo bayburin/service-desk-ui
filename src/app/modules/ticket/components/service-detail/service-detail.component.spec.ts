@@ -19,8 +19,8 @@ describe('ServiceDetailComponent', () => {
   let component: ServiceDetailComponent;
   let fixture: ComponentFixture<ServiceDetailComponent>;
   const questions = [
-    { id: 1, service_id: 1, name: 'Тестовый вопрос 1', ticket_type: TicketTypes.QUESTION, state: 'published' },
-    { id: 2, service_id: 2, name: 'Тестовая заявка', ticket_type: TicketTypes.CLAIM }
+    { id: 1, service_id: 1, name: 'Тестовый вопрос 1', state: 'published' },
+    { id: 2, service_id: 1, name: 'Тестовый вопрос 2', status: 'published' }
   ] as TicketI[];
   const service = ServiceFactory.create({
     id: 1,

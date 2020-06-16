@@ -80,7 +80,6 @@ describe('CommonTicketInformationComponent', () => {
       id: 3,
       service_id: service.id,
       name: 'Тестовый вопрос',
-      ticket_type: TicketTypes.QUESTION,
       ticketable_id: 4,
       ticketable_type: TicketTypes.QUESTION,
       state: 'draft',

@@ -43,7 +43,8 @@ describe('Category', () => {
     });
 
     it('should create instances of nested tickets', () => {
-      const tickets = [{ id: 1, name: 'Тестовый вопрос', ticket_type: TicketTypes.QUESTION } as TicketI];
+      const tickets = [{ id: 1, name: 'Тестовый вопрос' } as TicketI];
+
       categoryI.faq = tickets;
       category = new Category(categoryI);
 

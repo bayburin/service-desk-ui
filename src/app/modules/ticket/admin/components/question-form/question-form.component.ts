@@ -75,7 +75,7 @@ export class QuestionFormComponent implements OnInit {
   private createAnswer(answer: Answer = {} as Answer): FormGroup {
     return this.formBuilder.group({
       id: [answer.id],
-      ticket_id: [answer.ticketId],
+      question_id: [answer.questionId],
       reason: [answer.reason],
       answer: [answer.answer, Validators.required],
       link: [answer.link],

@@ -91,7 +91,6 @@ describe('QuestionFormComponent', () => {
       id: 3,
       service_id: 1,
       name: 'Тестовый вопрос',
-      ticket_type: TicketTypes.QUESTION,
       ticketable_id: 4,
       ticketable_type: TicketTypes.QUESTION,
       state: 'draft',
@@ -105,8 +104,8 @@ describe('QuestionFormComponent', () => {
       original_id: null,
       ticket: ticketI,
       answers: [
-        { id: 1, ticket_id: 3, reason: '', answer: 'Ответ 1', attachments: [], link: '', is_hidden: false },
-        { id: 2, ticket_id: 3, reason: '', answer: 'Ответ 2', attachments: [], link: '', is_hidden: true }
+        { id: 1, question_id: 3, reason: '', answer: 'Ответ 1', attachments: [], link: '', is_hidden: false },
+        { id: 2, question_id: 3, reason: '', answer: 'Ответ 2', attachments: [], link: '', is_hidden: true }
       ]
     };
     question = TicketFactory.create(TicketTypes.QUESTION, questionI);

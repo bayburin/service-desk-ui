@@ -7,7 +7,6 @@ export interface TicketI {
   id: number;
   service_id: number;
   name: string;
-  ticket_type: TicketTypes;
   ticketable_id: number;
   ticketable_type: TicketTypes;
   state: string;

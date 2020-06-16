@@ -22,7 +22,6 @@ describe('Service', () => {
     ticketI = {
       id: 2,
       name: 'Тестовый вопорс',
-      ticket_type: TicketTypes.QUESTION
     } as TicketI;
     questionI = {
       id: 1,
