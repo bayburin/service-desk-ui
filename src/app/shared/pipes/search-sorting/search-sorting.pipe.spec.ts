@@ -15,13 +15,13 @@ describe('SearchSortingPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('should sort array in order: Category -> Service -> Case -> Question', () => {
+  it('should sort array in order: Category -> Service -> Claim -> Question', () => {
     const category = CategoryFactory.create({ name: 'category' });
     const service = ServiceFactory.create({ name: 'service' });
-    const kase = TicketFactory.create(TicketTypes.CASE, { name: 'case' });
+    const claim = TicketFactory.create(TicketTypes.CLAIM, { name: 'claim' });
     const question = TicketFactory.create(TicketTypes.QUESTION, { name: 'question' });
-    const arr = [service, category, question, kase];
+    const arr = [service, category, question, claim];
 
-    expect(pipe.transform(arr)).toEqual([category, service, kase, question]);
+    expect(pipe.transform(arr)).toEqual([category, service, claim, question]);
   });
 });

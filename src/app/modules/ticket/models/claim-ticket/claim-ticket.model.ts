@@ -1,12 +1,12 @@
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { Ticket } from '../ticket/ticket.model';
 
-export class CaseTicket extends Ticket {
-  readonly ticketType = TicketTypes.CASE;
+export class ClaimTicket extends Ticket {
+  readonly ticketType = TicketTypes.CLAIM;
 
-  constructor(caseTicket: any = {}) {
-    super(caseTicket);
-    this.id = caseTicket.id;
+  constructor(claim: any = {}) {
+    super(claim);
+    this.id = claim.id;
   }
 
   getShowLink(): string {

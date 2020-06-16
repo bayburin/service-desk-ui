@@ -10,11 +10,11 @@ import { NotificationService } from '@shared/services/notification/notification.
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 @Component({
-  selector: 'app-new-case-page',
-  templateUrl: './new-case.page.html',
-  styleUrls: ['./new-case.page.sass']
+  selector: 'app-new-claim-page',
+  templateUrl: './new-claim.page.html',
+  styleUrls: ['./new-claim.page.sass']
 })
-export class NewCasePageComponent implements OnInit {
+export class NewClaimPageComponent implements OnInit {
   submitted = false;
   service: Service;
   ticketForm: FormGroup;
@@ -66,7 +66,7 @@ export class NewCasePageComponent implements OnInit {
     this.ticketForm = this.formBuilder.group({
       service_id: [this.service.id],
       name: ['', [Validators.required, Validators.maxLength(255)]],
-      ticket_type: [TicketTypes.CASE],
+      ticket_type: [TicketTypes.CLAIM],
       is_hidden: [false],
       sla: [null],
       popularity: [0],

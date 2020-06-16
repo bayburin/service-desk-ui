@@ -1,14 +1,20 @@
 import { LocalState } from './notify_states/local.state';
 import { ErrorState } from './notify_states/error.state';
-import { CaseState } from './notify_states/case.state';
+import { ClaimState } from './notify_states/claim.state';
 import { BroadcastState } from './notify_states/broadcast.state';
 import { AbstractNotifyState } from './notify_states/abstract-notify.state';
 import { NotificationBodyI } from '@interfaces/notification.interface';
 
+export const enum NotifyTypes {
+  BROADCAST = 'broadcast',
+  CLAIM = 'claim',
+  ERROR = 'error'
+}
+
 export class Notify {
   id: number;
   mockId = 0;
-  eventType: string;
+  eventType: NotifyTypes;
   tn: number;
   date: string;
   delay = 15000;
@@ -63,28 +69,28 @@ export class Notify {
    * Проверяет, является ли экземпляр массовым уведомлением.
    */
   isBroadcastEvent(): boolean {
-    return this.eventType === 'broadcast';
+    return this.eventType === NotifyTypes.BROADCAST;
   }
 
   /**
    * Проверяет, является ли экземпляр массовым уведомлением.
    */
-  isCaseEvent() {
-    return this.eventType === 'case';
+  isClaimEvent() {
+    return this.eventType === NotifyTypes.CLAIM;
   }
 
   /**
    * Проверяет, является ли экземпляр сообщением об ошибке.
    */
   isErrorEvent() {
-    return this.eventType === 'error';
+    return this.eventType === NotifyTypes.ERROR;
   }
 
   private createState() {
     if (this.isBroadcastEvent()) {
       this.state = new BroadcastState();
-    } else if (this.isCaseEvent()) {
-      this.state = new CaseState();
+    } else if (this.isClaimEvent()) {
+      this.state = new ClaimState();
     } else if (this.isErrorEvent()) {
       this.state = new ErrorState();
     } else {

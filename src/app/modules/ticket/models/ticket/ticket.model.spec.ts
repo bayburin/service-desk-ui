@@ -109,22 +109,6 @@ describe('Ticket', () => {
         expect(ticket.isPublishedState()).toBeTruthy();
       });
     });
-
-    describe('#isQuestionTicketType', () => {
-      it('should return true if ticketType is equal "question"', () => {
-        Object.defineProperty(ticket, 'ticketType', { value: TicketTypes.QUESTION });
-
-        expect(ticket.isQuestionTicketType()).toBeTruthy();
-      });
-    });
-
-    describe('#isCaseTicketType', () => {
-      it('should return true if ticketType is equal "case"', () => {
-        Object.defineProperty(ticket, 'ticketType', { value: TicketTypes.CASE });
-
-        expect(ticket.isCaseTicketType()).toBeTruthy();
-      });
-    });
   });
 
   describe('#isBelongsTo', () => {

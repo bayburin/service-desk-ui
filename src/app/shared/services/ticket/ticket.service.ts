@@ -11,7 +11,7 @@ import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 export interface TicketDataI {
   questions: Question[];
-  cases: any[];
+  apps: any[];
 }
 
 @Injectable({

@@ -31,7 +31,7 @@ describe('TicketService', () => {
     const expectedQuestion = TicketFactory.create(TicketTypes.QUESTION, loadedQuestion);
     const ticketData = {
       questions: [loadedQuestion],
-      cases: []
+      apps: []
     };
     const loadDraftTicketsUri = `${environment.serverUrl}/api/v1/services/${service.id}/tickets`;
 

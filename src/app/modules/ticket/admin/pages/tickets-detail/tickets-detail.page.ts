@@ -82,14 +82,14 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
         }),
         switchMap(data => {
           const questionTns = data.questions.flatMap(question => question.getResponsibleUsersTn());
-          // const caseTns = data.cases.flatMap(app => app.getResponsibleUsersTn());
+          // const caseTns = data.claims.flatMap(app => app.getResponsibleUsersTn());
           const caseTns = [];
           const tns = [...questionTns, ...caseTns];
 
           return this.responsibleUserService.loadDetails(tns)
             .pipe(tap(details => {
               data.questions.forEach(question => question.associateResponsibleUserDetails(details));
-              // data.cases.forEach(app => app.associateResponsibleUserDetails(details));
+              // data.claims.forEach(app => app.associateResponsibleUserDetails(details));
             }));
         })
       )

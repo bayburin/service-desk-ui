@@ -11,8 +11,8 @@ import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.in
 
 export const enum TicketTypes {
   QUESTION = 'Question',
-  CASE = 'CaseTicket',
-  COMMON_CASE = 'CommonCaseTicket'
+  CLAIM = 'AppForm',
+  COMMON_CLAIM = 'CommonCaseTicket'
 }
 
 export const enum TicketStates {
@@ -84,20 +84,6 @@ export abstract class Ticket implements CommonServiceI {
    */
   isPublishedState(): boolean {
     return this.state === TicketStates.PUBLISHED;
-  }
-
-  /**
-   * Проверяет, является ли тикет вопросом.
-   */
-  isQuestionTicketType(): boolean {
-    return this.ticketType === TicketTypes.QUESTION;
-  }
-
-  /**
-   * Проверяет, является ли тикет заявкой.
-   */
-  isCaseTicketType(): boolean {
-    return this.ticketType === TicketTypes.CASE;
   }
 
   /**

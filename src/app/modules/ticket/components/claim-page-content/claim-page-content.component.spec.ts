@@ -21,7 +21,7 @@ describe('ClaimPageContentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ClaimPageContentComponent);
     component = fixture.componentInstance;
-    ticket = TicketFactory.create(TicketTypes.CASE, { id: 1, serviceId: 2, name: 'Тестовая заявка' });
+    ticket = TicketFactory.create(TicketTypes.CLAIM, { id: 1, serviceId: 2, name: 'Тестовая заявка' });
     component.data = ticket;
     fixture.detectChanges();
   });

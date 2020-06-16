@@ -60,7 +60,7 @@ describe('TicketsDetailPageComponent', () => {
       TicketFactory.create(TicketTypes.QUESTION, { id: 2, ticket: { id: 1, name: 'Вопрос 2' } }),
       TicketFactory.create(TicketTypes.QUESTION, { id: 3, ticket: { id: 2, name: 'Вопрос 3' } })
     ];
-    data = { questions, cases: [] };
+    data = { questions, apps: [] };
     service = ServiceFactory.create({
       id: 1,
       categoryId: 2,

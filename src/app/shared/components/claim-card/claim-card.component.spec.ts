@@ -97,7 +97,7 @@ describe('ClaimCardComponent', () => {
   });
 
   describe('#isAllowedToVote', () => {
-    it('should return true if status_id == 3 and kase does not have a rating yet', () => {
+    it('should return true if status_id == 3 and claim does not have a rating yet', () => {
       claim.status_id = 3;
 
       expect(component.isAllowedToVote()).toBeTruthy();

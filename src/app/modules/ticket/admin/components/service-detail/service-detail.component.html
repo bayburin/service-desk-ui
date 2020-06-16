@@ -2,7 +2,7 @@
   <div class="container">
     <div class="d-flex flex-row align-items-start">
       <app-section-header [header]="service.name + ' - администрирование'" [addClass]="'text-danger'" class="mr-auto"></app-section-header>
-      <a id="newCase" routerLink="case_form/new" class="btn btn-gray-white">Новая заявка</a>
+      <a id="newCase" routerLink="claim_form/new" class="btn btn-gray-white">Новая заявка</a>
       <a id="newQuestion" routerLink="new" class="btn btn-gray-white ml-2">Новый вопрос</a>
       <a id="userMode" [routerLink]="['../../../../../../../']" class="btn btn-gray-white ml-2">Режим пользователя</a>
     </div>
@@ -17,8 +17,8 @@
     <section class="sd-dlist-divider-b">
       <h2>Заявки</h2>
       <div class="mt-2">
-        <p *ngIf="!service.caseTickets.length" class="search-title">Список заявок пуст</p>
-        <!-- <app-claim-page-content *ngFor="let case of service.caseTickets; trackBy: trackByTicket" [data]="case"></app-claim-page-content> -->
+        <p *ngIf="!service.claimTickets.length" class="search-title">Список заявок пуст</p>
+        <!-- <app-claim-page-content *ngFor="let case of service.claimTickets; trackBy: trackByTicket" [data]="case"></app-claim-page-content> -->
       </div>
     </section>
   </div>

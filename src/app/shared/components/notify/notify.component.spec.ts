@@ -11,7 +11,7 @@ import { StreamService } from '@shared/services/stream/stream.service';
 import { NotifyFactory } from '@shared/factories/notify.factory';
 import { StubNotificationService } from '@shared/services/notification/notification.service.stub';
 
-const notifyI = { id: 1, tn: 1234, body: { message: 'Заявка отклонена' }, event_type: 'case' };
+const notifyI = { id: 1, tn: 1234, body: { message: 'Заявка отклонена' }, event_type: 'claim' };
 const notify = NotifyFactory.create(notifyI);
 
 class StubStreamService {

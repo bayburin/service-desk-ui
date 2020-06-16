@@ -70,7 +70,7 @@ describe('ServiceService', () => {
     beforeEach(() => {
       loadServiceUri = `${environment.serverUrl}/api/v1/categories/${category.id}/services/${service.id}`;
       // ticketI = { id: 1, service_id: service.id } as TicketI;
-      // ticket = TicketFactory.create(TicketTypes.CASE, ticketI);
+      // ticket = TicketFactory.create(TicketTypes.CLAIM, ticketI);
       // serviceI.tickets = [ticketI];
       // service.tickets = [ticket];
     });

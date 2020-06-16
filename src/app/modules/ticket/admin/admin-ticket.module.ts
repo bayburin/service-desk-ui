@@ -16,7 +16,7 @@ import { QuestionFormComponent } from './components/question-form/question-form.
 import { TicketsDetailPageComponent } from './pages/tickets-detail/tickets-detail.page';
 import { MarkdownHelpComponent } from './components/markdown-help/markdown-help.component';
 import { AnswerAccessorComponent } from './components/answer-accessor/answer-accessor.component';
-import { NewCasePageComponent } from './pages/new-case/new-case.page';
+import { NewClaimPageComponent } from './pages/new-claim/new-claim.page';
 import { FormInfoTabComponent } from './components/form-info-tab/form-info-tab.component';
 import { CommonTicketInformationComponent } from './components/common-ticket-information/common-ticket-information.component';
 
@@ -33,7 +33,7 @@ import { CommonTicketInformationComponent } from './components/common-ticket-inf
     TicketsDetailPageComponent,
     MarkdownHelpComponent,
     AnswerAccessorComponent,
-    NewCasePageComponent,
+    NewClaimPageComponent,
     FormInfoTabComponent,
     CommonTicketInformationComponent
   ],
