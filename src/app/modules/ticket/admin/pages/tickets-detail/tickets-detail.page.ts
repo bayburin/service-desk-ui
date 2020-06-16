@@ -77,7 +77,6 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
         tap((data: TicketDataI) => {
           this.serviceService.removeDraftTickets();
           this.serviceService.addTickets(data);
-          this.questionService.addDraftQuestions(data.questions);
           this.loadedDraft.next(true);
         }),
         switchMap(data => {

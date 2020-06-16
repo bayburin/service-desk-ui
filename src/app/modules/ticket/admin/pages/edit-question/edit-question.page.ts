@@ -1,7 +1,7 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { of } from 'rxjs';
+import { of, iif } from 'rxjs';
 import { finalize, tap, switchMap } from 'rxjs/operators';
 
 import { QuestionService } from '@shared/services/question/question.service';
@@ -64,10 +64,15 @@ export class EditQuestionPageComponent implements OnInit {
     this.questionService.updateQuestion(this.question, this.questionForm.getRawValue())
       .pipe(
         finalize(() => this.loading = false),
-        tap(() => {
+        tap(question => {
           this.redirectToService();
+          this.serviceService.replaceQuestion(this.question.id, question);
           this.notifyService.setMessage('Вопрос обновлен');
         }),
+        switchMap(question => {
+          return this.responsibleUserService.loadDetails(question.getResponsibleUsersTn())
+            .pipe(tap(details => question.associateResponsibleUserDetails(details)));
+        })
       )
       .subscribe(
         () => {},

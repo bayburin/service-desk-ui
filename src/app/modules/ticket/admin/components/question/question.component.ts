@@ -96,13 +96,12 @@ export class QuestionComponent implements OnInit {
 
     this.questionService.publishQuestions([id])
       .pipe(
-        tap((tickets: Question[]) => {
-          if (tickets.length === 0) {
+        tap((questions: Question[]) => {
+          if (questions.length === 0) {
             return;
           }
 
-          this.serviceService.replaceQuestion((this.question.original || this.question).id, tickets[0]);
-          this.questionService.removeDraftQuestion(tickets[0]);
+          this.serviceService.replaceQuestion((this.question.original || this.question).id, questions[0]);
           this.notifyService.setMessage('Вопрос опубликован');
         }),
         switchMap((tickets: Question[]) => {
