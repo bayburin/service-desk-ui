@@ -105,10 +105,6 @@ describe('TicketsDetailPageComponent', () => {
     it('should call "addTickets" method with received tickets', () => {
       expect(serviceService.addTickets).toHaveBeenCalledWith(data);
     });
-
-    it('should call "addDraftQuestions" method with received tickets', () => {
-      expect(questionService.addDraftQuestions).toHaveBeenCalledWith(data.questions);
-    });
   });
 
   it('should call "removeQuestions" method with draft tickets if user leaves the admin module', () => {

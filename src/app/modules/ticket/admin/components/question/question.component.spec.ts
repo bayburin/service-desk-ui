@@ -174,10 +174,6 @@ describe('QuestionComponent', () => {
         expect(notifyService.setMessage).toHaveBeenCalled();
       });
 
-      it('should call "removeDraftQuestion" method for QuestionService', () => {
-        expect(questionService.removeDraftQuestion).toHaveBeenCalledWith(result);
-      });
-
       it('should call "loadDetails" method of ResponsibleUserService service', () => {
         expect(responsibleUserService.loadDetails).toHaveBeenCalled();
       });

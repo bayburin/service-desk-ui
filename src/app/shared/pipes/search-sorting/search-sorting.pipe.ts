@@ -3,7 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Category } from '@modules/ticket/models/category/category.model';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { ClaimTicket } from '@modules/ticket/models/claim-ticket/claim-ticket.model';
+import { Claim } from '@modules/ticket/models/claim/claim.model';
 
 @Pipe({
   name: 'searchSorting'
@@ -23,7 +23,7 @@ export class SearchSortingPipe implements PipeTransform {
         return 1;
       }
 
-      if (a instanceof ClaimTicket) {
+      if (a instanceof Claim) {
         return -1;
       }
     });

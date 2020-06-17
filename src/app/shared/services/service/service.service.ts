@@ -71,7 +71,7 @@ export class ServiceService implements BreadcrumbServiceI {
    */
   addTickets(data: TicketDataI): void {
     this.service.questions = data.questions.concat(this.service.questions);
-    // this.service.claimTickets = data.claims.concat(this.service.claimTickets);
+    // this.service.claims = data.claims.concat(this.service.claims);
   }
 
   // FIXME: Метод должен быть изменен
@@ -119,7 +119,7 @@ export class ServiceService implements BreadcrumbServiceI {
    */
   removeDraftTickets(): void {
     this.service.questions = this.service.questions.filter(question => !question.isDraftState());
-    // this.service.claimTickets = this.service.claimTickets.filter(question => !question.isDraftState());
+    // this.service.claims = this.service.claims.filter(question => !question.isDraftState());
   }
 
   getNodeName(): Observable<string> {

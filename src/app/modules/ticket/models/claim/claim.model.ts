@@ -1,7 +1,7 @@
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { Ticket } from '../ticket/ticket.model';
 
-export class ClaimTicket extends Ticket {
+export class Claim extends Ticket {
   readonly ticketType = TicketTypes.CLAIM;
 
   constructor(claim: any = {}) {
