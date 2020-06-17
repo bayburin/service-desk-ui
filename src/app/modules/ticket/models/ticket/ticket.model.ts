@@ -11,7 +11,7 @@ import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.in
 
 export const enum TicketTypes {
   QUESTION = 'Question',
-  CLAIM = 'AppForm',
+  CLAIM_FORM = 'AppForm',
   COMMON_CLAIM = 'CommonCaseTicket'
 }
 

@@ -7,7 +7,7 @@ import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { User } from '@shared/models/user/user.model';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 import { Question } from '../question/question.model';
-import { Claim } from '../claim/claim.model';
+import { ClaimForm } from '../claim-form/claim-form.model';
 import { QuestionI } from '@interfaces/question.interface';
 
 export class Service implements CommonServiceI {
@@ -23,11 +23,11 @@ export class Service implements CommonServiceI {
   category: Category;
   // tickets: Ticket[];
   questions: Question[];
-  claims: Claim[] = [];
+  claimForms: ClaimForm[] = [];
   responsibleUsers: ResponsibleUserI[];
 
   get tickets(): Ticket[] {
-    return [...this.questions, ...this.claims];
+    return [...this.questions, ...this.claimForms];
   }
 
   constructor(service: any = {}) {

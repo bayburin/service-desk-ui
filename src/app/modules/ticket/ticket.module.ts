@@ -16,7 +16,7 @@ import { DynamicTemplateContentComponent } from './components/dynamic-template-c
 import { CategoryPageContentComponent } from './components/category-page-content/category-page-content.component';
 import { ServicePageContentComponent } from './components/service-page-content/service-page-content.component';
 import { QuestionPageContentComponent } from './components/question-page-content/question-page-content.component';
-import { ClaimPageContentComponent } from './components/claim-page-content/claim-page-content.component';
+import { ClaimFormPageContentComponent } from './components/claim-form-page-content/claim-form-page-content.component';
 import { ServicesOverwievPageComponent } from './pages/services-overwiev/services-overwiev.page';
 import { ServiceDetailComponent } from './components/service-detail/service-detail.component';
 import { CategoryListComponent } from './components/category-list/category-list.component';
@@ -37,7 +37,7 @@ import { MarkdownHelpPageComponent } from './pages/markdown-help/markdown-help.p
     CategoryPageContentComponent,
     ServicePageContentComponent,
     QuestionPageContentComponent,
-    ClaimPageContentComponent,
+    ClaimFormPageContentComponent,
     ServicesOverwievPageComponent,
     ServiceDetailComponent,
     CategoryListComponent,
@@ -47,7 +47,7 @@ import { MarkdownHelpPageComponent } from './pages/markdown-help/markdown-help.p
     CategoryPageContentComponent,
     ServicePageContentComponent,
     QuestionPageContentComponent,
-    ClaimPageContentComponent
+    ClaimFormPageContentComponent
   ],
   imports: [
     TicketRoutingModule,

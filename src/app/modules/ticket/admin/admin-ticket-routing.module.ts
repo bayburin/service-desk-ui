@@ -8,7 +8,7 @@ import { TicketsPageComponent } from './pages/tickets/tickets.page';
 import { EditQuestionPageComponent } from './pages/edit-question/edit-question.page';
 import { TicketResolver } from './resolvers/resolvers/ticket.resolver';
 import { TicketsDetailPageComponent } from './pages/tickets-detail/tickets-detail.page';
-import { NewClaimPageComponent } from './pages/new-claim/new-claim.page';
+import { NewClaimFormPageComponent } from './pages/new-claim-form/new-claim-form.page';
 
 const routes: Routes = [
   {
@@ -51,7 +51,7 @@ const routes: Routes = [
       },
       {
         path: 'claim_form/new',
-        component: NewClaimPageComponent,
+        component: NewClaimFormPageComponent,
         canActivate: [ResponsibleGuard],
         data: {
           policy: ServicePolicy,

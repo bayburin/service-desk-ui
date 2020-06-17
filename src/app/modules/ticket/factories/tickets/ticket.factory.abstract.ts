@@ -1,6 +1,6 @@
 import { Question } from '@modules/ticket/models/question/question.model';
-import { Claim } from '@modules/ticket/models/claim/claim.model';
+import { ClaimForm } from '@modules/ticket/models/claim-form/claim-form.model';
 
 export abstract class TicketFactoryT {
-  abstract create(params: any): Question | Claim;
+  abstract create(params: any): Question | ClaimForm;
 }

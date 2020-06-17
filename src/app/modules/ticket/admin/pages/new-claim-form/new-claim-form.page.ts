@@ -1,20 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { finalize } from 'rxjs/operators';
 
-import { QuestionService } from '@shared/services/question/question.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
-import { NotificationService } from '@shared/services/notification/notification.service';
-import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 @Component({
-  selector: 'app-new-claim-page',
-  templateUrl: './new-claim.page.html',
-  styleUrls: ['./new-claim.page.sass']
+  selector: 'app-new-claim-form-page',
+  templateUrl: './new-claim-form.page.html',
+  styleUrls: ['./new-claim-form.page.sass']
 })
-export class NewClaimPageComponent implements OnInit {
+export class NewClaimFormPageComponent implements OnInit {
   submitted = false;
   service: Service;
   ticketForm: FormGroup;
@@ -24,9 +20,7 @@ export class NewClaimPageComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private serviceService: ServiceService,
-    private questionService: QuestionService,
-    private notifyService: NotificationService
+    private serviceService: ServiceService
   ) {}
 
   ngOnInit() {

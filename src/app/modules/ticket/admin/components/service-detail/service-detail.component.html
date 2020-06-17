@@ -17,8 +17,8 @@
     <!-- <section class="sd-dlist-divider-b">
       <h2>Заявки</h2>
       <div class="mt-2">
-        <p *ngIf="!service.claims.length" class="search-title">Список заявок пуст</p>
-        <app-claim-page-content *ngFor="let case of service.claims; trackBy: trackByTicket" [data]="case"></app-claim-page-content>
+        <p *ngIf="!service.claimForms.length" class="search-title">Список заявок пуст</p>
+        <app-claim-form-page-content *ngFor="let case of service.claimForms; trackBy: trackByTicket" [data]="case"></app-claim-form-page-content>
       </div>
     </section> -->
   </div>

@@ -1,12 +1,12 @@
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { Ticket } from '../ticket/ticket.model';
 
-export class Claim extends Ticket {
-  readonly ticketType = TicketTypes.CLAIM;
+export class ClaimForm extends Ticket {
+  readonly ticketType = TicketTypes.CLAIM_FORM;
 
-  constructor(claim: any = {}) {
-    super(claim);
-    this.id = claim.id;
+  constructor(form: any = {}) {
+    super(form);
+    this.id = form.id;
   }
 
   getShowLink(): string {
@@ -14,6 +14,6 @@ export class Claim extends Ticket {
   }
 
   pageComponent(): string {
-    return 'app-claim-page-content';
+    return 'app-claim-form-page-content';
   }
 }

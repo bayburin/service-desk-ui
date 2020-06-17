@@ -18,7 +18,7 @@ describe('SearchSortingPipe', () => {
   it('should sort array in order: Category -> Service -> Claim -> Question', () => {
     const category = CategoryFactory.create({ name: 'category' });
     const service = ServiceFactory.create({ name: 'service' });
-    const claim = TicketFactory.create(TicketTypes.CLAIM, { name: 'claim' });
+    const claim = TicketFactory.create(TicketTypes.CLAIM_FORM, { name: 'claim' });
     const question = TicketFactory.create(TicketTypes.QUESTION, { name: 'question' });
     const arr = [service, category, question, claim];
 

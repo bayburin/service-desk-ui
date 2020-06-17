@@ -1,12 +1,12 @@
 import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketInitializer } from './ticket-initializer';
 import { Question } from '@modules/ticket/models/question/question.model';
-import { Claim } from '@modules/ticket/models/claim/claim.model';
+import { ClaimForm } from '@modules/ticket/models/claim-form/claim-form.model';
 
 export class TicketFactory {
   static create(type: TicketTypes, params: any): Question;
-  static create(type: TicketTypes, params: any): Claim;
-  static create(type: TicketTypes, params: any = {}): Question | Claim {
+  static create(type: TicketTypes, params: any): ClaimForm;
+  static create(type: TicketTypes, params: any = {}): Question | ClaimForm {
     return TicketInitializer.for(type).create(params);
   }
 }

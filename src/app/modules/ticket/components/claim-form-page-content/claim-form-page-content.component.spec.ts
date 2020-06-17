@@ -1,27 +1,27 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { ClaimPageContentComponent } from './claim-page-content.component';
+import { ClaimFormPageContentComponent } from './claim-form-page-content.component';
 import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 
 describe('ClaimPageContentComponent', () => {
-  let component: ClaimPageContentComponent;
-  let fixture: ComponentFixture<ClaimPageContentComponent>;
+  let component: ClaimFormPageContentComponent;
+  let fixture: ComponentFixture<ClaimFormPageContentComponent>;
   let ticket: Ticket;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [ClaimPageContentComponent]
+      declarations: [ClaimFormPageContentComponent]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ClaimPageContentComponent);
+    fixture = TestBed.createComponent(ClaimFormPageContentComponent);
     component = fixture.componentInstance;
-    ticket = TicketFactory.create(TicketTypes.CLAIM, { id: 1, serviceId: 2, name: 'Тестовая заявка' });
+    ticket = TicketFactory.create(TicketTypes.CLAIM_FORM, { id: 1, serviceId: 2, name: 'Тестовая заявка' });
     component.data = ticket;
     fixture.detectChanges();
   });
