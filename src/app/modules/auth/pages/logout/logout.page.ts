@@ -11,6 +11,6 @@ export class LogoutPageComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.authService.unauthorize();
+    this.authService.unauthorize().subscribe();
   }
 }

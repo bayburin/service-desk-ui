@@ -1,3 +1,4 @@
+import { Notify } from '@shared/models/notify/notify.model';
 import { TestBed, inject } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
@@ -7,10 +8,13 @@ import { TicketModule } from '@modules/ticket/ticket.module';
 import { StubAuthService } from '@auth/auth.service.stub';
 import { UserService } from '@shared/services/user/user.service';
 import { StubUserService, user } from '@shared/services/user/user.service.stub';
+import { NotificationService } from '@shared/services/notification/notification.service';
+import { StubNotificationService } from '@shared/services/notification/notification.service.stub';
 
 describe('AuthGuard', () => {
   let authService: AuthService;
   let userService: UserService;
+  let notifyService: NotificationService;
   let stubSnapshot: RouterStateSnapshot;
   let activatedRoute: ActivatedRouteSnapshot;
 
@@ -20,12 +24,14 @@ describe('AuthGuard', () => {
       providers: [
         AuthGuard,
         { provide: AuthService, useClass: StubAuthService },
-        { provide: UserService, useClass: StubUserService }
+        { provide: UserService, useClass: StubUserService },
+        { provide: NotificationService, useClass: StubNotificationService }
       ]
     });
 
     authService = TestBed.get(AuthService);
     userService = TestBed.get(UserService);
+    notifyService = TestBed.get(NotificationService);
     stubSnapshot = jasmine.createSpyObj<RouterStateSnapshot>('RouterStateSnapshot', ['url']);
     activatedRoute = new ActivatedRouteSnapshot();
   });
@@ -70,24 +76,10 @@ describe('AuthGuard', () => {
       spyOn(user, 'isValid').and.returnValue(false);
     });
 
-    it('should call "unauthorize" method for AuthService', inject([AuthGuard], (guard: AuthGuard) => {
-      spyOn(authService, 'unauthorize');
+    it('should call "alert" method for NotifyService', inject([AuthGuard], (guard: AuthGuard) => {
+      spyOn(notifyService, 'alert');
       guard.canActivate(activatedRoute, stubSnapshot).subscribe(() => {
-        expect(authService.unauthorize).toHaveBeenCalled();
-      });
-    }));
-
-    it('should call "setReturnUrl" method for AuthService', inject([AuthGuard], (guard: AuthGuard) => {
-      spyOn(authService, 'setReturnUrl');
-      guard.canActivate(activatedRoute, stubSnapshot).subscribe(() => {
-        expect(authService.setReturnUrl).toHaveBeenCalledWith(stubSnapshot.url);
-      });
-    }));
-
-    it('should call "authorize" method for AuthService', inject([AuthGuard], (guard: AuthGuard) => {
-      spyOn(authService, 'authorize');
-      guard.canActivate(activatedRoute, stubSnapshot).subscribe(() => {
-        expect(authService.authorize).toHaveBeenCalled();
+        expect(notifyService.alert).toHaveBeenCalledWith(jasmine.any(Notify));
       });
     }));
 

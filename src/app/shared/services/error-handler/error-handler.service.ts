@@ -18,7 +18,7 @@ export class ErrorHandlerService {
     switch (error.status) {
       case 401:
         if (this.authService.isUserSignedIn) {
-          this.authService.unauthorize();
+          this.authService.unauthorize().subscribe();
         }
         break;
       case 403:

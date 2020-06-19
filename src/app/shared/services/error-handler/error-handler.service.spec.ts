@@ -1,6 +1,7 @@
 import { RouterModule } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of } from 'rxjs';
 
 import { APP_CONFIG, AppConfig } from '@config/app.config';
 import { ErrorHandlerService } from './error-handler.service';
@@ -33,7 +34,7 @@ describe('ErrorHandlerService', () => {
       const error = new HttpErrorResponse({ status: 401 });
       const authService = TestBed.get(AuthService);
       spyOn(authService, 'isUserSignedIn').and.returnValue(true);
-      const spy = spyOn(authService, 'unauthorize');
+      const spy = spyOn(authService, 'unauthorize').and.returnValue(of({}));
 
       service.handleError(error);
       expect(spy).toHaveBeenCalled();
