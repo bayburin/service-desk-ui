@@ -7,6 +7,7 @@ import { AppConfig, APP_CONFIG } from '@config/app.config';
 import { NotificationI } from '@interfaces/notification.interface';
 import { NotifyFactory } from '@shared/factories/notify.factory';
 import { AppConfigI } from '@interfaces/app-config.interface';
+import { Notify } from '@shared/models/notify/notify.model';
 
 describe('NotificationService', () => {
   let httpTestingController: HttpTestingController;
@@ -81,22 +82,21 @@ describe('NotificationService', () => {
   });
 
   describe('#alert', () => {
-    let notification = NotifyFactory.create({ event_type: 'error'});
-    notification.message = 'Alert notification';
+    const msg = 'Alert notification';
 
     it('should add alert to notifications array', () => {
-      notifyService.alert(notification);
+      notifyService.alert(msg);
 
-      expect(notifyService.notifications).toEqual([notification]);
+      expect(notifyService.notifications[0].message).toEqual(msg);
     });
 
     it('should remove extra alerts if count of notification greather than MAX_ALERT_COUNT value', () => {
+      let dynamicMsg: string;
       let i = 0;
       const maxLength = (notifyService as any).MAX_ALERT_COUNT;
       while (i <= maxLength) {
-        notification = NotifyFactory.create({ event_type: 'error'});
-        notifyService.alert(notification);
-        notification.message = `Alert notification ${i}`;
+        dynamicMsg = `Alert notification ${i}`;
+        notifyService.alert(dynamicMsg);
         i ++;
       }
 
@@ -105,7 +105,7 @@ describe('NotificationService', () => {
     });
 
     it('should not increase "value" attribute of notificationCount object', () => {
-      notifyService.alert(notification);
+      notifyService.alert(msg);
 
       expect(notifyService.notificationCount.value).toEqual(0);
     });

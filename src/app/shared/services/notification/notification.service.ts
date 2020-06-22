@@ -26,9 +26,13 @@ export class NotificationService {
 
   /**
    * Создать локальное уведомление на основе сообщения.
+   *
+   * @param msg - сообщение
+   * @param params - дополнительные параметры уведомления
    */
   setMessage(msg: string, params = {}) {
     const notification = NotifyFactory.create({ message: msg, mockId: this.generateMockId(), ...params });
+
     this.showNotify(notification);
   }
 
@@ -43,11 +47,13 @@ export class NotificationService {
   }
 
   /**
-   * Добавить сообщение об ошибку в массив уведомлений.
+   * Добавить сообщение об ошибке в массив уведомлений.
    *
-   * @param notification - объект уведомления.
+   * @param msg - выдаваемое сообщение
    */
-  alert(notification: Notify) {
+  alert(msg: string) {
+    const notification = NotifyFactory.createAlert(msg);
+
     this.showNotify(notification);
   }
 

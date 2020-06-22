@@ -1,6 +1,5 @@
-import { NotifyFactory } from '@shared/factories/notify.factory';
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap, filter } from 'rxjs/operators';
 
@@ -38,10 +37,7 @@ export class AuthGuard implements CanActivate {
             return true;
           }
 
-          const notification = NotifyFactory.create({ event_type: 'error' });
-
-          notification.message = 'Некорректные данные о пользователе. Попробуйте выйти и зайти заново';
-          this.notifyService.alert(notification);
+          this.notifyService.alert('Некорректные данные о пользователе. Попробуйте выйти и зайти заново');
 
           return false;
         }));

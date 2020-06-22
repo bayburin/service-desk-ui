@@ -1,4 +1,3 @@
-import { Notify } from '@shared/models/notify/notify.model';
 import { TestBed, inject } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
@@ -79,7 +78,7 @@ describe('AuthGuard', () => {
     it('should call "alert" method for NotifyService', inject([AuthGuard], (guard: AuthGuard) => {
       spyOn(notifyService, 'alert');
       guard.canActivate(activatedRoute, stubSnapshot).subscribe(() => {
-        expect(notifyService.alert).toHaveBeenCalledWith(jasmine.any(Notify));
+        expect(notifyService.alert).toHaveBeenCalledWith('Некорректные данные о пользователе. Попробуйте выйти и зайти заново');
       });
     }));
 

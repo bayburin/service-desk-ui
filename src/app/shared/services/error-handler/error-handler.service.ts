@@ -3,7 +3,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { Notify } from '@shared/models/notify/notify.model';
 import { AuthService } from '@auth/auth.service';
-import { NotifyFactory } from '@shared/factories/notify.factory';
 import { NotificationService } from '@shared/services/notification/notification.service';
 
 @Injectable({
@@ -15,6 +14,8 @@ export class ErrorHandlerService {
   constructor(private authService: AuthService, private notifyService: NotificationService) { }
 
   handleError(error: HttpErrorResponse) {
+    let msg: string;
+
     switch (error.status) {
       case 401:
         if (this.authService.isUserSignedIn) {
@@ -22,25 +23,24 @@ export class ErrorHandlerService {
         }
         break;
       case 403:
-        this.notification = NotifyFactory.create({ event_type: 'error' });
-        this.notification.message = 'Доступ запрещен.';
-        this.notifyService.alert(this.notification);
+        this.notifyService.alert('Доступ запрещен.');
+
         break;
       case 404:
-        this.notification = NotifyFactory.create({ event_type: 'error' });
-        this.notification.message = error.error instanceof Blob ? 'Файл не найден.' : 'Не найдено.';
-        this.notifyService.alert(this.notification);
+        msg = error.error instanceof Blob ? 'Файл не найден.' : 'Не найдено.';
+        this.notifyService.alert(msg);
+
         break;
       case 422:
-        this.notification = NotifyFactory.create({ event_type: 'error' });
-        this.notification.message = error.error.message || error.error.base || 'Некорректные данные.';
-        this.notifyService.alert(this.notification);
+        msg = error.error.message || error.error.base || 'Некорректные данные.';
+        this.notifyService.alert(msg);
+
         break;
       case 500:
-        this.notification = NotifyFactory.create({ event_type: 'error' });
-        this.notification.message = `Упс! На сервере произошла ошибка. Мы автоматически получили уведомление о проблеме.
+        msg = `Упс! На сервере произошла ошибка. Мы автоматически получили уведомление о проблеме.
          Если со временем проблема не исчезнет, свяжитесь с нами по телефону 06.`;
-        this.notifyService.alert(this.notification);
+        this.notifyService.alert(msg);
+
         break;
     }
   }
