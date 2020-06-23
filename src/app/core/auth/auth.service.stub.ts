@@ -7,6 +7,7 @@ export class StubAuthService {
   authorize() {}
   getAccessToken() { return of({}); }
   unauthorize() { return of({}); }
+  clearAuthData() {}
   getToken() {}
   setReturnUrl() { return 'return url'; }
   getReturnUrl() {}

@@ -65,12 +65,16 @@ export class AuthService {
   unauthorize(): Observable<any> {
     const uri = `${environment.serverUrl}/api/v1/auth/revoke`;
 
-    return this.http.post(uri, {})
-      .pipe(tap(() => {
-        this.removeToken();
-        this.userService.clearUser();
-        this.isLoggedInSub.next(false);
-      }));
+    return this.http.post(uri, {}).pipe(tap(() => this.clearAuthData()));
+  }
+
+  /**
+   * Очищает данные авторизации.
+   */
+  clearAuthData(): void {
+    this.removeToken();
+    this.userService.clearUser();
+    this.isLoggedInSub.next(false);
   }
 
   /**

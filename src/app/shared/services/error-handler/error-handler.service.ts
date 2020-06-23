@@ -19,7 +19,7 @@ export class ErrorHandlerService {
     switch (error.status) {
       case 401:
         if (this.authService.isUserSignedIn) {
-          this.authService.unauthorize().subscribe();
+          this.authService.clearAuthData();
         }
         break;
       case 403:

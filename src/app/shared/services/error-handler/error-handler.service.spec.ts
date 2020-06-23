@@ -36,7 +36,7 @@ describe('ErrorHandlerService', () => {
       const error = new HttpErrorResponse({ status: 401 });
       const authService = TestBed.get(AuthService);
       spyOn(authService, 'isUserSignedIn').and.returnValue(true);
-      const spy = spyOn(authService, 'unauthorize').and.returnValue(of({}));
+      const spy = spyOn(authService, 'clearAuthData');
 
       service.handleError(error);
       expect(spy).toHaveBeenCalled();
