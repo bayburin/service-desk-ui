@@ -13,8 +13,9 @@ import { ResponsibleUserService } from '@shared/services/responsible_user/respon
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 describe('SearchComponent', () => {
   let component: SearchPageComponent;
@@ -38,7 +39,7 @@ describe('SearchComponent', () => {
   const searchResult = [
     CategoryFactory.create({ name: 'Тестовая категория' }),
     ServiceFactory.create({ name: 'Тестовая услуга' }),
-    TicketFactory.create({ name: 'Тестовый вопрос', ticket_type: 'question' })
+    TicketFactory.create(TicketTypes.QUESTION, { name: 'Тестовый вопрос', ticketable_type: TicketTypes.QUESTION })
   ];
 
   beforeEach(async(() => {

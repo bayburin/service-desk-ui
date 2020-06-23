@@ -1,7 +1,8 @@
 import { SearchSortingPipe } from './search-sorting.pipe';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 describe('SearchSortingPipe', () => {
   let pipe: SearchSortingPipe;
@@ -14,13 +15,13 @@ describe('SearchSortingPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('should sort array in order: Category -> Service -> Case -> Question', () => {
+  it('should sort array in order: Category -> Service -> Claim -> Question', () => {
     const category = CategoryFactory.create({ name: 'category' });
     const service = ServiceFactory.create({ name: 'service' });
-    const kase = TicketFactory.create({ name: 'case', ticket_type: 'case' });
-    const question = TicketFactory.create({ name: 'question', ticket_type: 'question' });
-    const arr = [service, category, question, kase];
+    const claim = TicketFactory.create(TicketTypes.CLAIM_FORM, { name: 'claim' });
+    const question = TicketFactory.create(TicketTypes.QUESTION, { name: 'question' });
+    const arr = [service, category, question, claim];
 
-    expect(pipe.transform(arr)).toEqual([category, service, kase, question]);
+    expect(pipe.transform(arr)).toEqual([category, service, claim, question]);
   });
 });

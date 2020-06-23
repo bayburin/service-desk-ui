@@ -2,14 +2,15 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 import { first, switchMap, finalize } from 'rxjs/operators';
 
-import { TicketService } from '@shared/services/ticket/ticket.service';
+import { QuestionService } from '@shared/services/question/question.service';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { AnswerI } from '@interfaces/answer.interface';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { toggleAnswer } from '@modules/ticket/animations/toggle-answer.animation';
 import { AttachmentService } from '@shared/services/attachment/attachment.service';
-import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
+import { QuestionPolicy } from '@shared/policies/question/question.policy';
 import { showFlagRight } from '@modules/ticket/animations/show-flag-right.animation';
+import { Question } from '@modules/ticket/models/question/question.model';
 
 @Component({
   selector: 'app-question-page-content',
@@ -18,23 +19,23 @@ import { showFlagRight } from '@modules/ticket/animations/show-flag-right.animat
   animations: [toggleAnswer, showFlagRight]
 })
 export class QuestionPageContentComponent implements OnInit {
-  @Input() data: Ticket;
+  @Input() data: Question;
   @Input() standaloneLink: boolean;
   @Input() showFlags: boolean;
   ratingStream = new Subject<Ticket>();
   linkAnimation = 'hide';
 
   constructor(
-    private ticketService: TicketService,
+    private questionService: QuestionService,
     private attachmentService: AttachmentService,
-    private policy: TicketPolicy
+    private policy: QuestionPolicy
   ) { }
 
   ngOnInit() {
     this.ratingStream
       .pipe(
         first(),
-        switchMap(() => this.ticketService.raiseRating(this.data))
+        switchMap(() => this.questionService.raiseRating(this.data))
       )
       .subscribe();
 
@@ -46,7 +47,7 @@ export class QuestionPageContentComponent implements OnInit {
   /**
    * "Раскрывает" вопрос и отправляет запрос на сервер для изменения его рейтинга.
    */
-  toggleTicket(): void {
+  toggleQuestion(): void {
     if (this.standaloneLink) {
       return;
     }

@@ -11,20 +11,21 @@ import { CategoryService } from '@shared/services/category/category.service';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
 import { TicketI } from '@interfaces/ticket.interface';
 import { StubCategoryService } from '@shared/services/category/category.service.stub';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 describe('CategoriesDetailPageComponent', () => {
   let component: CategoriesDetailPageComponent;
   let fixture: ComponentFixture<CategoriesDetailPageComponent>;
   let categoryService: CategoryService;
   const tickets = [
-    { id: 4, service_id: 1, name: 'Вопрос', ticket_type: 'question' } as TicketI,
-    { id: 4, service_id: 1, name: 'Заявка', ticket_type: 'case' } as TicketI
+    { id: 4, service_id: 1, name: 'Вопрос' } as TicketI,
+    { id: 4, service_id: 1, name: 'Заявка' } as TicketI
   ];
   const services = [
     { id: 2, category_id: 1, name: 'Тестовая услуга 1' } as ServiceI,
     { id: 3, category_id: 1, name: 'Тестовая услуга 2' } as ServiceI
   ];
-  const category = CategoryFactory.create({ id: 1, name: 'Тестовая категория', services: services, faq: tickets });
+  const category = CategoryFactory.create({ id: 1, name: 'Тестовая категория', services, faq: tickets });
 
   describe('with custom route provider', () => {
     const paramId = 12;
@@ -102,8 +103,8 @@ describe('CategoriesDetailPageComponent', () => {
       });
     });
 
-    it('should show app-cases-page-content component', () => {
-      expect(fixture.debugElement.nativeElement.querySelector('app-cases-page-content')).toBeTruthy();
+    it('should show app-claims-page-content component', () => {
+      expect(fixture.debugElement.nativeElement.querySelector('app-claims-page-content')).toBeTruthy();
     });
 
     it('should render app-question-page-content components', () => {

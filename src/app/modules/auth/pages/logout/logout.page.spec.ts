@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
 
 import { LogoutPageComponent } from './logout.page';
 import { AuthService } from '@auth/auth.service';
@@ -30,7 +31,7 @@ describe('LogoutPageComponent', () => {
   });
 
   it('should class "unauthorize" method for AuthService', inject([AuthService], (authService: AuthService) => {
-    spyOn(authService, 'unauthorize');
+    spyOn(authService, 'unauthorize').and.returnValue(of({}));
     fixture.detectChanges();
 
     expect(authService.unauthorize).toHaveBeenCalled();

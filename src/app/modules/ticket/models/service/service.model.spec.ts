@@ -5,13 +5,16 @@ import { CategoryI } from '@interfaces/category.interface';
 import { Service } from './service.model';
 import { ServiceI } from '@interfaces/service.interface';
 import { TicketI } from '@interfaces/ticket.interface';
-import { Ticket } from '../ticket/ticket.model';
+import { Ticket, TicketTypes } from '../ticket/ticket.model';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
+import { QuestionI } from '@interfaces/question.interface';
+import { Question } from '../question/question.model';
 
 describe('Service', () => {
   let serviceI: ServiceI;
   let service: Service;
   let ticketI: TicketI;
+  let questionI: QuestionI;
   let categoryI: CategoryI;
   let responsibleUserI: ResponsibleUserI;
 
@@ -19,8 +22,12 @@ describe('Service', () => {
     ticketI = {
       id: 2,
       name: 'Тестовый вопорс',
-      ticket_type: 'question'
     } as TicketI;
+    questionI = {
+      id: 1,
+      original_id: null,
+      ticket: ticketI
+    };
     categoryI = {
       id: 3,
       name: 'Тестовая категория'
@@ -40,7 +47,7 @@ describe('Service', () => {
       is_hidden: false,
       has_common_case: true,
       popularity: 23,
-      tickets: [ticketI],
+      questions: [questionI],
       category: categoryI,
       responsible_users: [responsibleUserI]
     } as ServiceI;
@@ -68,7 +75,7 @@ describe('Service', () => {
     it('should create instances of nested tickets', () => {
       service = new Service(serviceI);
 
-      expect(service.tickets[0] instanceof Ticket).toBeTruthy();
+      expect(service.questions[0] instanceof Question).toBeTruthy();
     });
 
     it('should create instances of parent category', () => {
@@ -79,13 +86,13 @@ describe('Service', () => {
 
     describe('when tickets is undefined', () => {
       beforeEach(() => {
-        serviceI.tickets = undefined;
+        serviceI.questions = undefined;
       });
 
       it('should create empty array', () => {
         service = new Service(serviceI);
 
-        expect(service.tickets.length).toEqual(0);
+        expect(service.questions.length).toEqual(0);
       });
     });
   });
@@ -151,7 +158,7 @@ describe('Service', () => {
   describe('#getResponsibleUsersTn', () => {
     beforeEach(() => {
       service = new Service(serviceI);
-      service.tickets[0].responsibleUsers.push({ tn: 12345 } as ResponsibleUserI);
+      service.questions[0].responsibleUsers.push({ tn: 12345 } as ResponsibleUserI);
     });
 
     it('should return array of "tn" attributes', () => {
@@ -168,7 +175,7 @@ describe('Service', () => {
 
     beforeEach(() => {
       service = new Service(serviceI);
-      ticket = service.tickets[0];
+      ticket = service.questions[0];
       ticket.responsibleUsers.push({ tn: 12345 } as ResponsibleUserI);
     });
 

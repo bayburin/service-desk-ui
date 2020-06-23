@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ResponsibleGuard } from '@guards/responsible/responsible.guard';
-import { NewTicketPageComponent } from './pages/new-ticket/new-ticket.page';
+import { NewQuestionPageComponent } from './pages/new-question/new-question.page';
 import { ServicePolicy } from '@shared/policies/service/service.policy';
 import { TicketsPageComponent } from './pages/tickets/tickets.page';
-import { EditTicketPageComponent } from './pages/edit-ticket/edit-ticket.page';
+import { EditQuestionPageComponent } from './pages/edit-question/edit-question.page';
 import { TicketResolver } from './resolvers/resolvers/ticket.resolver';
 import { TicketsDetailPageComponent } from './pages/tickets-detail/tickets-detail.page';
+import { NewClaimFormPageComponent } from './pages/new-claim-form/new-claim-form.page';
 
 const routes: Routes = [
   {
@@ -31,7 +32,7 @@ const routes: Routes = [
       },
       {
         path: 'new',
-        component: NewTicketPageComponent,
+        component: NewQuestionPageComponent,
         canActivate: [ResponsibleGuard],
         data: {
           policy: ServicePolicy,
@@ -40,9 +41,18 @@ const routes: Routes = [
       },
       {
         path: ':id/edit',
-        component: EditTicketPageComponent,
+        component: EditQuestionPageComponent,
         canActivate: [ResponsibleGuard],
-        resolve: { ticket: TicketResolver },
+        resolve: { question: TicketResolver },
+        data: {
+          policy: ServicePolicy,
+          action: 'newTicket'
+        }
+      },
+      {
+        path: 'claim_form/new',
+        component: NewClaimFormPageComponent,
+        canActivate: [ResponsibleGuard],
         data: {
           policy: ServicePolicy,
           action: 'newTicket'

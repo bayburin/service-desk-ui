@@ -3,7 +3,7 @@ import { Category } from './category.model';
 import { CategoryI } from '@interfaces/category.interface';
 import { ServiceI } from '@interfaces/service.interface';
 import { Service } from '@modules/ticket/models/service/service.model';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 describe('Category', () => {
   let categoryI: CategoryI;
@@ -43,7 +43,8 @@ describe('Category', () => {
     });
 
     it('should create instances of nested tickets', () => {
-      const tickets = [{ id: 1, name: 'Тестовый вопрос', ticket_type: 'question' } as TicketI];
+      const tickets = [{ id: 1, name: 'Тестовый вопрос' } as TicketI];
+
       categoryI.faq = tickets;
       category = new Category(categoryI);
 

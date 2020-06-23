@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap, shareReplay } from 'rxjs/operators';
 
@@ -9,8 +9,8 @@ import { ServiceI } from '@interfaces/service.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
 import { SearchSortingPipe } from '@shared/pipes/search-sorting/search-sorting.pipe';
-import { TagI } from '@interfaces/tag.interface';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { Question } from '@modules/ticket/models/question/question.model';
+import { TicketDataI } from '../ticket/ticket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -63,41 +63,34 @@ export class ServiceService implements BreadcrumbServiceI {
     }
   }
 
+  // FIXME: Метод должен быть изменен
   /**
-   * Загружает список тегов для текущего сервиса, отсортированный по популярности.
-   */
-  loadTags(): Observable<TagI[]> {
-    const tagsUri = `${environment.serverUrl}/api/v1/tags/popularity`;
-    const httpParams = new HttpParams().set('service_id', `${this.service.id}`);
-
-    return this.http.get<TagI[]>(tagsUri, { params: httpParams });
-  }
-
-  /**
-   * Добавить вопросы к услуге.
+   * Добавить тикеты к услуге.
    *
-   * @param tickets - вопросы.
+   * @param data - вопросы.
    */
-  addTickets(tickets: Ticket[]): void {
-    this.service.tickets = tickets.concat(this.service.tickets);
+  addTickets(data: TicketDataI): void {
+    this.service.questions = data.questions.concat(this.service.questions);
+    // this.service.claims = data.claims.concat(this.service.claims);
   }
 
+  // FIXME: Метод должен быть изменен
   /**
    * Находит ticket в списке и заменяет указанным.
    *
-   * @param ticketId - id заменяемого объекта Ticket.
-   * @param ticket - новый объект Ticket.
+   * @param ticketId - id заменяемого объекта Question.
+   * @param ticket - новый объект Question.
    */
-  replaceTicket(ticketId: number, newTicket: Ticket): void {
-    let original: Ticket;
+  replaceQuestion(questionId: number, newQuestion: Question): void {
+    let original: Question;
 
-    const index = this.service.tickets.findIndex(ticket => {
-      if (ticket.id === ticketId) {
+    const index = this.service.questions.findIndex(question => {
+      if (question.id === questionId) {
         return true;
-      } else if (ticket.correction && ticket.correction.id === ticketId) {
-        ticket.correction = newTicket;
-        newTicket.original = ticket;
-        original = ticket;
+      } else if ((question as Question).correction && (question as Question).correction.id === questionId) {
+        (question as Question).correction = newQuestion as Question;
+        (newQuestion as Question).original = question as Question;
+        original = question;
 
         return true;
       } else {
@@ -106,24 +99,27 @@ export class ServiceService implements BreadcrumbServiceI {
     });
 
     if (index !== -1) {
-      this.service.tickets.splice(index, 1, original || newTicket);
+      this.service.questions.splice(index, 1, original || newQuestion);
     }
   }
 
+  // FIXME: Метод должен быть изменен
   /**
    * Удалить вопросы из услуги.
    *
-   * @param tickets - вопросы.
+   * @param questions - вопросы.
    */
-  removeTickets(tickets: Ticket[]): void {
-    this.service.tickets = this.service.tickets.filter(el => !tickets.find(draft => draft.id === el.id));
+  removeQuestions(questions: Question[]): void {
+    this.service.questions = this.service.questions.filter(el => !questions.find(draft => draft.id === el.id));
   }
 
+  // FIXME: Метод должен быть изменен
   /**
    * Удалить черновые вопросы.
    */
   removeDraftTickets(): void {
-    this.service.tickets = this.service.tickets.filter(ticket => !ticket.isDraftState());
+    this.service.questions = this.service.questions.filter(question => !question.isDraftState());
+    // this.service.claims = this.service.claims.filter(question => !question.isDraftState());
   }
 
   getNodeName(): Observable<string> {
@@ -144,7 +140,8 @@ export class ServiceService implements BreadcrumbServiceI {
     return this.http.get(this.loadServiceUri).pipe(
       map((data: ServiceI) => {
         const service = ServiceFactory.create(data);
-        service.tickets = this.searchSortingPipe.transform(service.tickets);
+
+        service.questions = this.searchSortingPipe.transform(service.questions);
 
         return service;
       }),

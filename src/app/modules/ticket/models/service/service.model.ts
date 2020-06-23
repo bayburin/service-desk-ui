@@ -1,12 +1,14 @@
 import { Category } from '@modules/ticket/models/category/category.model';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { CommonServiceI } from '@interfaces/common-service.interface';
 import { CategoryFactory } from '@modules/ticket/factories/category.factory';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
 import { User } from '@shared/models/user/user.model';
-import { TicketI } from '@interfaces/ticket.interface';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
+import { Question } from '../question/question.model';
+import { ClaimForm } from '../claim-form/claim-form.model';
+import { QuestionI } from '@interfaces/question.interface';
 
 export class Service implements CommonServiceI {
   id: number;
@@ -19,8 +21,14 @@ export class Service implements CommonServiceI {
   popularity: number;
   questionLimit: number;
   category: Category;
-  tickets: Ticket[];
+  // tickets: Ticket[];
+  questions: Question[];
+  claimForms: ClaimForm[] = [];
   responsibleUsers: ResponsibleUserI[];
+
+  get tickets(): Ticket[] {
+    return [...this.questions, ...this.claimForms];
+  }
 
   constructor(service: any = {}) {
     this.id = service.id;
@@ -32,7 +40,7 @@ export class Service implements CommonServiceI {
     this.hasCommonCase = service.has_common_case;
     this.popularity = service.popularity;
     this.responsibleUsers = service.responsible_users || [];
-    this.buildTickets(service.tickets);
+    this.buildQuestions(service.questions);
 
     if (service.category) {
       this.category = CategoryFactory.create(service.category);
@@ -76,7 +84,7 @@ export class Service implements CommonServiceI {
 
   /**
    * Для ответственных пользователей устанавливает аттрибут "details", находя его в переданном массиве.
-   * 
+   *
    * @param details - массив, содержащий информацию об ответственных.
    */
   associateResponsibleUserDetails(details: ResponsibleUserDetailsI[]): void {
@@ -86,13 +94,13 @@ export class Service implements CommonServiceI {
     this.tickets.forEach(ticket => ticket.associateResponsibleUserDetails(details));
   }
 
-  private buildTickets(tickets: TicketI[]): void {
-    if (!tickets || !tickets.length) {
-      this.tickets = [];
+  private buildQuestions(questions: QuestionI[]): void {
+    if (!questions || !questions.length) {
+      this.questions = [];
 
       return;
     }
 
-    this.tickets = tickets.map(ticket => TicketFactory.create(ticket)) || [];
+    this.questions = questions.map(question => TicketFactory.create(TicketTypes.QUESTION, question)) || [];
   }
 }

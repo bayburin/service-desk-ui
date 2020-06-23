@@ -3,12 +3,12 @@ import { NotificationBodyI, NotificationI } from '@interfaces/notification.inter
 import { Notify } from '@shared/models/notify/notify.model';
 import { NotifyFactory } from '@shared/factories/notify.factory';
 import { BroadcastState } from './notify_states/broadcast.state';
-import { CaseState } from './notify_states/case.state';
+import { ClaimState } from './notify_states/claim.state';
 import { ErrorState } from './notify_states/error.state';
 
 describe('Notify', () => {
   const notifyBodyI: NotificationBodyI = { message: 'test message', case_id: 1, user_tn: 1 };
-  const notifyI: NotificationI = { id: 1, tn: 1, body: notifyBodyI, event_type: 'case', date: '21-01-2017' };
+  const notifyI: NotificationI = { id: 1, tn: 1, body: notifyBodyI, event_type: 'claim', date: '21-01-2017' };
   let notify: Notify;
 
   beforeEach(() => {
@@ -43,11 +43,11 @@ describe('Notify', () => {
     expect((notify as any).state instanceof BroadcastState).toBeTruthy();
   });
 
-  it('should create CaseState if event_type is "case"', () => {
-    notifyI.event_type = 'case';
+  it('should create ClaimState if event_type is "claim"', () => {
+    notifyI.event_type = 'claim';
     notify = new Notify(notifyI);
 
-    expect((notify as any).state instanceof CaseState).toBeTruthy();
+    expect((notify as any).state instanceof ClaimState).toBeTruthy();
   });
 
   it('should create ErrorState if event_type is "error"', () => {
@@ -103,12 +103,12 @@ describe('Notify', () => {
     });
   });
 
-  describe('#isCaseEvent', () => {
-    it('should return true if eventType is equal "case"', () => {
-      notifyI.event_type = 'case';
+  describe('#isClaimEvent', () => {
+    it('should return true if eventType is equal "claim"', () => {
+      notifyI.event_type = 'claim';
       notify = NotifyFactory.create(notifyI);
 
-      expect(notify.isCaseEvent()).toBeTruthy();
+      expect(notify.isClaimEvent()).toBeTruthy();
     });
   });
 

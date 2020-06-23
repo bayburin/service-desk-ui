@@ -15,7 +15,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoadingComponent } from './components/loading/loading.component';
-import { CaseCardListComponent } from './components/case-card-list/case-card-list.component';
+import { ClaimCardListComponent } from './components/claim-card-list/claim-card-list.component';
 import { SectionHeaderComponent } from './components/section-header/section-header.component';
 import { FilterByClassPipe } from './pipes/filter-by-class/filter-by-class.pipe';
 import { PaginatorComponent } from './components/paginator/paginator.component';
@@ -23,8 +23,8 @@ import { FiltersComponent } from './components/filters/filters.component';
 import { UnauthorizeContentComponent } from './components/unauthorize-content/unauthorize-content.component';
 import { LogoComponent } from './components/logo/logo.component';
 import { SearchSortingPipe } from './pipes/search-sorting/search-sorting.pipe';
-import { CaseCardComponent } from './components/case-card/case-card.component';
-import { CasesPageContentComponent } from './components/cases-page-content/cases-page-content.component';
+import { ClaimCardComponent } from './components/claim-card/claim-card.component';
+import { ClaimsPageContentComponent } from './components/claims-page-content/claims-page-content.component';
 import { NotifyComponent } from './components/notify/notify.component';
 import { UserDashboardMenuComponent } from './components/user-dashboard-menu/user-dashboard-menu.component';
 import { AuthorizeDirective } from './directives/authorize/authorize.directive';
@@ -39,7 +39,7 @@ import { GetQuestionLinkDirective } from './directives/get-question-link/get-que
 @NgModule({
   declarations: [
     LoadingComponent,
-    CaseCardListComponent,
+    ClaimCardListComponent,
     SectionHeaderComponent,
     FilterByClassPipe,
     PaginatorComponent,
@@ -47,8 +47,8 @@ import { GetQuestionLinkDirective } from './directives/get-question-link/get-que
     UnauthorizeContentComponent,
     LogoComponent,
     SearchSortingPipe,
-    CaseCardComponent,
-    CasesPageContentComponent,
+    ClaimCardComponent,
+    ClaimsPageContentComponent,
     NotifyComponent,
     UserDashboardMenuComponent,
     AuthorizeDirective,
@@ -90,7 +90,7 @@ import { GetQuestionLinkDirective } from './directives/get-question-link/get-que
     NgbDropdownModule,
     NgbProgressbarModule,
     LoadingComponent,
-    CaseCardListComponent,
+    ClaimCardListComponent,
     SectionHeaderComponent,
     FilterByClassPipe,
     PaginatorComponent,
@@ -98,7 +98,7 @@ import { GetQuestionLinkDirective } from './directives/get-question-link/get-que
     UnauthorizeContentComponent,
     LogoComponent,
     SearchSortingPipe,
-    CasesPageContentComponent,
+    ClaimsPageContentComponent,
     NotifyComponent,
     UserDashboardMenuComponent,
     AuthorizeDirective,

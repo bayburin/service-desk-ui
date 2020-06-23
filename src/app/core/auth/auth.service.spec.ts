@@ -88,22 +88,34 @@ describe('AuthService', () => {
   });
 
   describe('#unauthorize', () => {
+    const uri = `${environment.serverUrl}/api/v1/auth/revoke`;
+
     beforeEach(() => {
       localStorage.setItem(config.currentTokenStorage, JSON.stringify(accessToken));
     });
 
     it('should remove token from localStorage', () => {
-      service.unauthorize();
+      service.unauthorize().subscribe(() => {
+        expect(localStorage.getItem(config.currentTokenStorage)).toBeNull();
+      });
 
-      expect(localStorage.getItem(config.currentTokenStorage)).toBeNull();
+      httpTestingController.expectOne({
+        method: 'POST',
+        url: uri
+      }).flush(accessToken);
     });
 
     it('should call "clearUser" method for userService', () => {
       const userService = TestBed.get(UserService);
       spyOn(userService, 'clearUser');
-      service.unauthorize();
+      service.unauthorize().subscribe(() => {
+        expect(userService.clearUser).toHaveBeenCalled();
+      });
 
-      expect(userService.clearUser).toHaveBeenCalled();
+      httpTestingController.expectOne({
+        method: 'POST',
+        url: uri
+      }).flush(accessToken);
     });
 
     it('should emit "false" value to the isLoggedInSub subject', () => {
@@ -111,7 +123,12 @@ describe('AuthService', () => {
         expect(value).toBeFalsy();
       });
 
-      service.unauthorize();
+      service.unauthorize().subscribe();
+
+      httpTestingController.expectOne({
+        method: 'POST',
+        url: uri
+      }).flush(accessToken);
     });
   });
 

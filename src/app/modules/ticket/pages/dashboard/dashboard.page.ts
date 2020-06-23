@@ -52,7 +52,7 @@ export class DashboardPageComponent implements OnInit {
    * @param service - сервис, у которого необходимо показать/скрыть вопросы.
    */
   toggleQuestionLimit(service: Service): void {
-    service.questionLimit = this.isNeedToDropDown(service) ? service.tickets.length + 1 : this.limits.questions;
+    service.questionLimit = this.isNeedToDropDown(service) ? service.questions.length + 1 : this.limits.questions;
   }
 
   /**
@@ -61,7 +61,7 @@ export class DashboardPageComponent implements OnInit {
    * @param service - сервис, содержащий вопросы.
    */
   isNeedToDropDown(service: Service): boolean {
-    return service.questionLimit < service.tickets.length;
+    return service.questionLimit < service.questions.length;
   }
 
   trackByService(index, service: Service) {

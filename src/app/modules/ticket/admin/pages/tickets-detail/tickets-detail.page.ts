@@ -1,16 +1,16 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewChecked } from '@angular/core';
-import { finalize, tap, switchMap, filter, delay, map, takeWhile } from 'rxjs/operators';
+import { finalize, tap, switchMap, filter, delay, map, takeWhile, first } from 'rxjs/operators';
 import { Router, NavigationStart, ActivatedRoute } from '@angular/router';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription, Subject, zip } from 'rxjs';
 
-import { TicketService } from '@shared/services/ticket/ticket.service';
+import { QuestionService } from '@shared/services/question/question.service';
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { contentBlockAnimation } from '@animations/content.animation';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
 import { ResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service';
 import { ServiceDetailComponent } from '@modules/ticket/admin/components/service-detail/service-detail.component';
 import { QuestionComponent } from '../../components/question/question.component';
+import { TicketService, TicketDataI } from '@shared/services/ticket/ticket.service';
 
 @Component({
   selector: 'app-tickets-detail-page',
@@ -24,15 +24,18 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
   @ViewChild(ServiceDetailComponent, { static: false }) private serviceDetailComponent: ServiceDetailComponent;
   private routeSub: Subscription;
   private questionStream = new Subject();
+  private loadedDraft = new Subject();
+  private openedQuestion = new Subject();
   private ticketId: number;
   private questionClosed = true;
 
   constructor(
     private serviceService: ServiceService,
-    private ticketService: TicketService,
+    private questionService: QuestionService,
     private router: Router,
     private route: ActivatedRoute,
-    private responsibleUserService: ResponsibleUserService
+    private responsibleUserService: ResponsibleUserService,
+    private ticketService: TicketService
   ) { }
 
   ngOnInit() {
@@ -40,12 +43,15 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
     this.ticketId = this.route.snapshot.queryParams.ticket;
     this.loadDraftTickets();
     this.openQuestionStream();
-
     this.routeSub = this.router.events.subscribe(event => {
       if (event instanceof NavigationStart && !event.url.includes('/admin')) {
-        this.serviceService.removeTickets(this.ticketService.draftTickets);
+        this.serviceService.removeQuestions(this.questionService.draftQuestions);
       }
     });
+
+    if (this.ticketId) {
+      this.subscribeToOpenQuestion();
+    }
   }
 
   ngAfterViewChecked() {
@@ -64,21 +70,46 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
 
   private loadDraftTickets() {
     this.loading = true;
-    this.ticketService.loadDraftTicketsFor(this.service)
+
+    this.ticketService.loadDraftTickets(this.service)
       .pipe(
         finalize(() => this.loading = false),
-        tap((tickets: Ticket[]) => {
+        tap((data: TicketDataI) => {
           this.serviceService.removeDraftTickets();
-          this.serviceService.addTickets(tickets);
+          this.serviceService.addTickets(data);
+          this.loadedDraft.next(true);
         }),
-        switchMap(tickets => {
-          const tns = tickets.flatMap(ticket => ticket.getResponsibleUsersTn());
+        switchMap(data => {
+          const questionTns = data.questions.flatMap(question => question.getResponsibleUsersTn());
+          // const caseTns = data.claimForms.flatMap(app => app.getResponsibleUsersTn());
+          const caseTns = [];
+          const tns = [...questionTns, ...caseTns];
 
           return this.responsibleUserService.loadDetails(tns)
-            .pipe(tap(details => tickets.forEach(ticket => ticket.associateResponsibleUserDetails(details))));
+            .pipe(tap(details => {
+              data.questions.forEach(question => question.associateResponsibleUserDetails(details));
+              // data.claimForms.forEach(app => app.associateResponsibleUserDetails(details));
+            }));
         })
       )
       .subscribe();
+
+    // this.questionService.loadDraftQuestionsFor(this.service)
+    //   .pipe(
+    //     finalize(() => this.loading = false),
+    //     tap((tickets: Question[]) => {
+    //       this.serviceService.removeDraftTickets();
+    //       this.serviceService.addTickets(tickets);
+    //       this.loadedDraft.next(true);
+    //     }),
+    //     switchMap(tickets => {
+    //       const tns = tickets.flatMap(ticket => ticket.getResponsibleUsersTn());
+
+    //       return this.responsibleUserService.loadDetails(tns)
+    //         .pipe(tap(details => tickets.forEach(ticket => ticket.associateResponsibleUserDetails(details))));
+    //     })
+    //   )
+    //   .subscribe();
   }
 
   /**
@@ -96,7 +127,7 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
   }
 
   /**
-   * Вызывает метод toggleTicket() у компонента для раскрытия вопроса.
+   * Вызывает метод toggleQuestion() у компонента для раскрытия вопроса.
    *
    * @param componentArr - массив компонентов, содержащих вопросы.
    */
@@ -111,7 +142,8 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
 
   private openQuestionComponent(questionComponent: QuestionComponent): void {
     questionComponent.toggleQuestion();
-    this.scrollToTicket(questionComponent.question.originalId || questionComponent.question.id);
+
+    this.openedQuestion.next(questionComponent);
     this.questionClosed = false;
   }
 
@@ -126,5 +158,24 @@ export class TicketsDetailPageComponent implements OnInit, OnDestroy, AfterViewC
 
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
+  }
+
+  /**
+   * Открывает подписку на "раскрытие" вопроса.
+   */
+  private subscribeToOpenQuestion() {
+    zip(
+      this.loadedDraft,
+      this.openedQuestion
+    )
+    .pipe(first())
+    .subscribe((arr: [boolean, QuestionComponent]) => {
+      const loadedDraft = arr[0];
+      const questionComponent = arr[1];
+
+      if (loadedDraft) {
+        this.scrollToTicket(questionComponent.question.originalId || questionComponent.question.id);
+      }
+    });
   }
 }

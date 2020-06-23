@@ -5,10 +5,20 @@
       <a id="adminMode" *appAuthorize="[service, 'newTicket']" routerLink="admin/tickets" class="btn btn-danger">Режим администратора</a>
     </div>
     <app-responsible-user-details [users]="service.responsibleUsers" label="Ответственные за услугу"></app-responsible-user-details>
-    <div class="sd-dlist-divider-b mt-2">
-      <p *ngIf="!service.tickets.length" class="search-title">Список вопросов пуст</p>
-      <app-dynamic-template-content *ngFor="let ticket of service.tickets; trackBy: trackByTicket" [data]="ticket"
-        [showFlags]="showTicketFlags"></app-dynamic-template-content>
-    </div>
+    <section class="sd-dlist-divider-b">
+      <!-- <h2>Вопросы</h2> -->
+      <div class="mt-2">
+        <p *ngIf="!service.questions.length" class="search-title">Список вопросов пуст</p>
+        <app-question-page-content *ngFor="let question of service.questions; trackBy: trackByTicket" [data]="question"
+          [showFlags]="showTicketFlags"></app-question-page-content>
+      </div>
+    </section>
+    <!-- <section class="sd-dlist-divider-b">
+      <h2>Заявки</h2>
+      <div class="mt-2">
+        <p *ngIf="!service.claimForms.length" class="search-title">Список заявок пуст</p>
+        <app-claim-form-page-content *ngFor="let case of service.claimForms; trackBy: trackByTicket" [data]="case"></app-claim-form-page-content>
+      </div>
+    </section> -->
   </div>
 </section>

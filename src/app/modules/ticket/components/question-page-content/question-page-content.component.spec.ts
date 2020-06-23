@@ -5,32 +5,33 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
 import { QuestionPageContentComponent } from './question-page-content.component';
-import { TicketService } from '@shared/services/ticket/ticket.service';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { QuestionService } from '@shared/services/question/question.service';
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 import { AnswerAttachmentI } from '@interfaces/answer-attachment.interface';
 import { AnswerI } from '@interfaces/answer.interface';
-import { StubTicketService } from '@shared/services/ticket/ticket.service.stub';
+import { StubQuestionService } from '@shared/services/question/question.service.stub';
 import { AttachmentService } from '@shared/services/attachment/attachment.service';
 import { StubAttachmentService } from '@shared/services/attachment/attachment.service.stub';
-import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
-import { StubTicketPolicy } from '@shared/policies/ticket/ticket.policy.stub';
+import { QuestionPolicy } from '@shared/policies/question/question.policy';
+import { StubQuestionPolicy } from '@shared/policies/question/question.policy.stub';
 import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.interface';
 import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
+import { Question } from '@modules/ticket/models/question/question.model';
 
 describe('QuestionPageContentComponent', () => {
   let component: QuestionPageContentComponent;
   let fixture: ComponentFixture<QuestionPageContentComponent>;
-  let ticket: Ticket;
-  let ticketService: TicketService;
+  let question: Question;
+  let questionService: QuestionService;
   let attachmentService: AttachmentService;
   const attachment = {
     id: 1,
     filename: 'Тестовый файл'
   } as AnswerAttachmentI;
   const answers: AnswerI[] = [
-    { id: 1, ticket_id: 1, answer: 'Тестовый ответ 1', link: 'http://test_link', attachments: [attachment] } as AnswerI,
-    { id: 2, ticket_id: 1, answer: 'Тестовый ответ 2' } as AnswerI
+    { id: 1, question_id: 1, answer: 'Тестовый ответ 1', link: 'http://test_link', attachments: [attachment] } as AnswerI,
+    { id: 2, question_id: 1, answer: 'Тестовый ответ 2' } as AnswerI
   ];
 
   beforeEach(async(() => {
@@ -39,9 +40,9 @@ describe('QuestionPageContentComponent', () => {
       declarations: [QuestionPageContentComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
-        { provide: TicketService, useClass: StubTicketService },
+        { provide: QuestionService, useClass: StubQuestionService },
         { provide: AttachmentService, useClass: StubAttachmentService },
-        { provide: TicketPolicy, useClass: StubTicketPolicy }
+        { provide: QuestionPolicy, useClass: StubQuestionPolicy }
       ]
     })
     .compileComponents();
@@ -50,9 +51,9 @@ describe('QuestionPageContentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuestionPageContentComponent);
     component = fixture.componentInstance;
-    ticket = TicketFactory.create({ id: 1, name: 'Тестовый вопрос', ticket_type: 'question', answers: answers });
-    component.data = ticket;
-    ticketService = TestBed.get(TicketService);
+    question = TicketFactory.create(TicketTypes.QUESTION, { id: 1, ticket: { id: 2, name: 'Тестовый вопрос' }, answers });
+    component.data = question;
+    questionService = TestBed.get(QuestionService);
     attachmentService = TestBed.get(AttachmentService);
     fixture.detectChanges();
   });
@@ -63,25 +64,25 @@ describe('QuestionPageContentComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call "raiseRating" method for TicketService if "ratingStream" emitted', () => {
-    spyOn(ticketService, 'raiseRating').and.callThrough();
+  it('should call "raiseRating" method for QuestionService if "ratingStream" emitted', () => {
+    spyOn(questionService, 'raiseRating').and.callThrough();
     component.ratingStream.subscribe(() => {
-      expect(ticketService.raiseRating).toHaveBeenCalledWith(ticket);
+      expect(questionService.raiseRating).toHaveBeenCalledWith(question);
     });
 
-    component.ratingStream.next(ticket);
+    component.ratingStream.next(question);
   });
 
-  describe('#toggleTicket', () => {
+  describe('#toggleQuestion', () => {
     it('should change "open" attribute', () => {
-      component.toggleTicket();
+      component.toggleQuestion();
 
-      expect(ticket.open).toEqual(true);
+      expect(question.open).toEqual(true);
     });
 
     it('should emit to "ratingStream" subject', () => {
       spyOn(component.ratingStream, 'next');
-      component.toggleTicket();
+      component.toggleQuestion();
 
       expect(component.ratingStream.next).toHaveBeenCalled();
     });
@@ -89,10 +90,10 @@ describe('QuestionPageContentComponent', () => {
     it('should not do anything if standaloneLink is setted', () => {
       component.standaloneLink = true;
       spyOn(component.ratingStream, 'next');
-      component.toggleTicket();
+      component.toggleQuestion();
 
       expect(component.ratingStream.next).not.toHaveBeenCalled();
-      expect(ticket.open).not.toEqual(true);
+      expect(question.open).not.toEqual(true);
     });
   });
 
@@ -103,7 +104,7 @@ describe('QuestionPageContentComponent', () => {
       filename: 'test file'
     } as AnswerAttachmentI;
 
-    it('should call "downloadAttachmentFromAnswer" method for TicketService', () => {
+    it('should call "downloadAttachmentFromAnswer" method for QuestionService', () => {
       spyOn(attachmentService, 'downloadAttachment').and.returnValue(of(new Blob()));
       component.downloadAttachment(attachment);
 
@@ -117,18 +118,18 @@ describe('QuestionPageContentComponent', () => {
     const selectedAnswer = answers[0];
 
     it('should show question', () => {
-      expect(fixture.debugElement.nativeElement.textContent).toContain(ticket.name);
+      expect(fixture.debugElement.nativeElement.textContent).toContain(question.name);
     });
 
     it('should show markdown answers', () => {
-      ticket.answers.forEach(answer => {
+      question.answers.forEach(answer => {
         expect(fixture.debugElement.nativeElement.textContent).not.toContain(answer.answer);
       });
 
       fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-list-question-group').click();
       fixture.detectChanges();
 
-      expect(fixture.debugElement.queryAll(By.css('markdown')).length).toEqual(ticket.answers.length);
+      expect(fixture.debugElement.queryAll(By.css('markdown')).length).toEqual(question.answers.length);
       // ticket.answers.forEach(answer => {
       //   expect(fixture.debugElement.nativeElement.textContent).toContain(answer.answer);
       // });
@@ -157,7 +158,7 @@ describe('QuestionPageContentComponent', () => {
     });
 
     it('should show app-responsible-user-details component', () => {
-      ticket.responsibleUsers = [{ tn: 17664, details: { full_name: 'ФИО' } as ResponsibleUserDetailsI } as ResponsibleUserI];
+      question.responsibleUsers = [{ tn: 17664, details: { full_name: 'ФИО' } as ResponsibleUserDetailsI } as ResponsibleUserI];
       fixture.debugElement.nativeElement.querySelector('.sd-list-question > .sd-list-question-group').click();
       fixture.detectChanges();
 

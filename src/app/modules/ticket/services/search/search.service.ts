@@ -4,8 +4,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from 'environments/environment';
-import { ServiceTemplateCreator } from '@modules/ticket/core/service_template_creator/service-template-creator';
+import { ServiceTemplateCreator } from '@modules/ticket/core/service-template-creator/service-template-creator';
 import { SearchSortingPipe } from '@shared/pipes/search-sorting/search-sorting.pipe';
+import { ServiceTemplateI } from '@interfaces/service-template.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +44,7 @@ export class SearchService {
 
     return this.http.get<any>(uri, { params }).pipe(
       map(data => {
-        const arr = data.map(template => ServiceTemplateCreator.createBy(template));
+        const arr = data.map((template: ServiceTemplateI) => ServiceTemplateCreator.createBy(template));
 
         return this.searchSortingPipe.transform(arr);
       })
