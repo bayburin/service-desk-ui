@@ -108,9 +108,10 @@ describe('TicketsDetailPageComponent', () => {
   });
 
   it('should call "removeQuestions" method with draft tickets if user leaves the admin module', () => {
-    spyOn(serviceService, 'removeQuestions');
+    // spyOn(serviceService, 'removeQuestions');
     (component as any).router.navigateByUrl('/');
 
-    expect(serviceService.removeQuestions).toHaveBeenCalledWith(questionService.draftQuestions);
+    // expect(serviceService.removeQuestions).toHaveBeenCalledWith(questionService.draftQuestions);
+    expect(serviceService.removeDraftTickets).toHaveBeenCalled();
   });
 });

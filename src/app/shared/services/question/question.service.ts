@@ -108,9 +108,7 @@ export class QuestionService {
     const httpParams = new HttpParams().append('ids', `${[questionIds]}`);
 
     return this.http.post(questionUri, {}, { params: httpParams })
-      .pipe(
-        map((questionsI: QuestionI[]) => questionsI.map(question => TicketFactory.create(TicketTypes.QUESTION, question)))
-      );
+      .pipe(map((questionsI: QuestionI[]) => questionsI.map(question => TicketFactory.create(TicketTypes.QUESTION, question))));
   }
 
   /**
