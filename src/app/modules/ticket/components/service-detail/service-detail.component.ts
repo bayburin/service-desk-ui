@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, ViewChildren, QueryList, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 
 import { Service } from '@modules/ticket/models/service/service.model';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
-import { DynamicTemplateContentComponent } from '@modules/ticket/components/dynamic-template-content/dynamic-template-content.component';
+// import { DynamicTemplateContentComponent } from '@modules/ticket/components/dynamic-template-content/dynamic-template-content.component';
 import { contentBlockAnimation } from '@animations/content.animation';
 import { ServicePolicy } from '@shared/policies/service/service.policy';
+import { Question } from '@modules/ticket/models/question/question.model';
+import { QuestionPageContentComponent } from '../question-page-content/question-page-content.component';
 
 @Component({
   selector: 'app-service-detail',
@@ -14,7 +15,8 @@ import { ServicePolicy } from '@shared/policies/service/service.policy';
 })
 export class ServiceDetailComponent implements OnInit, OnChanges {
   @Input() service: Service;
-  @ViewChildren(DynamicTemplateContentComponent) dynamicTemplateComponent: QueryList<DynamicTemplateContentComponent>;
+  // @ViewChildren(DynamicTemplateContentComponent) dynamicTemplateComponent: QueryList<DynamicTemplateContentComponent>;
+  @ViewChildren(QuestionPageContentComponent) questionComponent: QueryList<QuestionPageContentComponent>;
   showTicketFlags: boolean;
 
   constructor(private policy: ServicePolicy) {}
@@ -29,7 +31,7 @@ export class ServiceDetailComponent implements OnInit, OnChanges {
     }
   }
 
-  trackByTicket(index, ticket: Ticket) {
-    return ticket.id;
+  trackByTicket(index, question: Question) {
+    return question.id;
   }
 }

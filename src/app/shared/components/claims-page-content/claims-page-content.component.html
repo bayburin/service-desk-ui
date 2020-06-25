@@ -1,0 +1,16 @@
+<section>
+  <app-section-header header="Мои заявки"></app-section-header>
+  <app-loading [loading]="loading.initialization" size="48px"></app-loading>
+
+  <div *ngIf="!loading.initialization && !isAnyClaimsExists()" @contentBlockAnimation class="d-flex justify-content-start align-items-center">
+    <span>Заявки отсутствуют</span>
+    <a id="newClaim" routerLink="/claims/new" class="btn btn-primary ml-4">Создать заявку в свободной форме</a>
+  </div>
+
+  <div *ngIf="!loading.initialization && isAnyClaimsExists()">
+    <a id="newClaim" routerLink="/claims/new" class="btn btn-primary mb-3">Создать заявку в свободной форме</a>
+    <app-filters [data]="statuses" (changeFilter)="filterChanged($event)"></app-filters>
+    <app-claim-card-list [claims]="claims" [loading]="loading.table" (removeClaim)="claimRevoked()"></app-claim-card-list>
+    <!-- <app-paginator></app-paginator> -->
+  </div>
+</section>

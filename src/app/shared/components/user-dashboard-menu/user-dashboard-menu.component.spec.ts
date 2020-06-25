@@ -51,7 +51,7 @@ describe('UserDashboardMenuComponent', () => {
   it('should load notifications', () => {
     const mockNotifications = [
       NotifyFactory.create({ id: 1, body: { message: 'Hello Notify 1' }, event_type: 'broadcast' }),
-      NotifyFactory.create({ id: 2, body: { message: 'Hello Notify 2' }, event_type: 'case' })
+      NotifyFactory.create({ id: 2, body: { message: 'Hello Notify 2' }, event_type: 'claim' })
     ];
     spyOn(notifyService, 'loadNotifications').and.returnValue(of(mockNotifications));
     fixture.detectChanges();
@@ -124,12 +124,12 @@ describe('UserDashboardMenuComponent', () => {
   describe('#loadNewNotifications', () => {
     const mockNotifications = [
       NotifyFactory.create({ id: 1, body: { message: 'Hello Notify 1' }, event_type: 'broadcast' }),
-      NotifyFactory.create({ id: 2, body: { message: 'Hello Notify 2' }, event_type: 'case' }),
-      NotifyFactory.create({ id: 3, body: { message: 'Hello Notify 3' }, event_type: 'case' }),
-      NotifyFactory.create({ id: 4, body: { message: 'Hello Notify 4' }, event_type: 'case' }),
-      NotifyFactory.create({ id: 5, body: { message: 'Hello Notify 5' }, event_type: 'case' })
+      NotifyFactory.create({ id: 2, body: { message: 'Hello Notify 2' }, event_type: 'claim' }),
+      NotifyFactory.create({ id: 3, body: { message: 'Hello Notify 3' }, event_type: 'claim' }),
+      NotifyFactory.create({ id: 4, body: { message: 'Hello Notify 4' }, event_type: 'claim' }),
+      NotifyFactory.create({ id: 5, body: { message: 'Hello Notify 5' }, event_type: 'claim' })
     ];
-    const mockNewNotifications = NotifyFactory.create({ id: 6, body: { message: 'Hello Notify 3' }, event_type: 'case' });
+    const mockNewNotifications = NotifyFactory.create({ id: 6, body: { message: 'Hello Notify 3' }, event_type: 'claim' });
     let spy: jasmine.Spy;
 
     beforeEach(() => {
@@ -177,12 +177,12 @@ describe('UserDashboardMenuComponent', () => {
     beforeEach(() => {
       mockNotifications = [
         NotifyFactory.create({ id: 1, body: { message: 'Hello Notify 1' }, event_type: 'broadcast' }),
-        NotifyFactory.create({ id: 2, body: { message: 'Hello Notify 2' }, event_type: 'case' }),
-        NotifyFactory.create({ id: 3, body: { message: 'Hello Notify 3' }, event_type: 'case' }),
-        NotifyFactory.create({ id: 4, body: { message: 'Hello Notify 4' }, event_type: 'case' }),
-        NotifyFactory.create({ id: 5, body: { message: 'Hello Notify 5' }, event_type: 'case' })
+        NotifyFactory.create({ id: 2, body: { message: 'Hello Notify 2' }, event_type: 'claim' }),
+        NotifyFactory.create({ id: 3, body: { message: 'Hello Notify 3' }, event_type: 'claim' }),
+        NotifyFactory.create({ id: 4, body: { message: 'Hello Notify 4' }, event_type: 'caclaimse' }),
+        NotifyFactory.create({ id: 5, body: { message: 'Hello Notify 5' }, event_type: 'claim' })
       ];
-      mockNewNotification = NotifyFactory.create({ id: 6, body: { message: 'Hello New Notify' }, event_type: 'case' });
+      mockNewNotification = NotifyFactory.create({ id: 6, body: { message: 'Hello New Notify' }, event_type: 'claim' });
 
       spyOn(notifyService, 'loadNotifications').and.returnValues(of(mockNotifications), of(mockNotifications.concat(mockNewNotification)));
 

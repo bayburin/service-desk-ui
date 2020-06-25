@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { APP_CONFIG } from '@config/app.config';
 import { AppConfigI } from '@interfaces/app-config.interface';
@@ -62,7 +62,16 @@ export class AuthService {
   /**
    * Выходит из приложения.
    */
-  unauthorize(): void {
+  unauthorize(): Observable<any> {
+    const uri = `${environment.serverUrl}/api/v1/auth/revoke`;
+
+    return this.http.post(uri, {}).pipe(tap(() => this.clearAuthData()));
+  }
+
+  /**
+   * Очищает данные авторизации.
+   */
+  clearAuthData(): void {
     this.removeToken();
     this.userService.clearUser();
     this.isLoggedInSub.next(false);

@@ -88,20 +88,40 @@ describe('AuthService', () => {
   });
 
   describe('#unauthorize', () => {
+    const uri = `${environment.serverUrl}/api/v1/auth/revoke`;
+
+    beforeEach(() => {
+      spyOn(service, 'clearAuthData');
+    });
+
+    it('should call #clearAuthData method', () => {
+      service.unauthorize().subscribe(() => {
+        expect(service.clearAuthData).toHaveBeenCalled();
+      });
+
+      httpTestingController.expectOne({
+        method: 'POST',
+        url: uri
+      }).flush(accessToken);
+    });
+  });
+
+  describe('#clearAuthData', () => {
     beforeEach(() => {
       localStorage.setItem(config.currentTokenStorage, JSON.stringify(accessToken));
     });
 
     it('should remove token from localStorage', () => {
-      service.unauthorize();
+      service.clearAuthData();
 
       expect(localStorage.getItem(config.currentTokenStorage)).toBeNull();
     });
 
     it('should call "clearUser" method for userService', () => {
       const userService = TestBed.get(UserService);
+
       spyOn(userService, 'clearUser');
-      service.unauthorize();
+      service.clearAuthData();
 
       expect(userService.clearUser).toHaveBeenCalled();
     });
@@ -111,7 +131,7 @@ describe('AuthService', () => {
         expect(value).toBeFalsy();
       });
 
-      service.unauthorize();
+      service.clearAuthData();
     });
   });
 

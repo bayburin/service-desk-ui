@@ -28,9 +28,9 @@ describe('ServiceDetailComponent', () => {
     service = ServiceFactory.create({
       id: 1,
       name: 'Тестовая услуга',
-      tickets: [
-        { id: 2, name: 'Вопрос 1', ticket_type: 'question' },
-        { id: 3, name: 'Вопрос 2', ticket_type: 'question' }
+      questions: [
+        { id: 2, ticket: { name: 'Вопрос 1' } },
+        { id: 3, ticket: { name: 'Вопрос 2' } }
       ]
     });
     component.service = service;
@@ -46,7 +46,7 @@ describe('ServiceDetailComponent', () => {
   });
 
   it('should show app-question components', () => {
-    expect(fixture.debugElement.nativeElement.querySelectorAll('app-question').length).toEqual(service.tickets.length);
+    expect(fixture.debugElement.nativeElement.querySelectorAll('app-question').length).toEqual(service.questions.length);
   });
 
   it('should show link to user mode', () => {

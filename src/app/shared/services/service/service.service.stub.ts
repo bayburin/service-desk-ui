@@ -9,8 +9,8 @@ export class StubServiceService {
   loadService() {}
   loadTags() { return of([]); }
   addTickets() {}
-  replaceTicket() {}
-  removeTickets() {}
+  replaceQuestion() {}
+  removeQuestions() {}
   removeDraftTickets() {}
   getParentNodeName() { return of('Программные комплексы (из сервиса)'); }
   getNodeName() { return of('nanoCad'); }

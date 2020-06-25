@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { Question } from '@modules/ticket/models/question/question.model';
 
 @Component({
   selector: 'app-question-flags',
@@ -7,7 +7,7 @@ import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
   styleUrls: ['./question-flags.component.sass']
 })
 export class QuestionFlagsComponent {
-  @Input() question: Ticket;
+  @Input() question: Question;
 
   constructor() {}
 }

@@ -6,7 +6,7 @@ import { map, take } from 'rxjs/operators';
 import { UserService } from '@shared/services/user/user.service';
 import { User } from '@shared/models/user/user.model';
 import { ServicePolicy } from '@shared/policies/service/service.policy';
-import { TicketPolicy } from '@shared/policies/ticket/ticket.policy';
+import { QuestionPolicy } from '@shared/policies/question/question.policy';
 import { ServiceService } from '@shared/services/service/service.service';
 
 @Injectable({
@@ -37,7 +37,7 @@ export class ResponsibleGuard implements CanLoad, CanActivate {
   }
 
   canActivate(next: ActivatedRouteSnapshot): boolean | Observable<boolean> {
-    const policy = this.injector.get<ServicePolicy | TicketPolicy>(next.data.policy);
+    const policy = this.injector.get<ServicePolicy | QuestionPolicy>(next.data.policy);
     const action = next.data.action;
 
     if (this.service.service) {

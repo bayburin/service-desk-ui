@@ -1,0 +1,59 @@
+<div [formGroup]="ticketForm">
+  <div class="form-group align-items-center sd-icon-group pointer">
+    <i *ngIf="form.is_hidden.value" class="mdi mdi-toggle-switch-off mdi-24px" (click)="toggleHidden()"></i>
+    <i *ngIf="!form.is_hidden.value" class="mdi mdi-toggle-switch mdi-24px text-success" (click)="toggleHidden()"></i>
+    <span (click)="toggleHidden()">Должен быть виден пользователю</span>
+  </div>
+  <div class="form-group">
+    <label for="name">Наименование</label>
+    <input id="name" name="name" formControlName="name" class="form-control"
+      [ngClass]="{ 'is-invalid': (form.name.touched || submitted) && form.name.errors, 'is-valid': form.name.touched && form.name.valid }">
+    <div class="invalid-feedback">
+      <span *ngIf="form.name.errors?.required">Не может быть пустым</span>
+      <span *ngIf="form.name.errors?.maxlength">
+        Слишком длинный вопрос (максимальная число символов: {{ form.name.errors.maxlength.requiredLength }}; вы ввели:  {{ form.name.errors.maxlength.actualLength }} )
+      </span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="tags">Теги</label>
+    <ng-select id="tags" [items]="tags | async" [addTag]="!loading.tags" [hideSelected]="true" multiple="true" bindLabel="name"
+      [typeahead]="tagInput" [loading]="loading.tags" formControlName="tags" typeToSearchText="Введите тег"
+      addTagText="Добавить тег" placeholder="Укажите теги" (add)="hideTag($event)" (remove)="showTag($event)"></ng-select>
+    <small class="form-text">
+      <div class="d-flex align-items-center flex-wrap">
+        Популярные теги для данной услуги:
+        <app-loading class="ml-2 mr-2" [loading]="loading.serviceTags" size="18px"></app-loading>
+        <span *ngFor="let tag of serviceTags; trackBy: trackByServiceTag" @contentBlockAnimation>
+          <span *ngIf="!tag.data.selected">
+            <span class="pointer" [innerHTML]="tag.htmlString" (click)="addTag(tag.data)"></span>
+            &nbsp;
+          </span>
+        </span>
+      </div>
+    </small>
+  </div>
+  <div class="form-group">
+    <label for="responsible_users">Ответственные</label>
+    <ng-select id="responsible_users" [items]="responsibleUsers | async" [hideSelected]="true" multiple="true" bindLabel="details.full_name"
+      [typeahead]="responsibleUserInput" [loading]="loading.responsibleUsers" formControlName="responsible_users" typeToSearchText="Введите ФИО или
+       табельный номер" addTagText="Добавить ответственного" placeholder="Укажите ответственных">
+      <ng-template ng-label-tmp let-item="item" let-clear="clear">
+        <span class="ng-value-icon left" (click)="clear(item)" aria-hidden="true">×</span>
+        <span class="pl-1 pr-1">
+          <span *ngIf="item.details">
+            {{ item.details.full_name }}
+            <span *ngIf="item.details.phone">(тел: {{ item.details.phone }})</span>
+          </span>
+          <span *ngIf="!item.details">
+            {{ item.tn }}
+          </span>
+        </span>
+      </ng-template>
+      <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+        {{ item.details.full_name }}
+        (отд: {{ item.details.dept }}<span *ngIf="item.details.phone">; тел: {{ item.details.phone }}</span>)
+      </ng-template>
+    </ng-select>
+  </div>
+</div>

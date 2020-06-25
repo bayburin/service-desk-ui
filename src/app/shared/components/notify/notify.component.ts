@@ -27,7 +27,7 @@ export class NotifyComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.notifications = this.notifyService.notifications;
-    this.connectToCaseNotifications();
+    this.connectToClaimNotifications();
   }
 
   trackByNotification(index, notification: Notify) {
@@ -45,7 +45,7 @@ export class NotifyComponent implements OnInit, OnDestroy {
     this.channel.unsubscribe();
   }
 
-  private connectToCaseNotifications() {
+  private connectToClaimNotifications() {
     this.channel = this.streamService.channelServer.channel(this.channelName);
     this.channel.received()
       .pipe(map((notify: NotificationI) => NotifyFactory.create(notify)))

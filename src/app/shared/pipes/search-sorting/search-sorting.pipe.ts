@@ -3,6 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Category } from '@modules/ticket/models/category/category.model';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { ClaimForm } from '@modules/ticket/models/claim-form/claim-form.model';
 
 @Pipe({
   name: 'searchSorting'
@@ -22,7 +23,7 @@ export class SearchSortingPipe implements PipeTransform {
         return 1;
       }
 
-      if (a instanceof Ticket && a.isCaseTicketType()) {
+      if (a instanceof ClaimForm) {
         return -1;
       }
     });

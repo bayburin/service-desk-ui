@@ -132,17 +132,9 @@ describe('HeaderComponent', () => {
       expect(fixture.debugElement.nativeElement.querySelector('a.nav-link[href="/categories"]')).toBeTruthy();
     });
 
-    // it('should have "services" link', () => {
-    //   expect(fixture.debugElement.nativeElement.querySelector('a.nav-link[href="/services"]')).toBeTruthy();
-    // });
-
-    it('should have "cases" link', () => {
-      expect(fixture.debugElement.nativeElement.querySelector('a.nav-link[href="/cases"]')).toBeTruthy();
+    it('should have "claims" link', () => {
+      expect(fixture.debugElement.nativeElement.querySelector('a.nav-link[href="/claims"]')).toBeTruthy();
     });
-
-    // it('should have "new cases" link', () => {
-    //   expect(fixture.debugElement.nativeElement.querySelector('a.nav-link[href="/cases/new"]')).toBeTruthy();
-    // });
 
     it('should have "search" link', () => {
       expect(fixture.debugElement.nativeElement.querySelector('a.nav-link[href="/search"]')).toBeTruthy();

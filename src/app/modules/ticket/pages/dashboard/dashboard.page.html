@@ -33,12 +33,12 @@
       <div class="sd-list-masonry sd-list-masonry-sm-6 sd-list-masonry-md-4 sd-child-mb-7" *ngIf="data" @contentBlockAnimation>
         <div *ngFor="let service of data.services.slice(0, limits.services); trackBy: trackByService">
           <h4 [innerHtml]="service.name"></h4>
-          <ul class="list-unstyled sd-child-mb-3 sd-mb-5" [@ToggleQuestionList]="service.tickets.slice(0, service.questionLimit).length">
-            <li *ngFor="let ticket of service.tickets.slice(0, service.questionLimit); trackBy: trackByTicket">
-              <a [routerLink]="['/categories', service.categoryId, 'services', service.id]" [queryParams]="{ ticket: ticket.id }" [innerHtml]="ticket.name"></a>
+          <ul class="list-unstyled sd-child-mb-3 sd-mb-5" [@ToggleQuestionList]="service.questions.slice(0, service.questionLimit).length">
+            <li *ngFor="let ticket of service.questions.slice(0, service.questionLimit); trackBy: trackByTicket">
+              <a [routerLink]="['/categories', service.categoryId, 'services', service.id]" [queryParams]="{ ticket: ticket.ticketId }" [innerHtml]="ticket.name"></a>
             </li>
           </ul>
-          <span *ngIf="service.tickets.length > limits.questions" (click)="toggleQuestionLimit(service)" class="sd-icon-group sd-link text-dark">
+          <span *ngIf="service.questions.length > limits.questions" (click)="toggleQuestionLimit(service)" class="sd-icon-group sd-link text-dark">
             <i class="mdi mdi-24px" [ngClass]="isNeedToDropDown(service) ? 'mdi-arrow-down-drop-circle-outline' : 'mdi-arrow-up-drop-circle-outline'"></i>
             Смотреть все вопросы
           </span>

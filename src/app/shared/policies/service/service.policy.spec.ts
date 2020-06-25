@@ -5,24 +5,33 @@ import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { UserService } from '@shared/services/user/user.service';
 import { StubUserService, user } from '@shared/services/user/user.service.stub';
+import { ResponsibleUserI } from '@interfaces/responsible-user.interface';
+import { QuestionI } from '@interfaces/question.interface';
+import { TicketI } from '@interfaces/ticket.interface';
+import { ServiceI } from '@interfaces/service.interface';
 
 describe('ServicePolicy', () => {
   let servicePolicy: ServicePolicy;
   let service: Service;
-  let ticketResponsible;
-  let serviceResponsible;
-  let ticketI;
-  let serviceI;
+  let ticketResponsible: ResponsibleUserI;
+  let serviceResponsible: ResponsibleUserI;
+  let questionI: QuestionI;
+  let serviceI: ServiceI;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [{ provide: UserService, useClass: StubUserService }]
     });
 
-    ticketResponsible = { tn: user.tn };
-    serviceResponsible = { tn: user.tn };
-    ticketI = { name: 'Тестовый вопрос', ticket_type: 'question', responsible_users: [ticketResponsible] };
-    serviceI = { name: 'Тестовая услуга', is_hidden: false, tickets: [ticketI], responsible_users: [serviceResponsible] };
+    ticketResponsible = { tn: user.tn } as ResponsibleUserI;
+    serviceResponsible = { tn: user.tn } as ResponsibleUserI;
+    questionI = { id: 1, ticket: { name: 'Тестовый вопрос', responsible_users: [ticketResponsible] } as TicketI } as QuestionI;
+    serviceI = {
+      name: 'Тестовая услуга',
+      is_hidden: false,
+      questions: [questionI],
+      responsible_users: [serviceResponsible]
+    } as ServiceI;
 
     servicePolicy = TestBed.get(ServicePolicy);
     service = ServiceFactory.create(serviceI);

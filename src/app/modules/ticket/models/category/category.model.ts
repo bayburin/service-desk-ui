@@ -2,9 +2,9 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { ServiceI } from '@interfaces/service.interface';
 import { CommonServiceI } from '@interfaces/common-service.interface';
 import { Service } from '@modules/ticket/models/service/service.model';
-import { Ticket } from '@modules/ticket/models/ticket/ticket.model';
+import { Ticket, TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
-import { TicketFactory } from '@modules/ticket/factories/ticket.factory';
+import { TicketFactory } from '@modules/ticket/factories/tickets/ticket.factory';
 
 export class Category implements CommonServiceI {
   id: number;
@@ -50,6 +50,6 @@ export class Category implements CommonServiceI {
       return;
     }
 
-    this.tickets = tickets.map(ticket => TicketFactory.create(ticket)) || [];
+    this.tickets = tickets.map(ticket => TicketFactory.create(TicketTypes.QUESTION, ticket)) || [];
   }
 }
