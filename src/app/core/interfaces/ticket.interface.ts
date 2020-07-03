@@ -5,6 +5,7 @@ import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 export interface TicketI {
   id: number;
+  identity: number;
   service_id: number;
   name: string;
   ticketable_id: number;

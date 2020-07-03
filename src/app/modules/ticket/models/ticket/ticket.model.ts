@@ -22,6 +22,7 @@ export const enum TicketStates {
 
 export abstract class Ticket implements CommonServiceI {
   id: number;
+  identity: number;
   ticketId: number;
   serviceId: number;
   name: string;
@@ -47,6 +48,7 @@ export abstract class Ticket implements CommonServiceI {
   }
 
   constructor(ticket: any = {}) {
+    this.identity = ticket.identity;
     this.ticketId = ticket.id;
     this.serviceId = ticket.service_id;
     this.name = ticket.name;

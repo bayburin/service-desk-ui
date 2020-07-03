@@ -78,6 +78,7 @@ describe('CommonTicketInformationComponent', () => {
     ticketTag = { id: 1, name: 'Тег 1' };
     ticketI = {
       id: 3,
+      identity: 1,
       service_id: service.id,
       name: 'Тестовый вопрос',
       ticketable_id: 4,

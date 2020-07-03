@@ -16,6 +16,7 @@ describe('Answer', () => {
   beforeEach(() => {
     ticketI = {
       id: 1,
+      identity: 1,
       service_id: 1,
       name: 'Тестовый вопрос',
       state: 'draft',

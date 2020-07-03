@@ -34,6 +34,7 @@ describe('Ticket', () => {
     } as ServiceI;
     ticketI = {
       id: 1,
+      identity: 1,
       service_id: 1,
       // original_id: 0,
       name: 'Тестовый вопрос',

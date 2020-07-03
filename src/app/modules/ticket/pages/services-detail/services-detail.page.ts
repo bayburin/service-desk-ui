@@ -21,7 +21,7 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
   service: Service;
   @ViewChild(ServiceDetailComponent, { static: false }) private serviceDetailComponent: ServiceDetailComponent;
   private questionStream = new Subject();
-  private ticketId: number;
+  private identity: number;
 
   constructor(
     private serviceService: ServiceService,
@@ -31,13 +31,13 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
   ) {}
 
   ngOnInit() {
-    this.ticketId = this.route.snapshot.queryParams.ticket;
+    this.identity = this.route.snapshot.queryParams.identity;
     this.loadService();
     this.openQuestionStream();
   }
 
   ngAfterViewChecked() {
-    if (!this.ticketId || !this.serviceDetailComponent) {
+    if (!this.identity || !this.serviceDetailComponent) {
       return;
     }
 
@@ -85,7 +85,7 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
    * @param componentArr - массив компонентов, содержащих тикет.
    */
   private openSelectedQuestion(componentArr: QuestionPageContentComponent[]): void {
-    const selectedComponent = componentArr.find(el => el.data.ticketId == this.ticketId);
+    const selectedComponent = componentArr.find(el => el.data.identity == this.identity);
 
     // selectedComponent.componentRef.instance.toggleQuestion();
     selectedComponent.toggleQuestion();
@@ -96,7 +96,7 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
    * Перемещает экран к указанному id.
    */
   private scrollToTicket(): void {
-    const el = document.getElementById(`${this.ticketId}`);
+    const el = document.getElementById(`${this.identity}`);
 
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
