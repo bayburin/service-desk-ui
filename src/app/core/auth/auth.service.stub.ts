@@ -4,7 +4,7 @@ export class StubAuthService {
   isLoggedInSub = new BehaviorSubject<boolean>(false);
   isUserSignedIn = this.isLoggedInSub.asObservable();
 
-  authorize() {}
+  authorize() { return of({}); }
   getAccessToken() { return of({}); }
   unauthorize() { return of({}); }
   clearAuthData() {}

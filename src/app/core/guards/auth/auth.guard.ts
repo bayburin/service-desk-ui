@@ -37,7 +37,7 @@ export class AuthGuard implements CanActivate {
             return true;
           }
 
-          this.notifyService.alert('Некорректные данные о пользователе. Попробуйте выйти и зайти заново');
+          this.notifyService.alert('Некорректные данные о пользователе. Попробуйте войти заново.');
 
           return false;
         }));

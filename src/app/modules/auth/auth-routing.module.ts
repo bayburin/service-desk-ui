@@ -5,12 +5,17 @@ import { StateGuard } from '@guards/state/state.guard';
 import { AuthorizePageComponent } from './pages/authorize/authorize.page';
 import { LogoutPageComponent } from './pages/logout/logout.page';
 import { AuthorizeForbiddenPageComponent } from './pages/authorize-forbidden/authorize-forbidden.page';
+import { UnauthorizedPageComponent } from './pages/unauthorized/unauthorized.page';
 
 const routes: Routes = [
   {
     path: 'authorize',
     component: AuthorizePageComponent,
     canActivate: [StateGuard]
+  },
+  {
+    path: 'unauthorized',
+    component: UnauthorizedPageComponent
   },
   {
     path: 'logout',

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -11,7 +12,11 @@ import { NotificationService } from '@shared/services/notification/notification.
 export class ErrorHandlerService {
   private notification: Notify;
 
-  constructor(private authService: AuthService, private notifyService: NotificationService) { }
+  constructor(
+    private authService: AuthService,
+    private notifyService: NotificationService,
+    private router: Router
+  ) { }
 
   handleError(error: HttpErrorResponse) {
     let msg: string;
@@ -19,7 +24,8 @@ export class ErrorHandlerService {
     switch (error.status) {
       case 401:
         if (this.authService.isUserSignedIn) {
-          this.authService.clearAuthData();
+          this.authService.setReturnUrl(this.router.url);
+          this.router.navigate(['/unauthorized']);
         }
         break;
       case 403:

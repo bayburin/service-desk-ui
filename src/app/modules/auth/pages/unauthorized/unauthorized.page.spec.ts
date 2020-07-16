@@ -1,19 +1,19 @@
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { of } from 'rxjs';
 
-import { LogoutPageComponent } from './logout.page';
+import { UnauthorizedPageComponent } from './unauthorized.page';
 import { AuthService } from '@auth/auth.service';
 import { StubAuthService } from '@auth/auth.service.stub';
 
-describe('LogoutPageComponent', () => {
-  let component: LogoutPageComponent;
-  let fixture: ComponentFixture<LogoutPageComponent>;
+
+describe('UnauthorizedComponent', () => {
+  let component: UnauthorizedPageComponent;
+  let fixture: ComponentFixture<UnauthorizedPageComponent>;
   let authService: AuthService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LogoutPageComponent],
+      declarations: [UnauthorizedPageComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [{ provide: AuthService, useClass: StubAuthService }]
     })
@@ -21,7 +21,7 @@ describe('LogoutPageComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LogoutPageComponent);
+    fixture = TestBed.createComponent(UnauthorizedPageComponent);
     component = fixture.componentInstance;
     authService = TestBed.get(AuthService);
   });
@@ -32,16 +32,16 @@ describe('LogoutPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should class "unauthorize" method for AuthService', () => {
-    spyOn(authService, 'unauthorize').and.callThrough();
+  it('should class AuthService#clearAuthData method', () => {
+    spyOn(authService, 'clearAuthData');
     fixture.detectChanges();
 
-    expect(authService.unauthorize).toHaveBeenCalled();
+    expect(authService.clearAuthData).toHaveBeenCalled();
   });
 
   describe('#authorize', () => {
     it('should call AuthService#authorize method', () => {
-      spyOn(authService, 'authorize');
+      spyOn(authService, 'authorize').and.callThrough();
       component.authorize();
 
       expect(authService.authorize).toHaveBeenCalled();
