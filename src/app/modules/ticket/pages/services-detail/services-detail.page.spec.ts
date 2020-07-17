@@ -135,4 +135,14 @@ describe('ServicesDetailPageComponent', () => {
   it('should render app-service-detail component', () => {
     expect(fixture.debugElement.nativeElement.querySelector('app-service-detail')).toBeTruthy();
   });
+
+  describe('ngOnDestroy', () => {
+    it('should set null to service', () => {
+      component.ngOnDestroy();
+
+      serviceService.service$.subscribe(result => {
+        expect(result).toBeNull();
+      });
+    });
+  });
 });

@@ -1,9 +1,10 @@
-import { of } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 
 import { Service } from '@modules/ticket/models/service/service.model';
 
 export class StubServiceService {
   service: Service;
+  service$ = new BehaviorSubject<Service>(this.service);
 
   loadServices() {}
   loadService() {}
