@@ -27,7 +27,7 @@ export class Question extends Ticket {
   }
 
   getShowLink(): string {
-    return `/categories/${this.service.categoryId}/services/${this.serviceId}?ticket=${this.ticketId}`;
+    return `/categories/${this.service.categoryId}/services/${this.serviceId}?identity=${this.identity}`;
   }
 
   pageComponent(): string {

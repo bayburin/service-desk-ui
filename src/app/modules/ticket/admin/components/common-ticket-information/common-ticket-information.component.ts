@@ -99,6 +99,24 @@ export class CommonTicketInformationComponent implements OnInit {
     }
   }
 
+  /**
+   * Удалить ответственного из списка.
+   *
+   * @param user - удаляемый ответственный
+   */
+  clearUser(user: ResponsibleUserI) {
+    const users: ResponsibleUserI[] = this.form.responsible_users.value;
+
+    if (user.id) {
+      const u = users.find(u => u === user);
+
+      u._destroy = true;
+      u.details = null;
+    } else {
+      this.form.responsible_users.setValue(users.filter(u => u !== user));
+    }
+  }
+
   trackByServiceTag(index, serviceTag: any) {
     return serviceTag.data.id;
   }

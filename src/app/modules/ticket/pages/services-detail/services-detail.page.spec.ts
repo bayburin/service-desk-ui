@@ -44,8 +44,8 @@ describe('ServicesDetailPageComponent', () => {
   let responsibleUserService: ResponsibleUserService;
   let details: ResponsibleUserDetailsI[];
   const tickets = [
-    { id: 1, service_id: 2, name: 'Тестовый вопрос 1', ticketable_type: TicketTypes.QUESTION } as TicketI,
-    { id: 2, service_id: 2, name: 'Тестовый вопрос 2', ticketable_type: TicketTypes.QUESTION } as TicketI
+    { id: 1, identity: 1, service_id: 2, name: 'Тестовый вопрос 1', ticketable_type: TicketTypes.QUESTION } as TicketI,
+    { id: 2, identity: 1, service_id: 2, name: 'Тестовый вопрос 2', ticketable_type: TicketTypes.QUESTION } as TicketI
   ];
   const service = ServiceFactory.create({ id: 2, name: 'Тестовая заявка', category_id: 3, tickets });
   const stubRoute = jasmine.createSpyObj<ActivatedRoute>('ActivatedRoute', ['snapshot', 'parent', 'children']);
@@ -53,7 +53,7 @@ describe('ServicesDetailPageComponent', () => {
     get(target, prop) {
       if (prop === 'snapshot') {
         return {
-          queryParams: { ticket: '1' },
+          queryParams: { identity: '1' },
           params: { id: '2' }
         };
       } else if (prop === 'parent') {
@@ -103,8 +103,8 @@ describe('ServicesDetailPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should save id of ticket in "ticketId" attribute', () => {
-    expect((component as any).ticketId).toEqual('1');
+  it('should save identity of ticket in "identity" attribute', () => {
+    expect((component as any).identity).toEqual('1');
   });
 
   it('should call "loadService" method of ServiceService instance', () => {

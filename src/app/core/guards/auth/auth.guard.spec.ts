@@ -78,7 +78,7 @@ describe('AuthGuard', () => {
     it('should call "alert" method for NotifyService', inject([AuthGuard], (guard: AuthGuard) => {
       spyOn(notifyService, 'alert');
       guard.canActivate(activatedRoute, stubSnapshot).subscribe(() => {
-        expect(notifyService.alert).toHaveBeenCalledWith('Некорректные данные о пользователе. Попробуйте выйти и зайти заново');
+        expect(notifyService.alert).toHaveBeenCalledWith('Некорректные данные о пользователе. Попробуйте войти заново.');
       });
     }));
 

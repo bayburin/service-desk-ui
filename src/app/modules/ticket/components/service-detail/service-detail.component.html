@@ -4,7 +4,8 @@
       <app-section-header [header]="service.name" class="mr-auto"></app-section-header>
       <a id="adminMode" *appAuthorize="[service, 'newTicket']" routerLink="admin/tickets" class="btn btn-danger">Режим администратора</a>
     </div>
-    <app-responsible-user-details [users]="service.responsibleUsers" label="Ответственные за услугу"></app-responsible-user-details>
+    <app-responsible-user-details class="responsibles-block" [users]="service.responsibleUsers" label="Ответственные за услугу">
+    </app-responsible-user-details>
     <section class="sd-dlist-divider-b">
       <!-- <h2>Вопросы</h2> -->
       <div class="mt-2">

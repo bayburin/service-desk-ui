@@ -70,7 +70,6 @@ describe('BreadcrumbComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BreadcrumbComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
 
     categoryService = TestBed.get(CategoryService);
     serviceService = TestBed.get(ServiceService);
@@ -79,82 +78,94 @@ describe('BreadcrumbComponent', () => {
     spyOn(authGuard, 'canActivate').and.returnValue(true);
   });
 
-// Unit ====================================================================================================================================
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should create array of breadcrumbs', fakeAsync(() => {
+  it('should create array of breadcrumbs before navigation fired', fakeAsync(() => {
     router.navigateByUrl('/categories/1/services/2');
     tick();
 
+    fixture.detectChanges();
     expect(component.breadcrumbs.length).toEqual(2);
   }));
 
-  it('should fill each element of array with BreadcrumbI object', fakeAsync(() => {
-    router.navigateByUrl('/categories/1/services/2');
-    tick();
+  describe('after component init', () => {
+    beforeEach(() => { fixture.detectChanges(); });
 
-    const breadcrumb = component.breadcrumbs[0];
+// Unit ====================================================================================================================================
 
-    breadcrumb.label.subscribe(label => {
-      expect(label).toEqual('Программные комплексы (из категории)');
+    it('should create', () => {
+      expect(component).toBeTruthy();
     });
-    expect(breadcrumb.url).toEqual('categories/1/');
-  }));
 
-  it('should take label from route if it is exists', fakeAsync(() => {
-    router.navigateByUrl('/search');
-    tick();
+    it('should create array of breadcrumbs', fakeAsync(() => {
+      router.navigateByUrl('/categories/1/services/2');
+      tick();
 
-    component.breadcrumbs[0].label.subscribe(label => {
-      expect(label).toEqual('Поиск');
-    });
-  }));
+      expect(component.breadcrumbs.length).toEqual(2);
+    }));
 
-// Shallow tests ===========================================================================================================================
+    it('should fill each element of array with BreadcrumbI object', fakeAsync(() => {
+      router.navigateByUrl('/categories/1/services/2');
+      tick();
 
-  it('should build breadcrumbs', fakeAsync(() => {
-    router.navigateByUrl('/categories/1/services/2');
-    tick();
-    fixture.detectChanges();
-    const text = fixture.debugElement.nativeElement.textContent;
+      const breadcrumb = component.breadcrumbs[0];
 
-    expect(text).toContain('Главная');
-    expect(text).toContain('Программные комплексы (из категории)');
-    expect(text).toContain('nanoCad');
-  }));
+      breadcrumb.label.subscribe(label => {
+        expect(label).toEqual('Программные комплексы (из категории)');
+      });
+      expect(breadcrumb.url).toEqual('categories/1/');
+    }));
 
-  it('should show category name from service if category has not been loaded', fakeAsync(() => {
-    spyOn(categoryService, 'getNodeName').and.returnValue(of(''));
-    router.navigateByUrl('/categories/1/services/2');
-    tick();
-    fixture.detectChanges();
-    const text = fixture.debugElement.nativeElement.textContent;
+    it('should take label from route if it is exists', fakeAsync(() => {
+      router.navigateByUrl('/search');
+      tick();
 
-    expect(text).toContain('Главная');
-    expect(text).toContain('Программные комплексы (из сервиса)');
-    expect(text).toContain('nanoCad');
-  }));
+      component.breadcrumbs[0].label.subscribe(label => {
+        expect(label).toEqual('Поиск');
+      });
+    }));
 
-  it('should retirect to dashboard page', fakeAsync(inject([Location], (location: Location) => {
-    router.navigateByUrl('/categories/1/services/2');
-    tick();
-    fixture.detectChanges();
-    fixture.debugElement.nativeElement.querySelector('a:not(.breadcrumb-item)').click();
-    tick();
+// Shallow tests ==========================================================================================================================
 
-    expect(location.path()).toBe('/');
-  })));
+    it('should build breadcrumbs', fakeAsync(() => {
+      router.navigateByUrl('/categories/1/services/2');
+      tick();
+      fixture.detectChanges();
+      const text = fixture.debugElement.nativeElement.textContent;
 
-  it('should redirect to the categories page', fakeAsync(inject([Location], (location: Location) => {
-    router.navigateByUrl('/categories/1/services/2');
-    tick();
-    fixture.detectChanges();
-    fixture.debugElement.nativeElement.querySelector('a.breadcrumb-item:nth-child(1)').click();
-    tick();
+      expect(text).toContain('Главная');
+      expect(text).toContain('Программные комплексы (из категории)');
+      expect(text).toContain('nanoCad');
+    }));
 
-    expect(location.path()).toBe('/categories/1');
-  })));
+    it('should show category name from service if category has not been loaded', fakeAsync(() => {
+      spyOn(categoryService, 'getNodeName').and.returnValue(of(''));
+      router.navigateByUrl('/categories/1/services/2');
+      tick();
+      fixture.detectChanges();
+      const text = fixture.debugElement.nativeElement.textContent;
+
+      expect(text).toContain('Главная');
+      expect(text).toContain('Программные комплексы (из сервиса)');
+      expect(text).toContain('nanoCad');
+    }));
+
+    it('should retirect to dashboard page', fakeAsync(inject([Location], (location: Location) => {
+      router.navigateByUrl('/categories/1/services/2');
+      tick();
+      fixture.detectChanges();
+      fixture.debugElement.nativeElement.querySelector('a:not(.breadcrumb-item)').click();
+      tick();
+
+      expect(location.path()).toBe('/');
+    })));
+
+    it('should redirect to the categories page', fakeAsync(inject([Location], (location: Location) => {
+      router.navigateByUrl('/categories/1/services/2');
+      tick();
+      fixture.detectChanges();
+      fixture.debugElement.nativeElement.querySelector('a.breadcrumb-item:nth-child(1)').click();
+      tick();
+
+      expect(location.path()).toBe('/categories/1');
+    })));
+  });
 });

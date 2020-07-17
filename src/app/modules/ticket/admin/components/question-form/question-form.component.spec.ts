@@ -89,6 +89,7 @@ describe('QuestionFormComponent', () => {
     ticketTag = { id: 1, name: 'Тег 1' };
     ticketI = {
       id: 3,
+      identity: 1,
       service_id: 1,
       name: 'Тестовый вопрос',
       ticketable_id: 4,

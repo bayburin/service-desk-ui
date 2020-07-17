@@ -1,4 +1,4 @@
-<div class="sd-list-item" [ngClass]="{ 'active-item': data.open }" [id]="data.ticketId" appShowQuestionLink>
+<div class="sd-list-item" [ngClass]="{ 'active-item': data.open }" [id]="data.identity" appShowQuestionLink>
   <div class="sd-list-question">
     <div class="sd-list-question-group" (click)="toggleQuestion()">
       <i *ngIf="!standaloneLink" class="mdi mdi-24px" [ngClass]="data.open ? 'mdi-arrow-up-drop-circle-outline' :
@@ -14,7 +14,7 @@
     </div>
   </div>
   <div *ngIf="data.open" class="sd-list-answer" @ToggleAnswer>
-    <app-responsible-user-details [users]="data.responsibleUsers" *ngIf="data.responsibleUsers.length" class="answer-block">
+    <app-responsible-user-details class="responsibles-block" [users]="data.responsibleUsers" *ngIf="data.responsibleUsers.length">
     </app-responsible-user-details>
     <div *ngFor="let answer of data.answers; trackBy: trackByAnswer" class="answer-block">
       <div class="row align-items-center">

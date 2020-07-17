@@ -43,6 +43,7 @@ describe('Question', () => {
     };
     ticketI = {
       id: 1,
+      identity: 1,
       service_id: 1,
       name: 'Тестовый вопрос',
       ticketable_id: 1,
