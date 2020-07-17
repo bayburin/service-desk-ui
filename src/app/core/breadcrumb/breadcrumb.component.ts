@@ -17,19 +17,27 @@ export class BreadcrumbComponent implements OnInit {
   breadcrumbs: BreadcrumbI[] = [];
   private readonly routeParamName = 'breadcrumb';
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private injector: Injector) {}
+  constructor(private router: Router, private route: ActivatedRoute, private injector: Injector) {}
 
   ngOnInit() {
+    // На случай, если навигация отработала до того как инициализировался breadcrumb.
+    this.placeBreadcrumb();
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
-        const breadcrumbs = this.buildBreadcrumbs(this.activatedRoute.root);
-        this.updateBreadcrumb(breadcrumbs);
-      });
+      .subscribe(() => this.placeBreadcrumb());
   }
 
   trackByBreadcrumb(index, breadcrumb: BreadcrumbI) {
     return breadcrumb.url;
+  }
+
+  /**
+   * Строит цепочку навигации.
+   */
+  private placeBreadcrumb(): void {
+    const breadcrumbs = this.buildBreadcrumbs(this.route.root);
+
+    this.updateBreadcrumb(breadcrumbs);
   }
 
   /**
@@ -127,7 +135,7 @@ export class BreadcrumbComponent implements OnInit {
   private updateBreadcrumb(newBreadcrumb: BreadcrumbI[]) {
     const diff = newBreadcrumb.length - this.breadcrumbs.length;
 
-    // Обрезать старый ммасив, если это необходимо
+    // Обрезать старый массив, если это необходимо
     if (newBreadcrumb.length < this.breadcrumbs.length) {
       this.breadcrumbs = this.breadcrumbs.splice(diff, this.breadcrumbs.length);
     }
