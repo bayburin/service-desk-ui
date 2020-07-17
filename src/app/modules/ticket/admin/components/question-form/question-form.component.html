@@ -1,6 +1,6 @@
 <div [formGroup]="questionForm">
   <section>
-    <app-common-ticket-information [ticketForm]="ticketForm" [ticket]="question"></app-common-ticket-information>
+    <app-common-ticket-information [ticketForm]="ticketForm" [ticket]="question" [submitted]="submitted"></app-common-ticket-information>
   </section>
   <section>
     <button class="btn btn-outline-primary mb-3" (click)="addAnswer()">Новый ответ</button>
