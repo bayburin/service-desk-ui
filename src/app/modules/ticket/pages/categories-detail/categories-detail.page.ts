@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 import { Category } from '@modules/ticket/models/category/category.model';
@@ -15,9 +15,9 @@ import { contentBlockAnimation } from '@animations/content.animation';
   styleUrls: ['./categories-detail.page.scss'],
   animations: [contentBlockAnimation]
 })
-export class CategoriesDetailPageComponent implements OnInit {
+export class CategoriesDetailPageComponent implements OnInit, OnDestroy {
   loading = false;
-  category$: Observable<Category>;
+  category$: BehaviorSubject<Category>;
 
   constructor(
     private categoryService: CategoryService,
@@ -25,10 +25,17 @@ export class CategoriesDetailPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.category$ = this.categoryService.category$;
     const categoryId = this.route.snapshot.params.id;
 
     this.loading = true;
-    this.category$ = this.categoryService.loadCategory(categoryId).pipe(finalize(() => this.loading = false));
+    this.categoryService.loadCategory(categoryId)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe();
+  }
+
+  ngOnDestroy() {
+    this.category$.next(null);
   }
 
   trackByService(index, service: Service) {

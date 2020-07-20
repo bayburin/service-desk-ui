@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { finalize, filter, first, map, delay, tap, switchMap } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { QuestionPageContentComponent } from '@modules/ticket/components/questio
   templateUrl: './services-detail.page.html',
   styleUrls: ['./services-detail.page.scss']
 })
-export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
+export class ServicesDetailPageComponent implements OnInit, AfterViewChecked, OnDestroy {
   loading = false;
   service: Service;
   @ViewChild(ServiceDetailComponent, { static: false }) private serviceDetailComponent: ServiceDetailComponent;
@@ -44,6 +44,10 @@ export class ServicesDetailPageComponent implements OnInit, AfterViewChecked {
     // const dynamicTemplateComponentArr = this.serviceDetailComponent.dynamicTemplateComponent.toArray();
     const questionComponentArr = this.serviceDetailComponent.questionComponent.toArray();
     this.questionStream.next(questionComponentArr);
+  }
+
+  ngOnDestroy() {
+    this.serviceService.service$.next(null);
   }
 
   /**

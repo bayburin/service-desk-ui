@@ -57,7 +57,7 @@ describe('CategoryService', () => {
     });
 
     it('should emit Category data to category subject', () => {
-      const spy = spyOn((categoryService as any).category, 'next');
+      const spy = spyOn(categoryService.category$, 'next');
 
       categoryService.loadCategory(category.id).subscribe(data => {
         expect(spy).toHaveBeenCalledWith(data);
@@ -75,11 +75,11 @@ describe('CategoryService', () => {
       const categoryI = { id: 1, name: 'My category' } as CategoryI;
       const category = CategoryFactory.create(categoryI);
 
-      (categoryService as any).category.next(category);
+      categoryService.category$.next(category);
       categoryService.getNodeName().subscribe(result => {
         expect(result).toEqual(category.name);
       });
-      (categoryService as any).category.next(category);
+      categoryService.category$.next(category);
     });
 
     it('should return Observale with empty string if category not exist', () => {
@@ -87,7 +87,7 @@ describe('CategoryService', () => {
         expect(result).toEqual('');
       });
 
-      (categoryService as any).category.next(null);
+      categoryService.category$.next(null);
     });
   });
 

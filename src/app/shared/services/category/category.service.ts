@@ -13,9 +13,9 @@ import { BreadcrumbServiceI } from '@interfaces/breadcrumb-service.interface';
   providedIn: 'root'
 })
 export class CategoryService implements BreadcrumbServiceI {
+  category$ = new BehaviorSubject<Category>(null);
   private loadCategoriesUri = `${environment.serverUrl}/api/v1/categories`;
   private loadCategoryUri: string;
-  private category = new BehaviorSubject<Category>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -33,16 +33,16 @@ export class CategoryService implements BreadcrumbServiceI {
    */
   loadCategory(categoryId: number): Observable<Category> {
     this.loadCategoryUri = `${this.loadCategoriesUri}/${categoryId}`;
-    this.category.next(null);
+    this.category$.next(null);
 
     return this.http.get(this.loadCategoryUri).pipe(
       map((data: CategoryI) => CategoryFactory.create(data)),
-      tap(category => this.category.next(category))
+      tap(category => this.category$.next(category))
     );
   }
 
   getNodeName(): Observable<string> {
-    return this.category.asObservable().pipe(
+    return this.category$.asObservable().pipe(
       map((category: Category) => category ? category.name : '')
     );
   }

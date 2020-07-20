@@ -81,7 +81,8 @@ describe('CategoriesDetailPageComponent', () => {
       fixture = TestBed.createComponent(CategoriesDetailPageComponent);
       component = fixture.componentInstance;
       categoryService = TestBed.get(CategoryService);
-      spyOn(categoryService, 'loadCategory').and.returnValue(of(category));
+      spyOn(categoryService, 'loadCategory').and.callThrough();
+      categoryService.category$.next(category);
       fixture.detectChanges();
     });
 
@@ -89,6 +90,16 @@ describe('CategoriesDetailPageComponent', () => {
 
     it('should create', () => {
       expect(component).toBeTruthy();
+    });
+
+    describe('ngOnDestroy', () => {
+      it('should set null to service', () => {
+        component.ngOnDestroy();
+
+        categoryService.category$.subscribe(result => {
+          expect(result).toBeNull();
+        });
+      });
     });
 
 // Shallow tests ===========================================================================================================================
