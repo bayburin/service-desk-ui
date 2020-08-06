@@ -35,7 +35,7 @@
           <h4 [innerHtml]="service.name"></h4>
           <ul class="list-unstyled sd-child-mb-3 sd-mb-5" [@ToggleQuestionList]="service.questions.slice(0, service.questionLimit).length">
             <li *ngFor="let ticket of service.questions.slice(0, service.questionLimit); trackBy: trackByTicket">
-              <a [routerLink]="['/categories', service.categoryId, 'services', service.id]" [queryParams]="{ ticket: ticket.ticketId }" [innerHtml]="ticket.name"></a>
+              <a [routerLink]="['/categories', service.categoryId, 'services', service.id]" [queryParams]="{ identity: ticket.identity }" [innerHtml]="ticket.name"></a>
             </li>
           </ul>
           <span *ngIf="service.questions.length > limits.questions" (click)="toggleQuestionLimit(service)" class="sd-icon-group sd-link text-dark">
