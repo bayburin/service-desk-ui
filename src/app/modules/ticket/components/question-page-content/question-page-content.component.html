@@ -7,6 +7,9 @@
         <div class="row-flex-content">
           <app-visible-flag [data]="data" *ngIf="showFlags"></app-visible-flag>
           <span [innerHtml]="data.name"></span>
+          <span class="badge bg-yellow-200" *ngIf="standaloneLink">
+            <span class="additional-text">{{ data.service.name }}</span>
+          </span>
         </div>
       </div>
       <i *ngIf="!standaloneLink" class="mdi mdi-link-variant mdi-24px" ngbTooltip="Скопировать ссылку на вопрос"
