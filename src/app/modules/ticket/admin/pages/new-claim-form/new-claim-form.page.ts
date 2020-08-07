@@ -4,6 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { ServiceService } from '@shared/services/service/service.service';
 import { Service } from '@modules/ticket/models/service/service.model';
+import { ClaimFormService } from '@shared/services/claim-form/claim-form.service';
+import { finalize } from 'rxjs/operators';
+import { NotificationService } from '@shared/services/notification/notification.service';
 
 @Component({
   selector: 'app-new-claim-form-page',
@@ -13,14 +16,16 @@ import { Service } from '@modules/ticket/models/service/service.model';
 export class NewClaimFormPageComponent implements OnInit {
   submitted = false;
   service: Service;
-  ticketForm: FormGroup;
+  claimFormForm: FormGroup;
   loading = false;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private serviceService: ServiceService
+    private serviceService: ServiceService,
+    private claimFormService: ClaimFormService,
+    private notifyService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -33,20 +38,20 @@ export class NewClaimFormPageComponent implements OnInit {
    */
   save(): void {
     this.submitted = true;
-    if (this.ticketForm.invalid) {
+    if (this.claimFormForm.invalid) {
       return;
     }
 
     this.loading = true;
-    // this.questionService.createTicket(this.ticketForm.getRawValue())
-    //   .pipe(finalize(() => this.loading = false))
-    //   .subscribe(
-    //     () => {
-    //       this.redirectToService();
-    //       this.notifyService.setMessage('Новый вид заявки добавлен');
-    //     },
-    //     error => console.log(error)
-    //   );
+    this.claimFormService.create(this.claimFormForm.getRawValue())
+      .pipe(finalize(() => this.loading = false))
+      .subscribe(
+        () => {
+          this.redirectToService();
+          this.notifyService.setMessage('Новая форма заявки добавлена');
+        },
+        error => console.log(error)
+      );
   }
 
   /**
@@ -57,21 +62,20 @@ export class NewClaimFormPageComponent implements OnInit {
   }
 
   private buildForm(): void {
-    this.ticketForm = this.formBuilder.group({
-      service_id: [this.service.id],
-      name: ['', [Validators.required, Validators.maxLength(255)]],
-      is_hidden: [false],
-      sla: [null],
-      popularity: [0],
-      tags: [[]],
-      responsible_users: [[]],
-      form: this.formBuilder.group({
-        id: [],
-        ticket_id: [],
-        description: [],
-        success_message: [],
-        destination: [],
-        info: []
+    this.claimFormForm = this.formBuilder.group({
+      id: [],
+      description: [],
+      destination: [],
+      message: [],
+      info: [],
+      ticket: this.formBuilder.group({
+        service_id: [this.service.id],
+        name: ['', [Validators.required, Validators.maxLength(255)]],
+        is_hidden: [false],
+        sla: [null],
+        popularity: [0],
+        tags: [[]],
+        responsible_users: [[]]
       })
     });
   }

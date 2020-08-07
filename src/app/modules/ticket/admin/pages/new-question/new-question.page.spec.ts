@@ -86,7 +86,6 @@ describe('NewQuestionPageComponent', () => {
 
   describe('#save', () => {
     let questionService: QuestionService;
-    let details: ResponsibleUserDetailsI[];
 
     beforeEach(() => {
       questionService = TestBed.get(QuestionService);
@@ -108,13 +107,10 @@ describe('NewQuestionPageComponent', () => {
 
       beforeEach(() => {
         ticketI = { id: 1, name: 'Тестовый вопрос' } as TicketI;
-        details = [{ tn: 123, full_name: 'ФИО' } as ResponsibleUserDetailsI];
         ticket = TicketFactory.create(TicketTypes.QUESTION, ticketI);
         fixture.detectChanges();
         (component.questionForm.controls.ticket as FormGroup).controls.name.setValue('Тестовый вопрос');
         spyOn(questionService, 'createQuestion').and.returnValue(of(ticket));
-        spyOn(responsibleUserService, 'loadDetails').and.returnValue(of(details));
-        spyOn(ticket, 'associateResponsibleUserDetails');
       });
 
       it('should call "createTicket" method from QuestionService with ticket params', () => {

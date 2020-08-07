@@ -9,17 +9,17 @@ import { contentBlockAnimation } from '@animations/content.animation';
   animations: [contentBlockAnimation]
 })
 export class FormInfoTabComponent implements OnInit {
-  @Input() ticketForm: FormGroup;
+  @Input() claimFormForm: FormGroup;
 
   constructor() { }
 
   ngOnInit() {}
 
   get form() {
-    return this.ticketForm.controls;
+    return this.claimFormForm.controls;
   }
 
-  get form_info() {
-    return (this.form.form as FormGroup).controls;
+  get ticketForm() {
+    return this.form.ticket as FormGroup;
   }
 }

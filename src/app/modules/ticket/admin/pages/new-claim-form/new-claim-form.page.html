@@ -1,11 +1,11 @@
 <section class="sd-pb-6">
   <div class="container">
     <app-section-header header="Новый вид заявки"></app-section-header>
-    <form [formGroup]="ticketForm">
+    <form [formGroup]="claimFormForm">
       <ngb-tabset [destroyOnHide]="false">
         <ngb-tab title="Общие данные">
           <ng-template ngbTabContent>
-            <app-form-info-tab [ticketForm]="ticketForm"></app-form-info-tab>
+            <app-form-info-tab [claimFormForm]="claimFormForm"></app-form-info-tab>
           </ng-template>
         </ngb-tab>
       </ngb-tabset>
