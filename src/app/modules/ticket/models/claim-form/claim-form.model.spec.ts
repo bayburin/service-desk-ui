@@ -68,6 +68,7 @@ describe('ClaimForm', () => {
       expect(form.destination).toEqual(claimFormI.destination);
       expect(form.message).toEqual(claimFormI.message);
       expect(form.info).toEqual(claimFormI.info);
+      expect(form.name).toEqual(ticketI.name);
     });
   });
 })

@@ -1,3 +1,4 @@
+import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 import { Component, OnInit, Input, ViewChildren, QueryList, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 
 import { Service } from '@modules/ticket/models/service/service.model';
@@ -14,10 +15,10 @@ import { QuestionPageContentComponent } from '../question-page-content/question-
   animations: [contentBlockAnimation]
 })
 export class ServiceDetailComponent implements OnInit, OnChanges {
+  showTicketFlags: boolean;
   @Input() service: Service;
   // @ViewChildren(DynamicTemplateContentComponent) dynamicTemplateComponent: QueryList<DynamicTemplateContentComponent>;
   @ViewChildren(QuestionPageContentComponent) questionComponent: QueryList<QuestionPageContentComponent>;
-  showTicketFlags: boolean;
 
   constructor(private policy: ServicePolicy) {}
 

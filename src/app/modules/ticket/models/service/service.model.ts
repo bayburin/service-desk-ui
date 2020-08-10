@@ -9,6 +9,7 @@ import { ResponsibleUserDetailsI } from '@interfaces/responsible_user_details.in
 import { Question } from '../question/question.model';
 import { ClaimForm } from '../claim-form/claim-form.model';
 import { QuestionI } from '@interfaces/question.interface';
+import { ClaimFormI } from '@interfaces/claim-form.interface';
 
 export class Service implements CommonServiceI {
   id: number;
@@ -23,7 +24,7 @@ export class Service implements CommonServiceI {
   category: Category;
   // tickets: Ticket[];
   questions: Question[];
-  claimForms: ClaimForm[] = [];
+  claimForms: ClaimForm[];
   responsibleUsers: ResponsibleUserI[];
 
   get tickets(): Ticket[] {
@@ -41,6 +42,7 @@ export class Service implements CommonServiceI {
     this.popularity = service.popularity;
     this.responsibleUsers = service.responsible_users || [];
     this.buildQuestions(service.questions);
+    this.buildClaimForms(service.app_templates);
 
     if (service.category) {
       this.category = CategoryFactory.create(service.category);
@@ -102,5 +104,15 @@ export class Service implements CommonServiceI {
     }
 
     this.questions = questions.map(question => TicketFactory.create(TicketTypes.QUESTION, question)) || [];
+  }
+
+  private buildClaimForms(claimForms: ClaimFormI[]): void {
+    if (!claimForms || !claimForms.length) {
+      this.claimForms = [];
+
+      return;
+    }
+
+    this.claimForms = claimForms.map(claimForm => TicketFactory.create(TicketTypes.CLAIM_FORM, claimForm)) || [];
   }
 }

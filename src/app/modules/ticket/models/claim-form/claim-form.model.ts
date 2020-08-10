@@ -9,7 +9,7 @@ export class ClaimForm extends Ticket {
   readonly ticketType = TicketTypes.CLAIM_FORM;
 
   constructor(form: any = {}) {
-    super(form);
+    super(form.ticket);
     this.id = form.id;
     this.description = form.description;
     this.destination = form.destination;

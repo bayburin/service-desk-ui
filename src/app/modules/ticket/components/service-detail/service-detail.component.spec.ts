@@ -1,3 +1,4 @@
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,7 +14,6 @@ import { AuthorizeDirective } from '@shared/directives/authorize/authorize.direc
 import { StubUserService, user } from '@shared/services/user/user.service.stub';
 import { ServicePolicy } from '@shared/policies/service/service.policy';
 import { StubServicePolicy } from '@shared/policies/service/service.policy.stub';
-import { TicketTypes } from '@modules/ticket/models/ticket/ticket.model';
 
 describe('ServiceDetailComponent', () => {
   let component: ServiceDetailComponent;
@@ -22,17 +22,22 @@ describe('ServiceDetailComponent', () => {
     { id: 1, service_id: 1, name: 'Тестовый вопрос 1', state: 'published' },
     { id: 2, service_id: 1, name: 'Тестовый вопрос 2', status: 'published' }
   ] as TicketI[];
+  const claimForms = [
+    { id: 3, service_id: 1, name: 'Тестовая заявка 1', state: 'published' },
+    { id: 4, service_id: 1, name: 'Тестовая заявка 2', state: 'published' }
+  ]
   const service = ServiceFactory.create({
     id: 1,
     category_id: 1,
     name: 'Тестовая услуга',
     questions,
+    app_templates: claimForms,
     responsible_users: [{ tn: 12_123 }]
   });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, RouterTestingModule],
+      imports: [NoopAnimationsModule, RouterTestingModule, NgbModule],
       declarations: [ServiceDetailComponent, AuthorizeDirective],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
@@ -71,6 +76,15 @@ describe('ServiceDetailComponent', () => {
     fixture.detectChanges();
 
     expect(fixture.debugElement.nativeElement.querySelectorAll('app-question-page-content').length).toEqual(questions.length);
+  });
+
+  it('should show app-claim-form-page-content component', () => {
+    fixture.detectChanges();
+
+    console.log(fixture.debugElement.nativeElement.querySelectorAll('li.nav-item > a')[1]);
+    fixture.debugElement.nativeElement.querySelectorAll('li.nav-item > a')[1].click();
+    fixture.detectChanges();
+    expect(fixture.debugElement.nativeElement.querySelectorAll('app-claim-form-page-content').length).toEqual(claimForms.length);
   });
 
   it('should show app-responsible-user-details component', () => {
