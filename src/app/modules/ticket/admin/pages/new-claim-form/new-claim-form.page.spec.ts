@@ -4,7 +4,6 @@ import { TicketI } from '@interfaces/ticket.interface';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
 import { StubResponsibleUserService } from '@shared/services/responsible_user/responsible-user.service.stub';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -37,7 +36,6 @@ describe('NewClaimFormPageComponent', () => {
       imports: [
         NoopAnimationsModule,
         RouterTestingModule,
-        NgbModule,
         ReactiveFormsModule,
       ],
       declarations: [NewClaimFormPageComponent],

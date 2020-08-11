@@ -17,8 +17,10 @@ import { TicketsDetailPageComponent } from './pages/tickets-detail/tickets-detai
 import { MarkdownHelpComponent } from './components/markdown-help/markdown-help.component';
 import { AnswerAccessorComponent } from './components/answer-accessor/answer-accessor.component';
 import { NewClaimFormPageComponent } from './pages/new-claim-form/new-claim-form.page';
-import { FormInfoTabComponent } from './components/form-info-tab/form-info-tab.component';
+import { FormInfoSectionComponent } from './components/form-info-section/form-info-section.component';
 import { CommonTicketInformationComponent } from './components/common-ticket-information/common-ticket-information.component';
+import { FormGroupSectionComponent } from './components/form-group-section/form-group-section.component';
+import { ClaimFormFormComponent } from './components/claim-form-form/claim-form-form.component';
 
 @NgModule({
   declarations: [
@@ -34,8 +36,10 @@ import { CommonTicketInformationComponent } from './components/common-ticket-inf
     MarkdownHelpComponent,
     AnswerAccessorComponent,
     NewClaimFormPageComponent,
-    FormInfoTabComponent,
-    CommonTicketInformationComponent
+    FormInfoSectionComponent,
+    CommonTicketInformationComponent,
+    FormGroupSectionComponent,
+    ClaimFormFormComponent
   ],
   imports: [
     CommonModule,

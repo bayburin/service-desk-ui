@@ -1,0 +1,13 @@
+<section>
+  <app-form-info-section [claimFormForm]="claimFormForm"></app-form-info-section>
+</section>
+<section>
+  <button class="btn btn-sm btn-primary mb-2" (click)="addGroup()">Добавить группу</button>
+  <ngb-tabset [destroyOnHide]="false">
+    <ngb-tab title="Группа" *ngFor="let group of groupsForm.controls">
+      <ng-template ngbTabContent>
+        <app-form-group-section [groupForm]="group"></app-form-group-section>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</section>

@@ -52,7 +52,7 @@ export class QuestionFormComponent implements OnInit {
    * Добавляет шаблон ответа к вопросу.
    */
   addAnswer(): void {
-    (this.form.answers as FormArray).push(this.createAnswer());
+    this.answersForm.push(this.createAnswer());
   }
 
   /**

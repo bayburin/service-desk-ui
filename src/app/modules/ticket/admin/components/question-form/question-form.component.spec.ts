@@ -158,7 +158,7 @@ describe('QuestionFormComponent', () => {
       fixture.detectChanges();
       component.addAnswer();
 
-      expect((component.form.answers as FormArray).controls.length).toEqual(1);
+      expect(component.answersForm.length).toEqual(1);
     });
   });
 
@@ -170,7 +170,7 @@ describe('QuestionFormComponent', () => {
       answer.controls.answer.setValue('Это ответ');
       component.deleteAnswer(answer);
 
-      expect((component.form.answers as FormArray).length).toEqual(0);
+      expect(component.answersForm.length).toEqual(0);
     });
 
     describe('when ticket exists', () => {

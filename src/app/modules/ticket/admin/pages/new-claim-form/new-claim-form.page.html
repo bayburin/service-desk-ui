@@ -2,13 +2,7 @@
   <div class="container">
     <app-section-header header="Новый вид заявки"></app-section-header>
     <form [formGroup]="claimFormForm">
-      <ngb-tabset [destroyOnHide]="false">
-        <ngb-tab title="Общие данные">
-          <ng-template ngbTabContent>
-            <app-form-info-tab [claimFormForm]="claimFormForm"></app-form-info-tab>
-          </ng-template>
-        </ngb-tab>
-      </ngb-tabset>
+      <app-claim-form-form [claimFormForm]="claimFormForm" [submitted]="submitted"></app-claim-form-form>
       <div class="form-row align-items-center justify-content-center sd-mb-7">
         <button type="button" ngbAutofocus (click)="save()" [disabled]="loading" class="btn btn-primary">
           <span class="d-flex justify-content-center">

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ServiceService } from '@shared/services/service/service.service';
@@ -76,7 +76,8 @@ export class NewClaimFormPageComponent implements OnInit {
         popularity: [0],
         tags: [[]],
         responsible_users: [[]]
-      })
+      }),
+      groups: this.formBuilder.array([])
     });
   }
 

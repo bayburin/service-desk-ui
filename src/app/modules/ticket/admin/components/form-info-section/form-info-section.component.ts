@@ -3,12 +3,12 @@ import { FormGroup } from '@angular/forms';
 import { contentBlockAnimation } from '@animations/content.animation';
 
 @Component({
-  selector: 'app-form-info-tab',
-  templateUrl: './form-info-tab.component.html',
-  styleUrls: ['./form-info-tab.component.sass'],
+  selector: 'app-form-info-section',
+  templateUrl: './form-info-section.component.html',
+  styleUrls: ['./form-info-section.component.sass'],
   animations: [contentBlockAnimation]
 })
-export class FormInfoTabComponent implements OnInit {
+export class FormInfoSectionComponent implements OnInit {
   @Input() claimFormForm: FormGroup;
 
   constructor() { }

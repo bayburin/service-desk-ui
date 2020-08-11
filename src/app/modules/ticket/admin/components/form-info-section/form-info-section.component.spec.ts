@@ -3,16 +3,16 @@ import { By } from '@angular/platform-browser';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
-import { FormInfoTabComponent } from './form-info-tab.component';
+import { FormInfoSectionComponent } from './form-info-section.component';
 
-describe('FormInfoTabComponent', () => {
-  let component: FormInfoTabComponent;
-  let fixture: ComponentFixture<FormInfoTabComponent>;
+describe('FormInfoSectionComponent', () => {
+  let component: FormInfoSectionComponent;
+  let fixture: ComponentFixture<FormInfoSectionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
-      declarations: [FormInfoTabComponent],
+      declarations: [FormInfoSectionComponent],
       schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
@@ -21,7 +21,7 @@ describe('FormInfoTabComponent', () => {
   beforeEach(() => {
     const formBuilder = TestBed.get(FormBuilder);
 
-    fixture = TestBed.createComponent(FormInfoTabComponent);
+    fixture = TestBed.createComponent(FormInfoSectionComponent);
     component = fixture.componentInstance;
     component.claimFormForm = formBuilder.group({
       id: [],
