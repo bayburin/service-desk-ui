@@ -27,10 +27,9 @@ export class ClaimFormFormComponent implements OnInit {
    */
   addGroup(): void {
     this.groupsForm.push(this.createGroup());
-    console.log(this.groupsForm);
   }
 
-  private createGroup() {
+  private createGroup(): FormGroup {
     return this.formBuilder.group({
       id: [],
       is_default: [false],

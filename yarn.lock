@@ -336,6 +336,20 @@
     tree-kill "1.2.1"
     webpack-sources "1.3.0"
 
+"@ngx-formly/bootstrap@^5.0.0":
+  version "5.9.3"
+  resolved "https://registry.yarnpkg.com/@ngx-formly/bootstrap/-/bootstrap-5.9.3.tgz#2f9aa6f9ce10813a08038fcf36ffd4b1a2e11e00"
+  integrity sha512-8kPN4u7G/aXzIFvqE06ShiZwim/1wjvqH8S0ng7Ftu56Tco4L0EmHfvySqgnCQUu+uE9oGj+fn2V7nfTIG89eQ==
+  dependencies:
+    tslib "^1.9.0"
+
+"@ngx-formly/core@^5.0.0":
+  version "5.9.3"
+  resolved "https://registry.yarnpkg.com/@ngx-formly/core/-/core-5.9.3.tgz#69adfa0b114b21c03e2e1642de2d48afd12ac60e"
+  integrity sha512-hHS7TXxc6mXWTaIFCIdi8piIumM0nHtCIxGs9zmzwevvLZ/goLS9Wc6ruuROsoatBLAq9KyNHej43gJ3Yhq3xw==
+  dependencies:
+    tslib "^1.7.1"
+
 "@schematics/angular@8.1.3":
   version "8.1.3"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-8.1.3.tgz#dc465dae7ef658ac945551e12990676fdac188ec"
@@ -404,10 +418,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.20.tgz#7b693038ce661fe57a7ffa4679440b5e7c5e8b99"
   integrity sha512-VAe+DiwpnC/g448uN+/3gRl4th0BTdrR9gSLIOHA+SUQskaYZQDOHG7xmjiE7JUhjbXnbXytf6Ih+/pA6CtMFQ==
 
-"@types/node@8.9.4":
-  version "8.9.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.9.4.tgz#dfd327582a06c114eb6e0441fa3d6fab35edad48"
-  integrity sha512-dSvD36qnQs78G1BPsrZFdPpvLgMW/dnvr5+nTW2csMs5TiP9MOXrjUbnMZOEwnIuBklXtn7b6TPA2Cuq07bDHA==
+"@types/node@~8.9.4":
+  version "8.9.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.9.5.tgz#162b864bc70be077e6db212b322754917929e976"
+  integrity sha512-jRHfWsvyMtXdbhnz5CVHxaBgnV6duZnPlQuRSo/dm/GnmikNcmZhxIES4E9OZjUmQ8C+HCl4KJux+cXN/ErGDQ==
 
 "@types/q@^0.0.32":
   version "0.0.32"
@@ -6687,6 +6701,11 @@ ts-node@~7.0.0:
     mkdirp "^0.5.1"
     source-map-support "^0.5.6"
     yn "^2.0.0"
+
+tslib@^1.7.1:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.13.0.tgz#c881e13cc7015894ed914862d276436fa9a47043"
+  integrity sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==
 
 tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.10.0"

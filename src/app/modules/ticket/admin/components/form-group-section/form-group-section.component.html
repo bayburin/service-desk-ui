@@ -1,1 +1,15 @@
-<p>Fields</p>
+<div [formGroup]="groupForm" class="row group-form-builder">
+  <div class="col-md-1 builder-column">
+    <p (click)="addField('input')">Поле</p>
+    <p (click)="addField('textarea')">Текстовое поле</p>
+  </div>
+  <div class="col-md-7 builder-column">
+    <formly-form *ngIf="fields.length" [fields]="fields" [model]="model" [form]="previewForm"></formly-form>
+  </div>
+  <div class="col-md-4 builder-column" [formGroup]="selectedField" *ngIf="selectedField">
+    <div class="form-group">
+      <label>Подпись</label>
+      <input type="text" formControlName="label" class="form-control">
+    </div>
+  </div>
+</div>

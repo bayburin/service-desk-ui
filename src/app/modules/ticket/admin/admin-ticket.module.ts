@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '@shared/shared.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MarkdownModule } from 'ngx-markdown';
+import { FormlyModule } from '@ngx-formly/core';
 
 import { AdminTicketRoutingModule } from './admin-ticket-routing.module';
 import { NewQuestionPageComponent } from './pages/new-question/new-question.page';
@@ -46,7 +47,8 @@ import { ClaimFormFormComponent } from './components/claim-form-form/claim-form-
     AdminTicketRoutingModule,
     SharedModule,
     NgSelectModule,
-    MarkdownModule.forChild()
+    MarkdownModule.forChild(),
+    FormlyModule.forChild()
   ]
 })
 export class AdminTicketModule { }

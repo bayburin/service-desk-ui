@@ -27,6 +27,9 @@ import { HeaderComponent } from './core/header/header.component';
 import { FooterComponent } from './core/footer/footer.component';
 import { BreadcrumbComponent } from './core/breadcrumb/breadcrumb.component';
 import { StreamService } from '@shared/services/stream/stream.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
 @NgModule({
   declarations: [
@@ -50,7 +53,10 @@ import { StreamService } from '@shared/services/stream/stream.service';
         provide: MarkedOptions,
         useFactory: markedOptionsFactory,
       },
-    })
+    }),
+    ReactiveFormsModule,
+    FormlyModule.forRoot(),
+    FormlyBootstrapModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
