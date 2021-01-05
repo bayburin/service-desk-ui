@@ -34,7 +34,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => this.location = event.urlAfterRedirects.split('?')[0]);
     this.isUserSignedIn = this.authService.isUserSignedIn;
-    this.initSnowflakes();
+    // this.initSnowflakes();
   }
 
   ngAfterViewChecked() {
