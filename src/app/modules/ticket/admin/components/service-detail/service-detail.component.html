@@ -5,13 +5,24 @@
       <!-- <a id="newCase" routerLink="claim_form/new" class="btn btn-gray-white">Новая заявка</a> -->
       <a id="newQuestion" routerLink="new" class="btn btn-gray-white ml-2">Новый вопрос</a>
       <a id="userMode" [routerLink]="['../../../../../../../']" class="btn btn-gray-white ml-2">Режим пользователя</a>
+      <button class="btn btn-gray-white ml-2" (click)="toggleFilters = !toggleFilters" ngbTooltip="Фильтры">
+        <i class="mdi mdi-filter-menu-outline"></i>
+      </button>
+    </div>
+    <div class="d-flex flex-row align-items-center justify-content-end" *ngIf="toggleFilters" @ToggleAnswer>
+      <div class="form-group align-items-center sd-icon-group pointer">
+        <i *ngIf="!showOnlyMyQuestions" class="mdi mdi-toggle-switch-off mdi-24px" (click)="toggleshowOnlyMyQuestions()"></i>
+        <i *ngIf="showOnlyMyQuestions" class="mdi mdi-toggle-switch mdi-24px text-success" (click)="toggleshowOnlyMyQuestions()"></i>
+        <span (click)="toggleshowOnlyMyQuestions()">Показать только "свои" вопросы</span>
+      </div>
     </div>
     <app-responsible-user-details [users]="service.responsibleUsers" label="Ответственные за услугу"></app-responsible-user-details>
     <section class="sd-dlist-divider-b">
       <!-- <h2>Вопросы</h2> -->
       <div class="mt-2">
         <p *ngIf="!service.questions.length" class="search-title">Список вопросов пуст</p>
-        <app-question *ngFor="let question of service.questions; trackBy: trackByQuestion" [question]="question"></app-question>
+        <p *ngIf="service.questions.length && showOnlyMyQuestions && !(service.questions | showOnlyMyTickets:showOnlyMyQuestions).length" class="search-title">Вопросов, закрепленных за Вами, нет. Чтобы увидеть все вопросы, переключите в фильтрах соответствующий флаг.</p>
+        <app-question *ngFor="let question of service.questions | showOnlyMyTickets:showOnlyMyQuestions; trackBy: trackByQuestion" [question]="question"></app-question>
       </div>
     </section>
     <!-- <section class="sd-dlist-divider-b">
