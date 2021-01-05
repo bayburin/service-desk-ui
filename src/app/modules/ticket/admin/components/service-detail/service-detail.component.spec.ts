@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
@@ -7,6 +7,13 @@ import { By } from '@angular/platform-browser';
 import { ServiceDetailComponent } from './service-detail.component';
 import { Service } from '@modules/ticket/models/service/service.model';
 import { ServiceFactory } from '@modules/ticket/factories/service.factory';
+
+@Pipe({ name: 'showOnlyMyTickets' })
+class MockPipe implements PipeTransform {
+  transform(arr: any[], ...attrs): any[] {
+    return arr;
+  }
+}
 
 describe('ServiceDetailComponent', () => {
   let component: ServiceDetailComponent;
@@ -16,7 +23,7 @@ describe('ServiceDetailComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule, RouterTestingModule],
-      declarations: [ServiceDetailComponent],
+      declarations: [ServiceDetailComponent, MockPipe],
       schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
@@ -34,11 +41,16 @@ describe('ServiceDetailComponent', () => {
       ]
     });
     component.service = service;
+    localStorage.setItem('showOnlyMyQuestions', 'true');
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should load showOnlyMyQuestions from localStorage', () => {
+    expect(component.showOnlyMyQuestions).toEqual(true);
   });
 
   it('should show app-section-header component', () => {
@@ -57,5 +69,28 @@ describe('ServiceDetailComponent', () => {
     fixture.detectChanges();
 
     expect(fixture.debugElement.query(By.css('app-responsible-user-details'))).toBeTruthy();
+  });
+
+  describe('#toggleshowOnlyMyQuestions', () => {
+    it('should set into showOnlyMyQuestions attribute true value if it was false', () => {
+      component.showOnlyMyQuestions = false;
+      component.toggleshowOnlyMyQuestions();
+
+      expect(component.showOnlyMyQuestions).toBeTruthy();
+    });
+
+    it('should set into showOnlyMyQuestions attribute false value if it was true', () => {
+      component.showOnlyMyQuestions = true;
+      component.toggleshowOnlyMyQuestions();
+
+      expect(component.showOnlyMyQuestions).toBeFalsy();
+    });
+
+    it('should save new value into localStorage', () => {
+      component.showOnlyMyQuestions = true;
+      component.toggleshowOnlyMyQuestions();
+
+      expect(localStorage.getItem('showOnlyMyQuestions')).toEqual('false');
+    });
   });
 });
