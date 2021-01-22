@@ -69,8 +69,8 @@ export class FreeClaimFormComponent implements OnInit, OnDestroy {
       phone: [this.user.tel],
       mobile: [''],
       service: ['', Validators.required],
-      desc: ['', Validators.required],
-      without_service: [false],
+      desc: [this.queryParams.desc || '', Validators.required],
+      without_service: [this.queryParams.without_service || false],
       item: ['', Validators.required],
       without_item: [this.queryParams.without_item || false],
       files: [[]],
@@ -198,11 +198,14 @@ export class FreeClaimFormComponent implements OnInit, OnDestroy {
    * Установить в поля значения по умолчанию, полученные из адресной строки.
    */
   private setDefaultValues() {
-    const service = this.services.find(el => el.name === this.queryParams.service);
+    const service = this.services.find(el => el.name.includes(this.queryParams.service));
 
     this.form.service.setValue(service);
     if (this.queryParams.without_item) {
       this.onSelectCheckbox(this.formItem);
+    }
+    if (this.queryParams.without_service) {
+      this.onSelectCheckbox(this.formService);
     }
   }
 }

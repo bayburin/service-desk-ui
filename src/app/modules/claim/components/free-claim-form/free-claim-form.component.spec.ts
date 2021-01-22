@@ -23,6 +23,7 @@ const userOwns: UserOwnsI = {
 };
 const comment = 'test data';
 const additional = { comment };
+const desc = 'test description';
 
 describe('FreeClaimFormComponent', () => {
   let component: FreeClaimFormComponent;
@@ -37,6 +38,7 @@ describe('FreeClaimFormComponent', () => {
           queryParams: {
             service: service.name,
             without_item: true,
+            desc,
             comment
           }
         };
@@ -86,6 +88,8 @@ describe('FreeClaimFormComponent', () => {
     });
 
     it('should be invalid when form is empty', () => {
+      form.controls.desc.setValue('');
+
       expect(form.valid).toBeFalsy();
     });
 
@@ -106,6 +110,8 @@ describe('FreeClaimFormComponent', () => {
     });
 
     it('should validate description', () => {
+      form.controls.desc.setValue('');
+
       expect(form.controls.desc.valid).toBeFalsy();
       expect(form.controls.desc.errors.required).toBeTruthy();
     });
