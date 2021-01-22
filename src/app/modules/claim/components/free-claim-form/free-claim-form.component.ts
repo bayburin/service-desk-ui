@@ -198,7 +198,7 @@ export class FreeClaimFormComponent implements OnInit, OnDestroy {
    * Установить в поля значения по умолчанию, полученные из адресной строки.
    */
   private setDefaultValues() {
-    const service = this.services.find(el => el.name.includes(this.queryParams.service));
+    const service = this.services.find(el => el.name.toLowerCase().includes(this.queryParams.service.toLowerCase()));
 
     this.form.service.setValue(service);
     if (this.queryParams.without_item) {
